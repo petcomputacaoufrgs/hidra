@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Hidra
+namespace Hidra.Simulators
 {
     public class Cromag : Queops
     {

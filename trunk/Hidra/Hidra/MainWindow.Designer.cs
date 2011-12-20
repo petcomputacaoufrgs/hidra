@@ -61,9 +61,17 @@
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupData = new System.Windows.Forms.GroupBox();
+            this.gridData = new System.Windows.Forms.DataGridView();
+            this.End = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Data = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupSimulator = new System.Windows.Forms.GroupBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lbl_negative = new System.Windows.Forms.Label();
+            this.lbl_zeroText = new System.Windows.Forms.Label();
+            this.lbl_negativeText = new System.Windows.Forms.Label();
+            this.txt_ac = new System.Windows.Forms.TextBox();
+            this.txt_pc = new System.Windows.Forms.TextBox();
+            this.lbl_ac = new System.Windows.Forms.Label();
+            this.lbl_pc = new System.Windows.Forms.Label();
             this.groupAssembler = new System.Windows.Forms.GroupBox();
             this.txtAssembler = new System.Windows.Forms.TextBox();
             this.groupInstructions = new System.Windows.Forms.GroupBox();
@@ -71,17 +79,15 @@
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Mnemonic = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Data = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.End = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.gridData = new System.Windows.Forms.DataGridView();
             this.cromagBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.lbl_zero = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.groupData.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridData)).BeginInit();
             this.groupSimulator.SuspendLayout();
             this.groupAssembler.SuspendLayout();
             this.groupInstructions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridInstructions)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridData)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cromagBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -186,6 +192,7 @@
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.exitToolStripMenuItem.Text = "E&xit";
+            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // editToolStripMenuItem
             // 
@@ -332,10 +339,56 @@
             this.groupData.TabStop = false;
             this.groupData.Text = "Dados";
             // 
+            // gridData
+            // 
+            this.gridData.AllowUserToAddRows = false;
+            this.gridData.AllowUserToDeleteRows = false;
+            this.gridData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.gridData.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.End,
+            this.Data});
+            this.gridData.Cursor = System.Windows.Forms.Cursors.Default;
+            this.gridData.Location = new System.Drawing.Point(7, 20);
+            this.gridData.MultiSelect = false;
+            this.gridData.Name = "gridData";
+            this.gridData.RowHeadersVisible = false;
+            this.gridData.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
+            this.gridData.RowTemplate.Height = 18;
+            this.gridData.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.gridData.Size = new System.Drawing.Size(120, 406);
+            this.gridData.TabIndex = 0;
+            this.gridData.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridData_CellValueChanged);
+            // 
+            // End
+            // 
+            this.End.FillWeight = 30F;
+            this.End.HeaderText = "End";
+            this.End.MaxInputLength = 3;
+            this.End.Name = "End";
+            this.End.ReadOnly = true;
+            this.End.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.End.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.End.Width = 30;
+            // 
+            // Data
+            // 
+            this.Data.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Data.HeaderText = "Dados";
+            this.Data.MaxInputLength = 3;
+            this.Data.Name = "Data";
+            this.Data.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Data.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
             // groupSimulator
             // 
-            this.groupSimulator.Controls.Add(this.label2);
-            this.groupSimulator.Controls.Add(this.label1);
+            this.groupSimulator.Controls.Add(this.lbl_zero);
+            this.groupSimulator.Controls.Add(this.lbl_negative);
+            this.groupSimulator.Controls.Add(this.lbl_zeroText);
+            this.groupSimulator.Controls.Add(this.lbl_negativeText);
+            this.groupSimulator.Controls.Add(this.txt_ac);
+            this.groupSimulator.Controls.Add(this.txt_pc);
+            this.groupSimulator.Controls.Add(this.lbl_ac);
+            this.groupSimulator.Controls.Add(this.lbl_pc);
             this.groupSimulator.Location = new System.Drawing.Point(151, 27);
             this.groupSimulator.Name = "groupSimulator";
             this.groupSimulator.Size = new System.Drawing.Size(298, 432);
@@ -343,23 +396,68 @@
             this.groupSimulator.TabStop = false;
             this.groupSimulator.Text = "Simulador";
             // 
-            // label2
+            // lbl_negative
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(7, 33);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(35, 13);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "label2";
+            this.lbl_negative.AutoSize = true;
+            this.lbl_negative.Location = new System.Drawing.Point(276, 22);
+            this.lbl_negative.Name = "lbl_negative";
+            this.lbl_negative.Size = new System.Drawing.Size(13, 13);
+            this.lbl_negative.TabIndex = 6;
+            this.lbl_negative.Text = "0";
             // 
-            // label1
+            // lbl_zeroText
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(7, 20);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "label1";
+            this.lbl_zeroText.AutoSize = true;
+            this.lbl_zeroText.Location = new System.Drawing.Point(241, 45);
+            this.lbl_zeroText.Name = "lbl_zeroText";
+            this.lbl_zeroText.Size = new System.Drawing.Size(29, 13);
+            this.lbl_zeroText.TabIndex = 5;
+            this.lbl_zeroText.Text = "Zero";
+            // 
+            // lbl_negativeText
+            // 
+            this.lbl_negativeText.AutoSize = true;
+            this.lbl_negativeText.Location = new System.Drawing.Point(220, 22);
+            this.lbl_negativeText.Name = "lbl_negativeText";
+            this.lbl_negativeText.Size = new System.Drawing.Size(50, 13);
+            this.lbl_negativeText.TabIndex = 4;
+            this.lbl_negativeText.Text = "Negative";
+            // 
+            // txt_ac
+            // 
+            this.txt_ac.Location = new System.Drawing.Point(33, 45);
+            this.txt_ac.MaxLength = 4;
+            this.txt_ac.Name = "txt_ac";
+            this.txt_ac.ReadOnly = true;
+            this.txt_ac.Size = new System.Drawing.Size(44, 20);
+            this.txt_ac.TabIndex = 3;
+            // 
+            // txt_pc
+            // 
+            this.txt_pc.Location = new System.Drawing.Point(33, 19);
+            this.txt_pc.MaxLength = 4;
+            this.txt_pc.Name = "txt_pc";
+            this.txt_pc.ReadOnly = true;
+            this.txt_pc.Size = new System.Drawing.Size(44, 20);
+            this.txt_pc.TabIndex = 2;
+            // 
+            // lbl_ac
+            // 
+            this.lbl_ac.AutoSize = true;
+            this.lbl_ac.Location = new System.Drawing.Point(6, 48);
+            this.lbl_ac.Name = "lbl_ac";
+            this.lbl_ac.Size = new System.Drawing.Size(21, 13);
+            this.lbl_ac.TabIndex = 1;
+            this.lbl_ac.Text = "AC";
+            // 
+            // lbl_pc
+            // 
+            this.lbl_pc.AutoSize = true;
+            this.lbl_pc.Location = new System.Drawing.Point(6, 23);
+            this.lbl_pc.Name = "lbl_pc";
+            this.lbl_pc.Size = new System.Drawing.Size(21, 13);
+            this.lbl_pc.TabIndex = 0;
+            this.lbl_pc.Text = "PC";
             // 
             // groupAssembler
             // 
@@ -412,6 +510,7 @@
             this.gridInstructions.Size = new System.Drawing.Size(167, 406);
             this.gridInstructions.TabIndex = 1;
             this.gridInstructions.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridInstructions_CellEndEdit);
+            this.gridInstructions.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridInstructions_CellValueChanged);
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -440,48 +539,18 @@
             this.Mnemonic.Name = "Mnemonic";
             this.Mnemonic.ReadOnly = true;
             // 
-            // Data
-            // 
-            this.Data.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Data.HeaderText = "Dados";
-            this.Data.MaxInputLength = 3;
-            this.Data.Name = "Data";
-            this.Data.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.Data.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // End
-            // 
-            this.End.FillWeight = 30F;
-            this.End.HeaderText = "End";
-            this.End.MaxInputLength = 3;
-            this.End.Name = "End";
-            this.End.ReadOnly = true;
-            this.End.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.End.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.End.Width = 30;
-            // 
-            // gridData
-            // 
-            this.gridData.AllowUserToAddRows = false;
-            this.gridData.AllowUserToDeleteRows = false;
-            this.gridData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.gridData.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.End,
-            this.Data});
-            this.gridData.Cursor = System.Windows.Forms.Cursors.Default;
-            this.gridData.Location = new System.Drawing.Point(7, 20);
-            this.gridData.MultiSelect = false;
-            this.gridData.Name = "gridData";
-            this.gridData.RowHeadersVisible = false;
-            this.gridData.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
-            this.gridData.RowTemplate.Height = 18;
-            this.gridData.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.gridData.Size = new System.Drawing.Size(120, 406);
-            this.gridData.TabIndex = 0;
-            // 
             // cromagBindingSource
             // 
-            this.cromagBindingSource.DataSource = typeof(Hidra.Cromag);
+            this.cromagBindingSource.DataSource = typeof(Hidra.Simulators.Cromag);
+            // 
+            // lbl_zero
+            // 
+            this.lbl_zero.AutoSize = true;
+            this.lbl_zero.Location = new System.Drawing.Point(276, 45);
+            this.lbl_zero.Name = "lbl_zero";
+            this.lbl_zero.Size = new System.Drawing.Size(13, 13);
+            this.lbl_zero.TabIndex = 7;
+            this.lbl_zero.Text = "0";
             // 
             // MainWindow
             // 
@@ -501,13 +570,13 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.groupData.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gridData)).EndInit();
             this.groupSimulator.ResumeLayout(false);
             this.groupSimulator.PerformLayout();
             this.groupAssembler.ResumeLayout(false);
             this.groupAssembler.PerformLayout();
             this.groupInstructions.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridInstructions)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridData)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cromagBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -555,12 +624,18 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Mnemonic;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lbl_ac;
+        private System.Windows.Forms.Label lbl_pc;
         private System.Windows.Forms.BindingSource cromagBindingSource;
         private System.Windows.Forms.DataGridView gridData;
         private System.Windows.Forms.DataGridViewTextBoxColumn End;
         private System.Windows.Forms.DataGridViewTextBoxColumn Data;
+        private System.Windows.Forms.TextBox txt_pc;
+        private System.Windows.Forms.TextBox txt_ac;
+        private System.Windows.Forms.Label lbl_negative;
+        private System.Windows.Forms.Label lbl_zeroText;
+        private System.Windows.Forms.Label lbl_negativeText;
+        private System.Windows.Forms.Label lbl_zero;
     }
 }
 

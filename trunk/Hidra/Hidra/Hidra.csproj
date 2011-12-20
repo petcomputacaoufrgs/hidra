@@ -46,7 +46,7 @@
   <ItemGroup>
     <Compile Include="Instructions.cs" />
     <Compile Include="Simulators\Ahmes.cs" />
-    <Compile Include="Simulators\Pericles.cs" />
+    <Compile Include="Simulators\RamsesPericles.cs" />
     <Compile Include="Simulators\PeriPitAhmes.cs" />
     <Compile Include="Simulators\Pitagoras.cs" />
     <Compile Include="Simulators\PitAhmes.cs" />
@@ -76,6 +76,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Hidra.cd" />
     <None Include="Properties\Settings.settings">
@@ -90,6 +91,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\DataSources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\UpgradeLog3.XML" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
