@@ -44,7 +44,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FirstWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FirstWindow.Designer.cs">
+      <DependentUpon>FirstWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="Instructions.cs" />
+    <Compile Include="Neander.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Neander.Designer.cs">
+      <DependentUpon>Neander.cs</DependentUpon>
+    </Compile>
     <Compile Include="Simulators\Ahmes.cs" />
     <Compile Include="Simulators\RamsesPericles.cs" />
     <Compile Include="Simulators\PeriPitAhmes.cs" />
@@ -65,8 +77,14 @@
     <Compile Include="Simulator.cs" />
     <Compile Include="Simulators\Volta.cs" />
     <Compile Include="Simulators\VoltaNeader.cs" />
+    <EmbeddedResource Include="FirstWindow.resx">
+      <DependentUpon>FirstWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Neander.resx">
+      <DependentUpon>Neander.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -78,6 +96,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Hidra.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

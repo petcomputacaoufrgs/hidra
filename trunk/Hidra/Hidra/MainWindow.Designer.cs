@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -65,13 +64,22 @@
             this.End = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Data = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupSimulator = new System.Windows.Forms.GroupBox();
-            this.lbl_negative = new System.Windows.Forms.Label();
-            this.lbl_zeroText = new System.Windows.Forms.Label();
+            this.btn_passoapasso = new System.Windows.Forms.Button();
+            this.btn_rodar = new System.Windows.Forms.Button();
             this.lbl_negativeText = new System.Windows.Forms.Label();
-            this.txt_ac = new System.Windows.Forms.TextBox();
+            this.lbl_zeroText = new System.Windows.Forms.Label();
+            this.lbl_negative = new System.Windows.Forms.Label();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.txt_acessos = new System.Windows.Forms.TextBox();
+            this.lbl_acesso = new System.Windows.Forms.Label();
+            this.txt_instrucoes = new System.Windows.Forms.TextBox();
+            this.lbl_instrucoes = new System.Windows.Forms.Label();
+            this.lbl_zero = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.txt_pc = new System.Windows.Forms.TextBox();
-            this.lbl_ac = new System.Windows.Forms.Label();
             this.lbl_pc = new System.Windows.Forms.Label();
+            this.lbl_ac = new System.Windows.Forms.Label();
+            this.txt_ac = new System.Windows.Forms.TextBox();
             this.groupAssembler = new System.Windows.Forms.GroupBox();
             this.txtAssembler = new System.Windows.Forms.TextBox();
             this.groupInstructions = new System.Windows.Forms.GroupBox();
@@ -79,16 +87,15 @@
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Mnemonic = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cromagBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.lbl_zero = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.groupData.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridData)).BeginInit();
             this.groupSimulator.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.groupAssembler.SuspendLayout();
             this.groupInstructions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridInstructions)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cromagBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -381,83 +388,170 @@
             // 
             // groupSimulator
             // 
-            this.groupSimulator.Controls.Add(this.lbl_zero);
-            this.groupSimulator.Controls.Add(this.lbl_negative);
-            this.groupSimulator.Controls.Add(this.lbl_zeroText);
+            this.groupSimulator.Controls.Add(this.btn_passoapasso);
+            this.groupSimulator.Controls.Add(this.btn_rodar);
             this.groupSimulator.Controls.Add(this.lbl_negativeText);
-            this.groupSimulator.Controls.Add(this.txt_ac);
-            this.groupSimulator.Controls.Add(this.txt_pc);
-            this.groupSimulator.Controls.Add(this.lbl_ac);
-            this.groupSimulator.Controls.Add(this.lbl_pc);
+            this.groupSimulator.Controls.Add(this.lbl_zeroText);
+            this.groupSimulator.Controls.Add(this.lbl_negative);
+            this.groupSimulator.Controls.Add(this.groupBox2);
+            this.groupSimulator.Controls.Add(this.lbl_zero);
+            this.groupSimulator.Controls.Add(this.groupBox1);
             this.groupSimulator.Location = new System.Drawing.Point(151, 27);
             this.groupSimulator.Name = "groupSimulator";
-            this.groupSimulator.Size = new System.Drawing.Size(298, 432);
+            this.groupSimulator.Size = new System.Drawing.Size(298, 152);
             this.groupSimulator.TabIndex = 2;
             this.groupSimulator.TabStop = false;
             this.groupSimulator.Text = "Simulador";
             // 
-            // lbl_negative
+            // btn_passoapasso
             // 
-            this.lbl_negative.AutoSize = true;
-            this.lbl_negative.Location = new System.Drawing.Point(276, 22);
-            this.lbl_negative.Name = "lbl_negative";
-            this.lbl_negative.Size = new System.Drawing.Size(13, 13);
-            this.lbl_negative.TabIndex = 6;
-            this.lbl_negative.Text = "0";
+            this.btn_passoapasso.Location = new System.Drawing.Point(101, 62);
+            this.btn_passoapasso.Name = "btn_passoapasso";
+            this.btn_passoapasso.Size = new System.Drawing.Size(58, 34);
+            this.btn_passoapasso.TabIndex = 15;
+            this.btn_passoapasso.Text = "Passo a Passo";
+            this.btn_passoapasso.UseVisualStyleBackColor = true;
             // 
-            // lbl_zeroText
+            // btn_rodar
             // 
-            this.lbl_zeroText.AutoSize = true;
-            this.lbl_zeroText.Location = new System.Drawing.Point(241, 45);
-            this.lbl_zeroText.Name = "lbl_zeroText";
-            this.lbl_zeroText.Size = new System.Drawing.Size(29, 13);
-            this.lbl_zeroText.TabIndex = 5;
-            this.lbl_zeroText.Text = "Zero";
+            this.btn_rodar.Location = new System.Drawing.Point(101, 30);
+            this.btn_rodar.Name = "btn_rodar";
+            this.btn_rodar.Size = new System.Drawing.Size(58, 23);
+            this.btn_rodar.TabIndex = 14;
+            this.btn_rodar.Text = "Rodar";
+            this.btn_rodar.UseVisualStyleBackColor = true;
             // 
             // lbl_negativeText
             // 
             this.lbl_negativeText.AutoSize = true;
-            this.lbl_negativeText.Location = new System.Drawing.Point(220, 22);
+            this.lbl_negativeText.Location = new System.Drawing.Point(219, 110);
             this.lbl_negativeText.Name = "lbl_negativeText";
             this.lbl_negativeText.Size = new System.Drawing.Size(50, 13);
             this.lbl_negativeText.TabIndex = 4;
             this.lbl_negativeText.Text = "Negative";
             // 
-            // txt_ac
+            // lbl_zeroText
             // 
-            this.txt_ac.Location = new System.Drawing.Point(33, 45);
-            this.txt_ac.MaxLength = 4;
-            this.txt_ac.Name = "txt_ac";
-            this.txt_ac.ReadOnly = true;
-            this.txt_ac.Size = new System.Drawing.Size(44, 20);
-            this.txt_ac.TabIndex = 3;
+            this.lbl_zeroText.AutoSize = true;
+            this.lbl_zeroText.Location = new System.Drawing.Point(240, 133);
+            this.lbl_zeroText.Name = "lbl_zeroText";
+            this.lbl_zeroText.Size = new System.Drawing.Size(29, 13);
+            this.lbl_zeroText.TabIndex = 5;
+            this.lbl_zeroText.Text = "Zero";
+            // 
+            // lbl_negative
+            // 
+            this.lbl_negative.AutoSize = true;
+            this.lbl_negative.Location = new System.Drawing.Point(275, 110);
+            this.lbl_negative.Name = "lbl_negative";
+            this.lbl_negative.Size = new System.Drawing.Size(13, 13);
+            this.lbl_negative.TabIndex = 6;
+            this.lbl_negative.Text = "0";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.txt_acessos);
+            this.groupBox2.Controls.Add(this.lbl_acesso);
+            this.groupBox2.Controls.Add(this.txt_instrucoes);
+            this.groupBox2.Controls.Add(this.lbl_instrucoes);
+            this.groupBox2.Location = new System.Drawing.Point(165, 20);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(127, 76);
+            this.groupBox2.TabIndex = 13;
+            this.groupBox2.TabStop = false;
+            // 
+            // txt_acessos
+            // 
+            this.txt_acessos.Location = new System.Drawing.Point(68, 19);
+            this.txt_acessos.MaxLength = 5;
+            this.txt_acessos.Name = "txt_acessos";
+            this.txt_acessos.ReadOnly = true;
+            this.txt_acessos.Size = new System.Drawing.Size(49, 20);
+            this.txt_acessos.TabIndex = 10;
+            // 
+            // lbl_acesso
+            // 
+            this.lbl_acesso.AutoSize = true;
+            this.lbl_acesso.Location = new System.Drawing.Point(6, 21);
+            this.lbl_acesso.Name = "lbl_acesso";
+            this.lbl_acesso.Size = new System.Drawing.Size(47, 13);
+            this.lbl_acesso.TabIndex = 8;
+            this.lbl_acesso.Text = "Acessos";
+            // 
+            // txt_instrucoes
+            // 
+            this.txt_instrucoes.Location = new System.Drawing.Point(68, 47);
+            this.txt_instrucoes.MaxLength = 5;
+            this.txt_instrucoes.Name = "txt_instrucoes";
+            this.txt_instrucoes.ReadOnly = true;
+            this.txt_instrucoes.Size = new System.Drawing.Size(49, 20);
+            this.txt_instrucoes.TabIndex = 11;
+            // 
+            // lbl_instrucoes
+            // 
+            this.lbl_instrucoes.AutoSize = true;
+            this.lbl_instrucoes.Location = new System.Drawing.Point(6, 51);
+            this.lbl_instrucoes.Name = "lbl_instrucoes";
+            this.lbl_instrucoes.Size = new System.Drawing.Size(56, 13);
+            this.lbl_instrucoes.TabIndex = 9;
+            this.lbl_instrucoes.Text = "Instruções";
+            // 
+            // lbl_zero
+            // 
+            this.lbl_zero.AutoSize = true;
+            this.lbl_zero.Location = new System.Drawing.Point(275, 133);
+            this.lbl_zero.Name = "lbl_zero";
+            this.lbl_zero.Size = new System.Drawing.Size(13, 13);
+            this.lbl_zero.TabIndex = 7;
+            this.lbl_zero.Text = "0";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.txt_pc);
+            this.groupBox1.Controls.Add(this.lbl_pc);
+            this.groupBox1.Controls.Add(this.lbl_ac);
+            this.groupBox1.Controls.Add(this.txt_ac);
+            this.groupBox1.Location = new System.Drawing.Point(6, 19);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(88, 76);
+            this.groupBox1.TabIndex = 12;
+            this.groupBox1.TabStop = false;
             // 
             // txt_pc
             // 
-            this.txt_pc.Location = new System.Drawing.Point(33, 19);
+            this.txt_pc.Location = new System.Drawing.Point(34, 19);
             this.txt_pc.MaxLength = 4;
             this.txt_pc.Name = "txt_pc";
             this.txt_pc.ReadOnly = true;
             this.txt_pc.Size = new System.Drawing.Size(44, 20);
             this.txt_pc.TabIndex = 2;
             // 
+            // lbl_pc
+            // 
+            this.lbl_pc.AutoSize = true;
+            this.lbl_pc.Location = new System.Drawing.Point(7, 23);
+            this.lbl_pc.Name = "lbl_pc";
+            this.lbl_pc.Size = new System.Drawing.Size(21, 13);
+            this.lbl_pc.TabIndex = 0;
+            this.lbl_pc.Text = "PC";
+            // 
             // lbl_ac
             // 
             this.lbl_ac.AutoSize = true;
-            this.lbl_ac.Location = new System.Drawing.Point(6, 48);
+            this.lbl_ac.Location = new System.Drawing.Point(7, 48);
             this.lbl_ac.Name = "lbl_ac";
             this.lbl_ac.Size = new System.Drawing.Size(21, 13);
             this.lbl_ac.TabIndex = 1;
             this.lbl_ac.Text = "AC";
             // 
-            // lbl_pc
+            // txt_ac
             // 
-            this.lbl_pc.AutoSize = true;
-            this.lbl_pc.Location = new System.Drawing.Point(6, 23);
-            this.lbl_pc.Name = "lbl_pc";
-            this.lbl_pc.Size = new System.Drawing.Size(21, 13);
-            this.lbl_pc.TabIndex = 0;
-            this.lbl_pc.Text = "PC";
+            this.txt_ac.Location = new System.Drawing.Point(34, 45);
+            this.txt_ac.MaxLength = 4;
+            this.txt_ac.Name = "txt_ac";
+            this.txt_ac.ReadOnly = true;
+            this.txt_ac.Size = new System.Drawing.Size(44, 20);
+            this.txt_ac.TabIndex = 3;
             // 
             // groupAssembler
             // 
@@ -539,19 +633,6 @@
             this.Mnemonic.Name = "Mnemonic";
             this.Mnemonic.ReadOnly = true;
             // 
-            // cromagBindingSource
-            // 
-            this.cromagBindingSource.DataSource = typeof(Hidra.Simulators.Cromag);
-            // 
-            // lbl_zero
-            // 
-            this.lbl_zero.AutoSize = true;
-            this.lbl_zero.Location = new System.Drawing.Point(276, 45);
-            this.lbl_zero.Name = "lbl_zero";
-            this.lbl_zero.Size = new System.Drawing.Size(13, 13);
-            this.lbl_zero.TabIndex = 7;
-            this.lbl_zero.Text = "0";
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -565,6 +646,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainWindow";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "MainWindows";
             this.Load += new System.EventHandler(this.MainWindow_Load);
             this.menuStrip1.ResumeLayout(false);
@@ -573,11 +655,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.gridData)).EndInit();
             this.groupSimulator.ResumeLayout(false);
             this.groupSimulator.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.groupAssembler.ResumeLayout(false);
             this.groupAssembler.PerformLayout();
             this.groupInstructions.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridInstructions)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cromagBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -626,16 +711,23 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Mnemonic;
         private System.Windows.Forms.Label lbl_ac;
         private System.Windows.Forms.Label lbl_pc;
-        private System.Windows.Forms.BindingSource cromagBindingSource;
         private System.Windows.Forms.DataGridView gridData;
         private System.Windows.Forms.DataGridViewTextBoxColumn End;
         private System.Windows.Forms.DataGridViewTextBoxColumn Data;
         private System.Windows.Forms.TextBox txt_pc;
         private System.Windows.Forms.TextBox txt_ac;
-        private System.Windows.Forms.Label lbl_negative;
-        private System.Windows.Forms.Label lbl_zeroText;
+        private System.Windows.Forms.TextBox txt_instrucoes;
+        private System.Windows.Forms.TextBox txt_acessos;
+        private System.Windows.Forms.Label lbl_instrucoes;
+        private System.Windows.Forms.Label lbl_acesso;
+        private System.Windows.Forms.Button btn_passoapasso;
+        private System.Windows.Forms.Button btn_rodar;
         private System.Windows.Forms.Label lbl_negativeText;
+        private System.Windows.Forms.Label lbl_zeroText;
+        private System.Windows.Forms.Label lbl_negative;
+        private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label lbl_zero;
+        private System.Windows.Forms.GroupBox groupBox1;
     }
 }
 
