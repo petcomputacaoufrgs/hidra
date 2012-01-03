@@ -44,6 +44,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="About.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="About.Designer.cs">
+      <DependentUpon>About.cs</DependentUpon>
+    </Compile>
     <Compile Include="FirstWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -77,6 +83,9 @@
     <Compile Include="Simulator.cs" />
     <Compile Include="Simulators\Volta.cs" />
     <Compile Include="Simulators\VoltaNeader.cs" />
+    <EmbeddedResource Include="About.resx">
+      <DependentUpon>About.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FirstWindow.resx">
       <DependentUpon>FirstWindow.cs</DependentUpon>
     </EmbeddedResource>
@@ -113,6 +122,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\UpgradeLog3.XML" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\inf.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pet_pequeno.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

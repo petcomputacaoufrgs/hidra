@@ -6,19 +6,14 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using Hidra.Simulators;
-using System.IO;
 
 namespace Hidra
 {
-   
-    public partial class MainWindow : Form
+    public partial class About : Form
     {
-        public string streamText;
-
-        public MainWindow()
-        {   
+        public About()
+        {
             InitializeComponent();
-        }  
+        } 
     }
 }
