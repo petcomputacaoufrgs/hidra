@@ -29,7 +29,7 @@ namespace Hidra.Simulators
 
         public void Nop()
         {
-            throw new System.NotImplementedException();
+            
         }
 
         public void Jump()

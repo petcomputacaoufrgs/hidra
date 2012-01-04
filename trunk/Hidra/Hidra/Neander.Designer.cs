@@ -58,10 +58,12 @@
             this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
+
             // btn_rodar
             // 
             this.btn_rodar.Click += new System.EventHandler(this.btn_rodar_Click);
             // 
+
             // groupBox3
             // 
             this.groupBox3.Location = new System.Drawing.Point(195, 13);

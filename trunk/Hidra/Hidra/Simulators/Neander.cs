@@ -4,14 +4,14 @@ namespace Hidra.Simulators
     public class Neander : VoltaNeader
     {
 
-        public void Store()
+        public byte Store(byte ac)
         {
-            throw new System.NotImplementedException();
+            return ac;
         }
 
-        public void Load()
+        public byte Load(byte endereco, byte[] memoria)
         {
-            throw new System.NotImplementedException();
+            return memoria[endereco];            
         }
 
         public void JumpOnNegative()

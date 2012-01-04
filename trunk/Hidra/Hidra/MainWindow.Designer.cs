@@ -51,13 +51,8 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.gridData = new System.Windows.Forms.DataGridView();
-            this.End = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Dado = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.gridInstructions = new System.Windows.Forms.DataGridView();
-            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Mnemonico = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -88,6 +83,11 @@
             this.searchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.End = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Dado = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Mnemonico = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupSimulator.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -124,6 +124,7 @@
             this.btn_passoapasso.TabIndex = 15;
             this.btn_passoapasso.Text = "Passo a Passo";
             this.btn_passoapasso.UseVisualStyleBackColor = true;
+            this.btn_passoapasso.Click += new System.EventHandler(this.btn_passoapasso_Click);
             // 
             // btn_rodar
             // 
@@ -309,24 +310,6 @@
             this.gridData.TabIndex = 0;
             this.gridData.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridData_CellValueChanged);
             // 
-            // End
-            // 
-            this.End.Frozen = true;
-            this.End.HeaderText = "End.";
-            this.End.Name = "End";
-            this.End.ReadOnly = true;
-            this.End.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.End.Width = 30;
-            // 
-            // Dado
-            // 
-            this.Dado.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.Dado.Frozen = true;
-            this.Dado.HeaderText = "Dados";
-            this.Dado.Name = "Dado";
-            this.Dado.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.Dado.Width = 90;
-            // 
             // groupBox6
             // 
             this.groupBox6.Controls.Add(this.gridData);
@@ -356,32 +339,6 @@
             this.gridInstructions.Size = new System.Drawing.Size(167, 411);
             this.gridInstructions.TabIndex = 1;
             this.gridInstructions.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.gridInstructions_CellValueChanged);
-            // 
-            // dataGridViewTextBoxColumn1
-            // 
-            this.dataGridViewTextBoxColumn1.Frozen = true;
-            this.dataGridViewTextBoxColumn1.HeaderText = "End.";
-            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
-            this.dataGridViewTextBoxColumn1.ReadOnly = true;
-            this.dataGridViewTextBoxColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewTextBoxColumn1.Width = 30;
-            // 
-            // dataGridViewTextBoxColumn2
-            // 
-            this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.dataGridViewTextBoxColumn2.Frozen = true;
-            this.dataGridViewTextBoxColumn2.HeaderText = "Dados";
-            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
-            this.dataGridViewTextBoxColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.dataGridViewTextBoxColumn2.Width = 45;
-            // 
-            // Mnemonico
-            // 
-            this.Mnemonico.Frozen = true;
-            this.Mnemonico.HeaderText = "Mnemônico";
-            this.Mnemonico.Name = "Mnemonico";
-            this.Mnemonico.ReadOnly = true;
-            this.Mnemonico.Width = 93;
             // 
             // groupBox7
             // 
@@ -625,6 +582,53 @@
             this.aboutToolStripMenuItem.Text = "&About...";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
+            // End
+            // 
+            this.End.Frozen = true;
+            this.End.HeaderText = "End.";
+            this.End.MaxInputLength = 3;
+            this.End.Name = "End";
+            this.End.ReadOnly = true;
+            this.End.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.End.Width = 30;
+            // 
+            // Dado
+            // 
+            this.Dado.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.Dado.Frozen = true;
+            this.Dado.HeaderText = "Dados";
+            this.Dado.MaxInputLength = 3;
+            this.Dado.Name = "Dado";
+            this.Dado.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Dado.Width = 90;
+            // 
+            // dataGridViewTextBoxColumn1
+            // 
+            this.dataGridViewTextBoxColumn1.Frozen = true;
+            this.dataGridViewTextBoxColumn1.HeaderText = "End.";
+            this.dataGridViewTextBoxColumn1.Name = "dataGridViewTextBoxColumn1";
+            this.dataGridViewTextBoxColumn1.ReadOnly = true;
+            this.dataGridViewTextBoxColumn1.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewTextBoxColumn1.Width = 30;
+            // 
+            // dataGridViewTextBoxColumn2
+            // 
+            this.dataGridViewTextBoxColumn2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.dataGridViewTextBoxColumn2.Frozen = true;
+            this.dataGridViewTextBoxColumn2.HeaderText = "Dados";
+            this.dataGridViewTextBoxColumn2.MaxInputLength = 3;
+            this.dataGridViewTextBoxColumn2.Name = "dataGridViewTextBoxColumn2";
+            this.dataGridViewTextBoxColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.dataGridViewTextBoxColumn2.Width = 45;
+            // 
+            // Mnemonico
+            // 
+            this.Mnemonico.Frozen = true;
+            this.Mnemonico.HeaderText = "Mnemônico";
+            this.Mnemonico.Name = "Mnemonico";
+            this.Mnemonico.ReadOnly = true;
+            this.Mnemonico.Width = 93;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -681,12 +685,7 @@
         public System.Windows.Forms.Label lbl_zero;
         public System.Windows.Forms.Button btn_passoapasso;
         private System.Windows.Forms.Label lbl_ac;
-        private System.Windows.Forms.DataGridViewTextBoxColumn End;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Dado;
         private System.Windows.Forms.GroupBox groupBox6;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Mnemonico;
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
@@ -719,6 +718,11 @@
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         public System.Windows.Forms.DataGridView gridData;
         public System.Windows.Forms.DataGridView gridInstructions;
+        private System.Windows.Forms.DataGridViewTextBoxColumn End;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Dado;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Mnemonico;
     }
 }
 

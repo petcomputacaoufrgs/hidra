@@ -17,14 +17,46 @@ namespace Hidra
         public string streamText;
         const int memSize = 256;
 
+        public int pc = 0, negative = 0, zero = 0;
+
+        public byte ac = 0, inst;
+        public byte[] memoria = new byte[memSize];
+
         public MainWindow()
         {   
             InitializeComponent();
         }
 
-        public virtual void gridInstructions_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        public void memToGrid()
         {
+            for (int i = 0; i < memSize; i++)
+            {
+                gridData.Rows[i].Cells[1].Value = memoria[i];
+            }
         }
+
+        public void gridToMem()
+        {
+            for (int i = 0; i < gridData.RowCount; i++)
+            {
+                memoria[i] = byte.Parse(gridData.Rows[i].Cells[1].Value.ToString());
+            }
+        }
+
+        public void atualizaTela_PC_AC_NEG_ZERO()
+        {
+            txt_ac.Text = ac.ToString();
+            txt_pc.Text = pc.ToString();
+            lbl_negative.Text = negative.ToString();
+            lbl_zero.Text = zero.ToString();
+        }
+
+        //funções para override
+        public virtual void gridInstructions_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {}
+
+        public virtual void decodificaInstrucao()
+        { }
 
         private void gridInstructions_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
@@ -34,13 +66,13 @@ namespace Hidra
                 if (int.TryParse(gridInstructions.Rows[e.RowIndex].Cells[1].Value.ToString(), out valor) && valor < memSize)
                 {
                     gridData.Rows[e.RowIndex].Cells[1].Value = gridInstructions.Rows[e.RowIndex].Cells[1].Value;
-                    this.gridInstructions_CellEndEdit(sender, e);
+                    this.gridInstructions_CellEndEdit(sender, e);                    
                 }
                 else
                 {
                     gridData.Rows[e.RowIndex].Cells[1].Value = 0;
                     gridData.Rows[e.RowIndex].Cells[1].Value = gridInstructions.Rows[e.RowIndex].Cells[1].Value;
-                }
+                }              
             }
         }
 
@@ -60,6 +92,7 @@ namespace Hidra
                     gridData.Rows[e.RowIndex].Cells[1].Value = 0;
                     gridInstructions.Rows[e.RowIndex].Cells[1].Value = gridData.Rows[e.RowIndex].Cells[1].Value;
                 }
+                gridToMem();
             }
         }
 
@@ -107,5 +140,22 @@ namespace Hidra
                 gridInstructions.Rows[i].Cells[0].Value = i;
             }
         }
+
+
+
+        public void atualizaPC()
+        {
+            pc++;
+            if (pc > 255)
+                pc = 0;
+        }
+
+        private void btn_passoapasso_Click(object sender, EventArgs e)
+        {           
+            byte.TryParse(gridData.Rows[pc].Cells[1].Value.ToString(), out inst);
+            atualizaPC();
+            this.decodificaInstrucao();
+        }
+
     }
 }
