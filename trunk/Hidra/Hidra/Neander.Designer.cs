@@ -319,7 +319,6 @@
             this.Controls.Add(this.groupBox5);
             this.Name = "Neander";
             this.Text = "Neander";
-            this.Load += new System.EventHandler(this.Neander_Load);
             this.Controls.SetChildIndex(this.groupBox5, 0);
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();

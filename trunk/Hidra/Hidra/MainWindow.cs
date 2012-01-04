@@ -7,29 +7,22 @@ namespace Hidra
    
     public partial class MainWindow : Form
     {
+        #region VARIÁVEIS
         public string streamText;
-        public const int memSize = 256;
-
-        public int pc = 0, negative = 0, zero = 0, endereco;
-
-        public byte ac = 0, inst;
-        public byte[] memoria = new byte[memSize];
+        const int memSize = 256;
+        public int pc, negative, zero;
+        public byte ac, inst;
+        public byte[] memoria;
+        public Instructions instructions;
+        #endregion
 
         public MainWindow()
         {   
             InitializeComponent();
-        }
-
-        public void criaMemoria()
-        {
-            for (int i = 0; i < memSize; i++)
-            {
-                gridData.Rows.Add();
-                gridInstructions.Rows.Add();
-                gridData.Rows[i].Cells[0].Value = i;
-                gridData.Rows[i].Cells[1].Value = 0;
-                gridInstructions.Rows[i].Cells[0].Value = i;
-            }
+            this.ac = 0;
+            this.pc = this.negative = this.zero = 0;
+            this.memoria = new byte[memSize];
+            this.instructions = new Instructions();
         }
 
         public void memToGrid()
@@ -57,8 +50,18 @@ namespace Hidra
         }
 
         //funções para override
-        public virtual void gridInstructions_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-        {}
+        private void gridInstructions_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            int valor = 0;
+
+            if (e.RowIndex >= 0 && e.ColumnIndex == 1 && gridInstructions.Rows[e.RowIndex].Cells[e.ColumnIndex].Value != null)
+            {
+                if (int.TryParse(gridInstructions.Rows[e.RowIndex].Cells[e.ColumnIndex].Value.ToString(), out valor) && valor < memSize)
+                {
+                    gridInstructions.Rows[e.RowIndex].Cells[2].Value = this.instructions.getInstructionCode(valor);
+                }
+            }
+        }
 
         public virtual void decodificaInstrucao()
         { }
@@ -154,13 +157,10 @@ namespace Hidra
         }
 
         private void btn_passoapasso_Click(object sender, EventArgs e)
-        {
-            if (gridData.RowCount > 0)
-            {
-                byte.TryParse(gridData.Rows[pc].Cells[1].Value.ToString(), out inst);
-                atualizaPC();
-                this.decodificaInstrucao();
-            }
+        {           
+            byte.TryParse(gridData.Rows[pc].Cells[1].Value.ToString(), out inst);
+            atualizaPC();
+            this.decodificaInstrucao();
         }
 
         private void btn_rodar_Click(object sender, EventArgs e)
