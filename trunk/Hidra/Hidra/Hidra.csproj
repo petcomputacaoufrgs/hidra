@@ -50,6 +50,12 @@
     <Compile Include="About.Designer.cs">
       <DependentUpon>About.cs</DependentUpon>
     </Compile>
+    <Compile Include="Ahmes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ahmes.Designer.cs">
+      <DependentUpon>Ahmes.cs</DependentUpon>
+    </Compile>
     <Compile Include="FirstWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -85,6 +91,9 @@
     <Compile Include="Simulators\VoltaNeader.cs" />
     <EmbeddedResource Include="About.resx">
       <DependentUpon>About.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Ahmes.resx">
+      <DependentUpon>Ahmes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FirstWindow.resx">
       <DependentUpon>FirstWindow.cs</DependentUpon>

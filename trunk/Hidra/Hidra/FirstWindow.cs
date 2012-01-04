@@ -22,5 +22,12 @@ namespace Hidra
             neander.ShowDialog();
             this.Close();
         }
+
+        private void btn_ahmes_Click(object sender, EventArgs e)
+        {
+            Ahmes ahmes = new Ahmes();
+            ahmes.ShowDialog();
+            this.Close();
+        }
     }
 }

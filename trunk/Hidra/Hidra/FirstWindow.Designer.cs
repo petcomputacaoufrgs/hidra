@@ -45,9 +45,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(40, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(101, 13);
+            this.label1.Size = new System.Drawing.Size(104, 13);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Escolha o programa";
+            this.label1.Text = "Escolha o programa:";
             // 
             // btn_neander
             // 
@@ -112,6 +112,7 @@
             this.btn_ahmes.TabIndex = 9;
             this.btn_ahmes.Text = "Ahmes";
             this.btn_ahmes.UseVisualStyleBackColor = true;
+            this.btn_ahmes.Click += new System.EventHandler(this.btn_ahmes_Click);
             // 
             // btn_volta
             // 
@@ -149,7 +150,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "FirstWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "FirstWindow";
+            this.Text = "Hidra";
             this.ResumeLayout(false);
             this.PerformLayout();
 
