@@ -10,7 +10,7 @@ namespace Hidra
         #region VARIÁVEIS
         public string streamText;
         const int memSize = 256;
-        public int pc, negative, zero;
+        public int pc, negative, zero, endereco;
         public byte ac, inst;
         public byte[] memoria;
         public Instructions instructions;
@@ -20,9 +20,24 @@ namespace Hidra
         {   
             InitializeComponent();
             this.ac = 0;
-            this.pc = this.negative = this.zero = 0;
+            this.pc = this.negative = this.zero = this.endereco = 0;
             this.memoria = new byte[memSize];
             this.instructions = new Instructions();
+            criaMemoria();
+        }
+
+        private void criaMemoria()
+        {
+            for (int i = 0; i < memSize; i++)
+            {
+                gridData.Rows.Add();
+                gridInstructions.Rows.Add();
+                gridData.Rows[i].Cells[0].Value = i;
+                gridData.Rows[i].Cells[1].Value = 0;
+                gridInstructions.Rows[i].Cells[0].Value = i;
+
+                this.memoria[i] = 0;
+            }
         }
 
         public void memToGrid()
@@ -49,7 +64,10 @@ namespace Hidra
             lbl_zero.Text = zero.ToString();
         }
 
-        //funções para override
+        //função para override
+        public virtual void decodificaInstrucao()
+        { }
+
         private void gridInstructions_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             int valor = 0;
@@ -62,9 +80,6 @@ namespace Hidra
                 }
             }
         }
-
-        public virtual void decodificaInstrucao()
-        { }
 
         private void gridInstructions_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {

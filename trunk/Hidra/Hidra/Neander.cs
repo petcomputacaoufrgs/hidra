@@ -5,35 +5,12 @@ namespace Hidra
 {
     public partial class Neander : MainWindow
     {
-        const int memSize = 256;
         Simulators.Neander Neand = new Simulators.Neander();
-        byte endereco;
         
         public Neander()
         {
             InitializeComponent();
             this.instructions.initNeanderInstructions();
-        }
-        
-        private void criaMemoria()
-        {
-            for (int i = 0; i < memSize; i++)
-            {
-                gridData.Rows.Add();
-                gridInstructions.Rows.Add();
-                gridData.Rows[i].Cells[0].Value = i;
-                gridData.Rows[i].Cells[1].Value = 0;
-                gridInstructions.Rows[i].Cells[0].Value = i;
-            }
-        }
-               
-        private void Neander_Load(object sender, EventArgs e)
-        {
-            criaMemoria();
-            for (int i = 0; i < memSize; i++)
-            {
-                memoria[i] = 0;                
-            }
         }
 
         override public void decodificaInstrucao()
@@ -52,7 +29,7 @@ namespace Hidra
                     this.ac = Neand.Load(endereco, memoria);
                     break;
                 case 48:  //ADD;
-                    Neand.Add();
+                    this.ac = byte.Parse(Neand.Add(this.ac, endereco, this.memoria).ToString());
                     break;
                 case 64:  //OR;
                     Neand.Or();
@@ -79,18 +56,14 @@ namespace Hidra
                 default: 
                     break;                
             }
-         //   memToGrid();           
+
+            memToGrid();           
             atualizaTela_PC_AC_NEG_ZERO();
         }
-
-
 
         private void btn_rodar_Click(object sender, EventArgs e)
         {
 
-        }
-
-        
-        
+        }        
     }
 }
