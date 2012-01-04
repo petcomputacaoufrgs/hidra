@@ -8,9 +8,9 @@ namespace Hidra
     public partial class MainWindow : Form
     {
         public string streamText;
-        const int memSize = 256;
+        public const int memSize = 256;
 
-        public int pc = 0, negative = 0, zero = 0;
+        public int pc = 0, negative = 0, zero = 0, endereco;
 
         public byte ac = 0, inst;
         public byte[] memoria = new byte[memSize];
@@ -18,6 +18,18 @@ namespace Hidra
         public MainWindow()
         {   
             InitializeComponent();
+        }
+
+        public void criaMemoria()
+        {
+            for (int i = 0; i < memSize; i++)
+            {
+                gridData.Rows.Add();
+                gridInstructions.Rows.Add();
+                gridData.Rows[i].Cells[0].Value = i;
+                gridData.Rows[i].Cells[1].Value = 0;
+                gridInstructions.Rows[i].Cells[0].Value = i;
+            }
         }
 
         public void memToGrid()
@@ -142,10 +154,13 @@ namespace Hidra
         }
 
         private void btn_passoapasso_Click(object sender, EventArgs e)
-        {           
-            byte.TryParse(gridData.Rows[pc].Cells[1].Value.ToString(), out inst);
-            atualizaPC();
-            this.decodificaInstrucao();
+        {
+            if (gridData.RowCount > 0)
+            {
+                byte.TryParse(gridData.Rows[pc].Cells[1].Value.ToString(), out inst);
+                atualizaPC();
+                this.decodificaInstrucao();
+            }
         }
 
         private void btn_rodar_Click(object sender, EventArgs e)

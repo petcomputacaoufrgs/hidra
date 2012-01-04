@@ -9,7 +9,7 @@ namespace Hidra.Simulators
             return ac;
         }
 
-        public byte Load(byte endereco, byte[] memoria)
+        public byte Load(int endereco, byte[] memoria)
         {
             return memoria[endereco];            
         }

@@ -7,9 +7,9 @@ namespace Hidra.Simulators
 {
     public abstract class VoltaNeader : Simulator
     {
-        public void Add()
-        {
-            throw new System.NotImplementedException();
+        public int Add(byte ac, int endereco, byte[] memoria)
+        {            
+            return ac + memoria[endereco];
         }
 
         public void And()
