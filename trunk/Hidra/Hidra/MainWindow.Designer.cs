@@ -274,24 +274,24 @@
         private System.Windows.Forms.GroupBox groupSimulator;
         private System.Windows.Forms.GroupBox groupAssembler;
         private System.Windows.Forms.TextBox txtAssembler;
-        private System.Windows.Forms.Label lbl_ac;
         private System.Windows.Forms.Label lbl_pc;
-        private System.Windows.Forms.TextBox txt_pc;
-        private System.Windows.Forms.TextBox txt_ac;
-        private System.Windows.Forms.TextBox txt_instrucoes;
-        private System.Windows.Forms.TextBox txt_acessos;
         private System.Windows.Forms.Label lbl_instrucoes;
         private System.Windows.Forms.Label lbl_acesso;
-        private System.Windows.Forms.Button btn_passoapasso;
-        private System.Windows.Forms.Button btn_rodar;
         private System.Windows.Forms.Label lbl_negativeText;
         private System.Windows.Forms.Label lbl_zeroText;
-        private System.Windows.Forms.Label lbl_negative;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Label lbl_zero;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        public System.Windows.Forms.TextBox txt_pc;
+        public System.Windows.Forms.Button btn_rodar;
+        public System.Windows.Forms.TextBox txt_ac;
+        public System.Windows.Forms.TextBox txt_instrucoes;
+        public System.Windows.Forms.TextBox txt_acessos;
+        public System.Windows.Forms.Label lbl_negative;
+        public System.Windows.Forms.Label lbl_zero;
+        public System.Windows.Forms.Button btn_passoapasso;
+        private System.Windows.Forms.Label lbl_ac;
     }
 }
 

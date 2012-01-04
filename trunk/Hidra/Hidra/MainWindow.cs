@@ -19,6 +19,6 @@ namespace Hidra
         public MainWindow()
         {   
             InitializeComponent();
-        }  
+        }
     }
 }

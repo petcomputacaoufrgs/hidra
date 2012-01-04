@@ -102,6 +102,9 @@
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
+            // btn_rodar
+            // 
+            // 
             // groupBox3
             // 
             this.groupBox3.Location = new System.Drawing.Point(195, 13);
