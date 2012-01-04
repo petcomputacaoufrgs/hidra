@@ -54,7 +54,7 @@
             this.btn_neander.Location = new System.Drawing.Point(12, 57);
             this.btn_neander.Name = "btn_neander";
             this.btn_neander.Size = new System.Drawing.Size(75, 23);
-            this.btn_neander.TabIndex = 2;
+            this.btn_neander.TabIndex = 3;
             this.btn_neander.Text = "Neander";
             this.btn_neander.UseVisualStyleBackColor = true;
             this.btn_neander.Click += new System.EventHandler(this.btn_neander_Click);
@@ -64,7 +64,7 @@
             this.btn_queops.Location = new System.Drawing.Point(93, 57);
             this.btn_queops.Name = "btn_queops";
             this.btn_queops.Size = new System.Drawing.Size(75, 23);
-            this.btn_queops.TabIndex = 3;
+            this.btn_queops.TabIndex = 4;
             this.btn_queops.Text = "Queops";
             this.btn_queops.UseVisualStyleBackColor = true;
             // 
@@ -73,7 +73,7 @@
             this.btn_ramses.Location = new System.Drawing.Point(93, 86);
             this.btn_ramses.Name = "btn_ramses";
             this.btn_ramses.Size = new System.Drawing.Size(75, 23);
-            this.btn_ramses.TabIndex = 4;
+            this.btn_ramses.TabIndex = 6;
             this.btn_ramses.Text = "Ramses";
             this.btn_ramses.UseVisualStyleBackColor = true;
             // 
@@ -91,7 +91,7 @@
             this.btn_pericles.Location = new System.Drawing.Point(12, 115);
             this.btn_pericles.Name = "btn_pericles";
             this.btn_pericles.Size = new System.Drawing.Size(75, 23);
-            this.btn_pericles.TabIndex = 6;
+            this.btn_pericles.TabIndex = 7;
             this.btn_pericles.Text = "Pericles";
             this.btn_pericles.UseVisualStyleBackColor = true;
             // 
@@ -100,7 +100,7 @@
             this.btn_pitagoras.Location = new System.Drawing.Point(93, 115);
             this.btn_pitagoras.Name = "btn_pitagoras";
             this.btn_pitagoras.Size = new System.Drawing.Size(75, 23);
-            this.btn_pitagoras.TabIndex = 7;
+            this.btn_pitagoras.TabIndex = 8;
             this.btn_pitagoras.Text = "Pitagoras";
             this.btn_pitagoras.UseVisualStyleBackColor = true;
             // 
@@ -109,7 +109,7 @@
             this.btn_ahmes.Location = new System.Drawing.Point(56, 144);
             this.btn_ahmes.Name = "btn_ahmes";
             this.btn_ahmes.Size = new System.Drawing.Size(75, 23);
-            this.btn_ahmes.TabIndex = 8;
+            this.btn_ahmes.TabIndex = 9;
             this.btn_ahmes.Text = "Ahmes";
             this.btn_ahmes.UseVisualStyleBackColor = true;
             // 
@@ -118,7 +118,7 @@
             this.btn_volta.Location = new System.Drawing.Point(93, 28);
             this.btn_volta.Name = "btn_volta";
             this.btn_volta.Size = new System.Drawing.Size(75, 23);
-            this.btn_volta.TabIndex = 9;
+            this.btn_volta.TabIndex = 2;
             this.btn_volta.Text = "Volta";
             this.btn_volta.UseVisualStyleBackColor = true;
             // 
@@ -127,7 +127,7 @@
             this.btn_reg.Location = new System.Drawing.Point(12, 28);
             this.btn_reg.Name = "btn_reg";
             this.btn_reg.Size = new System.Drawing.Size(75, 23);
-            this.btn_reg.TabIndex = 10;
+            this.btn_reg.TabIndex = 1;
             this.btn_reg.Text = "Reg";
             this.btn_reg.UseVisualStyleBackColor = true;
             // 
