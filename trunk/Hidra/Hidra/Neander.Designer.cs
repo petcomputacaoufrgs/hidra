@@ -63,7 +63,6 @@
             // 
             // btn_rodar
             // 
-            this.btn_rodar.Click += new System.EventHandler(this.btn_rodar_Click);
             // 
             // groupBox4
             // 

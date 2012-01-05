@@ -86,11 +86,6 @@ namespace Hidra
             memToGrid();
             atualizaVariaveis();
             this.atualizaTela();
-        }
-
-        private void btn_rodar_Click(object sender, EventArgs e)
-        {
-
-        }        
+        }  
     }
 }
