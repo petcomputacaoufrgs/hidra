@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label17 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
@@ -82,38 +81,42 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
+            this.lbl_overflowText = new System.Windows.Forms.Label();
+            this.lbl_borrowout = new System.Windows.Forms.Label();
+            this.lbl_overflow = new System.Windows.Forms.Label();
+            this.lbl_borrowouText = new System.Windows.Forms.Label();
             this.lbl_carryoutText = new System.Windows.Forms.Label();
             this.lbl_carryout = new System.Windows.Forms.Label();
-            this.lbl_borrowouText = new System.Windows.Forms.Label();
-            this.lbl_overflow = new System.Windows.Forms.Label();
-            this.lbl_borrowout = new System.Windows.Forms.Label();
-            this.lbl_overflowText = new System.Windows.Forms.Label();
             this.groupSimulator.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.groupBoxBits.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
-            // groupSimulator
+            // groupBoxBits
             // 
-            this.groupSimulator.Controls.Add(this.lbl_overflowText);
-            this.groupSimulator.Controls.Add(this.lbl_borrowout);
-            this.groupSimulator.Controls.Add(this.lbl_overflow);
-            this.groupSimulator.Controls.Add(this.lbl_borrowouText);
-            this.groupSimulator.Controls.Add(this.lbl_carryoutText);
-            this.groupSimulator.Controls.Add(this.lbl_carryout);
-            this.groupSimulator.Controls.SetChildIndex(this.lbl_carryout, 0);
-            this.groupSimulator.Controls.SetChildIndex(this.lbl_carryoutText, 0);
-            this.groupSimulator.Controls.SetChildIndex(this.lbl_borrowouText, 0);
-            this.groupSimulator.Controls.SetChildIndex(this.lbl_zero, 0);
-            this.groupSimulator.Controls.SetChildIndex(this.lbl_negative, 0);
-            this.groupSimulator.Controls.SetChildIndex(this.btn_rodar, 0);
-            this.groupSimulator.Controls.SetChildIndex(this.btn_passoapasso, 0);
-            this.groupSimulator.Controls.SetChildIndex(this.lbl_overflow, 0);
-            this.groupSimulator.Controls.SetChildIndex(this.lbl_borrowout, 0);
-            this.groupSimulator.Controls.SetChildIndex(this.lbl_overflowText, 0);
+            this.groupBoxBits.Controls.Add(this.lbl_overflowText);
+            this.groupBoxBits.Controls.Add(this.lbl_borrowout);
+            this.groupBoxBits.Controls.Add(this.lbl_overflow);
+            this.groupBoxBits.Controls.Add(this.lbl_borrowouText);
+            this.groupBoxBits.Controls.Add(this.lbl_carryoutText);
+            this.groupBoxBits.Controls.Add(this.lbl_carryout);
+            this.groupBoxBits.Location = new System.Drawing.Point(26, 94);
+            this.groupBoxBits.Size = new System.Drawing.Size(247, 56);
+            this.groupBoxBits.Controls.SetChildIndex(this.lbl_zeroText, 0);
+            this.groupBoxBits.Controls.SetChildIndex(this.lbl_negative, 0);
+            this.groupBoxBits.Controls.SetChildIndex(this.lbl_zero, 0);
+            this.groupBoxBits.Controls.SetChildIndex(this.lbl_negativeText, 0);
+            this.groupBoxBits.Controls.SetChildIndex(this.lbl_carryout, 0);
+            this.groupBoxBits.Controls.SetChildIndex(this.lbl_carryoutText, 0);
+            this.groupBoxBits.Controls.SetChildIndex(this.lbl_borrowouText, 0);
+            this.groupBoxBits.Controls.SetChildIndex(this.lbl_overflow, 0);
+            this.groupBoxBits.Controls.SetChildIndex(this.lbl_borrowout, 0);
+            this.groupBoxBits.Controls.SetChildIndex(this.lbl_overflowText, 0);
             // 
             // groupBox5
             // 
-            this.groupBox5.Controls.Add(this.groupBox3);
             this.groupBox5.Controls.Add(this.label17);
             this.groupBox5.Controls.Add(this.label18);
             this.groupBox5.Controls.Add(this.label19);
@@ -172,14 +175,6 @@
             this.groupBox5.TabIndex = 54;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Mnemônicos";
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Location = new System.Drawing.Point(209, 19);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(10, 167);
-            this.groupBox3.TabIndex = 119;
-            this.groupBox3.TabStop = false;
             // 
             // label17
             // 
@@ -648,59 +643,59 @@
             this.label7.TabIndex = 30;
             this.label7.Text = "NOT";
             // 
+            // lbl_overflowText
+            // 
+            this.lbl_overflowText.AutoSize = true;
+            this.lbl_overflowText.Location = new System.Drawing.Point(172, 14);
+            this.lbl_overflowText.Name = "lbl_overflowText";
+            this.lbl_overflowText.Size = new System.Drawing.Size(49, 13);
+            this.lbl_overflowText.TabIndex = 27;
+            this.lbl_overflowText.Text = "Overflow";
+            // 
+            // lbl_borrowout
+            // 
+            this.lbl_borrowout.AutoSize = true;
+            this.lbl_borrowout.Location = new System.Drawing.Point(149, 34);
+            this.lbl_borrowout.Name = "lbl_borrowout";
+            this.lbl_borrowout.Size = new System.Drawing.Size(13, 13);
+            this.lbl_borrowout.TabIndex = 26;
+            this.lbl_borrowout.Text = "0";
+            // 
+            // lbl_overflow
+            // 
+            this.lbl_overflow.AutoSize = true;
+            this.lbl_overflow.Location = new System.Drawing.Point(227, 14);
+            this.lbl_overflow.Name = "lbl_overflow";
+            this.lbl_overflow.Size = new System.Drawing.Size(13, 13);
+            this.lbl_overflow.TabIndex = 25;
+            this.lbl_overflow.Text = "0";
+            // 
+            // lbl_borrowouText
+            // 
+            this.lbl_borrowouText.AutoSize = true;
+            this.lbl_borrowouText.Location = new System.Drawing.Point(83, 34);
+            this.lbl_borrowouText.Name = "lbl_borrowouText";
+            this.lbl_borrowouText.Size = new System.Drawing.Size(60, 13);
+            this.lbl_borrowouText.TabIndex = 24;
+            this.lbl_borrowouText.Text = "Borrow Out";
+            // 
             // lbl_carryoutText
             // 
             this.lbl_carryoutText.AutoSize = true;
-            this.lbl_carryoutText.Location = new System.Drawing.Point(93, 107);
+            this.lbl_carryoutText.Location = new System.Drawing.Point(92, 14);
             this.lbl_carryoutText.Name = "lbl_carryoutText";
             this.lbl_carryoutText.Size = new System.Drawing.Size(51, 13);
-            this.lbl_carryoutText.TabIndex = 16;
+            this.lbl_carryoutText.TabIndex = 22;
             this.lbl_carryoutText.Text = "Carry Out";
             // 
             // lbl_carryout
             // 
             this.lbl_carryout.AutoSize = true;
-            this.lbl_carryout.Location = new System.Drawing.Point(150, 107);
+            this.lbl_carryout.Location = new System.Drawing.Point(149, 14);
             this.lbl_carryout.Name = "lbl_carryout";
             this.lbl_carryout.Size = new System.Drawing.Size(13, 13);
-            this.lbl_carryout.TabIndex = 17;
+            this.lbl_carryout.TabIndex = 23;
             this.lbl_carryout.Text = "0";
-            // 
-            // lbl_borrowouText
-            // 
-            this.lbl_borrowouText.AutoSize = true;
-            this.lbl_borrowouText.Location = new System.Drawing.Point(85, 130);
-            this.lbl_borrowouText.Name = "lbl_borrowouText";
-            this.lbl_borrowouText.Size = new System.Drawing.Size(60, 13);
-            this.lbl_borrowouText.TabIndex = 18;
-            this.lbl_borrowouText.Text = "Borrow Out";
-            // 
-            // lbl_overflow
-            // 
-            this.lbl_overflow.AutoSize = true;
-            this.lbl_overflow.Location = new System.Drawing.Point(233, 107);
-            this.lbl_overflow.Name = "lbl_overflow";
-            this.lbl_overflow.Size = new System.Drawing.Size(13, 13);
-            this.lbl_overflow.TabIndex = 19;
-            this.lbl_overflow.Text = "0";
-            // 
-            // lbl_borrowout
-            // 
-            this.lbl_borrowout.AutoSize = true;
-            this.lbl_borrowout.Location = new System.Drawing.Point(150, 130);
-            this.lbl_borrowout.Name = "lbl_borrowout";
-            this.lbl_borrowout.Size = new System.Drawing.Size(13, 13);
-            this.lbl_borrowout.TabIndex = 20;
-            this.lbl_borrowout.Text = "0";
-            // 
-            // lbl_overflowText
-            // 
-            this.lbl_overflowText.AutoSize = true;
-            this.lbl_overflowText.Location = new System.Drawing.Point(178, 107);
-            this.lbl_overflowText.Name = "lbl_overflowText";
-            this.lbl_overflowText.Size = new System.Drawing.Size(49, 13);
-            this.lbl_overflowText.TabIndex = 21;
-            this.lbl_overflowText.Text = "Overflow";
             // 
             // Ahmes
             // 
@@ -713,7 +708,12 @@
             this.Controls.SetChildIndex(this.groupSimulator, 0);
             this.Controls.SetChildIndex(this.groupBox5, 0);
             this.groupSimulator.ResumeLayout(false);
-            this.groupSimulator.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.groupBoxBits.ResumeLayout(false);
+            this.groupBoxBits.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.ResumeLayout(false);
@@ -740,7 +740,6 @@
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.Label label30;
         private System.Windows.Forms.Label label31;
-        private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label19;
@@ -777,11 +776,11 @@
         private System.Windows.Forms.Label label47;
         private System.Windows.Forms.Label label48;
         private System.Windows.Forms.Label label32;
-        private System.Windows.Forms.Label lbl_carryoutText;
-        private System.Windows.Forms.Label lbl_carryout;
         private System.Windows.Forms.Label lbl_overflowText;
         private System.Windows.Forms.Label lbl_borrowout;
         private System.Windows.Forms.Label lbl_overflow;
         private System.Windows.Forms.Label lbl_borrowouText;
+        private System.Windows.Forms.Label lbl_carryoutText;
+        private System.Windows.Forms.Label lbl_carryout;
     }
 }

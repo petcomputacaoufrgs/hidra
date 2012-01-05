@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.label22 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
@@ -55,22 +54,16 @@
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.groupSimulator.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.groupBoxBits.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
-
             // btn_rodar
             // 
             this.btn_rodar.Click += new System.EventHandler(this.btn_rodar_Click);
-            // 
-
-            // groupBox3
-            // 
-            this.groupBox3.Location = new System.Drawing.Point(195, 13);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(10, 108);
-            this.groupBox3.TabIndex = 47;
-            this.groupBox3.TabStop = false;
             // 
             // groupBox4
             // 
@@ -281,7 +274,6 @@
             // groupBox5
             // 
             this.groupBox5.Controls.Add(this.groupBox4);
-            this.groupBox5.Controls.Add(this.groupBox3);
             this.groupBox5.Controls.Add(this.label1);
             this.groupBox5.Controls.Add(this.label2);
             this.groupBox5.Controls.Add(this.label22);
@@ -320,6 +312,14 @@
             this.Name = "Neander";
             this.Text = "Neander";
             this.Controls.SetChildIndex(this.groupBox5, 0);
+            this.Controls.SetChildIndex(this.groupSimulator, 0);
+            this.groupSimulator.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.groupBoxBits.ResumeLayout(false);
+            this.groupBoxBits.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.ResumeLayout(false);
@@ -329,7 +329,6 @@
 
         #endregion
 
-        private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.Label label21;

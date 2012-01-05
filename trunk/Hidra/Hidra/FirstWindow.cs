@@ -23,5 +23,12 @@ namespace Hidra
             ahmes.ShowDialog();
             this.Close();
         }
+
+        private void btn_ramses_Click(object sender, EventArgs e)
+        {
+            Ramses ramses = new Ramses();
+            ramses.ShowDialog();
+            this.Close();
+        }
     }
 }

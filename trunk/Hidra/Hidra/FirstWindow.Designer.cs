@@ -76,6 +76,7 @@
             this.btn_ramses.TabIndex = 6;
             this.btn_ramses.Text = "Ramses";
             this.btn_ramses.UseVisualStyleBackColor = true;
+            this.btn_ramses.Click += new System.EventHandler(this.btn_ramses_Click);
             // 
             // btn_cromag
             // 

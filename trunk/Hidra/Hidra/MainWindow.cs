@@ -4,7 +4,6 @@ using System.Windows.Forms;
 
 namespace Hidra
 {
-   
     public partial class MainWindow : Form
     {
         #region VARIÁVEIS

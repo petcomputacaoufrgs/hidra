@@ -69,6 +69,12 @@
     <Compile Include="Neander.Designer.cs">
       <DependentUpon>Neander.cs</DependentUpon>
     </Compile>
+    <Compile Include="Ramses.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ramses.Designer.cs">
+      <DependentUpon>Ramses.cs</DependentUpon>
+    </Compile>
     <Compile Include="Simulators\Ahmes.cs" />
     <Compile Include="Simulators\RamsesPericles.cs" />
     <Compile Include="Simulators\PeriPitAhmes.cs" />
@@ -114,6 +120,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Ramses.resx">
+      <DependentUpon>Ramses.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="ClassDiagram1.cd" />
     <None Include="Hidra.cd" />
     <None Include="Properties\Settings.settings">
