@@ -9,7 +9,8 @@ namespace Hidra
         #region VARIÁVEIS
         public string streamText;
         const int memSize = 256;
-        public int pc, negative, zero, endereco;
+        public bool hlt;
+        public int pc, negative, zero, endereco, numeroInstrucoes, numeroAcessos;
         public byte ac, inst;
         public byte[] memoria;
         public Instructions instructions;
@@ -22,6 +23,10 @@ namespace Hidra
             this.pc = this.negative = this.zero = this.endereco = 0;
             this.memoria = new byte[memSize];
             this.instructions = new Instructions();
+            this.hlt = false;
+            this.numeroInstrucoes = 0;
+            this.numeroAcessos = 0;
+
             criaMemoria();
         }
 
@@ -118,29 +123,36 @@ namespace Hidra
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            openFileDialog1.ShowDialog();
+           
             string arquivo, msg;
-            string[] msgSplit;
-            arquivo = openFileDialog1.FileName;
-            using (StreamReader texto = new StreamReader(arquivo))
+            string[] msgSplit;           
+
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                while ((msg = texto.ReadLine()) != null)
+                arquivo = openFileDialog1.FileName;
+                using (StreamReader texto = new StreamReader(arquivo))
                 {
-                    msgSplit = msg.Split(' ');
-                    if (msgSplit.Length > 1)
-                        gridData.Rows[int.Parse(msgSplit[0])].Cells[1].Value = msgSplit[1];
+                    while ((msg = texto.ReadLine()) != null)
+                    {
+                        msgSplit = msg.Split(' ');
+                        if (msgSplit.Length > 1)
+                            gridData.Rows[int.Parse(msgSplit[0])].Cells[1].Value = msgSplit[1];
+                    }
                 }
             }
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            saveFileDialog1.ShowDialog();
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter(saveFileDialog1.FileName))
+
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                for (int i = 0; i < 256; i++)
+                using (System.IO.StreamWriter file = new System.IO.StreamWriter(saveFileDialog1.FileName))
                 {
-                    file.WriteLine(i + " " + gridInstructions.Rows[i].Cells[1].Value.ToString());
+                    for (int i = 0; i < 256; i++)
+                    {
+                        file.WriteLine(i + " " + gridInstructions.Rows[i].Cells[1].Value.ToString());
+                    }
                 }
             }
         }
@@ -158,6 +170,8 @@ namespace Hidra
                 gridData.Rows[i].Cells[0].Value = i;
                 gridData.Rows[i].Cells[1].Value = 0;
                 gridInstructions.Rows[i].Cells[0].Value = i;
+
+                this.memoria[i] = 0;
             }
         }
         
@@ -199,12 +213,19 @@ namespace Hidra
 
         private void btn_rodar_Click(object sender, EventArgs e)
         {
-
+            while (pc != 255 && hlt == false)
+            {
+                byte.TryParse(gridData.Rows[pc].Cells[1].Value.ToString(), out inst);
+                atualizaPC();
+                this.decodificaInstrucao();
+            }
         }
 
         private void zerarPCToolStripMenuItem_Click(object sender, EventArgs e)
         {
             pc = 0;
+            numeroAcessos = 0;
+            numeroInstrucoes = 0;
             this.atualizaTela();
         }
 

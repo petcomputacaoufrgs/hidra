@@ -7,9 +7,9 @@ namespace Hidra
 {
     public abstract class Simulator
     {
-        public void Halt()
+        public bool Halt()
         {
-            throw new System.NotImplementedException();
+            return true;
         }
     }
 }

@@ -19,8 +19,7 @@ namespace Hidra.Simulators
             if (negative == 1)
                 return endereco;
             else
-                return pc++;
-
+                return ++pc;
         }
 
         public int JumpOnZero(int pc, int zero, int endereco)
@@ -28,7 +27,7 @@ namespace Hidra.Simulators
             if (zero == 1)
                 return endereco;
             else
-                return pc++;
+                return ++pc;
         }
     }
 }
