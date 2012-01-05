@@ -705,6 +705,7 @@
             this.Controls.Add(this.groupBox5);
             this.Name = "Ahmes";
             this.Text = "Ahmes";
+            this.Load += new System.EventHandler(this.Ahmes_Load);
             this.Controls.SetChildIndex(this.groupSimulator, 0);
             this.Controls.SetChildIndex(this.groupBox5, 0);
             this.groupSimulator.ResumeLayout(false);

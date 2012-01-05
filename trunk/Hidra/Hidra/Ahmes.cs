@@ -5,13 +5,15 @@ namespace Hidra
     public partial class Ahmes : MainWindow
     {
         Simulators.Ahmes Ahme = new Simulators.Ahmes();
-        public int borrow;
+        public int borrow, carry, overflow;
 
         public Ahmes()
         {
             InitializeComponent();
             this.instructions.initAhmesInstructions();
             this.borrow = 0;
+            this.carry = 0;
+            this.overflow = 0;
         }
 
         override public void atualizaTela()
@@ -47,7 +49,7 @@ namespace Hidra
                     atualizaPC();
                     break;
                 case 48:  //ADD;
-                    this.ac = (byte)Ahme.Add(this.ac, endereco, this.memoria);
+                    this.ac = (byte)Ahme.Add(this.ac, endereco, this.memoria, out this.carry);
                     atualizaPC();
                     break;
                 case 64:  //OR;
@@ -64,46 +66,53 @@ namespace Hidra
                     break;
                 case 112: //SUB
                     this.ac = (byte)Ahme.Subtract(this.ac, endereco, this.memoria, out borrow);
+                    atualizaPC();
                     break;       
                 case 128: //JMP;
                     this.pc = Ahme.Jump((byte)endereco);
                     numeroAcessos -= 1;
                     break;
                 case 144: //JN;
-                    this.pc = (byte)Ahme.JumpOnNegative(this.pc, this.negative, endereco);
+                    this.pc = Ahme.JumpOnNegative(this.pc, this.negative, endereco);
                     numeroAcessos -= 1;
                     break;
-
                 case 148: //JP
-                    Ahme.JumpOnPositive();
+                    this.pc = Ahme.JumpOnPositive(this.pc, this.negative, endereco);
+                    numeroAcessos -= 1;
                     break;
                 case 152: //JV
-                    Ahme.JumpOnOverflow();
+                    this.pc = Ahme.JumpOnOverflow(this.pc, this.overflow, endereco);
+                    numeroAcessos -= 1;
                     break;
                 case 156: //JNV
-                    Ahme.JumpOnNotOverflow();
+                    this.pc = Ahme.JumpOnNotOverflow(this.pc, this.overflow, endereco);
+                    numeroAcessos -= 1;
                     break;
-
                 case 160: //JZ;
                     this.pc = (byte)Ahme.JumpOnZero(this.pc, this.zero, endereco);
                     numeroAcessos -= 1;
                     break;
-
                 case 164: //JNZ
-                    Ahme.JumpOnNotZero();
+                    this.pc = Ahme.JumpOnNotZero(this.pc, this.zero, endereco);
+                    numeroAcessos -= 1;
                     break;
                 case 176: //JC
-                    Ahme.JumpOnCarry();
+                    this.pc = Ahme.JumpOnCarry(this.pc, this.carry, endereco);
+                    numeroAcessos -= 1;
                     break;
                 case 180: //JNC
-                    Ahme.JumpOnNotCarry();
+                    this.pc = Ahme.JumpOnNotCarry(this.pc, this.carry, endereco);
+                    numeroAcessos -= 1;
                     break;
                 case 184: //JB
-                    Ahme.JumpOnBorrow();
+                    this.pc = Ahme.JumpOnBorrow(this.pc, this.borrow, endereco);
+                    numeroAcessos -= 1;                    
                     break;
                 case 188: //JNB
-                    Ahme.JumpOnNotBorrow();
+                    this.pc = Ahme.JumpOnNotBorrow(this.pc, this.borrow, endereco);
+                    numeroAcessos -= 1;
                     break;
+
                 case 224: //SHR
                     Ahme.ShiftRight();
                     break;
@@ -130,6 +139,11 @@ namespace Hidra
 
             memToGrid();
             atualizaVariaveis();
+            this.atualizaTela();
+        }
+
+        private void Ahmes_Load(object sender, System.EventArgs e)
+        {
             this.atualizaTela();
         }
     }

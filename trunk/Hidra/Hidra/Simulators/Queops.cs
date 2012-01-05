@@ -3,9 +3,12 @@ namespace Hidra.Simulators
 {
     public class Queops : Neander
     {
-        public void JumpOnCarry()
+        public int JumpOnCarry(int pc, int carry, int endereco)
         {
-            throw new System.NotImplementedException();
+            if (carry == 1)
+                return endereco;
+            else
+                return ++pc;
         }
     }
 }

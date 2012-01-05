@@ -61,9 +61,6 @@
             this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
-            // btn_rodar
-            // 
-            // 
             // groupBox4
             // 
             this.groupBox4.Location = new System.Drawing.Point(85, 13);
@@ -310,6 +307,7 @@
             this.Controls.Add(this.groupBox5);
             this.Name = "Neander";
             this.Text = "Neander";
+            this.Load += new System.EventHandler(this.Neander_Load);
             this.Controls.SetChildIndex(this.groupBox5, 0);
             this.Controls.SetChildIndex(this.groupSimulator, 0);
             this.groupSimulator.ResumeLayout(false);

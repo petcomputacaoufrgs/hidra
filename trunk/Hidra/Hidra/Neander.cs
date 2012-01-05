@@ -86,6 +86,11 @@ namespace Hidra
             memToGrid();
             atualizaVariaveis();
             this.atualizaTela();
+        }
+
+        private void Neander_Load(object sender, EventArgs e)
+        {
+            this.atualizaTela();
         }  
     }
 }

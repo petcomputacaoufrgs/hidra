@@ -20,7 +20,8 @@ namespace Hidra
         {   
             InitializeComponent();
             this.ac = 0;
-            this.pc = this.negative = this.zero = this.endereco = 0;
+            this.pc = this.negative = this.endereco = 0;
+            this.zero = 1;
             this.memoria = new byte[memSize];
             this.instructions = new Instructions();
             this.hlt = false;

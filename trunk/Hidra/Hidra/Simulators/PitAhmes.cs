@@ -4,14 +4,20 @@ namespace Hidra.Simulators
     public abstract class PitAhmes : PeriPitAhmes
     {
 
-        public void JumpOnPositive()
+        public int JumpOnPositive(int pc, int negative, int endereco)
         {
-            throw new System.NotImplementedException();
+            if (negative == 0)
+                return endereco;
+            else
+                return ++pc;
         }
 
-        public void JumpOnBorrow()
+        public int JumpOnBorrow(int pc, int borrow, int endereco)
         {
-            throw new System.NotImplementedException();
+            if (borrow == 1)
+                return endereco;
+            else
+                return ++pc;
         }
 
         public void ShiftLeft()
