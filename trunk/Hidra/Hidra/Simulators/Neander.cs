@@ -14,14 +14,21 @@ namespace Hidra.Simulators
             return memoria[endereco];            
         }
 
-        public void JumpOnNegative()
+        public int JumpOnNegative(int pc, int negative, int endereco)
         {
-            throw new System.NotImplementedException();
+            if (negative == 1)
+                return endereco;
+            else
+                return pc++;
+
         }
 
-        public void JumpOnZero()
+        public int JumpOnZero(int pc, int zero, int endereco)
         {
-            throw new System.NotImplementedException();
+            if (zero == 1)
+                return endereco;
+            else
+                return pc++;
         }
     }
 }

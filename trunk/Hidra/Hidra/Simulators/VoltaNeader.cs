@@ -4,33 +4,35 @@ namespace Hidra.Simulators
     public abstract class VoltaNeader : Simulator
     {
         public int Add(byte ac, int endereco, byte[] memoria)
-        {            
-            return ac + memoria[endereco];
+        {
+            if(ac + memoria[endereco] > 255)
+                return ac + memoria[endereco] - 256;
+            else
+                return ac + memoria[endereco];
         }
 
-        public void And()
+        public int And(byte ac, int endereco, byte[] memoria)
         {
-            throw new System.NotImplementedException();
+            return (ac & memoria[endereco]);
         }
 
-        public void Or()
+        public int Or(byte ac, int endereco, byte[] memoria)
         {
-            throw new System.NotImplementedException();
+            return (ac | memoria[endereco]);
         }
 
-        public void Not()
+        public int Not(byte ac)
         {
-            throw new System.NotImplementedException();
+            return 255 - ac;
         }
 
         public void Nop()
-        {
-            
+        {            
         }
 
-        public void Jump()
+        public byte Jump(byte endereco)
         {
-            throw new System.NotImplementedException();
+            return endereco;
         }
     }
 }

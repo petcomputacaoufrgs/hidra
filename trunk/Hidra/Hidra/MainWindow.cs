@@ -56,16 +56,13 @@ namespace Hidra
             }
         }
 
-        public void atualizaTela_PC_AC_NEG_ZERO()
-        {
-            txt_ac.Text = ac.ToString();
-            txt_pc.Text = pc.ToString();
-            lbl_negative.Text = negative.ToString();
-            lbl_zero.Text = zero.ToString();
-        }
+        
 
-        //função para override
+        //funções para override
         public virtual void decodificaInstrucao()
+        { }
+
+        public virtual void atualizaTela()
         { }
 
         private void gridInstructions_CellEndEdit(object sender, DataGridViewCellEventArgs e)
@@ -95,7 +92,8 @@ namespace Hidra
                 {
                     gridData.Rows[e.RowIndex].Cells[1].Value = 0;
                     gridData.Rows[e.RowIndex].Cells[1].Value = gridInstructions.Rows[e.RowIndex].Cells[1].Value;
-                }              
+                }
+                gridToMem();
             }
         }
 
@@ -163,12 +161,34 @@ namespace Hidra
                 gridInstructions.Rows[i].Cells[0].Value = i;
             }
         }
+        
+        public void atualizaNegative()
+        {
+            if (ac > 127)
+                negative = 1;
+            else
+                negative = 0;
+        }
+
+        public void atualizaZero()
+        {
+            if (ac == 0)
+                zero = 1;
+            else
+                zero = 0;
+        }
 
         public void atualizaPC()
         {
             pc++;
             if (pc > 255)
                 pc = 0;
+        }
+
+        public void atualizaVariaveis()
+        {
+            atualizaNegative();
+            atualizaZero();
         }
 
         private void btn_passoapasso_Click(object sender, EventArgs e)
@@ -181,6 +201,12 @@ namespace Hidra
         private void btn_rodar_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void zerarPCToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            pc = 0;
+            this.atualizaTela();
         }
 
     }

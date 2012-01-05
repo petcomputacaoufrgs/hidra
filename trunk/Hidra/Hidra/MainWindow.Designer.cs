@@ -88,6 +88,7 @@
             this.searchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator5 = new System.Windows.Forms.ToolStripSeparator();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.zerarPCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupSimulator.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -404,7 +405,8 @@
             this.fileToolStripMenuItem,
             this.editToolStripMenuItem,
             this.toolsToolStripMenuItem,
-            this.helpToolStripMenuItem});
+            this.helpToolStripMenuItem,
+            this.zerarPCToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(965, 24);
@@ -630,6 +632,13 @@
             this.aboutToolStripMenuItem.Text = "&About...";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
+            // zerarPCToolStripMenuItem
+            // 
+            this.zerarPCToolStripMenuItem.Name = "zerarPCToolStripMenuItem";
+            this.zerarPCToolStripMenuItem.Size = new System.Drawing.Size(64, 20);
+            this.zerarPCToolStripMenuItem.Text = "Zerar PC";
+            this.zerarPCToolStripMenuItem.Click += new System.EventHandler(this.zerarPCToolStripMenuItem_Click);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -724,6 +733,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Mnemonico;
         public System.Windows.Forms.GroupBox groupSimulator;
+        private System.Windows.Forms.ToolStripMenuItem zerarPCToolStripMenuItem;
     }
 }
 
