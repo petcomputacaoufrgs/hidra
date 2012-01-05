@@ -139,7 +139,7 @@
             // lbl_negativeText
             // 
             this.lbl_negativeText.AutoSize = true;
-            this.lbl_negativeText.Location = new System.Drawing.Point(219, 110);
+            this.lbl_negativeText.Location = new System.Drawing.Point(3, 107);
             this.lbl_negativeText.Name = "lbl_negativeText";
             this.lbl_negativeText.Size = new System.Drawing.Size(50, 13);
             this.lbl_negativeText.TabIndex = 4;
@@ -148,7 +148,7 @@
             // lbl_zeroText
             // 
             this.lbl_zeroText.AutoSize = true;
-            this.lbl_zeroText.Location = new System.Drawing.Point(240, 133);
+            this.lbl_zeroText.Location = new System.Drawing.Point(24, 130);
             this.lbl_zeroText.Name = "lbl_zeroText";
             this.lbl_zeroText.Size = new System.Drawing.Size(29, 13);
             this.lbl_zeroText.TabIndex = 5;
@@ -157,7 +157,7 @@
             // lbl_negative
             // 
             this.lbl_negative.AutoSize = true;
-            this.lbl_negative.Location = new System.Drawing.Point(275, 110);
+            this.lbl_negative.Location = new System.Drawing.Point(59, 107);
             this.lbl_negative.Name = "lbl_negative";
             this.lbl_negative.Size = new System.Drawing.Size(13, 13);
             this.lbl_negative.TabIndex = 6;
@@ -214,7 +214,7 @@
             // lbl_zero
             // 
             this.lbl_zero.AutoSize = true;
-            this.lbl_zero.Location = new System.Drawing.Point(275, 133);
+            this.lbl_zero.Location = new System.Drawing.Point(59, 130);
             this.lbl_zero.Name = "lbl_zero";
             this.lbl_zero.Size = new System.Drawing.Size(13, 13);
             this.lbl_zero.TabIndex = 7;
@@ -665,7 +665,6 @@
 
         #endregion
 
-        private System.Windows.Forms.GroupBox groupSimulator;
         private System.Windows.Forms.GroupBox groupAssembler;
         private System.Windows.Forms.TextBox txtAssembler;
         private System.Windows.Forms.Label lbl_pc;
@@ -724,6 +723,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Mnemonico;
+        public System.Windows.Forms.GroupBox groupSimulator;
     }
 }
 

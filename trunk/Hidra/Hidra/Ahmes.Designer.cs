@@ -29,23 +29,26 @@
         private void InitializeComponent()
         {
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label22 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label21 = new System.Windows.Forms.Label();
-            this.label26 = new System.Windows.Forms.Label();
-            this.label27 = new System.Windows.Forms.Label();
-            this.label28 = new System.Windows.Forms.Label();
-            this.label29 = new System.Windows.Forms.Label();
-            this.label30 = new System.Windows.Forms.Label();
-            this.label31 = new System.Windows.Forms.Label();
-            this.label32 = new System.Windows.Forms.Label();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.label49 = new System.Windows.Forms.Label();
+            this.label50 = new System.Windows.Forms.Label();
+            this.label51 = new System.Windows.Forms.Label();
+            this.label52 = new System.Windows.Forms.Label();
+            this.label53 = new System.Windows.Forms.Label();
+            this.label55 = new System.Windows.Forms.Label();
+            this.label56 = new System.Windows.Forms.Label();
+            this.label57 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
             this.label33 = new System.Windows.Forms.Label();
             this.label34 = new System.Windows.Forms.Label();
             this.label35 = new System.Windows.Forms.Label();
@@ -62,28 +65,51 @@
             this.label46 = new System.Windows.Forms.Label();
             this.label47 = new System.Windows.Forms.Label();
             this.label48 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
-            this.label15 = new System.Windows.Forms.Label();
-            this.label16 = new System.Windows.Forms.Label();
-            this.label17 = new System.Windows.Forms.Label();
-            this.label18 = new System.Windows.Forms.Label();
-            this.label19 = new System.Windows.Forms.Label();
-            this.label49 = new System.Windows.Forms.Label();
-            this.label50 = new System.Windows.Forms.Label();
-            this.label51 = new System.Windows.Forms.Label();
-            this.label52 = new System.Windows.Forms.Label();
-            this.label53 = new System.Windows.Forms.Label();
-            this.label55 = new System.Windows.Forms.Label();
-            this.label56 = new System.Windows.Forms.Label();
-            this.label57 = new System.Windows.Forms.Label();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label32 = new System.Windows.Forms.Label();
+            this.label31 = new System.Windows.Forms.Label();
+            this.label30 = new System.Windows.Forms.Label();
+            this.label29 = new System.Windows.Forms.Label();
+            this.label28 = new System.Windows.Forms.Label();
+            this.label27 = new System.Windows.Forms.Label();
+            this.label26 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.lbl_carryoutText = new System.Windows.Forms.Label();
+            this.lbl_carryout = new System.Windows.Forms.Label();
+            this.lbl_borrowouText = new System.Windows.Forms.Label();
+            this.lbl_overflow = new System.Windows.Forms.Label();
+            this.lbl_borrowout = new System.Windows.Forms.Label();
+            this.lbl_overflowText = new System.Windows.Forms.Label();
+            this.groupSimulator.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // groupSimulator
+            // 
+            this.groupSimulator.Controls.Add(this.lbl_overflowText);
+            this.groupSimulator.Controls.Add(this.lbl_borrowout);
+            this.groupSimulator.Controls.Add(this.lbl_overflow);
+            this.groupSimulator.Controls.Add(this.lbl_borrowouText);
+            this.groupSimulator.Controls.Add(this.lbl_carryoutText);
+            this.groupSimulator.Controls.Add(this.lbl_carryout);
+            this.groupSimulator.Controls.SetChildIndex(this.lbl_carryout, 0);
+            this.groupSimulator.Controls.SetChildIndex(this.lbl_carryoutText, 0);
+            this.groupSimulator.Controls.SetChildIndex(this.lbl_borrowouText, 0);
+            this.groupSimulator.Controls.SetChildIndex(this.lbl_zero, 0);
+            this.groupSimulator.Controls.SetChildIndex(this.lbl_negative, 0);
+            this.groupSimulator.Controls.SetChildIndex(this.btn_rodar, 0);
+            this.groupSimulator.Controls.SetChildIndex(this.btn_passoapasso, 0);
+            this.groupSimulator.Controls.SetChildIndex(this.lbl_overflow, 0);
+            this.groupSimulator.Controls.SetChildIndex(this.lbl_borrowout, 0);
+            this.groupSimulator.Controls.SetChildIndex(this.lbl_overflowText, 0);
             // 
             // groupBox5
             // 
@@ -147,157 +173,184 @@
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Mnemônicos";
             // 
-            // groupBox4
+            // groupBox3
             // 
-            this.groupBox4.Location = new System.Drawing.Point(99, 19);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(10, 167);
-            this.groupBox4.TabIndex = 46;
-            this.groupBox4.TabStop = false;
+            this.groupBox3.Location = new System.Drawing.Point(209, 19);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(10, 167);
+            this.groupBox3.TabIndex = 119;
+            this.groupBox3.TabStop = false;
             // 
-            // label1
+            // label17
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 26);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(30, 13);
-            this.label1.TabIndex = 24;
-            this.label1.Text = "NOP";
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(261, 78);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(25, 13);
+            this.label17.TabIndex = 118;
+            this.label17.Text = "240";
             // 
-            // label2
+            // label18
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(13, 39);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(28, 13);
-            this.label2.TabIndex = 25;
-            this.label2.Text = "STA";
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(225, 78);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(28, 13);
+            this.label18.TabIndex = 117;
+            this.label18.Text = "HLT";
             // 
-            // label22
+            // label19
             // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(13, 117);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(29, 13);
-            this.label22.TabIndex = 45;
-            this.label22.Text = "SUB";
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(261, 65);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(25, 13);
+            this.label19.TabIndex = 116;
+            this.label19.Text = "227";
             // 
-            // label3
+            // label49
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(13, 52);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(28, 13);
-            this.label3.TabIndex = 26;
-            this.label3.Text = "LDA";
+            this.label49.AutoSize = true;
+            this.label49.Location = new System.Drawing.Point(261, 52);
+            this.label49.Name = "label49";
+            this.label49.Size = new System.Drawing.Size(25, 13);
+            this.label49.TabIndex = 115;
+            this.label49.Text = "226";
             // 
-            // label4
+            // label50
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(13, 65);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(30, 13);
-            this.label4.TabIndex = 27;
-            this.label4.Text = "ADD";
+            this.label50.AutoSize = true;
+            this.label50.Location = new System.Drawing.Point(261, 39);
+            this.label50.Name = "label50";
+            this.label50.Size = new System.Drawing.Size(25, 13);
+            this.label50.TabIndex = 114;
+            this.label50.Text = "225";
             // 
-            // label5
+            // label51
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(13, 78);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(23, 13);
-            this.label5.TabIndex = 28;
-            this.label5.Text = "OR";
+            this.label51.AutoSize = true;
+            this.label51.Location = new System.Drawing.Point(225, 65);
+            this.label51.Name = "label51";
+            this.label51.Size = new System.Drawing.Size(29, 13);
+            this.label51.TabIndex = 113;
+            this.label51.Text = "ROL";
             // 
-            // label6
+            // label52
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(13, 91);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(30, 13);
-            this.label6.TabIndex = 29;
-            this.label6.Text = "AND";
+            this.label52.AutoSize = true;
+            this.label52.Location = new System.Drawing.Point(225, 39);
+            this.label52.Name = "label52";
+            this.label52.Size = new System.Drawing.Size(28, 13);
+            this.label52.TabIndex = 111;
+            this.label52.Text = "SHL";
             // 
-            // label7
+            // label53
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(13, 104);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(30, 13);
-            this.label7.TabIndex = 30;
-            this.label7.Text = "NOT";
+            this.label53.AutoSize = true;
+            this.label53.Location = new System.Drawing.Point(225, 52);
+            this.label53.Name = "label53";
+            this.label53.Size = new System.Drawing.Size(31, 13);
+            this.label53.TabIndex = 112;
+            this.label53.Text = "ROR";
             // 
-            // label21
+            // label55
             // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(49, 39);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(40, 13);
-            this.label21.TabIndex = 75;
-            this.label21.Text = "16 end";
+            this.label55.AutoSize = true;
+            this.label55.Location = new System.Drawing.Point(261, 26);
+            this.label55.Name = "label55";
+            this.label55.Size = new System.Drawing.Size(25, 13);
+            this.label55.TabIndex = 109;
+            this.label55.Text = "224";
             // 
-            // label26
+            // label56
             // 
-            this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(49, 26);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(19, 13);
-            this.label26.TabIndex = 76;
-            this.label26.Text = "00";
+            this.label56.AutoSize = true;
+            this.label56.Location = new System.Drawing.Point(225, 39);
+            this.label56.Name = "label56";
+            this.label56.Size = new System.Drawing.Size(19, 13);
+            this.label56.TabIndex = 108;
+            this.label56.Text = "JC";
             // 
-            // label27
+            // label57
             // 
-            this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(49, 52);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(40, 13);
-            this.label27.TabIndex = 77;
-            this.label27.Text = "32 end";
+            this.label57.AutoSize = true;
+            this.label57.Location = new System.Drawing.Point(225, 26);
+            this.label57.Name = "label57";
+            this.label57.Size = new System.Drawing.Size(30, 13);
+            this.label57.TabIndex = 107;
+            this.label57.Text = "SHR";
             // 
-            // label28
+            // label15
             // 
-            this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(49, 65);
-            this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(40, 13);
-            this.label28.TabIndex = 78;
-            this.label28.Text = "48 end";
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(153, 156);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(46, 13);
+            this.label15.TabIndex = 106;
+            this.label15.Text = "188 end";
             // 
-            // label29
+            // label16
             // 
-            this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(49, 78);
-            this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(40, 13);
-            this.label29.TabIndex = 79;
-            this.label29.Text = "64 end";
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(117, 156);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(27, 13);
+            this.label16.TabIndex = 105;
+            this.label16.Text = "JNB";
             // 
-            // label30
+            // label8
             // 
-            this.label30.AutoSize = true;
-            this.label30.Location = new System.Drawing.Point(49, 91);
-            this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(40, 13);
-            this.label30.TabIndex = 80;
-            this.label30.Text = "80 end";
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(153, 143);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(46, 13);
+            this.label8.TabIndex = 104;
+            this.label8.Text = "184 end";
             // 
-            // label31
+            // label9
             // 
-            this.label31.AutoSize = true;
-            this.label31.Location = new System.Drawing.Point(49, 104);
-            this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(19, 13);
-            this.label31.TabIndex = 81;
-            this.label31.Text = "96";
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(153, 130);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(46, 13);
+            this.label9.TabIndex = 103;
+            this.label9.Text = "180 end";
             // 
-            // label32
+            // label10
             // 
-            this.label32.AutoSize = true;
-            this.label32.Location = new System.Drawing.Point(43, 117);
-            this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(46, 13);
-            this.label32.TabIndex = 82;
-            this.label32.Text = "112 end";
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(153, 117);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(46, 13);
+            this.label10.TabIndex = 102;
+            this.label10.Text = "176 end";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(117, 143);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(19, 13);
+            this.label12.TabIndex = 101;
+            this.label12.Text = "JB";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(117, 117);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(19, 13);
+            this.label13.TabIndex = 99;
+            this.label13.Text = "JC";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(117, 130);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(27, 13);
+            this.label14.TabIndex = 100;
+            this.label14.Text = "JNC";
             // 
             // label33
             // 
@@ -443,184 +496,211 @@
             this.label48.TabIndex = 89;
             this.label48.Text = "JNZ";
             // 
-            // label8
+            // label32
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(153, 143);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(46, 13);
-            this.label8.TabIndex = 104;
-            this.label8.Text = "184 end";
+            this.label32.AutoSize = true;
+            this.label32.Location = new System.Drawing.Point(43, 117);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(46, 13);
+            this.label32.TabIndex = 82;
+            this.label32.Text = "112 end";
             // 
-            // label9
+            // label31
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(153, 130);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(46, 13);
-            this.label9.TabIndex = 103;
-            this.label9.Text = "180 end";
+            this.label31.AutoSize = true;
+            this.label31.Location = new System.Drawing.Point(49, 104);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(19, 13);
+            this.label31.TabIndex = 81;
+            this.label31.Text = "96";
             // 
-            // label10
+            // label30
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(153, 117);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(46, 13);
-            this.label10.TabIndex = 102;
-            this.label10.Text = "176 end";
+            this.label30.AutoSize = true;
+            this.label30.Location = new System.Drawing.Point(49, 91);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(40, 13);
+            this.label30.TabIndex = 80;
+            this.label30.Text = "80 end";
             // 
-            // label12
+            // label29
             // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(117, 143);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(19, 13);
-            this.label12.TabIndex = 101;
-            this.label12.Text = "JB";
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(49, 78);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(40, 13);
+            this.label29.TabIndex = 79;
+            this.label29.Text = "64 end";
             // 
-            // label13
+            // label28
             // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(117, 117);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(19, 13);
-            this.label13.TabIndex = 99;
-            this.label13.Text = "JC";
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(49, 65);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(40, 13);
+            this.label28.TabIndex = 78;
+            this.label28.Text = "48 end";
             // 
-            // label14
+            // label27
             // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(117, 130);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(27, 13);
-            this.label14.TabIndex = 100;
-            this.label14.Text = "JNC";
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(49, 52);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(40, 13);
+            this.label27.TabIndex = 77;
+            this.label27.Text = "32 end";
             // 
-            // label15
+            // label26
             // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(153, 156);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(46, 13);
-            this.label15.TabIndex = 106;
-            this.label15.Text = "188 end";
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(49, 26);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(19, 13);
+            this.label26.TabIndex = 76;
+            this.label26.Text = "00";
             // 
-            // label16
+            // label21
             // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(117, 156);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(27, 13);
-            this.label16.TabIndex = 105;
-            this.label16.Text = "JNB";
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(49, 39);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(40, 13);
+            this.label21.TabIndex = 75;
+            this.label21.Text = "16 end";
             // 
-            // label17
+            // groupBox4
             // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(261, 78);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(25, 13);
-            this.label17.TabIndex = 118;
-            this.label17.Text = "240";
+            this.groupBox4.Location = new System.Drawing.Point(99, 19);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(10, 167);
+            this.groupBox4.TabIndex = 46;
+            this.groupBox4.TabStop = false;
             // 
-            // label18
+            // label1
             // 
-            this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(225, 78);
-            this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(28, 13);
-            this.label18.TabIndex = 117;
-            this.label18.Text = "HLT";
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(13, 26);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(30, 13);
+            this.label1.TabIndex = 24;
+            this.label1.Text = "NOP";
             // 
-            // label19
+            // label2
             // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(261, 65);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(25, 13);
-            this.label19.TabIndex = 116;
-            this.label19.Text = "227";
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(13, 39);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(28, 13);
+            this.label2.TabIndex = 25;
+            this.label2.Text = "STA";
             // 
-            // label49
+            // label22
             // 
-            this.label49.AutoSize = true;
-            this.label49.Location = new System.Drawing.Point(261, 52);
-            this.label49.Name = "label49";
-            this.label49.Size = new System.Drawing.Size(25, 13);
-            this.label49.TabIndex = 115;
-            this.label49.Text = "226";
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(13, 117);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(29, 13);
+            this.label22.TabIndex = 45;
+            this.label22.Text = "SUB";
             // 
-            // label50
+            // label3
             // 
-            this.label50.AutoSize = true;
-            this.label50.Location = new System.Drawing.Point(261, 39);
-            this.label50.Name = "label50";
-            this.label50.Size = new System.Drawing.Size(25, 13);
-            this.label50.TabIndex = 114;
-            this.label50.Text = "225";
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(13, 52);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(28, 13);
+            this.label3.TabIndex = 26;
+            this.label3.Text = "LDA";
             // 
-            // label51
+            // label4
             // 
-            this.label51.AutoSize = true;
-            this.label51.Location = new System.Drawing.Point(225, 65);
-            this.label51.Name = "label51";
-            this.label51.Size = new System.Drawing.Size(29, 13);
-            this.label51.TabIndex = 113;
-            this.label51.Text = "ROL";
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(13, 65);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(30, 13);
+            this.label4.TabIndex = 27;
+            this.label4.Text = "ADD";
             // 
-            // label52
+            // label5
             // 
-            this.label52.AutoSize = true;
-            this.label52.Location = new System.Drawing.Point(225, 39);
-            this.label52.Name = "label52";
-            this.label52.Size = new System.Drawing.Size(28, 13);
-            this.label52.TabIndex = 111;
-            this.label52.Text = "SHL";
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(13, 78);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(23, 13);
+            this.label5.TabIndex = 28;
+            this.label5.Text = "OR";
             // 
-            // label53
+            // label6
             // 
-            this.label53.AutoSize = true;
-            this.label53.Location = new System.Drawing.Point(225, 52);
-            this.label53.Name = "label53";
-            this.label53.Size = new System.Drawing.Size(31, 13);
-            this.label53.TabIndex = 112;
-            this.label53.Text = "ROR";
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(13, 91);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(30, 13);
+            this.label6.TabIndex = 29;
+            this.label6.Text = "AND";
             // 
-            // label55
+            // label7
             // 
-            this.label55.AutoSize = true;
-            this.label55.Location = new System.Drawing.Point(261, 26);
-            this.label55.Name = "label55";
-            this.label55.Size = new System.Drawing.Size(25, 13);
-            this.label55.TabIndex = 109;
-            this.label55.Text = "224";
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(13, 104);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(30, 13);
+            this.label7.TabIndex = 30;
+            this.label7.Text = "NOT";
             // 
-            // label56
+            // lbl_carryoutText
             // 
-            this.label56.AutoSize = true;
-            this.label56.Location = new System.Drawing.Point(225, 39);
-            this.label56.Name = "label56";
-            this.label56.Size = new System.Drawing.Size(19, 13);
-            this.label56.TabIndex = 108;
-            this.label56.Text = "JC";
+            this.lbl_carryoutText.AutoSize = true;
+            this.lbl_carryoutText.Location = new System.Drawing.Point(93, 107);
+            this.lbl_carryoutText.Name = "lbl_carryoutText";
+            this.lbl_carryoutText.Size = new System.Drawing.Size(51, 13);
+            this.lbl_carryoutText.TabIndex = 16;
+            this.lbl_carryoutText.Text = "Carry Out";
             // 
-            // label57
+            // lbl_carryout
             // 
-            this.label57.AutoSize = true;
-            this.label57.Location = new System.Drawing.Point(225, 26);
-            this.label57.Name = "label57";
-            this.label57.Size = new System.Drawing.Size(30, 13);
-            this.label57.TabIndex = 107;
-            this.label57.Text = "SHR";
+            this.lbl_carryout.AutoSize = true;
+            this.lbl_carryout.Location = new System.Drawing.Point(150, 107);
+            this.lbl_carryout.Name = "lbl_carryout";
+            this.lbl_carryout.Size = new System.Drawing.Size(13, 13);
+            this.lbl_carryout.TabIndex = 17;
+            this.lbl_carryout.Text = "0";
             // 
-            // groupBox3
+            // lbl_borrowouText
             // 
-            this.groupBox3.Location = new System.Drawing.Point(209, 19);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(10, 167);
-            this.groupBox3.TabIndex = 119;
-            this.groupBox3.TabStop = false;
+            this.lbl_borrowouText.AutoSize = true;
+            this.lbl_borrowouText.Location = new System.Drawing.Point(85, 130);
+            this.lbl_borrowouText.Name = "lbl_borrowouText";
+            this.lbl_borrowouText.Size = new System.Drawing.Size(60, 13);
+            this.lbl_borrowouText.TabIndex = 18;
+            this.lbl_borrowouText.Text = "Borrow Out";
+            // 
+            // lbl_overflow
+            // 
+            this.lbl_overflow.AutoSize = true;
+            this.lbl_overflow.Location = new System.Drawing.Point(233, 107);
+            this.lbl_overflow.Name = "lbl_overflow";
+            this.lbl_overflow.Size = new System.Drawing.Size(13, 13);
+            this.lbl_overflow.TabIndex = 19;
+            this.lbl_overflow.Text = "0";
+            // 
+            // lbl_borrowout
+            // 
+            this.lbl_borrowout.AutoSize = true;
+            this.lbl_borrowout.Location = new System.Drawing.Point(150, 130);
+            this.lbl_borrowout.Name = "lbl_borrowout";
+            this.lbl_borrowout.Size = new System.Drawing.Size(13, 13);
+            this.lbl_borrowout.TabIndex = 20;
+            this.lbl_borrowout.Text = "0";
+            // 
+            // lbl_overflowText
+            // 
+            this.lbl_overflowText.AutoSize = true;
+            this.lbl_overflowText.Location = new System.Drawing.Point(178, 107);
+            this.lbl_overflowText.Name = "lbl_overflowText";
+            this.lbl_overflowText.Size = new System.Drawing.Size(49, 13);
+            this.lbl_overflowText.TabIndex = 21;
+            this.lbl_overflowText.Text = "Overflow";
             // 
             // Ahmes
             // 
@@ -630,7 +710,10 @@
             this.Controls.Add(this.groupBox5);
             this.Name = "Ahmes";
             this.Text = "Ahmes";
+            this.Controls.SetChildIndex(this.groupSimulator, 0);
             this.Controls.SetChildIndex(this.groupBox5, 0);
+            this.groupSimulator.ResumeLayout(false);
+            this.groupSimulator.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.ResumeLayout(false);
@@ -694,5 +777,11 @@
         private System.Windows.Forms.Label label47;
         private System.Windows.Forms.Label label48;
         private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.Label lbl_carryoutText;
+        private System.Windows.Forms.Label lbl_carryout;
+        private System.Windows.Forms.Label lbl_overflowText;
+        private System.Windows.Forms.Label lbl_borrowout;
+        private System.Windows.Forms.Label lbl_overflow;
+        private System.Windows.Forms.Label lbl_borrowouText;
     }
 }
