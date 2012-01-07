@@ -34,7 +34,9 @@ namespace Hidra
 
         private void btn_cromag_Click(object sender, EventArgs e)
         {
-
+            Cromag cromag = new Cromag();
+            cromag.ShowDialog();
+            this.Close();
         }
     }
 }

@@ -56,6 +56,12 @@
     <Compile Include="Ahmes.Designer.cs">
       <DependentUpon>Ahmes.cs</DependentUpon>
     </Compile>
+    <Compile Include="Cromag.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Cromag.Designer.cs">
+      <DependentUpon>Cromag.cs</DependentUpon>
+    </Compile>
     <Compile Include="FirstWindow.cs">
       <SubType>Form</SubType>
     </Compile>
