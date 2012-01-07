@@ -51,7 +51,7 @@
             // 
             // btn_neander
             // 
-            this.btn_neander.Location = new System.Drawing.Point(12, 57);
+            this.btn_neander.Location = new System.Drawing.Point(94, 28);
             this.btn_neander.Name = "btn_neander";
             this.btn_neander.Size = new System.Drawing.Size(75, 23);
             this.btn_neander.TabIndex = 3;
@@ -70,7 +70,7 @@
             // 
             // btn_ramses
             // 
-            this.btn_ramses.Location = new System.Drawing.Point(93, 86);
+            this.btn_ramses.Location = new System.Drawing.Point(12, 115);
             this.btn_ramses.Name = "btn_ramses";
             this.btn_ramses.Size = new System.Drawing.Size(75, 23);
             this.btn_ramses.TabIndex = 6;
@@ -80,16 +80,17 @@
             // 
             // btn_cromag
             // 
-            this.btn_cromag.Location = new System.Drawing.Point(12, 86);
+            this.btn_cromag.Location = new System.Drawing.Point(12, 57);
             this.btn_cromag.Name = "btn_cromag";
             this.btn_cromag.Size = new System.Drawing.Size(75, 23);
             this.btn_cromag.TabIndex = 5;
             this.btn_cromag.Text = "Cromag";
             this.btn_cromag.UseVisualStyleBackColor = true;
+            this.btn_cromag.Click += new System.EventHandler(this.btn_cromag_Click);
             // 
             // btn_pericles
             // 
-            this.btn_pericles.Location = new System.Drawing.Point(12, 115);
+            this.btn_pericles.Location = new System.Drawing.Point(94, 115);
             this.btn_pericles.Name = "btn_pericles";
             this.btn_pericles.Size = new System.Drawing.Size(75, 23);
             this.btn_pericles.TabIndex = 7;
@@ -98,7 +99,7 @@
             // 
             // btn_pitagoras
             // 
-            this.btn_pitagoras.Location = new System.Drawing.Point(93, 115);
+            this.btn_pitagoras.Location = new System.Drawing.Point(12, 86);
             this.btn_pitagoras.Name = "btn_pitagoras";
             this.btn_pitagoras.Size = new System.Drawing.Size(75, 23);
             this.btn_pitagoras.TabIndex = 8;
@@ -107,7 +108,7 @@
             // 
             // btn_ahmes
             // 
-            this.btn_ahmes.Location = new System.Drawing.Point(56, 144);
+            this.btn_ahmes.Location = new System.Drawing.Point(93, 86);
             this.btn_ahmes.Name = "btn_ahmes";
             this.btn_ahmes.Size = new System.Drawing.Size(75, 23);
             this.btn_ahmes.TabIndex = 9;
@@ -117,7 +118,7 @@
             // 
             // btn_volta
             // 
-            this.btn_volta.Location = new System.Drawing.Point(93, 28);
+            this.btn_volta.Location = new System.Drawing.Point(52, 144);
             this.btn_volta.Name = "btn_volta";
             this.btn_volta.Size = new System.Drawing.Size(75, 23);
             this.btn_volta.TabIndex = 2;

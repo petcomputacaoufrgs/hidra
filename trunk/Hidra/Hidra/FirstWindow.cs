@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using Hidra.Simulators;
 
 namespace Hidra
 {
@@ -29,6 +30,11 @@ namespace Hidra
             Ramses ramses = new Ramses();
             ramses.ShowDialog();
             this.Close();
+        }
+
+        private void btn_cromag_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
