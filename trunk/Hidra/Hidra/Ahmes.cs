@@ -114,13 +114,13 @@ namespace Hidra
                     break;
 
                 case 224: //SHR
-                    Ahme.ShiftRight();
+                    this.ac = (byte)Ahme.ShiftRight(this.ac, out carry);
                     break;
                 case 225: //SHL
-                    Ahme.ShiftLeft();
+                    this.ac = (byte)Ahme.ShiftLeft(this.ac, out carry);
                     break;
                 case 226: //ROR
-                    Ahme.RotateRight();
+                    //Ahme.RotateRight();
                     break;
                 case 227: //ROL
                     Ahme.RotateLeft();

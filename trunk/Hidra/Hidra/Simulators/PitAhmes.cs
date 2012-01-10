@@ -20,14 +20,31 @@ namespace Hidra.Simulators
                 return ++pc;
         }
 
-        public void ShiftLeft()
+        public int ShiftLeft(byte ac, out int carry)
         {
-            throw new System.NotImplementedException();
+            if (ac > 127)
+                carry = 1;
+            else
+                carry = 0;
+
+            int r = (ac << 1);
+            return r;
         }
 
-        public void RotateRight()
+        public int RotateRight(byte ac, out int carry)
         {
-            throw new System.NotImplementedException();
+            int[] nAc = new int[8];
+            int r = ac;
+
+            carry = ac % 2;
+
+            for (int i = 0; i < 8; i++)
+            {
+                nAc[i] = r % 2;
+                r = r / 2;
+            }
+
+            return r;
         }
 
         public void RotateLeft()
