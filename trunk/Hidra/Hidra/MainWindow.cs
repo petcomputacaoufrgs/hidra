@@ -61,8 +61,6 @@ namespace Hidra
             }
         }
 
-        
-
         //funções para override
         public virtual void decodificaInstrucao()
         { }
@@ -228,6 +226,7 @@ namespace Hidra
             numeroAcessos = 0;
             numeroInstrucoes = 0;
             this.atualizaTela();
+            hlt = false;
         }
 
     }

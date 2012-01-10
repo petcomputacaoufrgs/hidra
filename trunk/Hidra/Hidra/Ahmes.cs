@@ -126,7 +126,7 @@ namespace Hidra
                     this.ac = Ahme.RotateRight(this.ac, out carry);
                     break;
                 case 227: //ROL
-                    this.ac = Ahme.RotateRight(this.ac, out carry);
+                    this.ac = Ahme.RotateLeft(this.ac, out carry);
                     break;
 
                 case 240: //HLT;

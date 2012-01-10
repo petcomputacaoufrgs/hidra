@@ -8,7 +8,6 @@ namespace Hidra.Simulators
             int r = ac + memoria[endereco];
             if (r > 255)
             {
-
                 carry = 1;
                 return r - 256;
             }
