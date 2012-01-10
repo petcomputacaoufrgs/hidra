@@ -32,6 +32,11 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Hydra.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup />
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -152,6 +157,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\pet_pequeno.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Hydra.ico" />
+    <Content Include="Hydro_final.ico" />
+    <None Include="Resources\Hydro_final.png" />
+    <None Include="Resources\Hydra.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
