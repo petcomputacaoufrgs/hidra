@@ -47,6 +47,7 @@ namespace Hidra
             this.instructions.Add(148, "JP");
             this.instructions.Add(152, "JV");
             this.instructions.Add(156, "JNV");
+            this.instructions.Add(164, "JNZ");
             this.instructions.Add(180, "JNC");
             this.instructions.Add(184, "JB");
             this.instructions.Add(188, "JNB");

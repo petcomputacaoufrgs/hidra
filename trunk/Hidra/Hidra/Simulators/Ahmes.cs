@@ -37,7 +37,7 @@ namespace Hidra.Simulators
 
         public int JumpOnNotZero(int pc, int zero, int endereco)
         {
-            if (zero == 1)
+            if (zero == 0)
                 return endereco;
             else
                 return ++pc;

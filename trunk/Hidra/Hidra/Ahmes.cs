@@ -25,6 +25,7 @@ namespace Hidra
             txt_acessos.Text = numeroAcessos.ToString();
             txt_instrucoes.Text = numeroInstrucoes.ToString();
             lbl_borrowout.Text = borrow.ToString();
+            lbl_carryout.Text = carry.ToString();
         }
 
         override public void decodificaInstrucao()
@@ -115,9 +116,11 @@ namespace Hidra
 
                 case 224: //SHR
                     this.ac = (byte)Ahme.ShiftRight(this.ac, out carry);
+                    numeroAcessos -= 2;
                     break;
                 case 225: //SHL
                     this.ac = (byte)Ahme.ShiftLeft(this.ac, out carry);
+                    numeroAcessos -= 2;
                     break;
                 case 226: //ROR
                     //Ahme.RotateRight();
