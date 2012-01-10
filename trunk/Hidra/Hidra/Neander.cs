@@ -37,7 +37,7 @@ namespace Hidra
                     numeroAcessos -= 2;
                     break;
                 case 16:  //STA;
-                    this.memoria[endereco] = Neand.Store(this.ac);
+                    Neand.Store(this.ac, endereco, ref this.memoria);
                     atualizaPC();
                     break;
                 case 32:  //LDA;
@@ -90,6 +90,7 @@ namespace Hidra
 
         private void Neander_Load(object sender, EventArgs e)
         {
+            memToGrid();
             this.atualizaTela();
         }  
     }

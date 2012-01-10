@@ -197,6 +197,12 @@ namespace Hidra
                 pc = 0;
         }
 
+        public void voltaPC()
+        {
+            pc--;
+            if (pc < 0)
+                pc = 255;
+        }
         public void atualizaVariaveis()
         {
             atualizaNegative();
@@ -204,7 +210,7 @@ namespace Hidra
         }
 
         private void btn_passoapasso_Click(object sender, EventArgs e)
-        {           
+        {
             byte.TryParse(gridData.Rows[pc].Cells[1].Value.ToString(), out inst);
             atualizaPC();
             this.decodificaInstrucao();

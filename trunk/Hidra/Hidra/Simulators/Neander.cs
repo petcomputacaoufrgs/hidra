@@ -4,10 +4,28 @@ namespace Hidra.Simulators
     public class Neander : VoltaNeader
     {
 
-        public byte Store(byte ac)
+        public void Store(byte ac, int endereco, ref byte[] memoria)
         {
-            return ac;
+            memoria[endereco] = ac;             
         }
+
+        public void StoreIndirect(byte register, int endereco, ref byte[] memoria)
+        {
+            int r = memoria[endereco];
+            memoria[r] = register; 
+        }
+
+        public void StoreImmediat(byte register, int pc, ref byte[] memoria)
+        {
+            memoria[pc-1] = register;
+        }
+
+        public void StoreIndexed(byte register, byte rX, int endereco, ref byte[] memoria)
+        {
+            memoria[endereco + rX] = register;
+        }
+
+
 
         public byte Load(int endereco, byte[] memoria)
         {

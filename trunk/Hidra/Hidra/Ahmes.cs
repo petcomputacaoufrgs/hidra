@@ -42,10 +42,10 @@ namespace Hidra
                     numeroAcessos -= 2;
                     break;
                 case 16:  //STA;
-                    this.memoria[endereco] = Ahme.Store(this.ac);
+                    Ahme.Store(this.ac, endereco, ref this.memoria);
                     atualizaPC();
-                    break;
-                case 32:  //LDA;
+                    break;                
+                case 32:  //LDA;                   
                     this.ac = Ahme.Load(endereco, memoria);
                     atualizaPC();
                     break;
@@ -113,7 +113,6 @@ namespace Hidra
                     this.pc = Ahme.JumpOnNotBorrow(this.pc, this.borrow, endereco);
                     numeroAcessos -= 1;
                     break;
-
                 case 224: //SHR
                     this.ac = (byte)Ahme.ShiftRight(this.ac, out carry);
                     numeroAcessos -= 2;
@@ -124,11 +123,12 @@ namespace Hidra
                     break;
                 case 226: //ROR
                     this.ac = Ahme.RotateRight(this.ac, out carry);
+                    numeroAcessos -= 2;
                     break;
                 case 227: //ROL
                     this.ac = Ahme.RotateLeft(this.ac, out carry);
+                    numeroAcessos -= 2;
                     break;
-
                 case 240: //HLT;
                     this.hlt = Ahme.Halt();
                     numeroAcessos -= 2;
@@ -147,6 +147,7 @@ namespace Hidra
 
         private void Ahmes_Load(object sender, System.EventArgs e)
         {
+            memToGrid();
             this.atualizaTela();
         }
     }

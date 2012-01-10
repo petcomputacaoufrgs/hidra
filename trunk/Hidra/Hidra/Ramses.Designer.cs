@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.lbl_carryText = new System.Windows.Forms.Label();
-            this.lbl_carry = new System.Windows.Forms.Label();
+            this.lbl_carryout = new System.Windows.Forms.Label();
             this.lbl_rx = new System.Windows.Forms.Label();
             this.txt_rb = new System.Windows.Forms.TextBox();
             this.lbl_rb = new System.Windows.Forms.Label();
@@ -159,10 +159,10 @@
             // groupBoxBits
             // 
             this.groupBoxBits.Controls.Add(this.lbl_carryText);
-            this.groupBoxBits.Controls.Add(this.lbl_carry);
+            this.groupBoxBits.Controls.Add(this.lbl_carryout);
             this.groupBoxBits.Location = new System.Drawing.Point(194, 19);
             this.groupBoxBits.Size = new System.Drawing.Size(85, 74);
-            this.groupBoxBits.Controls.SetChildIndex(this.lbl_carry, 0);
+            this.groupBoxBits.Controls.SetChildIndex(this.lbl_carryout, 0);
             this.groupBoxBits.Controls.SetChildIndex(this.lbl_carryText, 0);
             this.groupBoxBits.Controls.SetChildIndex(this.lbl_zeroText, 0);
             this.groupBoxBits.Controls.SetChildIndex(this.lbl_negative, 0);
@@ -178,14 +178,14 @@
             this.lbl_carryText.TabIndex = 8;
             this.lbl_carryText.Text = "Carry";
             // 
-            // lbl_carry
+            // lbl_carryout
             // 
-            this.lbl_carry.AutoSize = true;
-            this.lbl_carry.Location = new System.Drawing.Point(64, 53);
-            this.lbl_carry.Name = "lbl_carry";
-            this.lbl_carry.Size = new System.Drawing.Size(13, 13);
-            this.lbl_carry.TabIndex = 9;
-            this.lbl_carry.Text = "0";
+            this.lbl_carryout.AutoSize = true;
+            this.lbl_carryout.Location = new System.Drawing.Point(64, 53);
+            this.lbl_carryout.Name = "lbl_carryout";
+            this.lbl_carryout.Size = new System.Drawing.Size(13, 13);
+            this.lbl_carryout.TabIndex = 9;
+            this.lbl_carryout.Text = "0";
             // 
             // lbl_rx
             // 
@@ -715,6 +715,7 @@
             this.Controls.Add(this.groupBox5);
             this.Name = "Ramses";
             this.Text = "Ramses";
+            this.Load += new System.EventHandler(this.Ramses_Load);
             this.Controls.SetChildIndex(this.groupBox5, 0);
             this.Controls.SetChildIndex(this.groupSimulator, 0);
             this.groupSimulator.ResumeLayout(false);
@@ -738,7 +739,7 @@
         #endregion
 
         private System.Windows.Forms.Label lbl_carryText;
-        private System.Windows.Forms.Label lbl_carry;
+        private System.Windows.Forms.Label lbl_carryout;
         private System.Windows.Forms.TextBox txt_rb;
         private System.Windows.Forms.Label lbl_rb;
         private System.Windows.Forms.Label lbl_rx;
