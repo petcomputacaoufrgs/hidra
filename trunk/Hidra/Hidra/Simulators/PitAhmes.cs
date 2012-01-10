@@ -31,25 +31,22 @@ namespace Hidra.Simulators
             return r;
         }
 
-        public int RotateRight(byte ac, out int carry)
+        public byte RotateRight(byte ac, out int carry)
         {
-            int[] nAc = new int[8];
-            int r = ac;
+            carry = ac & 0x01; 
+            ac = (byte)(ac >> 1);
+            ac += (byte)(carry * 128);
 
-            carry = ac % 2;
-
-            for (int i = 0; i < 8; i++)
-            {
-                nAc[i] = r % 2;
-                r = r / 2;
-            }
-
-            return r;
+            return ac;
         }
 
-        public void RotateLeft()
+        public byte RotateLeft(byte ac, out int carry)
         {
-            throw new System.NotImplementedException();
+            carry = ac & 128;
+            ac = (byte)(ac << 1);
+            ac += (byte)carry;
+
+            return ac;
         }
     }
 }

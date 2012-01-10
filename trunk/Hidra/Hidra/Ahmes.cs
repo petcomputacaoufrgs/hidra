@@ -123,10 +123,10 @@ namespace Hidra
                     numeroAcessos -= 2;
                     break;
                 case 226: //ROR
-                    //Ahme.RotateRight();
+                    this.ac = Ahme.RotateRight(this.ac, out carry);
                     break;
                 case 227: //ROL
-                    Ahme.RotateLeft();
+                    this.ac = Ahme.RotateRight(this.ac, out carry);
                     break;
 
                 case 240: //HLT;
