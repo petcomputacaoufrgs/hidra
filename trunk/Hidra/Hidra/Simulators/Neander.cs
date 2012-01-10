@@ -27,9 +27,29 @@ namespace Hidra.Simulators
 
 
 
-        public byte Load(int endereco, byte[] memoria)
+        public void Load(ref byte ac, int endereco, byte[] memoria)
         {
-            return memoria[endereco];            
+            ac= memoria[endereco];            
+        }
+
+        public void LoadIndirect(ref byte register, int endereco,  byte[] memoria)
+        {
+            register = memoria[memoria[endereco]];
+        }
+
+        public void LoadImmediat(ref byte register,int endereco)
+        {
+            register = (byte)endereco;
+        }
+
+        public void LoadIndexed(ref byte register, byte rX, int endereco, byte[] memoria)
+        {
+            int value = endereco + rX;
+            if (value > 255)
+            {
+                value -= 256;
+            }
+            register = memoria[value];
         }
 
         public int JumpOnNegative(int pc, int negative, int endereco)

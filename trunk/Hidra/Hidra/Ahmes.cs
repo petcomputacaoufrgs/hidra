@@ -46,11 +46,11 @@ namespace Hidra
                     atualizaPC();
                     break;                
                 case 32:  //LDA;                   
-                    this.ac = Ahme.Load(endereco, memoria);
+                    Ahme.Load(ref this.ac,endereco, memoria);
                     atualizaPC();
                     break;
                 case 48:  //ADD;
-                    this.ac = (byte)Ahme.Add(this.ac, endereco, this.memoria, out this.carry);
+                    Ahme.AddWithCarry(ref this.ac, endereco, this.memoria, out this.carry);
                     atualizaPC();
                     break;
                 case 64:  //OR;

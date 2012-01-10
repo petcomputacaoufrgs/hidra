@@ -3,20 +3,6 @@ namespace Hidra.Simulators
 {
     public class Ahmes : PitAhmes
     {
-        public int Add(byte ac, int endereco, byte[] memoria, out int carry)
-        {
-            int r = ac + memoria[endereco];
-            if (r > 255)
-            {
-                carry = 1;
-                return r - 256;
-            }
-            else
-            {
-                carry = 0;
-                return r;
-            }
-        }
 
         public int JumpOnOverflow(int pc, int overflow, int endereco)
         {

@@ -98,75 +98,104 @@ namespace Hidra
                         break;
 
                 case 32:  //LDA;                   
-                    this.ac = Rams.Load(endereco, memoria);
-                    atualizaPC();
+                    Rams.Load(ref this.rA,endereco, memoria);
                     break;
 
                     case 33: //A,nI
+                        Rams.LoadIndirect(ref this.rA,endereco, this.memoria);
                         break;
                     case 34: //A,#n
+                        Rams.LoadImmediat(ref this.rA, endereco);
                         break;
                     case 35: //A,nX
+                        Rams.LoadIndexed(ref this.rA, this.rX, endereco, this.memoria);
                         break;
                     case 36: //B,n
+                        Rams.Load(ref this.rB,endereco, memoria);
                         break;
                     case 37: //B,nI
+                        Rams.LoadIndirect(ref this.rB, endereco, this.memoria);
                         break;
                     case 38: //B,#n
+                        Rams.LoadImmediat(ref this.rB, endereco);
                         break;
                     case 39: //B,nX
+                        Rams.LoadIndexed(ref this.rB, this.rX, endereco, this.memoria);
                         break;
                     case 40: //X,n
+                        Rams.Load(ref this.rX, endereco, memoria);
                         break;
                     case 41: //X,nI
+                        Rams.LoadIndirect(ref this.rX, endereco, this.memoria);
                         break;
                     case 42: //X,#n
+                        Rams.LoadImmediat(ref this.rX, endereco);
                         break;
                     case 43: //X,nX
+                        Rams.LoadIndexed(ref this.rX, this.rX, endereco, this.memoria);
                         break;
                     case 44: //?,n
+                        Rams.Load(ref this.rN, endereco, memoria);
                         break;
                     case 45: //?,nI
+                        Rams.LoadIndirect(ref this.rN, endereco, this.memoria);
                         break;
                     case 46: //?,#n
+                        Rams.LoadImmediat(ref this.rN, endereco);
                         break;
                     case 47: //?,nX
+                        Rams.LoadIndexed(ref this.rN, this.rX, endereco, this.memoria);
                         break;
 
                 case 48:  //ADD;
-                //    this.ac = (byte)Rams.Add(this.ac, endereco, this.memoria, out this.carry);
+                    Rams.AddWithCarry( ref this.rA, endereco, this.memoria, out this.carry);
                     atualizaPC();
                     break;
 
                     case 49: //A,nI
+                    Rams.AddWithCarryIndirect(ref this.rA, endereco, this.memoria, out this.carry);
                         break;
                     case 50: //A,#n
+                    Rams.AddWithCarryImmediat(ref this.rA, endereco, out this.carry);
                         break;
                     case 51: //A,nX
+                        Rams.AddWithCarryIndexed(ref this.rA, this.rX, endereco, memoria, out this.carry);
                         break;
                     case 52: //B,n
+                        Rams.AddWithCarry(ref this.rB, endereco, this.memoria, out this.carry);
                         break;
                     case 53: //B,nI
+                        Rams.AddWithCarryIndirect(ref this.rB, endereco, this.memoria, out this.carry);
                         break;
                     case 54: //B,#n
+                        Rams.AddWithCarryImmediat(ref this.rB, endereco, out this.carry);
                         break;
                     case 55: //B,nX
+                        Rams.AddWithCarryIndexed(ref this.rB, this.rX, endereco, memoria, out this.carry);
                         break;
                     case 56: //X,n
+                        Rams.AddWithCarry(ref this.rX, endereco, this.memoria, out this.carry);
                         break;
                     case 57: //X,nI
+                        Rams.AddWithCarryIndirect(ref this.rX, endereco, this.memoria, out this.carry);
                         break;
                     case 58: //X,#n
+                        Rams.AddWithCarryImmediat(ref this.rX, endereco, out this.carry);
                         break;
                     case 59: //X,nX
+                        Rams.AddWithCarryIndexed(ref this.rX, this.rX, endereco, memoria, out this.carry);
                         break;
                     case 60: //?,n
+                        Rams.AddWithCarry(ref this.rN, endereco, this.memoria, out this.carry);
                         break;
                     case 61: //?,nI
+                        Rams.AddWithCarryIndirect(ref this.rN, endereco, this.memoria, out this.carry);
                         break;
                     case 62: //?,#n
+                        Rams.AddWithCarryImmediat(ref this.rN, endereco, out this.carry);
                         break;
                     case 63: //?,nX
+                        Rams.AddWithCarryIndexed(ref this.rN, this.rX, endereco, memoria, out this.carry);
                         break;
 
                 case 64:  //OR;

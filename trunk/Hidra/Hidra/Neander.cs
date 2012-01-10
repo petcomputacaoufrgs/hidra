@@ -41,11 +41,11 @@ namespace Hidra
                     atualizaPC();
                     break;
                 case 32:  //LDA;
-                    this.ac = Neand.Load(endereco, memoria);
+                    Neand.Load(ref this.ac, endereco, memoria);
                     atualizaPC();
                     break;
                 case 48:  //ADD;
-                    this.ac = (byte)Neand.Add(this.ac, endereco, this.memoria);
+                    Neand.Add(ref this.ac, endereco, this.memoria);
                     atualizaPC();
                     break;
                 case 64:  //OR;
