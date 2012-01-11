@@ -15,6 +15,8 @@ namespace Hidra
         public byte ac, inst;
         public byte[] memoria;
         public Instructions instructions;
+        public byte rA, rB, rX, rN;
+        public int carry;
         #endregion
 
         public MainWindow()
@@ -28,6 +30,11 @@ namespace Hidra
             this.hlt = false;
             this.numeroInstrucoes = 0;
             this.numeroAcessos = 0;
+            this.carry = 0;
+            this.rA = 0;
+            this.rB = 0;
+            this.rX = 0;
+            this.rN = 0;
 
             criaMemoria();
         }
@@ -180,19 +187,23 @@ namespace Hidra
             if (ac > 127)
             {
                 negative = 1;
-
-                picture_neg.Image = Properties.Resources.luz_acessa;
             }
             else
+            {
                 negative = 0;
+            }
         }
 
         public void atualizaZero()
         {
             if (ac == 0)
+            {
                 zero = 1;
+            }
             else
+            {
                 zero = 0;
+            }
         }
 
         public void atualizaPC()
@@ -240,12 +251,11 @@ namespace Hidra
             hlt = false;
         }
 
-
-
-        private void txt_pc_Click(object sender, EventArgs e)
+        private void txt_pc_DoubleClick(object sender, EventArgs e)
         {
-            AlteraRegistrador form = new AlteraRegistrador(this);
+            AlteraRegistrador form = new AlteraRegistrador(this, "PC");
             form.Show();
         }
+
     }
 }

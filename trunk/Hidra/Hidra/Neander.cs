@@ -11,16 +11,23 @@ namespace Hidra
         {
             InitializeComponent();
             this.instructions.initNeanderInstructions();
+            atualizaVariaveis();
         }
 
         override public void atualizaTela()
         {
             txt_ac.Text = ac.ToString();
             txt_pc.Text = pc.ToString();
-            lbl_negative.Text = negative.ToString();
-            lbl_zero.Text = zero.ToString();
             txt_acessos.Text = numeroAcessos.ToString();
             txt_instrucoes.Text = numeroInstrucoes.ToString();
+            if (negative == 1)
+                picture_neg.Image = Properties.Resources.luz_acessa;
+            else if (negative == 0)
+                picture_neg.Image = Properties.Resources.luz_apagada;
+            if (zero == 1)
+                picture_zero.Image = Properties.Resources.luz_acessa;
+            else if (zero == 0)
+                picture_zero.Image = Properties.Resources.luz_apagada;
         }
 
         override public void decodificaInstrucao()

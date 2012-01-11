@@ -5,18 +5,11 @@ namespace Hidra
     public partial class Ramses : MainWindow
     {
         Simulators.RamsesPericles Rams = new Simulators.RamsesPericles();
-        public int carry;
-        public byte rA, rB, rX,rN;
-
         public Ramses()
         {
             InitializeComponent();
             this.instructions.initRamsesInstructions();
-            this.carry = 0;
-            this.rA = 0;
-            this.rB = 0;
-            this.rX = 0;
-            this.rN = 0;
+            atualizaVariaveis();
         }
 
         override public void atualizaTela()
@@ -28,8 +21,6 @@ namespace Hidra
             txt_rx.Text = rX.ToString();
             txt_acessos.Text = numeroAcessos.ToString();
             txt_instrucoes.Text = numeroInstrucoes.ToString();
-            lbl_negative.Text = negative.ToString();
-            lbl_zero.Text = zero.ToString();
             lbl_carryout.Text = carry.ToString();
         }
 
@@ -447,9 +438,23 @@ namespace Hidra
             this.atualizaTela();
         }
 
-        private void txt_ra_TextChanged(object sender, System.EventArgs e)
+        private void txt_ra_DoubleClick(object sender, System.EventArgs e)
         {
-
+            AlteraRegistrador form = new AlteraRegistrador(this, "RA");
+            form.Show();
         }
+
+        private void txt_rb_DoubleClick(object sender, System.EventArgs e)
+        {
+            AlteraRegistrador form = new AlteraRegistrador(this, "RB");
+            form.Show();
+        }
+
+        private void txt_rx_DoubleClick(object sender, System.EventArgs e)
+        {
+            AlteraRegistrador form = new AlteraRegistrador(this, "RX");
+            form.Show();
+        }
+
     }
 }

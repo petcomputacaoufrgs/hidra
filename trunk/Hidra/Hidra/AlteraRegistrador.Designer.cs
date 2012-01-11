@@ -80,9 +80,11 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.labelRA);
             this.Controls.Add(this.textBoxRegister);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MaximumSize = new System.Drawing.Size(258, 136);
             this.MinimumSize = new System.Drawing.Size(258, 136);
             this.Name = "AlteraRegistrador";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Alterar Registrador";
             this.ResumeLayout(false);
             this.PerformLayout();

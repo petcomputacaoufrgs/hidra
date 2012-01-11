@@ -165,8 +165,6 @@
             this.groupBoxBits.Controls.SetChildIndex(this.lbl_carryout, 0);
             this.groupBoxBits.Controls.SetChildIndex(this.lbl_carryText, 0);
             this.groupBoxBits.Controls.SetChildIndex(this.lbl_zeroText, 0);
-            this.groupBoxBits.Controls.SetChildIndex(this.lbl_negative, 0);
-            this.groupBoxBits.Controls.SetChildIndex(this.lbl_zero, 0);
             this.groupBoxBits.Controls.SetChildIndex(this.lbl_negativeText, 0);
             // 
             // lbl_carryText
@@ -203,6 +201,7 @@
             this.txt_rb.ReadOnly = true;
             this.txt_rb.Size = new System.Drawing.Size(44, 20);
             this.txt_rb.TabIndex = 11;
+            this.txt_rb.DoubleClick += new System.EventHandler(this.txt_rb_DoubleClick);
             // 
             // lbl_rb
             // 
@@ -220,6 +219,7 @@
             this.txt_rx.ReadOnly = true;
             this.txt_rx.Size = new System.Drawing.Size(44, 20);
             this.txt_rx.TabIndex = 9;
+            this.txt_rx.DoubleClick += new System.EventHandler(this.txt_rx_DoubleClick);
             // 
             // txt_ra
             // 
@@ -228,7 +228,7 @@
             this.txt_ra.ReadOnly = true;
             this.txt_ra.Size = new System.Drawing.Size(44, 20);
             this.txt_ra.TabIndex = 12;
-            this.txt_ra.TextChanged += new System.EventHandler(this.txt_ra_TextChanged);
+            this.txt_ra.DoubleClick += new System.EventHandler(this.txt_ra_DoubleClick);
             // 
             // groupBox5
             // 
@@ -720,6 +720,7 @@
             this.Controls.SetChildIndex(this.groupBox5, 0);
             this.Controls.SetChildIndex(this.groupSimulator, 0);
             this.groupSimulator.ResumeLayout(false);
+            this.groupSimulator.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);

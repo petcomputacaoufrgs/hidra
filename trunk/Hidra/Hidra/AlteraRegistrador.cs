@@ -12,15 +12,27 @@ namespace Hidra
     public partial class AlteraRegistrador : Form
     {
         MainWindow instMainWindow;
-        public AlteraRegistrador(MainWindow formMain)
+        private string reg;
+        
+        public AlteraRegistrador(MainWindow formMain, string register)
         {           
            InitializeComponent();
            instMainWindow = formMain;
+           reg = register;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            instMainWindow.pc = int.Parse(textBoxRegister.Text);
+            int r = int.Parse(textBoxRegister.Text);
+            if (reg == "PC")
+                instMainWindow.pc = r;
+            else if (reg == "RA")
+                instMainWindow.rA = (byte)r;
+            else if (reg == "RB")
+                instMainWindow.rB = (byte)r;
+            else if (reg == "RX")
+                instMainWindow.rX = (byte)r;
+            
             instMainWindow.atualizaTela();           
             this.Close();
         }

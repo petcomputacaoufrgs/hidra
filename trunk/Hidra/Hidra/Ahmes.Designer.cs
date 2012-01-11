@@ -82,38 +82,43 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.lbl_overflowText = new System.Windows.Forms.Label();
-            this.lbl_borrowout = new System.Windows.Forms.Label();
-            this.lbl_overflow = new System.Windows.Forms.Label();
             this.lbl_borrowouText = new System.Windows.Forms.Label();
             this.lbl_carryoutText = new System.Windows.Forms.Label();
-            this.lbl_carryout = new System.Windows.Forms.Label();
+            this.picture_carry = new System.Windows.Forms.PictureBox();
+            this.picture_borrow = new System.Windows.Forms.PictureBox();
+            this.picture_overflow = new System.Windows.Forms.PictureBox();
             this.groupSimulator.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBoxBits.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picture_neg)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture_zero)).BeginInit();
             this.groupBox5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picture_carry)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture_borrow)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture_overflow)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBoxBits
             // 
+            this.groupBoxBits.Controls.Add(this.picture_overflow);
+            this.groupBoxBits.Controls.Add(this.picture_borrow);
+            this.groupBoxBits.Controls.Add(this.picture_carry);
             this.groupBoxBits.Controls.Add(this.lbl_overflowText);
-            this.groupBoxBits.Controls.Add(this.lbl_borrowout);
-            this.groupBoxBits.Controls.Add(this.lbl_overflow);
             this.groupBoxBits.Controls.Add(this.lbl_borrowouText);
             this.groupBoxBits.Controls.Add(this.lbl_carryoutText);
-            this.groupBoxBits.Controls.Add(this.lbl_carryout);
             this.groupBoxBits.Location = new System.Drawing.Point(26, 94);
             this.groupBoxBits.Size = new System.Drawing.Size(247, 56);
+            this.groupBoxBits.Controls.SetChildIndex(this.picture_neg, 0);
+            this.groupBoxBits.Controls.SetChildIndex(this.picture_zero, 0);
             this.groupBoxBits.Controls.SetChildIndex(this.lbl_zeroText, 0);
-            this.groupBoxBits.Controls.SetChildIndex(this.lbl_negative, 0);
-            this.groupBoxBits.Controls.SetChildIndex(this.lbl_zero, 0);
             this.groupBoxBits.Controls.SetChildIndex(this.lbl_negativeText, 0);
-            this.groupBoxBits.Controls.SetChildIndex(this.lbl_carryout, 0);
             this.groupBoxBits.Controls.SetChildIndex(this.lbl_carryoutText, 0);
             this.groupBoxBits.Controls.SetChildIndex(this.lbl_borrowouText, 0);
-            this.groupBoxBits.Controls.SetChildIndex(this.lbl_overflow, 0);
-            this.groupBoxBits.Controls.SetChildIndex(this.lbl_borrowout, 0);
             this.groupBoxBits.Controls.SetChildIndex(this.lbl_overflowText, 0);
+            this.groupBoxBits.Controls.SetChildIndex(this.picture_carry, 0);
+            this.groupBoxBits.Controls.SetChildIndex(this.picture_borrow, 0);
+            this.groupBoxBits.Controls.SetChildIndex(this.picture_overflow, 0);
             // 
             // groupBox5
             // 
@@ -652,24 +657,6 @@
             this.lbl_overflowText.TabIndex = 27;
             this.lbl_overflowText.Text = "Overflow";
             // 
-            // lbl_borrowout
-            // 
-            this.lbl_borrowout.AutoSize = true;
-            this.lbl_borrowout.Location = new System.Drawing.Point(149, 34);
-            this.lbl_borrowout.Name = "lbl_borrowout";
-            this.lbl_borrowout.Size = new System.Drawing.Size(13, 13);
-            this.lbl_borrowout.TabIndex = 26;
-            this.lbl_borrowout.Text = "0";
-            // 
-            // lbl_overflow
-            // 
-            this.lbl_overflow.AutoSize = true;
-            this.lbl_overflow.Location = new System.Drawing.Point(227, 14);
-            this.lbl_overflow.Name = "lbl_overflow";
-            this.lbl_overflow.Size = new System.Drawing.Size(13, 13);
-            this.lbl_overflow.TabIndex = 25;
-            this.lbl_overflow.Text = "0";
-            // 
             // lbl_borrowouText
             // 
             this.lbl_borrowouText.AutoSize = true;
@@ -688,14 +675,35 @@
             this.lbl_carryoutText.TabIndex = 22;
             this.lbl_carryoutText.Text = "Carry Out";
             // 
-            // lbl_carryout
+            // picture_carry
             // 
-            this.lbl_carryout.AutoSize = true;
-            this.lbl_carryout.Location = new System.Drawing.Point(149, 14);
-            this.lbl_carryout.Name = "lbl_carryout";
-            this.lbl_carryout.Size = new System.Drawing.Size(13, 13);
-            this.lbl_carryout.TabIndex = 23;
-            this.lbl_carryout.Text = "0";
+            this.picture_carry.Image = global::Hidra.Properties.Resources.luz_apagada;
+            this.picture_carry.Location = new System.Drawing.Point(148, 14);
+            this.picture_carry.Name = "picture_carry";
+            this.picture_carry.Size = new System.Drawing.Size(15, 13);
+            this.picture_carry.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picture_carry.TabIndex = 56;
+            this.picture_carry.TabStop = false;
+            // 
+            // picture_borrow
+            // 
+            this.picture_borrow.Image = global::Hidra.Properties.Resources.luz_apagada;
+            this.picture_borrow.Location = new System.Drawing.Point(148, 34);
+            this.picture_borrow.Name = "picture_borrow";
+            this.picture_borrow.Size = new System.Drawing.Size(15, 13);
+            this.picture_borrow.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picture_borrow.TabIndex = 57;
+            this.picture_borrow.TabStop = false;
+            // 
+            // picture_overflow
+            // 
+            this.picture_overflow.Image = global::Hidra.Properties.Resources.luz_apagada;
+            this.picture_overflow.Location = new System.Drawing.Point(226, 14);
+            this.picture_overflow.Name = "picture_overflow";
+            this.picture_overflow.Size = new System.Drawing.Size(15, 13);
+            this.picture_overflow.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picture_overflow.TabIndex = 58;
+            this.picture_overflow.TabStop = false;
             // 
             // Ahmes
             // 
@@ -715,8 +723,13 @@
             this.groupBox1.PerformLayout();
             this.groupBoxBits.ResumeLayout(false);
             this.groupBoxBits.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picture_neg)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture_zero)).EndInit();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picture_carry)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture_borrow)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture_overflow)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -778,10 +791,10 @@
         private System.Windows.Forms.Label label48;
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.Label lbl_overflowText;
-        private System.Windows.Forms.Label lbl_borrowout;
-        private System.Windows.Forms.Label lbl_overflow;
         private System.Windows.Forms.Label lbl_borrowouText;
         private System.Windows.Forms.Label lbl_carryoutText;
-        private System.Windows.Forms.Label lbl_carryout;
+        public System.Windows.Forms.PictureBox picture_overflow;
+        public System.Windows.Forms.PictureBox picture_borrow;
+        public System.Windows.Forms.PictureBox picture_carry;
     }
 }

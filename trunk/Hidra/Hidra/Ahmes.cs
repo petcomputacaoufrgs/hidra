@@ -5,7 +5,7 @@ namespace Hidra
     public partial class Ahmes : MainWindow
     {
         Simulators.Ahmes Ahme = new Simulators.Ahmes();
-        public int borrow, carry, overflow;
+        public int borrow, overflow;
 
         public Ahmes()
         {
@@ -14,18 +14,36 @@ namespace Hidra
             this.borrow = 0;
             this.carry = 0;
             this.overflow = 0;
+            atualizaVariaveis();
         }
 
         override public void atualizaTela()
         {
             txt_ac.Text = ac.ToString();
             txt_pc.Text = pc.ToString();
-            lbl_negative.Text = negative.ToString();
-            lbl_zero.Text = zero.ToString();
             txt_acessos.Text = numeroAcessos.ToString();
             txt_instrucoes.Text = numeroInstrucoes.ToString();
-            lbl_borrowout.Text = borrow.ToString();
-            lbl_carryout.Text = carry.ToString();
+            if (negative == 1)
+                picture_neg.Image = Properties.Resources.luz_acessa;
+            else if (negative == 0)
+                picture_neg.Image = Properties.Resources.luz_apagada;
+            if (zero == 1)
+                picture_zero.Image = Properties.Resources.luz_acessa;
+            else if (zero == 0)
+                picture_zero.Image = Properties.Resources.luz_apagada;
+            if (borrow == 1)
+                picture_borrow.Image = Properties.Resources.luz_acessa;
+            else if (borrow == 0)
+                picture_borrow.Image = Properties.Resources.luz_apagada;
+            if (carry == 1)
+                picture_carry.Image = Properties.Resources.luz_acessa;
+            else if (carry == 0)
+                picture_carry.Image = Properties.Resources.luz_apagada;
+            if (overflow == 1)
+                picture_overflow.Image = Properties.Resources.luz_acessa;
+            else if (overflow == 0)
+                picture_overflow.Image = Properties.Resources.luz_apagada;
+
         }
 
         override public void decodificaInstrucao()
