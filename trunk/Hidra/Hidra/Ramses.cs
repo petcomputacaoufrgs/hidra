@@ -206,7 +206,7 @@ namespace Hidra
                         Rams.OrIndirect(ref this.rA, endereco, this.memoria);
                         break;
                     case 66: //A,#n
-                        Rams.OrImmediat(ref this.rA, endereco, this.memoria);
+                        Rams.OrImmediat(ref this.rA, endereco);
                         break;
                     case 67: //A,nX
                         Rams.OrIndexed(ref this.rA, this.rX, endereco, this.memoria);
@@ -218,7 +218,7 @@ namespace Hidra
                         Rams.OrIndirect(ref this.rB, endereco, this.memoria);
                         break;
                     case 70: //B,#n
-                        Rams.OrImmediat(ref this.rB, endereco, this.memoria);
+                        Rams.OrImmediat(ref this.rB, endereco);
                         break;
                     case 71: //B,nX
                         Rams.OrIndexed(ref this.rB, this.rX, endereco, this.memoria);
@@ -230,7 +230,7 @@ namespace Hidra
                         Rams.OrIndirect(ref this.rX, endereco, this.memoria);
                         break;
                     case 74: //X,#n
-                        Rams.OrImmediat(ref this.rX, endereco, this.memoria);
+                        Rams.OrImmediat(ref this.rX, endereco);
                         break;
                     case 75: //X,nX
                         Rams.OrIndexed(ref this.rX, this.rX, endereco, this.memoria);
@@ -242,7 +242,7 @@ namespace Hidra
                         Rams.OrIndirect(ref this.rN, endereco, this.memoria);
                         break;
                     case 78: //?,#n
-                        Rams.OrImmediat(ref this.rN, endereco, this.memoria);
+                        Rams.OrImmediat(ref this.rN, endereco);
                         break;
                     case 79: //?,nX
                         Rams.OrIndexed(ref this.rN, this.rX, endereco, this.memoria);
@@ -256,7 +256,7 @@ namespace Hidra
                         Rams.AndIndirect(ref this.rA, endereco, this.memoria);
                         break;
                     case 82: //A,#n
-                        Rams.AndImmediat(ref this.rA, endereco, this.memoria);
+                        Rams.AndImmediat(ref this.rA, endereco);
                         break;
                     case 83: //A,nX
                         Rams.AndIndexed(ref this.rA, this.rX, endereco, this.memoria);
@@ -268,7 +268,7 @@ namespace Hidra
                         Rams.AndIndirect(ref this.rB, endereco, this.memoria);
                         break;
                     case 86: //B,#n
-                        Rams.AndImmediat(ref this.rB, endereco, this.memoria);
+                        Rams.AndImmediat(ref this.rB, endereco);
                         break;
                     case 87: //B,nX
                         Rams.AndIndexed(ref this.rB, this.rX, endereco, this.memoria);
@@ -280,7 +280,7 @@ namespace Hidra
                         Rams.AndIndirect(ref this.rX, endereco, this.memoria);
                         break;
                     case 90: //X,#n
-                        Rams.AndImmediat(ref this.rX, endereco, this.memoria);
+                        Rams.AndImmediat(ref this.rX, endereco);
                         break;
                     case 91: //X,nX
                         Rams.AndIndexed(ref this.rX, this.rX, endereco, this.memoria);
@@ -292,7 +292,7 @@ namespace Hidra
                         Rams.AndIndirect(ref this.rN, endereco, this.memoria);
                         break;
                     case 94: //?,#n
-                        Rams.AndImmediat(ref this.rN, endereco, this.memoria);
+                        Rams.AndImmediat(ref this.rN, endereco);
                         break;
                     case 95: //?,nX
                         Rams.AndIndexed(ref this.rN, this.rX, endereco, this.memoria);

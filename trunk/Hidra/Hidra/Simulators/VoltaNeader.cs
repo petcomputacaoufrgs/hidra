@@ -87,7 +87,7 @@ namespace Hidra.Simulators
             register = (byte)(register & memoria[memoria[endereco]]);
         }
 
-        public void AndImmediat(ref byte register, int endereco, byte[] memoria)
+        public void AndImmediat(ref byte register, int endereco)
         {
             register = (byte)(register & endereco);
         }
@@ -112,7 +112,7 @@ namespace Hidra.Simulators
             register = (byte)(register | memoria[memoria[endereco]]);
         }
 
-        public void OrImmediat(ref byte register,int endereco, byte[] memoria)
+        public void OrImmediat(ref byte register,int endereco)
         {
             register = (byte)(register | endereco);
         }
