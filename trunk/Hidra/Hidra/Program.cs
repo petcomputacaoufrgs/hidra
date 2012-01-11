@@ -13,7 +13,15 @@ namespace Hidra
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FirstWindow());
+            FirstWindow firstWindow = new FirstWindow();
+            Application.Run(firstWindow);
+
+            switch (firstWindow.Simulador)
+            {
+                case "Neander":
+                    Application.Run(new Neander());
+                    break;
+            }
         }
     }
 }

@@ -6,6 +6,13 @@ namespace Hidra
 {
     public partial class FirstWindow : Form
     {
+        private string simulador;
+
+        public string Simulador
+        {
+            get { return simulador; }
+        }
+
         public FirstWindow()
         {
             InitializeComponent();
@@ -13,8 +20,7 @@ namespace Hidra
 
         private void btn_neander_Click(object sender, EventArgs e)
         {
-            Neander neander = new Neander();
-            neander.ShowDialog();
+            simulador = "Neander";
             this.Close();
         }
 
