@@ -77,22 +77,54 @@ namespace Hidra.Simulators
                 ac = (byte)(ac + memoria[endereco]);
         }
 
-        public void AddIndirect(ref byte ac, int endereco, byte[] memoria)
+        public void And(ref byte register, int endereco, byte[] memoria)
         {
-            if (ac + memoria[endereco] > 255)
-                ac = (byte)(ac + memoria[endereco] - 256);
-            else
-                ac = (byte)(ac + memoria[endereco]);
+            register = (byte)(register & memoria[endereco]);
         }
 
-        public int And(byte ac, int endereco, byte[] memoria)
+        public void AndIndirect(ref byte register,int endereco, byte[] memoria)
         {
-            return (ac & memoria[endereco]);
+            register = (byte)(register & memoria[memoria[endereco]]);
         }
 
-        public int Or(byte ac, int endereco, byte[] memoria)
+        public void AndImmediat(ref byte register, int endereco, byte[] memoria)
         {
-            return (ac | memoria[endereco]);
+            register = (byte)(register & endereco);
+        }
+
+        public void AndIndexed(ref byte register, byte rX, int endereco, byte[] memoria)
+        {
+            int value = rX + endereco;
+            if (value > 255)
+            {
+                value -= 256;
+            }
+            register = (byte)(register & memoria[value]);
+        }
+
+        public void Or(ref byte register, int endereco, byte[] memoria)
+        {
+            register = (byte)(register | memoria[endereco]);
+        }
+
+        public void OrIndirect(ref byte register, int endereco, byte[] memoria)
+        {
+            register = (byte)(register | memoria[memoria[endereco]]);
+        }
+
+        public void OrImmediat(ref byte register,int endereco, byte[] memoria)
+        {
+            register = (byte)(register | endereco);
+        }
+
+        public void OrIndexed(ref byte register, byte rX, int endereco, byte[] memoria)
+        {
+            int value = rX + endereco;
+            if (value > 255)
+            {
+                value -= 256;
+            }
+            register = (byte)(register | memoria[value]);
         }
 
         public int Not(byte ac)

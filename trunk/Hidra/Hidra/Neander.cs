@@ -49,11 +49,11 @@ namespace Hidra
                     atualizaPC();
                     break;
                 case 64:  //OR;
-                    this.ac = (byte)Neand.Or(this.ac, endereco, this.memoria);
+                    Neand.Or(ref this.ac, endereco, this.memoria);
                     atualizaPC();
                     break;
                 case 80:  //AND;
-                    this.ac = (byte)Neand.And(this.ac, endereco, this.memoria);
+                    Neand.And(ref this.ac, endereco, this.memoria);
                     atualizaPC();
                     break;
                 case 96:  //NOT;
