@@ -228,6 +228,7 @@
             this.txt_ra.ReadOnly = true;
             this.txt_ra.Size = new System.Drawing.Size(44, 20);
             this.txt_ra.TabIndex = 12;
+            this.txt_ra.TextChanged += new System.EventHandler(this.txt_ra_TextChanged);
             // 
             // groupBox5
             // 

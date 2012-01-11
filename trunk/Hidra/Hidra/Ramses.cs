@@ -446,5 +446,10 @@ namespace Hidra
             memToGrid();
             this.atualizaTela();
         }
+
+        private void txt_ra_TextChanged(object sender, System.EventArgs e)
+        {
+
+        }
     }
 }

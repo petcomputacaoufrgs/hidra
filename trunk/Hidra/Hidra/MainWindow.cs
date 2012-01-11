@@ -18,7 +18,7 @@ namespace Hidra
         #endregion
 
         public MainWindow()
-        {   
+        {
             InitializeComponent();
             this.ac = 0;
             this.pc = this.negative = this.endereco = 0;
@@ -90,7 +90,7 @@ namespace Hidra
                 if (int.TryParse(gridInstructions.Rows[e.RowIndex].Cells[1].Value.ToString(), out valor) && valor < memSize)
                 {
                     gridData.Rows[e.RowIndex].Cells[1].Value = gridInstructions.Rows[e.RowIndex].Cells[1].Value;
-                    this.gridInstructions_CellEndEdit(sender, e);                    
+                    this.gridInstructions_CellEndEdit(sender, e);
                 }
                 else
                 {
@@ -123,9 +123,9 @@ namespace Hidra
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-           
+
             string arquivo, msg;
-            string[] msgSplit;           
+            string[] msgSplit;
 
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
@@ -174,7 +174,7 @@ namespace Hidra
                 this.memoria[i] = 0;
             }
         }
-        
+
         public void atualizaNegative()
         {
             if (ac > 127)
@@ -240,5 +240,12 @@ namespace Hidra
             hlt = false;
         }
 
+
+
+        private void txt_pc_Click(object sender, EventArgs e)
+        {
+            AlteraRegistrador form = new AlteraRegistrador(this);
+            form.Show();
+        }
     }
 }

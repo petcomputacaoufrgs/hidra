@@ -80,6 +80,12 @@
     <Compile Include="Neander.Designer.cs">
       <DependentUpon>Neander.cs</DependentUpon>
     </Compile>
+    <Compile Include="AlteraRegistrador.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AlteraRegistrador.Designer.cs">
+      <DependentUpon>AlteraRegistrador.cs</DependentUpon>
+    </Compile>
     <Compile Include="Ramses.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -131,6 +137,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="AlteraRegistrador.resx">
+      <DependentUpon>AlteraRegistrador.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Ramses.resx">
       <DependentUpon>Ramses.cs</DependentUpon>
     </EmbeddedResource>

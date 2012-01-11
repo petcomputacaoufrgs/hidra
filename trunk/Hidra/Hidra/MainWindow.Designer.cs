@@ -255,6 +255,7 @@
             this.txt_pc.ReadOnly = true;
             this.txt_pc.Size = new System.Drawing.Size(44, 20);
             this.txt_pc.TabIndex = 2;
+            this.txt_pc.Click += new System.EventHandler(this.txt_pc_Click);
             // 
             // lbl_pc
             // 
