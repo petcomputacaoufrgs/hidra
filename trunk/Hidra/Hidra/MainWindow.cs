@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace Hidra
 {
@@ -177,7 +178,11 @@ namespace Hidra
         public void atualizaNegative()
         {
             if (ac > 127)
+            {
                 negative = 1;
+
+                picture_neg.Image = Properties.Resources.luz_acessa;
+            }
             else
                 negative = 0;
         }

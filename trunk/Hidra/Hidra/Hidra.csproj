@@ -161,6 +161,8 @@
   <ItemGroup>
     <Content Include="Hydra.ico" />
     <Content Include="Hydro_final.ico" />
+    <None Include="Resources\luz acessa.png" />
+    <None Include="Resources\luz apagada.png" />
     <None Include="Resources\Hydro_final.png" />
     <None Include="Resources\Hydra.png" />
   </ItemGroup>
