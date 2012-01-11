@@ -74,6 +74,7 @@
       <DependentUpon>FirstWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Instructions.cs" />
+    <Compile Include="LeituraMEM.cs" />
     <Compile Include="Neander.cs">
       <SubType>Form</SubType>
     </Compile>
