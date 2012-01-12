@@ -13,7 +13,7 @@ namespace Hidra
             this.borrow = 0;
             this.carry = 0;
             this.overflow = 0;
-            atualizaVariaveis();
+            //atualizaVariaveis();
         }
 
         override public void atualizaTela()
@@ -91,7 +91,7 @@ namespace Hidra
                     numeroAcessos -= 1;
                     break;
                 case 144: //JN;
-                    this.pc = Ahme.JumpOnNegative(this.pc, this.negative, endereco);
+                    Ahme.JumpOnNegative(ref this.pc, this.negative, endereco);
                     numeroAcessos -= 1;
                     break;
                 case 148: //JP
@@ -158,7 +158,7 @@ namespace Hidra
             }
 
             memToGrid();
-            atualizaVariaveis();
+            atualizaVariaveis(this.ac);
             this.atualizaTela();
         }
 

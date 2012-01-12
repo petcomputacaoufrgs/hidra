@@ -11,7 +11,7 @@ namespace Hidra
         {
             InitializeComponent();
             this.instructions.initNeanderInstructions();
-            atualizaVariaveis();
+            //atualizaVariaveis();
         }
 
         override public void atualizaTela()
@@ -72,7 +72,7 @@ namespace Hidra
                     numeroAcessos -= 1;
                     break;
                 case 144: //JN;
-                    this.pc = (byte)Neand.JumpOnNegative(this.pc, this.negative, endereco);
+                    Neand.JumpOnNegative(ref this.pc, this.negative, endereco);
                     numeroAcessos -= 1;
                     break;
                 case 160: //JZ;
@@ -91,7 +91,7 @@ namespace Hidra
             }
 
             memToGrid();
-            atualizaVariaveis();
+            atualizaVariaveis(this.ac);
             this.atualizaTela();
         }
 

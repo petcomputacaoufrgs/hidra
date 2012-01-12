@@ -52,12 +52,33 @@ namespace Hidra.Simulators
             register = memoria[value];
         }
 
-        public int JumpOnNegative(int pc, int negative, int endereco)
+        public void JumpOnNegative(ref int pc, int negative, int endereco)
         {
             if (negative == 1)
-                return endereco;
+                pc = endereco;
             else
-                return ++pc;
+                pc  += 1;
+        }
+
+        public void JumpOnNegativeIndirect(ref int pc, int negative, int endereco, byte[] memoria)
+        {
+            if (negative == 1)
+                pc = memoria[endereco];
+            else
+                pc += 1; 
+        }
+
+        public void JumpOnNegativeIndexed(ref int pc, byte rX, int negative, int endereco)
+        {
+            int value = endereco + rX;
+            if (value > 255)
+            {
+                value -= 256;
+            }
+            if (negative == 1)
+                pc = value;
+            else
+                pc += 1;
         }
 
         public int JumpOnZero(int pc, int zero, int endereco)

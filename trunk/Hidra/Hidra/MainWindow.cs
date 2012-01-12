@@ -182,9 +182,9 @@ namespace Hidra
             }
         }
 
-        public void atualizaNegative()
+        public void atualizaNegative(byte register)
         {
-            if (ac > 127)
+            if (register > 127)
             {
                 negative = 1;
             }
@@ -194,9 +194,9 @@ namespace Hidra
             }
         }
 
-        public void atualizaZero()
+        public void atualizaZero(byte register)
         {
-            if (ac == 0)
+            if (register == 0)
             {
                 zero = 1;
             }
@@ -219,10 +219,10 @@ namespace Hidra
             if (pc < 0)
                 pc = 255;
         }
-        public void atualizaVariaveis()
+        public void atualizaVariaveis(byte register)
         {
-            atualizaNegative();
-            atualizaZero();
+            atualizaNegative(register);
+            atualizaZero(register);
         }
 
         private void btn_passoapasso_Click(object sender, EventArgs e)
