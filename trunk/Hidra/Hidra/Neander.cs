@@ -64,11 +64,11 @@ namespace Hidra
                     atualizaPC();
                     break;
                 case 96:  //NOT;
-                    this.ac = (byte)Neand.Not(this.ac);
+                    Neand.Not(ref this.ac);
                     numeroAcessos -= 2;
                     break;
                 case 128: //JMP;
-                    this.pc = Neand.Jump((byte)endereco);
+                    Neand.Jump(ref this.pc, (byte)endereco);
                     numeroAcessos -= 1;
                     break;
                 case 144: //JN;
@@ -109,6 +109,19 @@ namespace Hidra
                 gridData.Rows[i].Cells[1].Value = mem[i];
             }
             memToGrid();
-        }  
+        }
+
+ 
+
+
+
+
+        private void txt_ac_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            AlteraRegistrador form = new AlteraRegistrador(this, "AC");
+            form.Show();
+        }        
+
+ 
     }
 }

@@ -127,18 +127,36 @@ namespace Hidra.Simulators
             register = (byte)(register | memoria[value]);
         }
 
-        public int Not(byte ac)
+        public void Not(ref byte register)
         {
-            return 255 - ac;
+            register = (byte)(255 - register);
         }
 
         public void Nop()
         {            
         }
 
-        public byte Jump(byte endereco)
+        public void Jump(ref int pc, byte endereco)
         {
-            return endereco;
+            pc = endereco;
         }
+
+        public void JumpIndirect(ref int pc, byte endereco, byte[] memoria)
+        {
+            pc = memoria[endereco];
+        }
+
+        public void JumpIndexed(ref int pc, byte rX, byte endereco)
+        {
+            int value = endereco + rX;
+
+            if (value > 255)
+            {
+                value -= 256;
+            }
+
+            pc = value;
+        }
+
     }
 }

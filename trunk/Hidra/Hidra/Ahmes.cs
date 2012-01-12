@@ -5,7 +5,6 @@ namespace Hidra
     public partial class Ahmes : MainWindow
     {
         Simulators.Ahmes Ahme = new Simulators.Ahmes();
-        public int borrow, overflow;
 
         public Ahmes()
         {
@@ -80,15 +79,15 @@ namespace Hidra
                     atualizaPC();
                     break;
                 case 96:  //NOT;
-                    this.ac = (byte)Ahme.Not(this.ac);
+                    Ahme.Not(ref this.ac);
                     numeroAcessos -= 2;
                     break;
                 case 112: //SUB
-                    this.ac = (byte)Ahme.Subtract(this.ac, endereco, this.memoria, out borrow);
+                    Ahme.Subtract(ref this.ac, endereco, this.memoria, out borrow);
                     atualizaPC();
                     break;       
                 case 128: //JMP;
-                    this.pc = Ahme.Jump((byte)endereco);
+                    Ahme.Jump(ref this.pc, (byte)endereco);
                     numeroAcessos -= 1;
                     break;
                 case 144: //JN;

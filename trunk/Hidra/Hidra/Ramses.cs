@@ -4,6 +4,7 @@ namespace Hidra
 {
     public partial class Ramses : MainWindow
     {
+
         Simulators.RamsesPericles Rams = new Simulators.RamsesPericles();
         public Ramses()
         {
@@ -290,63 +291,88 @@ namespace Hidra
                         break;
 
                 case 96:  //NOT A
-                    this.ac = (byte)Rams.Not(this.ac);
+                    Rams.Not(ref this.rA);
                     numeroAcessos -= 2;
                     break;
 
                     case 100: //B
+                        Rams.Not(ref this.rB);
+                        numeroAcessos -= 2;
                         break;
                     case 104: //X
+                        Rams.Not(ref this.rX);
+                        numeroAcessos -= 2;
                         break;
                     case 108: //?
+                        Rams.Not(ref this.rN);
+                        numeroAcessos -= 2;
                         break;
 
-                case 112: //SUB
-                  //  this.ac = (byte)Rams.Subtract(this.ac, endereco, this.memoria, out borrow);
+                case 112: //SUB A
+                    Rams.Subtract(ref this.rA, endereco, this.memoria,  out borrow);
                     atualizaPC();
                     break;
 
                     case 113: //A,nI
+                        Rams.SubtractIndirect(ref this.rA, endereco, this.memoria, out borrow);
                         break;
                     case 114: //A,#n
+                        Rams.SubtractImmediat(ref this.rA, endereco, out borrow);
                         break;
                     case 115: //A,nX
+                        Rams.SubtractIndexed(ref this.rA, this.rX, endereco, this.memoria, out borrow);
                         break;
                     case 116: //B,n
+                        Rams.Subtract(ref this.rB, endereco, this.memoria, out borrow);
                         break;
                     case 117: //B,nI
+                        Rams.SubtractIndirect(ref this.rB, endereco, this.memoria, out borrow);
                         break;
                     case 118: //B,#n
+                        Rams.SubtractImmediat(ref this.rB, endereco, out borrow);
                         break;
                     case 119: //B,nX
+                        Rams.SubtractIndexed(ref this.rB, this.rX, endereco, this.memoria, out borrow);
                         break;
                     case 120: //X,n
+                        Rams.Subtract(ref this.rX, endereco, this.memoria, out borrow);
                         break;
                     case 121: //X,nI
+                        Rams.SubtractIndirect(ref this.rX, endereco, this.memoria, out borrow);
                         break;
                     case 122: //X,#n
+                        Rams.SubtractImmediat(ref this.rX, endereco, out borrow);
                         break;
                     case 123: //X,nX
+                        Rams.SubtractIndexed(ref this.rX, this.rX, endereco, this.memoria, out borrow);
                         break;
                     case 124: //?,n
+                        Rams.Subtract(ref this.rN, endereco, this.memoria, out borrow);
                         break;
                     case 125: //?,nI
+                        Rams.SubtractIndirect(ref this.rN, endereco, this.memoria, out borrow);
                         break;
                     case 126: //?,#n
+                        Rams.SubtractImmediat(ref this.rN, endereco, out borrow);
                         break;
                     case 127: //?,nX
+                        Rams.SubtractIndexed(ref this.rN, this.rX, endereco, this.memoria, out borrow);
                         break;
 
                 case 128: //JMP,n
-                    this.pc = Rams.Jump((byte)endereco);
+                    Rams.Jump(ref this.pc, (byte)endereco);
                     numeroAcessos -= 1;
                     break;
 
                     case 129: //A,nI
+                        Rams.JumpIndirect(ref this.pc, (byte)endereco, this.memoria);
                         break;
                     case 130: //A,#n
+                        numeroAcessos -= 2;
                         break;
                     case 131: //A,nX
+                        Rams.JumpIndexed(ref this.pc, this.rX, (byte)endereco);
+                        numeroAcessos -= 1;
                         break;
 
                 case 144: //JN,n

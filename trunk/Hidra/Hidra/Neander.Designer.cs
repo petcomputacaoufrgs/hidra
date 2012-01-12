@@ -64,6 +64,10 @@
             this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
+            // txt_ac
+            // 
+            this.txt_ac.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.txt_ac_MouseDoubleClick);
+            // 
             // groupBox4
             // 
             this.groupBox4.Location = new System.Drawing.Point(85, 13);

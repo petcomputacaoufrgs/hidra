@@ -16,7 +16,7 @@ namespace Hidra
         public byte[] memoria;
         public Instructions instructions;
         public byte rA, rB, rX, rN;
-        public int carry;
+        public int carry, borrow, overflow;
         #endregion
 
         public MainWindow()

@@ -23,9 +23,20 @@ namespace Hidra
 
         private void button1_Click(object sender, EventArgs e)
         {
+            if (textBoxRegister.Text == "")
+            {
+                this.Close();
+                return;
+            }
+
             int r = int.Parse(textBoxRegister.Text);
+
+
+
             if (reg == "PC")
                 instMainWindow.pc = r;
+            else if (reg == "AC")
+                instMainWindow.ac = (byte)r;
             else if (reg == "RA")
                 instMainWindow.rA = (byte)r;
             else if (reg == "RB")
@@ -44,5 +55,11 @@ namespace Hidra
                 e.Handled = true;
             }         
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
     }
 }

@@ -3,20 +3,78 @@ namespace Hidra.Simulators
 {
     public abstract class PeriPitAhmes : Cromag
     {
-        public int Subtract(byte ac, int endereco, byte[] memoria, out int borrow)
+        public void Subtract( ref byte register, int endereco, byte[] memoria, out int borrow)
         {
-            int r = ac - memoria[endereco];
+             register = (byte)(register - memoria[endereco]);
 
-            if (r < 0)
+            if (register < 0)
             {
                 borrow = 1;
-                return r + 256;
+                register = (byte)(register + 256);
             }
             else
             {
                 borrow = 0;
-                return r;
+            
             }
         }
+
+        public void SubtractIndirect(ref byte register, int endereco, byte[] memoria, out int borrow)
+        {
+            register = (byte)(register - memoria[memoria[endereco]]);
+
+            if (register < 0)
+            {
+                borrow = 1;
+                register = (byte)(register + 256);
+            }
+            else
+            {
+                borrow = 0;
+
+            }
+        }
+
+        public void SubtractImmediat(ref byte register, int endereco, out int borrow)
+        {
+            register = (byte)(register - endereco);
+
+            if (register < 0)
+            {
+                borrow = 1;
+                register = (byte)(register + 256);
+            }
+            else
+            {
+                borrow = 0;
+
+            }
+        }
+
+        public void SubtractIndexed(ref byte register, byte rX, int endereco, byte[] memoria, out int borrow)
+        {
+
+            int value = rX + endereco;
+
+            if (value > 255)
+            {
+                value -= 256;
+            }
+
+            register = (byte)(register - memoria[value]);
+
+            if (register < 0)
+            {
+                borrow = 1;
+                register = (byte)(register + 256);
+            }
+            else
+            {
+                borrow = 0;
+
+            }
+        }
+
+
     }
 }
