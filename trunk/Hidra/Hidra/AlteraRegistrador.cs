@@ -15,15 +15,28 @@ namespace Hidra
            reg = register;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void textBoxRegister_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+            else if (e.KeyChar == '\r')
+            {
+                bttnOK_Click(sender, e);
+            }
+        }
+
+        private void bttnOK_Click(object sender, EventArgs e)
         {
             if (textBoxRegister.Text != "")
             {
                 int r = int.Parse(textBoxRegister.Text);
 
                 if (reg == "PC")
+                {
                     instMainWindow.pc = r;
-
+                }
                 else if (reg == "AC")
                 {
                     instMainWindow.ac = (byte)r;
@@ -45,25 +58,15 @@ namespace Hidra
                     instMainWindow.atualizaVariaveis(instMainWindow.rX);
                 }
 
-                
                 instMainWindow.atualizaTela();
             }
 
             this.Close();
         }
 
-        private void textBoxRegister_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
-            {
-                e.Handled = true;
-            }         
-        }
-
-        private void button2_Click(object sender, EventArgs e)
+        private void bttnCancel_Click(object sender, EventArgs e)
         {
             this.Close();
         }
-
     }
 }

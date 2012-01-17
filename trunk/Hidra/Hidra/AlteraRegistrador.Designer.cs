@@ -30,8 +30,8 @@
         {
             this.textBoxRegister = new System.Windows.Forms.TextBox();
             this.labelRA = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.bttnOK = new System.Windows.Forms.Button();
+            this.bttnCancel = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // textBoxRegister
@@ -52,33 +52,33 @@
             this.labelRA.TabIndex = 1;
             this.labelRA.Text = "Digite o novo valor do registrador:";
             // 
-            // button1
+            // bttnOK
             // 
-            this.button1.Location = new System.Drawing.Point(68, 72);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(51, 23);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "OK";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.bttnOK.Location = new System.Drawing.Point(68, 72);
+            this.bttnOK.Name = "bttnOK";
+            this.bttnOK.Size = new System.Drawing.Size(51, 23);
+            this.bttnOK.TabIndex = 2;
+            this.bttnOK.Text = "OK";
+            this.bttnOK.UseVisualStyleBackColor = true;
+            this.bttnOK.Click += new System.EventHandler(this.bttnOK_Click);
             // 
-            // button2
+            // bttnCancel
             // 
-            this.button2.Location = new System.Drawing.Point(125, 72);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(51, 23);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "Cancel";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.bttnCancel.Location = new System.Drawing.Point(125, 72);
+            this.bttnCancel.Name = "bttnCancel";
+            this.bttnCancel.Size = new System.Drawing.Size(51, 23);
+            this.bttnCancel.TabIndex = 3;
+            this.bttnCancel.Text = "Cancel";
+            this.bttnCancel.UseVisualStyleBackColor = true;
+            this.bttnCancel.Click += new System.EventHandler(this.bttnCancel_Click);
             // 
             // AlteraRegistrador
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(252, 112);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.bttnCancel);
+            this.Controls.Add(this.bttnOK);
             this.Controls.Add(this.labelRA);
             this.Controls.Add(this.textBoxRegister);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -96,7 +96,7 @@
 
         private System.Windows.Forms.TextBox textBoxRegister;
         private System.Windows.Forms.Label labelRA;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button bttnOK;
+        private System.Windows.Forms.Button bttnCancel;
     }
 }
