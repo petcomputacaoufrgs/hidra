@@ -446,7 +446,37 @@ namespace Hidra
                     numeroAcessos -= 2;
                     break;
 
+                case 97:  //NOT A
+                    Rams.Not(ref this.rA);
+                    atualizaVariaveis(this.rA);
+                    numeroAcessos -= 2;
+                    break;
+                case 98:  //NOT A
+                    Rams.Not(ref this.rA);
+                    atualizaVariaveis(this.rA);
+                    numeroAcessos -= 2;
+                    break;
+                case 99:  //NOT A
+                    Rams.Not(ref this.rA);
+                    atualizaVariaveis(this.rA);
+                    numeroAcessos -= 2;
+                    break;
                 case 100: //B
+                    Rams.Not(ref this.rB);
+                    atualizaVariaveis(this.rB);
+                    numeroAcessos -= 2;
+                    break;
+                case 101: //B
+                    Rams.Not(ref this.rB);
+                    atualizaVariaveis(this.rB);
+                    numeroAcessos -= 2;
+                    break;
+                case 102: //B
+                    Rams.Not(ref this.rB);
+                    atualizaVariaveis(this.rB);
+                    numeroAcessos -= 2;
+                    break;
+                case 103: //B
                     Rams.Not(ref this.rB);
                     atualizaVariaveis(this.rB);
                     numeroAcessos -= 2;
@@ -456,7 +486,37 @@ namespace Hidra
                     atualizaVariaveis(this.rX);
                     numeroAcessos -= 2;
                     break;
+                case 105: //X
+                    Rams.Not(ref this.rX);
+                    atualizaVariaveis(this.rX);
+                    numeroAcessos -= 2;
+                    break;
+                case 106: //X
+                    Rams.Not(ref this.rX);
+                    atualizaVariaveis(this.rX);
+                    numeroAcessos -= 2;
+                    break;
+                case 107: //X
+                    Rams.Not(ref this.rX);
+                    atualizaVariaveis(this.rX);
+                    numeroAcessos -= 2;
+                    break;
                 case 108: //?
+                    Rams.Not(ref this.rN);
+                    atualizaVariaveis(this.rN);
+                    numeroAcessos -= 2;
+                    break;
+                case 109: //?
+                    Rams.Not(ref this.rN);
+                    atualizaVariaveis(this.rN);
+                    numeroAcessos -= 2;
+                    break;
+                case 110: //?
+                    Rams.Not(ref this.rN);
+                    atualizaVariaveis(this.rN);
+                    numeroAcessos -= 2;
+                    break;
+                case 111: //?
                     Rams.Not(ref this.rN);
                     atualizaVariaveis(this.rN);
                     numeroAcessos -= 2;
@@ -549,14 +609,59 @@ namespace Hidra
                     numeroAcessos -= 1;
                     break;
 
-                case 129: //A,nI
+                case 129: //JMP,nI
                     Rams.JumpIndirect(ref this.pc, (byte)endereco, this.memoria);
                     break;
-                case 130: //A,#n
+                case 130: //JMP,#n
                     atualizaPC();
                     numeroAcessos -= 2;
                     break;
-                case 131: //A,nX
+                case 131: //JMP,nX
+                    Rams.JumpIndexed(ref this.pc, this.rX, (byte)endereco);
+                    numeroAcessos -= 1;
+                    break;
+                case 132: //JMP,n
+                    Rams.Jump(ref this.pc, (byte)endereco);
+                    numeroAcessos -= 1;
+                    break;
+                case 133: //JMP,nI
+                    Rams.JumpIndirect(ref this.pc, (byte)endereco, this.memoria);
+                    break;
+                case 134: //JMP,#n
+                    atualizaPC();
+                    numeroAcessos -= 2;
+                    break;
+                case 135: //JMP,nX
+                    Rams.JumpIndexed(ref this.pc, this.rX, (byte)endereco);
+                    numeroAcessos -= 1;
+                    break;
+                case 136: //JMP,n
+                    Rams.Jump(ref this.pc, (byte)endereco);
+                    numeroAcessos -= 1;
+                    break;
+                case 137: //JMP,nI
+                    Rams.JumpIndirect(ref this.pc, (byte)endereco, this.memoria);
+                    break;
+                case 138: //JMP,#n
+                    atualizaPC();
+                    numeroAcessos -= 2;
+                    break;
+                case 139: //JMP,nX
+                    Rams.JumpIndexed(ref this.pc, this.rX, (byte)endereco);
+                    numeroAcessos -= 1;
+                    break;
+                case 140: //JMP,n
+                    Rams.Jump(ref this.pc, (byte)endereco);
+                    numeroAcessos -= 1;
+                    break;
+                case 141: //JMP,nI
+                    Rams.JumpIndirect(ref this.pc, (byte)endereco, this.memoria);
+                    break;
+                case 142: //JMP,#n
+                    atualizaPC();
+                    numeroAcessos -= 2;
+                    break;
+                case 143: //JMP,nX
                     Rams.JumpIndexed(ref this.pc, this.rX, (byte)endereco);
                     numeroAcessos -= 1;
                     break;
@@ -566,13 +671,59 @@ namespace Hidra
                     numeroAcessos -= 1;
                     break;
 
-                case 145: //A,nI
+                case 145: //JN,nI
                     Rams.JumpOnNegativeIndirect(ref this.pc, this.negative, endereco, this.memoria);
                     break;
-                case 146: //A,#n
+                case 146: //JN,#n
+                    atualizaPC();
                     numeroAcessos -= 2;
                     break;
-                case 147: //A,nX
+                case 147: //JN,nX
+                    Rams.JumpOnNegativeIndexed(ref this.pc, this.rX, this.negative, endereco);
+                    numeroAcessos -= 1;
+                    break;
+                case 148: //JN,n
+                    Rams.JumpOnNegative(ref this.pc, this.negative, endereco);
+                    numeroAcessos -= 1;
+                    break;
+                case 149: //JN,nI
+                    Rams.JumpOnNegativeIndirect(ref this.pc, this.negative, endereco, this.memoria);
+                    break;
+                case 150: //JN,#n
+                    atualizaPC();
+                    numeroAcessos -= 2;
+                    break;
+                case 151: //JN,nX
+                    Rams.JumpOnNegativeIndexed(ref this.pc, this.rX, this.negative, endereco);
+                    numeroAcessos -= 1;
+                    break;
+                case 152: //JN,n
+                    Rams.JumpOnNegative(ref this.pc, this.negative, endereco);
+                    numeroAcessos -= 1;
+                    break;
+                case 153: //JN,nI
+                    Rams.JumpOnNegativeIndirect(ref this.pc, this.negative, endereco, this.memoria);
+                    break;
+                case 154: //JN,#n
+                    atualizaPC();
+                    numeroAcessos -= 2;
+                    break;
+                case 155: //JN,nX
+                    Rams.JumpOnNegativeIndexed(ref this.pc, this.rX, this.negative, endereco);
+                    numeroAcessos -= 1;
+                    break;
+                case 156: //JN,n
+                    Rams.JumpOnNegative(ref this.pc, this.negative, endereco);
+                    numeroAcessos -= 1;
+                    break;
+                case 157: //JN,nI
+                    Rams.JumpOnNegativeIndirect(ref this.pc, this.negative, endereco, this.memoria);
+                    break;
+                case 158: //JN,#n
+                    atualizaPC();
+                    numeroAcessos -= 2;
+                    break;
+                case 159: //JN,nX
                     Rams.JumpOnNegativeIndexed(ref this.pc, this.rX, this.negative, endereco);
                     numeroAcessos -= 1;
                     break;
