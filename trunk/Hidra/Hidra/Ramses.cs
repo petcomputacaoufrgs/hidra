@@ -36,18 +36,22 @@ namespace Hidra
             switch (inst)
             {
                 case 0:   //NOP;
+                    //atualizaPC();
                     Rams.Nop();
                     numeroAcessos -= 2;
                     voltaPC();
                     break;
                 case 16:  //STA; //A,n
-                    Rams.Store(this.rA, endereco, ref this.memoria);                    
+                    Rams.Store(this.rA, endereco, ref this.memoria);
+                    //atualizaPC();
                     break;                 
                     case 17: //A,nI
-                        Rams.StoreIndirect(this.rA, endereco, ref this.memoria);                   
+                        Rams.StoreIndirect(this.rA, endereco, ref this.memoria);
+                        atualizaPC();
                         break;
                     case 18: //A,#n
                         Rams.StoreImmediat(this.rA, this.pc, ref this.memoria);
+                        atualizaPC();
                         break;
                     case 19: //A,nX
                         Rams.StoreIndexed(this.rA, this.rX, this.pc, ref this.memoria);
@@ -540,7 +544,7 @@ namespace Hidra
             }
 
 
-            atualizaPC(); // temque tratar aqui caso forem JMPS
+            //atualizaPC(); // temque tratar aqui caso forem JMPS
             memToGrid();
             this.atualizaTela();
         }

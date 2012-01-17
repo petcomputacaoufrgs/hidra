@@ -208,7 +208,7 @@ namespace Hidra
 
         public void atualizaPC()
         {
-            pc++;
+            pc ++;
             if (pc > 255)
                 pc = 0;
         }
