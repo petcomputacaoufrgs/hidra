@@ -667,126 +667,126 @@ namespace Hidra
                     break;
 
                 case 144: //JN,n
-                    Rams.JumpOnNegative(ref this.pc, this.negative, endereco);
+                    Rams.JumpOnNegative(ref this.pc, this.negative, endereco, ref numeroAcessos);
                     numeroAcessos -= 1;
                     break;
 
                 case 145: //JN,nI
-                    Rams.JumpOnNegativeIndirect(ref this.pc, this.negative, endereco, this.memoria);
+                    Rams.JumpOnNegativeIndirect(ref this.pc, this.negative, endereco, this.memoria, ref numeroAcessos);
                     break;
                 case 146: //JN,#n
                     atualizaPC();
                     numeroAcessos -= 2;
                     break;
                 case 147: //JN,nX
-                    Rams.JumpOnNegativeIndexed(ref this.pc, this.rX, this.negative, endereco);
+                    Rams.JumpOnNegativeIndexed(ref this.pc, this.rX, this.negative, endereco, ref numeroAcessos);
                     numeroAcessos -= 1;
                     break;
                 case 148: //JN,n
-                    Rams.JumpOnNegative(ref this.pc, this.negative, endereco);
+                    Rams.JumpOnNegative(ref this.pc, this.negative, endereco, ref numeroAcessos);
                     numeroAcessos -= 1;
                     break;
                 case 149: //JN,nI
-                    Rams.JumpOnNegativeIndirect(ref this.pc, this.negative, endereco, this.memoria);
+                    Rams.JumpOnNegativeIndirect(ref this.pc, this.negative, endereco, this.memoria, ref numeroAcessos);
                     break;
                 case 150: //JN,#n
                     atualizaPC();
                     numeroAcessos -= 2;
                     break;
                 case 151: //JN,nX
-                    Rams.JumpOnNegativeIndexed(ref this.pc, this.rX, this.negative, endereco);
+                    Rams.JumpOnNegativeIndexed(ref this.pc, this.rX, this.negative, endereco, ref numeroAcessos);
                     numeroAcessos -= 1;
                     break;
                 case 152: //JN,n
-                    Rams.JumpOnNegative(ref this.pc, this.negative, endereco);
+                    Rams.JumpOnNegative(ref this.pc, this.negative, endereco, ref numeroAcessos);
                     numeroAcessos -= 1;
                     break;
                 case 153: //JN,nI
-                    Rams.JumpOnNegativeIndirect(ref this.pc, this.negative, endereco, this.memoria);
+                    Rams.JumpOnNegativeIndirect(ref this.pc, this.negative, endereco, this.memoria, ref numeroAcessos);
                     break;
                 case 154: //JN,#n
                     atualizaPC();
                     numeroAcessos -= 2;
                     break;
                 case 155: //JN,nX
-                    Rams.JumpOnNegativeIndexed(ref this.pc, this.rX, this.negative, endereco);
+                    Rams.JumpOnNegativeIndexed(ref this.pc, this.rX, this.negative, endereco, ref numeroAcessos);
                     numeroAcessos -= 1;
                     break;
                 case 156: //JN,n
-                    Rams.JumpOnNegative(ref this.pc, this.negative, endereco);
+                    Rams.JumpOnNegative(ref this.pc, this.negative, endereco, ref numeroAcessos);
                     numeroAcessos -= 1;
                     break;
                 case 157: //JN,nI
-                    Rams.JumpOnNegativeIndirect(ref this.pc, this.negative, endereco, this.memoria);
+                    Rams.JumpOnNegativeIndirect(ref this.pc, this.negative, endereco, this.memoria, ref numeroAcessos);
                     break;
                 case 158: //JN,#n
                     atualizaPC();
                     numeroAcessos -= 2;
                     break;
                 case 159: //JN,nX
-                    Rams.JumpOnNegativeIndexed(ref this.pc, this.rX, this.negative, endereco);
+                    Rams.JumpOnNegativeIndexed(ref this.pc, this.rX, this.negative, endereco, ref numeroAcessos);
                     numeroAcessos -= 1;
                     break;
 
                 case 160: //JZ,n
-                    Rams.JumpOnZero(ref this.pc, this.zero, endereco);
+                    Rams.JumpOnZero(ref this.pc, this.zero, endereco, ref numeroAcessos);
                     numeroAcessos -= 1;
                     break;
 
                 case 161: //JZ,nI
-                    Rams.JumpOnZeroIndirect(ref this.pc, this.zero, endereco, this.memoria);
+                    Rams.JumpOnZeroIndirect(ref this.pc, this.zero, endereco, this.memoria, ref numeroAcessos);
                     break;
                 case 162: //JZ,#n
                     atualizaPC();
                     numeroAcessos -= 2;
                     break;
                 case 163: //JZ,nX
-                    Rams.JumpOnZeroIndexed(ref this.pc, this.zero, this.rX, endereco);
+                    Rams.JumpOnZeroIndexed(ref this.pc, this.zero, this.rX, endereco, ref numeroAcessos);
                     numeroAcessos -= 1;
                     break;
                 case 164: //JZ,n
-                    Rams.JumpOnZero(ref this.pc, this.zero, endereco);
+                    Rams.JumpOnZero(ref this.pc, this.zero, endereco, ref numeroAcessos);
                     numeroAcessos -= 1;
                     break;
                 case 165: //JZ,nI
-                    Rams.JumpOnZeroIndirect(ref this.pc, this.zero, endereco, this.memoria);
+                    Rams.JumpOnZeroIndirect(ref this.pc, this.zero, endereco, this.memoria, ref numeroAcessos);
                     break;
                 case 166: //JZ,#n
                     atualizaPC();
                     numeroAcessos -= 2;
                     break;
                 case 167: //JZ,nX
-                    Rams.JumpOnZeroIndexed(ref this.pc, this.zero, this.rX, endereco);
+                    Rams.JumpOnZeroIndexed(ref this.pc, this.zero, this.rX, endereco, ref numeroAcessos);
                     numeroAcessos -= 1;
                     break;
                 case 168: //JZ,n
-                    Rams.JumpOnZero(ref this.pc, this.zero, endereco);
+                    Rams.JumpOnZero(ref this.pc, this.zero, endereco, ref numeroAcessos);
                     numeroAcessos -= 1;
                     break;
                 case 169: //JZ,nI
-                    Rams.JumpOnZeroIndirect(ref this.pc, this.zero, endereco, this.memoria);
+                    Rams.JumpOnZeroIndirect(ref this.pc, this.zero, endereco, this.memoria, ref numeroAcessos);
                     break;
                 case 170: //JZ,#n
                     atualizaPC();
                     numeroAcessos -= 2;
                     break;
                 case 171: //JZ,nX
-                    Rams.JumpOnZeroIndexed(ref this.pc, this.zero, this.rX, endereco);
+                    Rams.JumpOnZeroIndexed(ref this.pc, this.zero, this.rX, endereco, ref numeroAcessos);
                     numeroAcessos -= 1;
                     break;
                 case 172: //JZ,n
-                    Rams.JumpOnZero(ref this.pc, this.zero, endereco);
+                    Rams.JumpOnZero(ref this.pc, this.zero, endereco, ref numeroAcessos);
                     numeroAcessos -= 1;
                     break;
                 case 173: //JZ,nI
-                    Rams.JumpOnZeroIndirect(ref this.pc, this.zero, endereco, this.memoria);
+                    Rams.JumpOnZeroIndirect(ref this.pc, this.zero, endereco, this.memoria, ref numeroAcessos);
                     break;
                 case 174: //JZ,#n
                     atualizaPC();
                     numeroAcessos -= 2;
                     break;
                 case 175: //JZ,nX
-                    Rams.JumpOnZeroIndexed(ref this.pc, this.zero, this.rX, endereco);
+                    Rams.JumpOnZeroIndexed(ref this.pc, this.zero, this.rX, endereco, ref numeroAcessos);
                     numeroAcessos -= 1;
                     break;
 
