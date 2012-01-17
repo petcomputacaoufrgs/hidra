@@ -91,7 +91,7 @@ namespace Hidra
                     numeroAcessos -= 1;
                     break;
                 case 144: //JN;
-                    Ahme.JumpOnNegative(ref this.pc, this.negative, endereco);
+                    Ahme.JumpOnNegative(ref this.pc, this.negative, endereco, ref numeroAcessos);
                     numeroAcessos -= 1;
                     break;
                 case 148: //JP
@@ -107,12 +107,13 @@ namespace Hidra
                     numeroAcessos -= 1;
                     break;
                 case 160: //JZ;
-                    Ahme.JumpOnZero(ref this.pc, this.zero, endereco);
+                    Ahme.JumpOnZero(ref this.pc, this.zero, endereco, ref numeroAcessos);
                     numeroAcessos -= 1;
                     break;
                 case 164: //JNZ
                     this.pc = Ahme.JumpOnNotZero(this.pc, this.zero, endereco);
                     numeroAcessos -= 1;
+
                     break;
                 case 176: //JC
                     this.pc = Ahme.JumpOnCarry(this.pc, this.carry, endereco);
