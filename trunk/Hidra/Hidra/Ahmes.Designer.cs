@@ -99,6 +99,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.picture_overflow)).BeginInit();
             this.SuspendLayout();
             // 
+            // txt_ac
+            // 
+            this.txt_ac.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.txt_ac_MouseDoubleClick);
+            // 
             // groupBoxBits
             // 
             this.groupBoxBits.Controls.Add(this.picture_overflow);

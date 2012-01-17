@@ -167,5 +167,12 @@ namespace Hidra
             memToGrid();
             this.atualizaTela();
         }
+
+        private void txt_ac_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            AlteraRegistrador form = new AlteraRegistrador(this, "AC");
+            form.Show();
+        }
+
     }
 }
