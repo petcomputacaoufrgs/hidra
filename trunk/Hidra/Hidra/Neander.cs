@@ -74,11 +74,11 @@ namespace Hidra
                     numeroAcessos -= 1;
                     break;
                 case 144: //JN;
-                    Neand.JumpOnNegative(ref this.pc, this.negative, endereco);
+                    Neand.JumpOnNegative(ref this.pc, this.negative, endereco, ref numeroAcessos);
                     numeroAcessos -= 1;
                     break;
                 case 160: //JZ;
-                    Neand.JumpOnZero(ref this.pc, this.zero, endereco);
+                    Neand.JumpOnZero(ref this.pc, this.zero, endereco, ref numeroAcessos);
                     numeroAcessos -= 1;
                     break;
                 case 240: //HLT;
