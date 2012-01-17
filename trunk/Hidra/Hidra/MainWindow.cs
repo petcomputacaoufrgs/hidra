@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Forms;
-using System.Drawing;
 
 namespace Hidra
 {
@@ -31,10 +30,7 @@ namespace Hidra
             this.numeroInstrucoes = 0;
             this.numeroAcessos = 0;
             this.carry = 0;
-            this.rA = 0;
-            this.rB = 0;
-            this.rX = 0;
-            this.rN = 0;
+            this.rA = this.rB = this.rX = this.rN = 0;
 
             criaMemoria();
         }
@@ -151,7 +147,6 @@ namespace Hidra
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 using (System.IO.StreamWriter file = new System.IO.StreamWriter(saveFileDialog1.FileName))
@@ -184,61 +179,47 @@ namespace Hidra
 
         public void atualizaNegative(byte register)
         {
-            if (register > 127)
-            {
-                negative = 1;
-            }
-            else
-            {
-                negative = 0;
-            }
+            negative = (register > 127) ? 1 : 0;
         }
 
         public void atualizaZero(byte register)
         {
-            if (register == 0)
-            {
-                zero = 1;
-            }
-            else
-            {
-                zero = 0;
-            }
+            zero = (register == 0) ? 1 : 0;
         }
 
         public void atualizaPC()
         {
-            pc ++;
-            if (pc > 255)
-                pc = 0;
+            pc = (pc == 255) ? 0 : pc++;
         }
 
         public void voltaPC()
         {
-            pc--;
-            if (pc < 0)
-                pc = 255;
+            pc = (pc == 0) ? 255 : pc--;
         }
+
         public void atualizaVariaveis(byte register)
         {
             atualizaNegative(register);
             atualizaZero(register);
         }
 
-        private void btn_passoapasso_Click(object sender, EventArgs e)
+        private void executeInstruction()
         {
             byte.TryParse(gridData.Rows[pc].Cells[1].Value.ToString(), out inst);
             atualizaPC();
             this.decodificaInstrucao();
         }
 
+        private void btn_passoapasso_Click(object sender, EventArgs e)
+        {
+            executeInstruction();
+        }
+
         private void btn_rodar_Click(object sender, EventArgs e)
         {
             while (pc != 255 && hlt == false)
             {
-                byte.TryParse(gridData.Rows[pc].Cells[1].Value.ToString(), out inst);
-                atualizaPC();
-                this.decodificaInstrucao();
+                executeInstruction();
             }
         }
 
@@ -256,6 +237,5 @@ namespace Hidra
             AlteraRegistrador form = new AlteraRegistrador(this, "PC");
             form.Show();
         }
-
     }
 }
