@@ -189,12 +189,12 @@ namespace Hidra
 
         public void atualizaPC()
         {
-            pc = (pc == 255) ? 0 : pc++;
+            pc = (pc == 255) ? 0 : pc+1;
         }
 
         public void voltaPC()
         {
-            pc = (pc == 0) ? 255 : pc--;
+            pc = (pc == 0) ? 255 : pc-1;
         }
 
         public void atualizaVariaveis(byte register)
