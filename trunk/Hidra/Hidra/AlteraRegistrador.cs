@@ -23,15 +23,29 @@ namespace Hidra
 
                 if (reg == "PC")
                     instMainWindow.pc = r;
-                else if (reg == "AC")
-                    instMainWindow.ac = (byte)r;
-                else if (reg == "RA")
-                    instMainWindow.rA = (byte)r;
-                else if (reg == "RB")
-                    instMainWindow.rB = (byte)r;
-                else if (reg == "RX")
-                    instMainWindow.rX = (byte)r;
 
+                else if (reg == "AC")
+                {
+                    instMainWindow.ac = (byte)r;
+                    instMainWindow.atualizaVariaveis(instMainWindow.ac);
+                }
+                else if (reg == "RA")
+                {
+                    instMainWindow.rA = (byte)r;
+                    instMainWindow.atualizaVariaveis(instMainWindow.rA);
+                }
+                else if (reg == "RB")
+                {
+                    instMainWindow.rB = (byte)r;
+                    instMainWindow.atualizaVariaveis(instMainWindow.rB);
+                }
+                else if (reg == "RX")
+                {
+                    instMainWindow.rX = (byte)r;
+                    instMainWindow.atualizaVariaveis(instMainWindow.rX);
+                }
+
+                
                 instMainWindow.atualizaTela();
             }
 
