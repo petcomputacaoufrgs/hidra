@@ -78,7 +78,7 @@ namespace Hidra
                     numeroAcessos -= 1;
                     break;
                 case 160: //JZ;
-                    this.pc = (byte)Neand.JumpOnZero(this.pc, this.zero, endereco);
+                    Neand.JumpOnZero(ref this.pc, this.zero, endereco);
                     numeroAcessos -= 1;
                     break;
                 case 240: //HLT;

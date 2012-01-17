@@ -729,15 +729,65 @@ namespace Hidra
                     break;
 
                 case 160: //JZ,n
-                    this.pc = (byte)Rams.JumpOnZero(this.pc, this.zero, endereco);
+                    Rams.JumpOnZero(ref this.pc, this.zero, endereco);
                     numeroAcessos -= 1;
                     break;
 
-                case 161: //A,nI
+                case 161: //JZ,nI
+                    Rams.JumpOnZeroIndirect(ref this.pc, this.zero, endereco, this.memoria);
                     break;
-                case 162: //A,#n
+                case 162: //JZ,#n
+                    atualizaPC();
+                    numeroAcessos -= 2;
                     break;
-                case 163: //A,nX
+                case 163: //JZ,nX
+                    Rams.JumpOnZeroIndexed(ref this.pc, this.zero, this.rX, endereco);
+                    numeroAcessos -= 1;
+                    break;
+                case 164: //JZ,n
+                    Rams.JumpOnZero(ref this.pc, this.zero, endereco);
+                    numeroAcessos -= 1;
+                    break;
+                case 165: //JZ,nI
+                    Rams.JumpOnZeroIndirect(ref this.pc, this.zero, endereco, this.memoria);
+                    break;
+                case 166: //JZ,#n
+                    atualizaPC();
+                    numeroAcessos -= 2;
+                    break;
+                case 167: //JZ,nX
+                    Rams.JumpOnZeroIndexed(ref this.pc, this.zero, this.rX, endereco);
+                    numeroAcessos -= 1;
+                    break;
+                case 168: //JZ,n
+                    Rams.JumpOnZero(ref this.pc, this.zero, endereco);
+                    numeroAcessos -= 1;
+                    break;
+                case 169: //JZ,nI
+                    Rams.JumpOnZeroIndirect(ref this.pc, this.zero, endereco, this.memoria);
+                    break;
+                case 170: //JZ,#n
+                    atualizaPC();
+                    numeroAcessos -= 2;
+                    break;
+                case 171: //JZ,nX
+                    Rams.JumpOnZeroIndexed(ref this.pc, this.zero, this.rX, endereco);
+                    numeroAcessos -= 1;
+                    break;
+                case 172: //JZ,n
+                    Rams.JumpOnZero(ref this.pc, this.zero, endereco);
+                    numeroAcessos -= 1;
+                    break;
+                case 173: //JZ,nI
+                    Rams.JumpOnZeroIndirect(ref this.pc, this.zero, endereco, this.memoria);
+                    break;
+                case 174: //JZ,#n
+                    atualizaPC();
+                    numeroAcessos -= 2;
+                    break;
+                case 175: //JZ,nX
+                    Rams.JumpOnZeroIndexed(ref this.pc, this.zero, this.rX, endereco);
+                    numeroAcessos -= 1;
                     break;
 
                 case 176: //JC,n
