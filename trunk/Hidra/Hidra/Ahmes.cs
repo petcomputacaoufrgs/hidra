@@ -107,7 +107,7 @@ namespace Hidra
                     numeroAcessos -= 1;
                     break;
                 case 160: //JZ;
-                    this.pc = (byte)Ahme.JumpOnZero(this.pc, this.zero, endereco);
+                    Ahme.JumpOnZero(ref this.pc, this.zero, endereco);
                     numeroAcessos -= 1;
                     break;
                 case 164: //JNZ
