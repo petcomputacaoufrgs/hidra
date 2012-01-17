@@ -20,10 +20,12 @@ namespace Hidra
             txt_pc.Text = pc.ToString();
             txt_acessos.Text = numeroAcessos.ToString();
             txt_instrucoes.Text = numeroInstrucoes.ToString();
+
             if (negative == 1)
                 picture_neg.Image = Properties.Resources.luz_acessa;
             else if (negative == 0)
                 picture_neg.Image = Properties.Resources.luz_apagada;
+
             if (zero == 1)
                 picture_zero.Image = Properties.Resources.luz_acessa;
             else if (zero == 0)
@@ -111,17 +113,10 @@ namespace Hidra
             memToGrid();
         }
 
- 
-
-
-
-
         private void txt_ac_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             AlteraRegistrador form = new AlteraRegistrador(this, "AC");
             form.Show();
-        }        
-
- 
+        }  
     }
 }
