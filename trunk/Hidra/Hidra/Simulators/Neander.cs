@@ -81,12 +81,34 @@ namespace Hidra.Simulators
                 pc += 1;
         }
 
-        public int JumpOnZero(int pc, int zero, int endereco)
+        public void JumpOnZero(ref int pc, int zero, int endereco)
         {
             if (zero == 1)
-                return endereco;
+                pc = endereco;
             else
-                return ++pc;
+                pc += 1;
+        }
+
+        public void JumpOnZeroIndirect(ref int pc, int zero, int endereco, byte[] memoria)
+        {
+            if (zero == 1)
+                pc = memoria[endereco];
+            else
+                pc += 1;
+        }
+
+        public void JumpOnZeroIndexed(ref int pc, int zero, byte rX, int endereco)
+        { 
+            int value = endereco + rX;
+            if (value > 255)
+            {
+                value -= 256;
+            }
+
+            if (zero == 1)
+                pc = value;
+            else
+                pc += 1;
         }
     }
 }
