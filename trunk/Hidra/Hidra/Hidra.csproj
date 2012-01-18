@@ -119,6 +119,9 @@
     <EmbeddedResource Include="Ahmes.resx">
       <DependentUpon>Ahmes.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Cromag.resx">
+      <DependentUpon>Cromag.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FirstWindow.resx">
       <DependentUpon>FirstWindow.cs</DependentUpon>
     </EmbeddedResource>

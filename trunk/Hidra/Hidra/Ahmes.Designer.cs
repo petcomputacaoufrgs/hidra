@@ -87,6 +87,7 @@
             this.picture_carry = new System.Windows.Forms.PictureBox();
             this.picture_borrow = new System.Windows.Forms.PictureBox();
             this.picture_overflow = new System.Windows.Forms.PictureBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupSimulator.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -126,6 +127,7 @@
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.groupBox3);
             this.groupBox5.Controls.Add(this.label17);
             this.groupBox5.Controls.Add(this.label18);
             this.groupBox5.Controls.Add(this.label19);
@@ -709,6 +711,14 @@
             this.picture_overflow.TabIndex = 58;
             this.picture_overflow.TabStop = false;
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Location = new System.Drawing.Point(208, 19);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(10, 167);
+            this.groupBox3.TabIndex = 47;
+            this.groupBox3.TabStop = false;
+            // 
             // Ahmes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -800,5 +810,6 @@
         public System.Windows.Forms.PictureBox picture_overflow;
         public System.Windows.Forms.PictureBox picture_borrow;
         public System.Windows.Forms.PictureBox picture_carry;
+        private System.Windows.Forms.GroupBox groupBox3;
     }
 }

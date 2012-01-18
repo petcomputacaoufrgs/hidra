@@ -9,11 +9,12 @@ using System.Windows.Forms;
 
 namespace Hidra
 {
-    public partial class Cromag : Form
+    public partial class Cromag : MainWindow
     {
         public Cromag()
         {
             InitializeComponent();
         }
+
     }
 }
