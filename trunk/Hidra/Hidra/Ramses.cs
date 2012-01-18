@@ -10,7 +10,6 @@ namespace Hidra
         {
             InitializeComponent();
             this.instructions.initRamsesInstructions();
-            //atualizaVariaveis();
         }
 
         override public void atualizaTela()
