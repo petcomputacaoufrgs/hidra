@@ -8,7 +8,7 @@ namespace Hidra
     {
         #region VARIÁVEIS
         public string streamText;
-        const int memSize = 256;
+        public const int memSize = 256;
         public bool hlt;
         public int pc, negative, zero, endereco, numeroInstrucoes, numeroAcessos;
         public byte ac, inst;
@@ -90,17 +90,20 @@ namespace Hidra
             int valor = 0;
             if (e.RowIndex >= 0 && e.ColumnIndex == 1)
             {
-                if (int.TryParse(gridInstructions.Rows[e.RowIndex].Cells[1].Value.ToString(), out valor) && valor < memSize)
+                if (gridData.Rows[e.RowIndex].Cells[1].Value != null)
                 {
-                    gridData.Rows[e.RowIndex].Cells[1].Value = gridInstructions.Rows[e.RowIndex].Cells[1].Value;
-                    this.gridInstructions_CellEndEdit(sender, e);
+                    if (int.TryParse(gridInstructions.Rows[e.RowIndex].Cells[1].Value.ToString(), out valor) && valor < memSize)
+                    {
+                        gridData.Rows[e.RowIndex].Cells[1].Value = gridInstructions.Rows[e.RowIndex].Cells[1].Value;
+                        this.gridInstructions_CellEndEdit(sender, e);
+                    }
                 }
                 else
                 {
                     gridData.Rows[e.RowIndex].Cells[1].Value = 0;
                     gridData.Rows[e.RowIndex].Cells[1].Value = gridInstructions.Rows[e.RowIndex].Cells[1].Value;
                 }
-                gridToMem();
+                gridToMem();                
             }
         }
 
@@ -110,17 +113,20 @@ namespace Hidra
 
             if (e.RowIndex >= 0 && e.ColumnIndex == 1)
             {
-                if (int.TryParse(gridData.Rows[e.RowIndex].Cells[1].Value.ToString(), out valor) && valor < memSize)
+                if (gridData.Rows[e.RowIndex].Cells[1].Value != null)
                 {
-                    gridInstructions.Rows[e.RowIndex].Cells[1].Value = gridData.Rows[e.RowIndex].Cells[1].Value;
-                    this.gridInstructions_CellEndEdit(sender, e);
+                    if (int.TryParse(gridData.Rows[e.RowIndex].Cells[1].Value.ToString(), out valor) && valor < memSize)
+                    {
+                        gridInstructions.Rows[e.RowIndex].Cells[1].Value = gridData.Rows[e.RowIndex].Cells[1].Value;
+                        this.gridInstructions_CellEndEdit(sender, e);
+                    }
                 }
                 else
                 {
                     gridData.Rows[e.RowIndex].Cells[1].Value = 0;
                     gridInstructions.Rows[e.RowIndex].Cells[1].Value = gridData.Rows[e.RowIndex].Cells[1].Value;
                 }
-                gridToMem();
+                gridToMem();            
             }
         }
 

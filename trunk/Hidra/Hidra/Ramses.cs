@@ -22,7 +22,7 @@ namespace Hidra
             txt_rx.Text = rX.ToString();
             txt_acessos.Text = numeroAcessos.ToString();
             txt_instrucoes.Text = numeroInstrucoes.ToString();
-            lbl_carryout.Text = carry.ToString();
+
             if (negative == 1)
                 picture_neg.Image = Properties.Resources.luz_acessa;
             else if (negative == 0)
@@ -31,6 +31,15 @@ namespace Hidra
                 picture_zero.Image = Properties.Resources.luz_acessa;
             else if (zero == 0)
                 picture_zero.Image = Properties.Resources.luz_apagada;
+            if (carry == 1)
+                picture_carry.Image = Properties.Resources.luz_acessa;
+            else if (carry == 0)
+                picture_carry.Image = Properties.Resources.luz_apagada;
+
+            for (int i = 0; i < memSize; i++)
+                gridInstructions.Rows[i].Selected = false;
+            gridInstructions.Rows[pc].Selected = true;
+
         }
 
         override public void decodificaInstrucao()
@@ -444,78 +453,17 @@ namespace Hidra
                     Rams.Not(ref this.rA);
                     atualizaVariaveis(this.rA);
                     numeroAcessos -= 2;
-                    break;
-
-                case 97:  //NOT A
-                    Rams.Not(ref this.rA);
-                    atualizaVariaveis(this.rA);
-                    numeroAcessos -= 2;
-                    break;
-                case 98:  //NOT A
-                    Rams.Not(ref this.rA);
-                    atualizaVariaveis(this.rA);
-                    numeroAcessos -= 2;
-                    break;
-                case 99:  //NOT A
-                    Rams.Not(ref this.rA);
-                    atualizaVariaveis(this.rA);
-                    numeroAcessos -= 2;
-                    break;
-                case 100: //B
-                    Rams.Not(ref this.rB);
-                    atualizaVariaveis(this.rB);
-                    numeroAcessos -= 2;
-                    break;
-                case 101: //B
-                    Rams.Not(ref this.rB);
-                    atualizaVariaveis(this.rB);
-                    numeroAcessos -= 2;
-                    break;
-                case 102: //B
-                    Rams.Not(ref this.rB);
-                    atualizaVariaveis(this.rB);
-                    numeroAcessos -= 2;
-                    break;
+                    break;                 
                 case 103: //B
                     Rams.Not(ref this.rB);
                     atualizaVariaveis(this.rB);
                     numeroAcessos -= 2;
-                    break;
-                case 104: //X
-                    Rams.Not(ref this.rX);
-                    atualizaVariaveis(this.rX);
-                    numeroAcessos -= 2;
-                    break;
-                case 105: //X
-                    Rams.Not(ref this.rX);
-                    atualizaVariaveis(this.rX);
-                    numeroAcessos -= 2;
-                    break;
-                case 106: //X
-                    Rams.Not(ref this.rX);
-                    atualizaVariaveis(this.rX);
-                    numeroAcessos -= 2;
-                    break;
+                    break;                   
                 case 107: //X
                     Rams.Not(ref this.rX);
                     atualizaVariaveis(this.rX);
                     numeroAcessos -= 2;
-                    break;
-                case 108: //?
-                    Rams.Not(ref this.rN);
-                    atualizaVariaveis(this.rN);
-                    numeroAcessos -= 2;
-                    break;
-                case 109: //?
-                    Rams.Not(ref this.rN);
-                    atualizaVariaveis(this.rN);
-                    numeroAcessos -= 2;
-                    break;
-                case 110: //?
-                    Rams.Not(ref this.rN);
-                    atualizaVariaveis(this.rN);
-                    numeroAcessos -= 2;
-                    break;
+                    break;                   
                 case 111: //?
                     Rams.Not(ref this.rN);
                     atualizaVariaveis(this.rN);
@@ -527,7 +475,6 @@ namespace Hidra
                     atualizaPC();
                     atualizaVariaveis(this.rA);
                     break;
-
                 case 113: //A,nI
                     Rams.SubtractIndirect(ref this.rA, endereco, this.memoria, out borrow);
                     atualizaPC();
@@ -604,6 +551,7 @@ namespace Hidra
                     atualizaVariaveis(this.rN);
                     break;
 
+              
                 case 128: //JMP,n
                     Rams.Jump(ref this.pc, (byte)endereco);
                     numeroAcessos -= 1;
@@ -620,51 +568,7 @@ namespace Hidra
                     Rams.JumpIndexed(ref this.pc, this.rX, (byte)endereco);
                     numeroAcessos -= 1;
                     break;
-                case 132: //JMP,n
-                    Rams.Jump(ref this.pc, (byte)endereco);
-                    numeroAcessos -= 1;
-                    break;
-                case 133: //JMP,nI
-                    Rams.JumpIndirect(ref this.pc, (byte)endereco, this.memoria);
-                    break;
-                case 134: //JMP,#n
-                    atualizaPC();
-                    numeroAcessos -= 2;
-                    break;
-                case 135: //JMP,nX
-                    Rams.JumpIndexed(ref this.pc, this.rX, (byte)endereco);
-                    numeroAcessos -= 1;
-                    break;
-                case 136: //JMP,n
-                    Rams.Jump(ref this.pc, (byte)endereco);
-                    numeroAcessos -= 1;
-                    break;
-                case 137: //JMP,nI
-                    Rams.JumpIndirect(ref this.pc, (byte)endereco, this.memoria);
-                    break;
-                case 138: //JMP,#n
-                    atualizaPC();
-                    numeroAcessos -= 2;
-                    break;
-                case 139: //JMP,nX
-                    Rams.JumpIndexed(ref this.pc, this.rX, (byte)endereco);
-                    numeroAcessos -= 1;
-                    break;
-                case 140: //JMP,n
-                    Rams.Jump(ref this.pc, (byte)endereco);
-                    numeroAcessos -= 1;
-                    break;
-                case 141: //JMP,nI
-                    Rams.JumpIndirect(ref this.pc, (byte)endereco, this.memoria);
-                    break;
-                case 142: //JMP,#n
-                    atualizaPC();
-                    numeroAcessos -= 2;
-                    break;
-                case 143: //JMP,nX
-                    Rams.JumpIndexed(ref this.pc, this.rX, (byte)endereco);
-                    numeroAcessos -= 1;
-                    break;
+              
 
                 case 144: //JN,n
                     Rams.JumpOnNegative(ref this.pc, this.negative, endereco, ref numeroAcessos);
@@ -682,51 +586,7 @@ namespace Hidra
                     Rams.JumpOnNegativeIndexed(ref this.pc, this.rX, this.negative, endereco, ref numeroAcessos);
                     numeroAcessos -= 1;
                     break;
-                case 148: //JN,n
-                    Rams.JumpOnNegative(ref this.pc, this.negative, endereco, ref numeroAcessos);
-                    numeroAcessos -= 1;
-                    break;
-                case 149: //JN,nI
-                    Rams.JumpOnNegativeIndirect(ref this.pc, this.negative, endereco, this.memoria, ref numeroAcessos);
-                    break;
-                case 150: //JN,#n
-                    atualizaPC();
-                    numeroAcessos -= 2;
-                    break;
-                case 151: //JN,nX
-                    Rams.JumpOnNegativeIndexed(ref this.pc, this.rX, this.negative, endereco, ref numeroAcessos);
-                    numeroAcessos -= 1;
-                    break;
-                case 152: //JN,n
-                    Rams.JumpOnNegative(ref this.pc, this.negative, endereco, ref numeroAcessos);
-                    numeroAcessos -= 1;
-                    break;
-                case 153: //JN,nI
-                    Rams.JumpOnNegativeIndirect(ref this.pc, this.negative, endereco, this.memoria, ref numeroAcessos);
-                    break;
-                case 154: //JN,#n
-                    atualizaPC();
-                    numeroAcessos -= 2;
-                    break;
-                case 155: //JN,nX
-                    Rams.JumpOnNegativeIndexed(ref this.pc, this.rX, this.negative, endereco, ref numeroAcessos);
-                    numeroAcessos -= 1;
-                    break;
-                case 156: //JN,n
-                    Rams.JumpOnNegative(ref this.pc, this.negative, endereco, ref numeroAcessos);
-                    numeroAcessos -= 1;
-                    break;
-                case 157: //JN,nI
-                    Rams.JumpOnNegativeIndirect(ref this.pc, this.negative, endereco, this.memoria, ref numeroAcessos);
-                    break;
-                case 158: //JN,#n
-                    atualizaPC();
-                    numeroAcessos -= 2;
-                    break;
-                case 159: //JN,nX
-                    Rams.JumpOnNegativeIndexed(ref this.pc, this.rX, this.negative, endereco, ref numeroAcessos);
-                    numeroAcessos -= 1;
-                    break;
+               
 
                 case 160: //JZ,n
                     Rams.JumpOnZero(ref this.pc, this.zero, endereco, ref numeroAcessos);
@@ -744,62 +604,26 @@ namespace Hidra
                     Rams.JumpOnZeroIndexed(ref this.pc, this.zero, this.rX, endereco, ref numeroAcessos);
                     numeroAcessos -= 1;
                     break;
-                case 164: //JZ,n
-                    Rams.JumpOnZero(ref this.pc, this.zero, endereco, ref numeroAcessos);
-                    numeroAcessos -= 1;
-                    break;
-                case 165: //JZ,nI
-                    Rams.JumpOnZeroIndirect(ref this.pc, this.zero, endereco, this.memoria, ref numeroAcessos);
-                    break;
-                case 166: //JZ,#n
-                    atualizaPC();
-                    numeroAcessos -= 2;
-                    break;
-                case 167: //JZ,nX
-                    Rams.JumpOnZeroIndexed(ref this.pc, this.zero, this.rX, endereco, ref numeroAcessos);
-                    numeroAcessos -= 1;
-                    break;
-                case 168: //JZ,n
-                    Rams.JumpOnZero(ref this.pc, this.zero, endereco, ref numeroAcessos);
-                    numeroAcessos -= 1;
-                    break;
-                case 169: //JZ,nI
-                    Rams.JumpOnZeroIndirect(ref this.pc, this.zero, endereco, this.memoria, ref numeroAcessos);
-                    break;
-                case 170: //JZ,#n
-                    atualizaPC();
-                    numeroAcessos -= 2;
-                    break;
-                case 171: //JZ,nX
-                    Rams.JumpOnZeroIndexed(ref this.pc, this.zero, this.rX, endereco, ref numeroAcessos);
-                    numeroAcessos -= 1;
-                    break;
-                case 172: //JZ,n
-                    Rams.JumpOnZero(ref this.pc, this.zero, endereco, ref numeroAcessos);
-                    numeroAcessos -= 1;
-                    break;
-                case 173: //JZ,nI
-                    Rams.JumpOnZeroIndirect(ref this.pc, this.zero, endereco, this.memoria, ref numeroAcessos);
-                    break;
-                case 174: //JZ,#n
-                    atualizaPC();
-                    numeroAcessos -= 2;
-                    break;
-                case 175: //JZ,nX
-                    Rams.JumpOnZeroIndexed(ref this.pc, this.zero, this.rX, endereco, ref numeroAcessos);
-                    numeroAcessos -= 1;
-                    break;
+                
 
                 case 176: //JC,n
-                    this.pc = Rams.JumpOnCarry(this.pc, this.carry, endereco);
+                    Rams.JumpOnCarry(ref this.pc, this.carry, endereco, ref numeroAcessos);                    
                     numeroAcessos -= 1;
                     break;
 
                 case 177: //A,nI
+                    Rams.JumpOnCarryIndirect(ref this.pc, this.carry, endereco, this.memoria, ref numeroAcessos);                    
+                    numeroAcessos -= 1;
                     break;
+
                 case 178: //A,#n
+                    atualizaPC();
+                    numeroAcessos -= 2;
                     break;
+
                 case 179: //A,nX
+                    Rams.JumpOnCarryIndexed(ref this.pc, this.carry, this.rX, endereco, ref numeroAcessos);                    
+                    numeroAcessos -= 1;
                     break;
 
                 case 192: //JSR,n
@@ -812,25 +636,37 @@ namespace Hidra
                     break;
 
                 case 208: //NEG A
+                    Rams.Negate(ref this.rA);     
+                    numeroAcessos -= 2;
                     break;
-
                 case 212: //B
+                    Rams.Negate(ref this.rB);     
+                    numeroAcessos -= 2;
                     break;
                 case 216: //X
+                    Rams.Negate(ref this.rX);     
+                    numeroAcessos -= 2;
                     break;
                 case 220: //?
-                    break;
-
-                case 224: //SHR
-                    this.ac = (byte)Rams.ShiftRight(this.ac, out carry);
+                    Rams.Negate(ref this.rN);     
                     numeroAcessos -= 2;
                     break;
 
+                case 224: //SHR
+                    Rams.ShiftRight(ref this.rA, out carry);
+                    numeroAcessos -= 2;
+                    break;
                 case 228: //B
+                    Rams.ShiftRight(ref this.rB, out carry);
+                    numeroAcessos -= 2;
                     break;
                 case 232: //X
+                    Rams.ShiftRight(ref this.rX, out carry);
+                    numeroAcessos -= 2;
                     break;
                 case 236: //?
+                    Rams.ShiftRight(ref this.rN, out carry);
+                    numeroAcessos -= 2;
                     break;
 
                 case 240: //HLT;

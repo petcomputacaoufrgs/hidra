@@ -8,9 +8,9 @@ namespace Hidra.Simulators
             throw new System.NotImplementedException();
         }
 
-        public void Negate()
+        public void Negate(ref byte register)
         {
-            throw new System.NotImplementedException();
+            register = (byte)(256 - register);
         }
     }
 }

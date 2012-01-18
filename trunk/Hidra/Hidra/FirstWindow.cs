@@ -26,22 +26,19 @@ namespace Hidra
 
         private void btn_ahmes_Click(object sender, EventArgs e)
         {
-            Ahmes ahmes = new Ahmes();
-            ahmes.ShowDialog();
+            simulador = "Ahmes";
             this.Close();
         }
 
         private void btn_ramses_Click(object sender, EventArgs e)
         {
-            Ramses ramses = new Ramses();
-            ramses.ShowDialog();
+            simulador = "Ramses";
             this.Close();
         }
 
         private void btn_cromag_Click(object sender, EventArgs e)
         {
-            Cromag cromag = new Cromag();
-            cromag.ShowDialog();
+            simulador = "Cromag";
             this.Close();
         }
     }

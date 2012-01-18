@@ -21,6 +21,15 @@ namespace Hidra
                 case "Neander":
                     Application.Run(new Neander());
                     break;
+                case "Ahmes":
+                    Application.Run(new Ahmes());
+                    break;
+                case "Ramses":
+                    Application.Run(new Ramses());
+                    break;
+                case "Cromag":
+                    Application.Run(new Cromag());
+                    break;
             }
         }
     }

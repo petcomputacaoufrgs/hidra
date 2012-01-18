@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.lbl_carryText = new System.Windows.Forms.Label();
-            this.lbl_carryout = new System.Windows.Forms.Label();
             this.lbl_rx = new System.Windows.Forms.Label();
             this.txt_rb = new System.Windows.Forms.TextBox();
             this.lbl_rb = new System.Windows.Forms.Label();
@@ -83,13 +82,17 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
+            this.picture_carry = new System.Windows.Forms.PictureBox();
             this.groupSimulator.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBoxBits.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picture_neg)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture_zero)).BeginInit();
             this.groupBox5.SuspendLayout();
             this.groupBox8.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picture_carry)).BeginInit();
             this.SuspendLayout();
             // 
             // txt_pc
@@ -158,14 +161,16 @@
             // 
             // groupBoxBits
             // 
+            this.groupBoxBits.Controls.Add(this.picture_carry);
             this.groupBoxBits.Controls.Add(this.lbl_carryText);
-            this.groupBoxBits.Controls.Add(this.lbl_carryout);
             this.groupBoxBits.Location = new System.Drawing.Point(194, 19);
             this.groupBoxBits.Size = new System.Drawing.Size(85, 74);
-            this.groupBoxBits.Controls.SetChildIndex(this.lbl_carryout, 0);
+            this.groupBoxBits.Controls.SetChildIndex(this.picture_neg, 0);
+            this.groupBoxBits.Controls.SetChildIndex(this.picture_zero, 0);
             this.groupBoxBits.Controls.SetChildIndex(this.lbl_carryText, 0);
             this.groupBoxBits.Controls.SetChildIndex(this.lbl_zeroText, 0);
             this.groupBoxBits.Controls.SetChildIndex(this.lbl_negativeText, 0);
+            this.groupBoxBits.Controls.SetChildIndex(this.picture_carry, 0);
             // 
             // lbl_carryText
             // 
@@ -175,15 +180,6 @@
             this.lbl_carryText.Size = new System.Drawing.Size(31, 13);
             this.lbl_carryText.TabIndex = 8;
             this.lbl_carryText.Text = "Carry";
-            // 
-            // lbl_carryout
-            // 
-            this.lbl_carryout.AutoSize = true;
-            this.lbl_carryout.Location = new System.Drawing.Point(64, 53);
-            this.lbl_carryout.Name = "lbl_carryout";
-            this.lbl_carryout.Size = new System.Drawing.Size(13, 13);
-            this.lbl_carryout.TabIndex = 9;
-            this.lbl_carryout.Text = "0";
             // 
             // lbl_rx
             // 
@@ -708,6 +704,16 @@
             this.label7.TabIndex = 30;
             this.label7.Text = "NOT";
             // 
+            // picture_carry
+            // 
+            this.picture_carry.Image = global::Hidra.Properties.Resources.luz_apagada;
+            this.picture_carry.Location = new System.Drawing.Point(64, 52);
+            this.picture_carry.Name = "picture_carry";
+            this.picture_carry.Size = new System.Drawing.Size(15, 13);
+            this.picture_carry.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picture_carry.TabIndex = 56;
+            this.picture_carry.TabStop = false;
+            // 
             // Ramses
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -720,19 +726,21 @@
             this.Controls.SetChildIndex(this.groupBox5, 0);
             this.Controls.SetChildIndex(this.groupSimulator, 0);
             this.groupSimulator.ResumeLayout(false);
-            this.groupSimulator.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBoxBits.ResumeLayout(false);
             this.groupBoxBits.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picture_neg)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picture_zero)).EndInit();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.groupBox8.ResumeLayout(false);
             this.groupBox8.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picture_carry)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -741,7 +749,6 @@
         #endregion
 
         private System.Windows.Forms.Label lbl_carryText;
-        private System.Windows.Forms.Label lbl_carryout;
         private System.Windows.Forms.TextBox txt_rb;
         private System.Windows.Forms.Label lbl_rb;
         private System.Windows.Forms.Label lbl_rx;
@@ -795,5 +802,6 @@
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Label label20;
+        public System.Windows.Forms.PictureBox picture_carry;
     }
 }

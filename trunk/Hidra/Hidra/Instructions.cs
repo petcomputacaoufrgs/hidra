@@ -10,7 +10,7 @@ namespace Hidra
         {
             this.instructions = new Dictionary<int,string>();
         }
-
+        
         private void initBasicInstructions()
         {
             this.instructions.Add(0, "NOP");

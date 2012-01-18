@@ -11,7 +11,7 @@ namespace Hidra
         {
             InitializeComponent();
             this.instructions.initNeanderInstructions();
-            //atualizaVariaveis();
+            
         }
 
         override public void atualizaTela()
@@ -30,6 +30,11 @@ namespace Hidra
                 picture_zero.Image = Properties.Resources.luz_acessa;
             else if (zero == 0)
                 picture_zero.Image = Properties.Resources.luz_apagada;
+
+            for (int i = 0; i < memSize; i++)
+                gridInstructions.Rows[i].Selected = false;            
+            gridInstructions.Rows[pc].Selected = true;
+            
         }
 
         override public void decodificaInstrucao()
@@ -74,11 +79,11 @@ namespace Hidra
                     numeroAcessos -= 1;
                     break;
                 case 144: //JN;
-                    Neand.JumpOnNegative(ref this.pc, this.negative, endereco, ref numeroAcessos);
+                    Neand.JumpOnNegative(ref this.pc, this.negative, endereco);
                     numeroAcessos -= 1;
                     break;
                 case 160: //JZ;
-                    Neand.JumpOnZero(ref this.pc, this.zero, endereco, ref numeroAcessos);
+                    Neand.JumpOnZero(ref this.pc, this.zero, endereco);
                     numeroAcessos -= 1;
                     break;
                 case 240: //HLT;

@@ -3,12 +3,12 @@ namespace Hidra.Simulators
 {
     public class Cromag : Queops
     {
-        public int ShiftRight(byte ac, out int carry)
+        public void ShiftRight(ref byte register, out int carry)
         {
-            carry = ac % 2;            
+            carry = register % 2;
 
-            int r = (ac >> 1);
-            return r;
+            int r = (register >> 1);
+            register = (byte)r;
         }
     }
 }

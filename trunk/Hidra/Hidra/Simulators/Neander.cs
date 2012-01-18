@@ -52,6 +52,13 @@ namespace Hidra.Simulators
             register = memoria[value];
         }
 
+        public void JumpOnNegative(ref int pc, int negative, int endereco)
+        {
+            if (negative == 1)
+                pc = endereco;
+            else
+                ++pc;
+        }
         public void JumpOnNegative(ref int pc, int negative, int endereco, ref int nracessos)
         {
             if (negative == 1)
@@ -62,7 +69,6 @@ namespace Hidra.Simulators
                 pc += 1;
             }
         }
-
         public void JumpOnNegativeIndirect(ref int pc, int negative, int endereco, byte[] memoria, ref int nracessos)
         {
             if (negative == 1)
@@ -88,6 +94,14 @@ namespace Hidra.Simulators
                 nracessos -= 1;
                 pc += 1;
             }
+        }
+
+        public void JumpOnZero(ref int pc, int zero, int endereco)
+        {
+            if (zero == 1)
+                pc = endereco;
+            else
+                pc += 1;
         }
 
         public void JumpOnZero(ref int pc, int zero, int endereco, ref int nracessos)

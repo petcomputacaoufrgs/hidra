@@ -43,6 +43,10 @@ namespace Hidra
             else if (overflow == 0)
                 picture_overflow.Image = Properties.Resources.luz_apagada;
 
+            for (int i = 0; i < memSize; i++)
+                gridInstructions.Rows[i].Selected = false;
+            gridInstructions.Rows[pc].Selected = true;
+
         }
 
         override public void decodificaInstrucao()
@@ -91,7 +95,7 @@ namespace Hidra
                     numeroAcessos -= 1;
                     break;
                 case 144: //JN;
-                    Ahme.JumpOnNegative(ref this.pc, this.negative, endereco, ref numeroAcessos);
+                    Ahme.JumpOnNegative(ref this.pc, this.negative, endereco);
                     numeroAcessos -= 1;
                     break;
                 case 148: //JP
@@ -107,7 +111,7 @@ namespace Hidra
                     numeroAcessos -= 1;
                     break;
                 case 160: //JZ;
-                    Ahme.JumpOnZero(ref this.pc, this.zero, endereco, ref numeroAcessos);
+                    Ahme.JumpOnZero(ref this.pc, this.zero, endereco);
                     numeroAcessos -= 1;
                     break;
                 case 164: //JNZ
@@ -116,7 +120,7 @@ namespace Hidra
 
                     break;
                 case 176: //JC
-                    this.pc = Ahme.JumpOnCarry(this.pc, this.carry, endereco);
+                    Ahme.JumpOnCarry(ref this.pc, this.carry, endereco);
                     numeroAcessos -= 1;
                     break;
                 case 180: //JNC
@@ -132,7 +136,7 @@ namespace Hidra
                     numeroAcessos -= 1;
                     break;
                 case 224: //SHR
-                    this.ac = (byte)Ahme.ShiftRight(this.ac, out carry);
+                    Ahme.ShiftRight(ref this.ac, out carry);
                     numeroAcessos -= 2;
                     break;
                 case 225: //SHL
