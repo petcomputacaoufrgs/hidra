@@ -39,6 +39,12 @@ namespace Hidra
             this.instructions.Add(224, "SHR");
         }
 
+        public void initCromagInstructions()
+        {
+            initNeanderInstructions();
+            this.instructions.Add(176, "JC");
+            this.instructions.Add(224, "SHR");
+        }
 
         public void initAhmesInstructions()
         {

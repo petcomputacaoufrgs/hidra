@@ -58,6 +58,7 @@ namespace Hidra
 
                 case 16:  //STA; //A,n
                     Rams.Store(this.rA, endereco, ref this.memoria);
+                    numeroAcessos -= 1;
                     atualizaPC();
                     break;
                 case 17: //A,nI

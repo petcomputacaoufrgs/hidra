@@ -77,6 +77,7 @@
             // txt_ac
             // 
             this.txt_ac.Text = "0";
+            this.txt_ac.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.txt_ac_MouseDoubleClick);
             // 
             // txt_instrucoes
             // 
