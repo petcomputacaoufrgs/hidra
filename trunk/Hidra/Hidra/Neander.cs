@@ -108,16 +108,6 @@ namespace Hidra
             this.atualizaTela();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            byte[] mem = LeituraMEM.ler(new System.IO.FileStream("lol.mem", System.IO.FileMode.Open));
-            for (int i = 0; i < mem.Length; i++)
-            {
-                gridData.Rows[i].Cells[1].Value = mem[i];
-            }
-            memToGrid();
-        }
-
         private void txt_ac_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             AlteraRegistrador form = new AlteraRegistrador(this, "AC");

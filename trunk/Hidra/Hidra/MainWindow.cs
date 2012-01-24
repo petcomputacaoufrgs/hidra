@@ -132,22 +132,19 @@ namespace Hidra
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
-            string arquivo, msg;
-            string[] msgSplit;
+            byte[] mem;            
+            string arquivo;
 
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 arquivo = openFileDialog1.FileName;
-                using (StreamReader texto = new StreamReader(arquivo))
+
+                mem = LeituraMEM.ler(new System.IO.FileStream(arquivo, System.IO.FileMode.Open));
+                for (int i = 0; i < mem.Length; i++)
                 {
-                    while ((msg = texto.ReadLine()) != null)
-                    {
-                        msgSplit = msg.Split(' ');
-                        if (msgSplit.Length > 1)
-                            gridData.Rows[int.Parse(msgSplit[0])].Cells[1].Value = msgSplit[1];
-                    }
+                    gridData.Rows[i].Cells[1].Value = mem[i];
                 }
+                gridToMem();
             }
         }
 

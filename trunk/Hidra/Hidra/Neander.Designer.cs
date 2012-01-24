@@ -52,10 +52,9 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.button1 = new System.Windows.Forms.Button();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.groupSimulator.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -308,16 +307,6 @@
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Mnemônicos";
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(234, 367);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 54;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // groupBox3
             // 
             this.groupBox3.Location = new System.Drawing.Point(195, 13);
@@ -331,13 +320,11 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(965, 471);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox5);
             this.Name = "Neander";
             this.Text = "Neander";
             this.Load += new System.EventHandler(this.Neander_Load);
             this.Controls.SetChildIndex(this.groupBox5, 0);
-            this.Controls.SetChildIndex(this.button1, 0);
             this.Controls.SetChildIndex(this.groupSimulator, 0);
             this.groupSimulator.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
@@ -383,7 +370,6 @@
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.GroupBox groupBox3;
     }
 }
