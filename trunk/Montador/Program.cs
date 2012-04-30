@@ -18,6 +18,7 @@ namespace Montador
         {
             Dados dados = new Dados();
             Escritor esc = new Escritor();
+            Codigo code = new Codigo();
             //se nenhuma maquina foi passada, produz um erro
             if (args.Length < 3)
             {                
@@ -48,6 +49,9 @@ namespace Montador
                 esc.errorOut(ERRO,0,erro,saidaErro);
                 return;
             }
+
+            //le o codigo fonte
+            code.lerCodigo(args[0]);
         }
     }
 }

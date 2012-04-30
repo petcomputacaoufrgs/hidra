@@ -26,6 +26,36 @@ namespace Montador
         public byte[] binario;
 
         /**
+         * limpa a linha, removendo os espaços nas pontas
+         * e deixando-a no formato:
+         * instrucao operandos
+         * ex:
+         * "    add a 127 ,x " -> "ADD A 127,X"
+         * se a linha for um comentario, retorna a propria string, em maiusculas e sem os espacos nos cantos
+         */
+        private string limpaLinha(string linha)
+        {
+            //converte para maiusculas e remove os espacos nos cantos
+            linha = linha.ToUpper().Trim();
+            if (linha.Length == 0)
+                return linha;
+            if (linha[0] == COMENTARIO)
+                return linha;
+
+            char[] whitespace = {' ','\t' };
+            string[] linhas = linha.Split(whitespace);
+
+            Console.WriteLine("aAA");
+            foreach (string la in linhas)
+                Console.WriteLine(la);
+            Console.WriteLine("BBB");
+
+            Console.WriteLine("Done!"+linha);
+
+            return linha;
+        }
+
+        /**
          * le o codigo de um arquivo, removendo os comentarios e espacos desnecessarios
          * atualiza o conteudo de:
          * Codigo.linhasFonte
@@ -38,39 +68,47 @@ namespace Montador
             this.preprocessado = new List<string>();
             string linha;
 
-            int linhaAtual = 1;
-
             //le o arquivo, removendo espacos antes e depois de cada linha
             using (StreamReader file = new StreamReader(arquivo))
             {
                 while ((linha = file.ReadLine()) != null)
                 {
-                    this.preprocessado.Add(linha.Trim().ToUpper());
+                    this.preprocessado.Add(limpaLinha(linha));
                 }
             }
 
             //remove os comentarios e os espacos desnecessarios
             string l;
-            char[] whiteSpaces = { ' ', '\t' };
             for(int i = 0,max = this.preprocessado.Count;i<max;i++)
             {
                 l = this.preprocessado[i];
+                if (l.Length == 0)
+                {
+                    continue;
+                }
+                Console.WriteLine(l);
                 //se for um comentario, remove
                 if (l[0] == COMENTARIO)
                 {
                     this.preprocessado.RemoveAt(i);
+                    max--;
                     i--;
                 }
                 else
                 {
-                    this.linhasFonte.Add(linhaAtual);
-                    linhaAtual++;
+                    //acrescenta o numero dessa linha
+                    this.linhasFonte.Add(i+2);
                 }
             }
 
             foreach (string la in this.preprocessado)
             {
-                Console.WriteLine(la);
+                Console.WriteLine("A "+la);
+            }
+
+            foreach (int a in this.linhasFonte)
+            {
+                Console.WriteLine("B " + a);
             }
 
             return;
