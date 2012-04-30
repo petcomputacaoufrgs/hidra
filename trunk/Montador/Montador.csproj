@@ -47,13 +47,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Dados.cs">
-      <Link>Dados.cs</Link>
-    </Compile>
-    <Compile Include="..\escritor.cs">
-      <Link>escritor.cs</Link>
-    </Compile>
     <Compile Include="Codigo.cs" />
+    <Compile Include="Dados.cs" />
+    <Compile Include="escritor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
