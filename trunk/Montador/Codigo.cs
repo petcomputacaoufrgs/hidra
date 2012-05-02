@@ -25,6 +25,7 @@ namespace Montador
          */
         public byte[] binario;
 
+
         /**
          * limpa a linha, removendo os espaços nas pontas
          * e deixando-a no formato:
@@ -42,18 +43,30 @@ namespace Montador
             if (linha[0] == COMENTARIO)
                 return linha;
 
+            //separa a linha em "instrucao [operandos...]"
             char[] whitespace = {' ','\t' };
-            string[] linhas = linha.Split(whitespace);
+            string[] palavras = linha.Split(whitespace);
+            string op;
+            linha = palavras[0];
 
-            Console.WriteLine("aAA");
-            foreach (string la in linhas)
-                Console.WriteLine(la);
-            Console.WriteLine("BBB");
-
-            Console.WriteLine("Done!"+linha);
+            //deixa a linha no formato adequado
+            for(int i = 1; i<palavras.Length;i++)
+            {
+                op = palavras[i];
+                //se o caracter anteiror foi uma virgula, nao insere um espaco
+                if (linha[linha.Length - 1] == ',')
+                    linha += op;
+                //se for uma virgula, cola-a na palavra anterior
+                else if (op == ",")
+                    linha += ',';
+                else if (op != "")
+                    linha += " " + op;
+            }
 
             return linha;
         }
+
+
 
         /**
          * le o codigo de um arquivo, removendo os comentarios e espacos desnecessarios
@@ -67,6 +80,7 @@ namespace Montador
             this.linhasFonte = new List<int>();
             this.preprocessado = new List<string>();
             string linha;
+            int linhaAtual = 1;
 
             //le o arquivo, removendo espacos antes e depois de cada linha
             using (StreamReader file = new StreamReader(arquivo))
@@ -79,7 +93,7 @@ namespace Montador
 
             //remove os comentarios e os espacos desnecessarios
             string l;
-            for(int i = 0,max = this.preprocessado.Count;i<max;i++)
+            for(int i = 0,max = this.preprocessado.Count;i<max;i++,linhaAtual++)
             {
                 l = this.preprocessado[i];
                 if (l.Length == 0)
@@ -97,18 +111,8 @@ namespace Montador
                 else
                 {
                     //acrescenta o numero dessa linha
-                    this.linhasFonte.Add(i+2);
+                    this.linhasFonte.Add(linhaAtual);
                 }
-            }
-
-            foreach (string la in this.preprocessado)
-            {
-                Console.WriteLine("A "+la);
-            }
-
-            foreach (int a in this.linhasFonte)
-            {
-                Console.WriteLine("B " + a);
             }
 
             return;
