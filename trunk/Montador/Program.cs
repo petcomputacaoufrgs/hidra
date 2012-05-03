@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Montador
 {
-    class Program : Escritor
+    class Program
     {        
         /**
          * o primeiro argumento eh o arquivo que contem o codigo fonte
@@ -17,6 +17,7 @@ namespace Montador
         static void Main(string[] args)
         {
             Dados dados = new Dados();
+            
             Escritor esc = new Escritor();
             Codigo code = new Codigo();
             //se nenhuma maquina foi passada, produz um erro
@@ -46,7 +47,7 @@ namespace Montador
             if (!achou)
             {
                 erro = maquina + " não é uma maquina válida.";
-                esc.errorOut(ERRO,0,erro,saidaErro);
+                esc.errorOut(Escritor.ERRO,0,erro,saidaErro);
                 return;
             }
 

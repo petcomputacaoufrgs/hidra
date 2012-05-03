@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Gramatica.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Codigo.cs" />
     <Compile Include="Dados.cs" />
