@@ -12,13 +12,10 @@ namespace Montador
         //o indice eh a linha do fonte preprocessado (sem os comentarios etc...)
         public List<int> linhasFonte;
         /**
-         * contem cada linha do codigo apos o preprocessamento (em maiusculas)
-         * cada linha pode ser:
-         * uma label ou
-         * uma instrucao seguida de seus devidos operandos ou
-         * uma diretiva do preprocessador (ORG, db ...)
+         * contem cada linha do codigo apos o preprocessamento (em maiusculas), dividida em palavras
+         * cada linha pode ou nao comecar com uma label
          */
-        public List<string> preprocessado;
+        public List<string[]> preprocessado;
 
         /**
          * codigo binario ja montado
@@ -31,39 +28,51 @@ namespace Montador
          * e deixando-a no formato:
          * instrucao operandos
          * ex:
-         * "    add a 127 ,x " -> "ADD A 127,X"
+         * "    add a 127 ,x " -> {"ADD", "A", "127,X"}
+         * "label   :" -> {"label:"}
          * se a linha for um comentario, retorna a propria string, em maiusculas e sem os espacos nos cantos
          */
-        private string limpaLinha(string linha)
+        private string[] limpaLinha(string linha)
         {
             //converte para maiusculas e remove os espacos nos cantos
             linha = linha.ToUpper().Trim();
+            string[] dividido = {linha};
             if (linha.Length == 0)
-                return linha;
+                return dividido;
             if (linha[0] == COMENTARIO)
-                return linha;
+                return dividido;
 
             //separa a linha em "instrucao [operandos...]"
-            char[] whitespace = {' ','\t' };
+            char[] whitespace = {' ','\t','\n' };
             string[] palavras = linha.Split(whitespace);
             string op;
+            int total = 0;  //numero de palavras na linha
             linha = palavras[0];
 
             //deixa a linha no formato adequado
             for(int i = 1; i<palavras.Length;i++)
             {
                 op = palavras[i];
+                
                 //se o caracter anteiror foi uma virgula, nao insere um espaco
                 if (linha[linha.Length - 1] == ',')
                     linha += op;
-                //se for uma virgula, cola-a na palavra anterior
-                else if (op == ",")
-                    linha += ',';
+                //se for uma virgula ou ':', cola-a na palavra anterior
+                else if (op == "," || op == ":")
+                    linha += op;
                 else if (op != "")
+                {
                     linha += " " + op;
+                    total++;
+                }
+
             }
 
-            return linha;
+            //divide a linha em palavras
+            dividido = new string[total];
+            dividido = linha.Split(whitespace);
+
+            return dividido;
         }
 
 
@@ -78,7 +87,7 @@ namespace Montador
         {
 
             this.linhasFonte = new List<int>();
-            this.preprocessado = new List<string>();
+            this.preprocessado = new List<string[]>();
             string linha;
             int linhaAtual = 1;
 
@@ -91,18 +100,20 @@ namespace Montador
                 }
             }
 
-            //remove os comentarios e os espacos desnecessarios
+            //remove os comentarios
             string l;
             for(int i = 0,max = this.preprocessado.Count;i<max;i++,linhaAtual++)
             {
-                l = this.preprocessado[i];
+                l = this.preprocessado[i][0];
                 if (l.Length == 0)
                 {
+                    this.preprocessado.RemoveAt(i);
+                    i--;
+                    max--;
                     continue;
                 }
-                Console.WriteLine(l);
                 //se for um comentario, remove
-                if (l[0] == COMENTARIO)
+                if (l[0] == COMENTARIO || l == "")
                 {
                     this.preprocessado.RemoveAt(i);
                     max--;
@@ -118,5 +129,25 @@ namespace Montador
             return;
 
         }
+
+        /**
+         * determina se o codigo eh valido
+         * 
+         * retorna true se for
+         */
+        public Boolean codigoValido()
+        {
+            return true;
+        }
+
+        /**
+         * converte todas as ocorrencias de numeros em hexadecimal para numeros em decimal
+         * altera this.preprocessado
+         */
+        public void converteHexa()
+        {
+
+        }
+
     }
 }

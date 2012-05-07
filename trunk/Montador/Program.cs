@@ -17,6 +17,7 @@ namespace Montador
         static void Main(string[] args)
         {
             Dados dados = new Dados();
+            Gramatica gram = new Gramatica();
             
             Escritor esc = new Escritor();
             Codigo code = new Codigo();
@@ -53,6 +54,20 @@ namespace Montador
 
             //le o codigo fonte
             code.lerCodigo(args[0]);
+            code.converteHexa();
+
+            foreach (string[] a in code.preprocessado)
+            {
+                foreach (string b in a)
+                {
+                    string hexa = gram.substringHexa(b);
+                    Console.Write(b + " * "+ hexa);
+                    if (hexa != "")
+                        Console.Write("Val=" + gram.hexa2int(hexa));
+                    Console.Write("\n");
+                }
+                Console.Write("\n");
+            }
         }
     }
 }
