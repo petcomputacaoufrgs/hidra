@@ -9,6 +9,13 @@ namespace Montador
     {
 
         public string[] inst;
+        public enum Tipos { DEFLABEL, INSTRUCAO, DIRETIVA, REGISTRADOR, ENDERECO, ENDERECAMENTO, INVALIDO };
+        private const char IMEDIATO = '#';
+
+        private List<string> instrucoes;
+        private List<string> diretivas;
+        private List<string> registradores;
+        private List<string> enderecamentos;
 
 
         /**
@@ -111,5 +118,79 @@ namespace Montador
                 return d.CompareTo('0');
         }
 
+        /*
+         * identifica o tipo de uma palavra (olhar enum Tipos)
+         */
+        public int identificaTipo(string palavra, Gramatica gramatica)
+        {
+            int esq, dir;
+            string[] aux;
+            //se a string contiver uma ',', divide-a em 2
+            if (palavra.IndexOf(',') != -1)
+            {
+                aux = palavra.Split(',');
+                esq = identificaTipo(aux[0], gramatica);
+                dir = identificaTipo(aux[1], gramatica);
+
+                return identificaTipo(esq, dir, gramatica);
+            }
+
+            if (ehNumero(palavra))
+                return (int)Tipos.ENDERECO;
+            //se nao for um numero, verifica se eh alguma palavra conhecida
+            if (this.diretivas.BinarySearch(palavra) != -1)
+                return (int)Tipos.DIRETIVA;
+            if (this.instrucoes.BinarySearch(palavra) != -1)
+                return (int)Tipos.INSTRUCAO;
+            if (this.registradores.BinarySearch(palavra) != -1)
+                return (int)Tipos.REGISTRADOR;
+            if (this.enderecamentos.BinarySearch(palavra) != -1)
+                return (int)Tipos.ENDERECAMENTO;
+
+            if (ehLabel(palavra))
+                return (int)Tipos.ENDERECO;
+
+            //se nao for nada conhecido, entao eh invalido
+            return (int)Tipos.INVALIDO;
+
+        }
+
+        /*
+         * verifica se a string corresponde a um numero em hexa ou em decimal, podendo ser precedida ou nao por IMEDIATO ou '-'
+         */
+        private bool ehNumero(string palavra)
+        {
+            int i = 0;
+            bool hexa = false;
+            bool numero = true;
+            if (palavra[0] == IMEDIATO || palavra[0] == '-')
+                i++;
+
+            if (palavra[i] == '0')
+                hexa = true;
+
+            for (; i < palavra.Length && numero; i++)
+            {
+                numero = false;
+                if ((hexa && ehDigitoHexa(palavra[i])))
+                    numero = true;
+                else if (Char.IsDigit(palavra[i]))
+                    numero = true;
+            }
+
+            if (numero)
+                return true;
+            //se o ultimo caracter encontrado foi um 'H' e este eh o ultimo caracter da string
+            //entao eh um numero em hexadeciamal
+            if (palavra[i] == 'H' && hexa && i == palavra.Length)
+                return true;
+            return false;
+
+        }
+
+        public int identificaTipo(int esquerda, int direita, Gramatica gramatica)
+        {
+            return 0;
+        }
     }
 }

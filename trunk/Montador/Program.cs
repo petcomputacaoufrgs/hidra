@@ -16,6 +16,7 @@ namespace Montador
          */
         static void Main(string[] args)
         {
+            DateTime t0 = DateTime.Now;
             Dados dados = new Dados();
             Gramatica gram = new Gramatica();
             
@@ -54,7 +55,10 @@ namespace Montador
 
             //le o codigo fonte
             code.lerCodigo(args[0]);
+            code.print();
+
             code.converteHexa();
+            code.print();
 
             foreach (string[] a in code.preprocessado)
             {

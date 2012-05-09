@@ -22,6 +22,11 @@ namespace Montador
          */
         public byte[] binario;
 
+        /*
+         * os tipos de cada palavra
+         */
+        public List<int[]> tipos;
+
 
         /**
          * limpa a linha, removendo os espaços nas pontas
@@ -143,11 +148,67 @@ namespace Montador
         /**
          * converte todas as ocorrencias de numeros em hexadecimal para numeros em decimal
          * altera this.preprocessado
+         * TODO: modificar apenas nos campos de endereco para nao alterar definicoes de labels
+         * chamar esta funcao depois de substituir o valor das labels no codigo
          */
         public void converteHexa()
         {
+            Gramatica gram = new Gramatica();
+            string numeroHexa;
+            int numero;
 
+            //itera por todas as linhas do fonte
+            foreach (string[] linha in this.preprocessado)
+            {
+                for(int i = 0;i<linha.Length;i++)
+                {
+                    numeroHexa = gram.substringHexa(linha[i]);
+
+                    if (numeroHexa != "")
+                    {
+                        numero = gram.hexa2int(numeroHexa);
+                        linha[i] = linha[i].Replace(numeroHexa+"H", numero.ToString());
+                    }
+                }
+            }
         }
 
+        /*
+         *  escreve o conteudo de this.preprocessado na tela
+         */
+        public void print()
+        {
+            Console.WriteLine("*******");
+            foreach (string[] linha in this.preprocessado)
+            {
+                foreach (string w in linha)
+                {
+                    Console.Write(w+" ");
+                }
+                Console.Write("\n");
+            }
+            Console.WriteLine("*******");
+        }
+
+        /*
+         * identifica os tipos de cada elemento das linhas de this.preprocessado
+         * altera this.tipos com os devidos codigos
+         * exemplo:
+         * ["label:", "JMP", "12,0Fh"] -> [DEFLABEL,INSTRUCAO,ENDERECO]
+         */
+        public void identificaTipos()
+        {
+            Gramatica gram = new Gramatica();
+            this.tipos = new List<int[]>();
+            foreach (string[] linha in this.preprocessado)
+            {
+                tipos.Add(new int[linha.Length]);
+                for (int i = 0; i < linha.Length;i++)
+                {
+                    this.tipos[tipos.Count - 1] = gram.identificaTipo(linha[i]);
+                }
+
+            }
+        }
     }
 }
