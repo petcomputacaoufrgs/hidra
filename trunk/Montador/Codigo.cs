@@ -196,16 +196,15 @@ namespace Montador
          * exemplo:
          * ["label:", "JMP", "12,0Fh"] -> [DEFLABEL,INSTRUCAO,ENDERECO]
          */
-        public void identificaTipos()
+        public void identificaTipos(Gramatica gram)
         {
-            Gramatica gram = new Gramatica();
             this.tipos = new List<int[]>();
             foreach (string[] linha in this.preprocessado)
             {
                 tipos.Add(new int[linha.Length]);
                 for (int i = 0; i < linha.Length;i++)
                 {
-                    this.tipos[tipos.Count - 1] = gram.identificaTipo(linha[i]);
+                    this.tipos[tipos.Count - 1][i] = gram.identificaTipo(linha[i],gram);
                 }
 
             }

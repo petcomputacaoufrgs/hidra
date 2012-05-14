@@ -52,25 +52,34 @@ namespace Montador
                 esc.errorOut(Escritor.ERRO,0,erro,saidaErro);
                 return;
             }
+            //carrega a gramatica para a maquina
+            gram.carrega(maquina);
 
             //le o codigo fonte
             code.lerCodigo(args[0]);
             code.print();
 
-            code.converteHexa();
+            //code.converteHexa();
+            code.identificaTipos(gram);
             code.print();
 
             foreach (string[] a in code.preprocessado)
             {
                 foreach (string b in a)
                 {
-                    string hexa = gram.substringHexa(b);
-                    Console.Write(b + " * "+ hexa);
-                    if (hexa != "")
-                        Console.Write("Val=" + gram.hexa2int(hexa));
-                    Console.Write("\n");
+                    if(gram.ehNumero(b))
+                    {
+                        Console.WriteLine(b);
+                    }
                 }
-                Console.Write("\n");
+            }
+
+            foreach (int[] a in code.tipos)
+            {
+                foreach (int b in a)
+                {
+                    Console.WriteLine(b);
+                }
             }
         }
     }

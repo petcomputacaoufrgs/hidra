@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 
 namespace Montador
 {
-    class Gramatica
+    public class Gramatica
     {
 
         public string[] inst;
@@ -13,10 +14,65 @@ namespace Montador
         private const char IMEDIATO = '#';
 
         private List<string> instrucoes;
-        private List<string> diretivas;
+        private string[] diretivas = {"DAB","DAW","DB","DW","ORG"};
         private List<string> registradores;
         private List<string> enderecamentos;
 
+        /*
+         * carrega os dados relativos a maquina fornecida
+         * TODO: tratar casos em que os arquivos nao existem
+         * 
+         * arquivos usados (data/maquina/):
+         * inst.txt, formato:
+         * mnemonico [r...] [end...]
+         * ex: add r end
+         * 
+         * end.txt, modos de enderecameto
+         * d: direto
+         * i: indireto
+         * #: imediato
+         * x: indexado
+         * p: relativo ao PC
+         * 
+         * reg.txt, registradores, uma palavra por linha
+         */
+        public void carrega(string maquina)
+        {
+            this.instrucoes = new List<string>();
+            this.registradores = new List<string>();
+            this.enderecamentos = new List<string>();
+
+            string linha;
+            string arquivo = "data/" + maquina;
+            char[] space = {' '};
+
+            //adiciona o mnemonicos das instrucoes
+            using (StreamReader file = new StreamReader(arquivo + "/inst.txt"))
+            {
+                while ((linha = file.ReadLine()) != null)
+                {
+                    this.instrucoes.Add(linha.Split(space)[0]);
+                }
+            }
+
+            //adiciona os registradores
+            using (StreamReader file = new StreamReader(arquivo + "/reg.txt"))
+            {
+                while ((linha = file.ReadLine()) != null)
+                {
+                    this.registradores.Add(linha.Split(space)[0]);
+                }
+            }
+
+            //adiciona os modos de enderecamentos
+            using (StreamReader file = new StreamReader(arquivo + "/end.txt"))
+            {
+                while ((linha = file.ReadLine()) != null)
+                {
+                    this.enderecamentos.Add(linha.Split(space)[0]);
+                }
+            }
+        }
 
         /**
          * independente da maquina, cada linha do codigo fonte pode ser:
@@ -25,9 +81,9 @@ namespace Montador
          * inst end
          * inst r
          * inst r end
-         * label
          * diretiva
          * 
+         * precedida ou nao por uma definicao de label
          * um endereco pode ser um numero ou uma palavra, seguido de um modo de enderecamento
          * uma label eh uma palavra seguida de ':'
          * 
@@ -138,7 +194,7 @@ namespace Montador
             if (ehNumero(palavra))
                 return (int)Tipos.ENDERECO;
             //se nao for um numero, verifica se eh alguma palavra conhecida
-            if (this.diretivas.BinarySearch(palavra) != -1)
+            if (Array.BinarySearch(this.diretivas,palavra) != -1)
                 return (int)Tipos.DIRETIVA;
             if (this.instrucoes.BinarySearch(palavra) != -1)
                 return (int)Tipos.INSTRUCAO;
@@ -147,8 +203,8 @@ namespace Montador
             if (this.enderecamentos.BinarySearch(palavra) != -1)
                 return (int)Tipos.ENDERECAMENTO;
 
-            if (ehLabel(palavra))
-                return (int)Tipos.ENDERECO;
+            /*if (ehLabel(palavra))
+                return (int)Tipos.ENDERECO;*/
 
             //se nao for nada conhecido, entao eh invalido
             return (int)Tipos.INVALIDO;
@@ -158,7 +214,7 @@ namespace Montador
         /*
          * verifica se a string corresponde a um numero em hexa ou em decimal, podendo ser precedida ou nao por IMEDIATO ou '-'
          */
-        private bool ehNumero(string palavra)
+        public bool ehNumero(string palavra)
         {
             int i = 0;
             bool hexa = false;
@@ -166,7 +222,7 @@ namespace Montador
             if (palavra[0] == IMEDIATO || palavra[0] == '-')
                 i++;
 
-            if (palavra[i] == '0')
+            if (palavra[i] == '0' && palavra[palavra.Length-1] == 'H')
                 hexa = true;
 
             for (; i < palavra.Length && numero; i++)
@@ -182,7 +238,7 @@ namespace Montador
                 return true;
             //se o ultimo caracter encontrado foi um 'H' e este eh o ultimo caracter da string
             //entao eh um numero em hexadeciamal
-            if (palavra[i] == 'H' && hexa && i == palavra.Length)
+            if (palavra[i-1] == 'H' && hexa && i == palavra.Length && hexa)
                 return true;
             return false;
 
