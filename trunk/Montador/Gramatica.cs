@@ -13,10 +13,12 @@ namespace Montador
         public enum Tipos { DEFLABEL, INSTRUCAO, DIRETIVA, REGISTRADOR, ENDERECO, ENDERECAMENTO, INVALIDO };
         private const char IMEDIATO = '#';
 
-        private List<string> instrucoes;
-        private string[] diretivas = {"DAB","DAW","DB","DW","ORG"};
-        private List<string> registradores;
-        private List<string> enderecamentos;
+        public List<Instrucao> instrucoes;
+
+        public List<string> mnemonicos;
+        public string[] diretivas = {"DAB","DAW","DB","DW","ORG"};
+        public List<string> registradores;
+        public List<string> enderecamentos;
 
         /*
          * carrega os dados relativos a maquina fornecida
@@ -38,11 +40,13 @@ namespace Montador
          */
         public void carrega(string maquina)
         {
-            this.instrucoes = new List<string>();
+            this.mnemonicos = new List<string>();
             this.registradores = new List<string>();
             this.enderecamentos = new List<string>();
 
             string linha;
+			int[] formato;
+			string[] words;
             string arquivo = "data/" + maquina;
             char[] space = {' '};
 
@@ -51,7 +55,21 @@ namespace Montador
             {
                 while ((linha = file.ReadLine()) != null)
                 {
-                    this.instrucoes.Add(linha.Split(space)[0]);
+					words = linha.Split(space);
+                    this.mnemonicos.Add(words[0].ToUpper());
+
+					//determina o formato da instrucao
+					formato = new int[words.Length];
+					for (int i = 0; i < words.Length; i++)
+					{
+						if (words[i] == "r")
+							formato[i] = (int)Tipos.REGISTRADOR;
+						else if(words[i] == "end")
+							formato[i] = (int)Tipos.ENDERECO;
+						else
+							formato[i] = (int)Tipos.INSTRUCAO;
+					}
+						this.instrucoes.Add(new Instrucao(words[0].ToUpper,formato,0));
                 }
             }
 
@@ -60,7 +78,7 @@ namespace Montador
             {
                 while ((linha = file.ReadLine()) != null)
                 {
-                    this.registradores.Add(linha.Split(space)[0]);
+                    this.registradores.Add(linha.Split(space)[0].ToUpper());
                 }
             }
 
@@ -69,9 +87,13 @@ namespace Montador
             {
                 while ((linha = file.ReadLine()) != null)
                 {
-                    this.enderecamentos.Add(linha.Split(space)[0]);
+                    this.enderecamentos.Add(linha.Split(space)[0].ToUpper());
                 }
             }
+
+            this.mnemonicos.Sort();
+            this.registradores.Sort();
+            this.enderecamentos.Sort();
         }
 
         /**
@@ -182,7 +204,7 @@ namespace Montador
             int esq, dir;
             string[] aux;
             //se a string contiver uma ',', divide-a em 2
-            if (palavra.IndexOf(',') != -1)
+            if (palavra.IndexOf(',') >= 0)
             {
                 aux = palavra.Split(',');
                 esq = identificaTipo(aux[0], gramatica);
@@ -194,17 +216,22 @@ namespace Montador
             if (ehNumero(palavra))
                 return (int)Tipos.ENDERECO;
             //se nao for um numero, verifica se eh alguma palavra conhecida
-            if (Array.BinarySearch(this.diretivas,palavra) != -1)
+            if (Array.BinarySearch(this.diretivas, palavra) >= 0)
                 return (int)Tipos.DIRETIVA;
-            if (this.instrucoes.BinarySearch(palavra) != -1)
+            if (this.mnemonicos.BinarySearch(palavra) >= 0)
                 return (int)Tipos.INSTRUCAO;
-            if (this.registradores.BinarySearch(palavra) != -1)
+            if (this.registradores.BinarySearch(palavra) >= 0)
                 return (int)Tipos.REGISTRADOR;
-            if (this.enderecamentos.BinarySearch(palavra) != -1)
+            if (this.enderecamentos.BinarySearch(palavra) >= 0)
                 return (int)Tipos.ENDERECAMENTO;
 
-            /*if (ehLabel(palavra))
-                return (int)Tipos.ENDERECO;*/
+            if (ehLabel(palavra))
+            {
+                if(palavra[palavra.Length -1] == ':')
+                    return (int)Tipos.DEFLABEL;
+                else
+                    return (int)Tipos.ENDERECO;
+            }
 
             //se nao for nada conhecido, entao eh invalido
             return (int)Tipos.INVALIDO;
@@ -244,9 +271,40 @@ namespace Montador
 
         }
 
+        /*
+         * verifica se uma determinada palavra eh a definicao de uma label
+         */
+        public bool ehLabel(string palavra)
+        {
+
+            if (Char.IsDigit(palavra[0]))
+            {
+                return false;
+            }
+            foreach (char c in palavra)
+            {
+                if (c == ',')
+                    return false;
+            }
+            return true;
+
+
+        }
+
+        /*
+         * recebe os tipos dos elementos a direita e a esquerda de uma virgula
+         * retorna o tipo da concatenacao
+         * ex:
+         * ENDERECO,ENDERECAMENTO -> ENDERECO
+         * INSTRUCAO,REGISTRADOR -> INVALIDO
+         */
         public int identificaTipo(int esquerda, int direita, Gramatica gramatica)
         {
-            return 0;
+
+            if (esquerda == (int)Tipos.ENDERECO && direita == (int)Tipos.ENDERECAMENTO)
+                return (int)Tipos.ENDERECO;
+            return (int)Tipos.INVALIDO;
+
         }
     }
 }

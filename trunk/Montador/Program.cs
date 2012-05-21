@@ -62,6 +62,16 @@ namespace Montador
             //code.converteHexa();
             code.identificaTipos(gram);
             code.print();
+            
+            //verifica se as linhas sao validas para a maquina
+            /*if (code.verificaSintaxe() == false)
+            {
+                return;
+            }*/
+
+            //code.Monta();
+
+
 
             foreach (string[] a in code.preprocessado)
             {
@@ -73,14 +83,25 @@ namespace Montador
                     }
                 }
             }
+            /*
+            Console.Write("Instruções:\n");
+
+            foreach (string inst in gram.instrucoes)
+            {
+                Console.WriteLine(inst);
+            }
+
+            Console.WriteLine("Tipos:\n");
 
             foreach (int[] a in code.tipos)
             {
                 foreach (int b in a)
                 {
-                    Console.WriteLine(b);
+                    Console.Write(b + " ");
                 }
+                Console.Write("\n");
             }
+            */
         }
     }
 }

@@ -205,9 +205,12 @@ namespace Montador
                 for (int i = 0; i < linha.Length;i++)
                 {
                     this.tipos[tipos.Count - 1][i] = gram.identificaTipo(linha[i],gram);
+                    Console.WriteLine(linha[i] + "\t" + this.tipos[tipos.Count - 1][i]);
                 }
 
             }
         }
+
+
     }
 }
