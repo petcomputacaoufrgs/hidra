@@ -40,6 +40,7 @@ namespace Montador
          */
         public void carrega(string maquina)
         {
+			this.instrucoes = new List<Instrucao>();
             this.mnemonicos = new List<string>();
             this.registradores = new List<string>();
             this.enderecamentos = new List<string>();
@@ -69,7 +70,7 @@ namespace Montador
 						else
 							formato[i] = (int)Tipos.INSTRUCAO;
 					}
-						this.instrucoes.Add(new Instrucao(words[0].ToUpper,formato,0));
+						this.instrucoes.Add(new Instrucao(words[0].ToUpper(),formato,0));
                 }
             }
 
@@ -306,5 +307,42 @@ namespace Montador
             return (int)Tipos.INVALIDO;
 
         }
+
+		/*
+		 * verifica se os tipos de uma linha são validos
+		 * linhas sao do tipo
+		 * 0?.(1).(3+4)* ou
+		 * 0?.(2).(4)*
+		 * retorna true se forem
+		 */
+		public bool verificaTipos(int[] tipos,string[] linha, int nlinha,Escritor saida)
+		{
+			int i = 0;
+			//a linha pode comecar por definicao de label
+			if (tipos[0] == 0)
+				i = 1;
+			if (i >= tipos.Length)
+				return true;
+			if (tipos[i] == (int)Tipos.INSTRUCAO)
+			{			
+				//verifica se ha algo diferente de registradores e enderecos
+				for (i++; i < tipos.Length; i++)
+				{
+					if (tipos[i] == (int)Tipos.INVALIDO)
+					{
+						saida.errorOut(Escritor.ERRO, nlinha, "Palavra inválida: " + linha[i]);
+					}
+				}
+			}
+			else if (tipos[i] == (int)Tipos.DIRETIVA)
+			{
+				return true;
+			}
+			else
+			{
+				saida.errorOut(Escritor.ERRO, nlinha, "Instrucao inválida: " + linha[i]);
+			}
+			return true;
+		}
     }
 }

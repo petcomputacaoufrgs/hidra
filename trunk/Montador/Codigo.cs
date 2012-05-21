@@ -35,7 +35,7 @@ namespace Montador
          * ex:
          * "    add a 127 ,x " -> {"ADD", "A", "127,X"}
          * "label   :" -> {"label:"}
-         * se a linha for um comentario, retorna a propria string, em maiusculas e sem os espacos nos cantos
+         * se a linha for um comentario, retorna um array com a propria string
          */
         private string[] limpaLinha(string linha)
         {
@@ -60,16 +60,19 @@ namespace Montador
                 op = palavras[i];
                 
                 //se o caracter anteiror foi uma virgula, nao insere um espaco
-                if (linha[linha.Length - 1] == ',')
-                    linha += op;
-                //se for uma virgula ou ':', cola-a na palavra anterior
-                else if (op == "," || op == ":")
-                    linha += op;
-                else if (op != "")
-                {
-                    linha += " " + op;
-                    total++;
-                }
+				if (linha[linha.Length - 1] == ',')
+					linha += op;
+				//se for uma virgula ou ':', cola-a na palavra anterior
+				else if (op == "," || op == ":")
+					linha += op;
+				//se for um comentario, remove tudo a direita
+				else if (op.IndexOf(COMENTARIO) >= 0)
+					break;
+				else if (op != "")
+				{
+					linha += " " + op;
+					total++;
+				}
 
             }
 
@@ -140,9 +143,25 @@ namespace Montador
          * 
          * retorna true se for
          */
-        public Boolean codigoValido()
+        public Boolean ehValido(Gramatica gramatica,Escritor saida)
         {
-            return true;
+			this.identificaTipos(gramatica);
+
+			for (int i = 0; i < this.tipos.Count; i++)
+			{
+				for (int j = 0; j < this.tipos[i].Length; j++)
+					Console.Write(this.tipos[i][j]+" ");
+				Console.WriteLine();
+			}
+
+			//verifica se os tipos de cada linha são validos
+			for (int i = 0; i < this.tipos.Count; i++)
+			{
+				gramatica.verificaTipos(this.tipos[i],this.preprocessado[i],this.linhasFonte[i],saida);
+			}
+				
+
+					return true;
         }
 
         /**
@@ -205,12 +224,9 @@ namespace Montador
                 for (int i = 0; i < linha.Length;i++)
                 {
                     this.tipos[tipos.Count - 1][i] = gram.identificaTipo(linha[i],gram);
-                    Console.WriteLine(linha[i] + "\t" + this.tipos[tipos.Count - 1][i]);
+                    //Console.WriteLine(linha[i] + "\t" + this.tipos[tipos.Count - 1][i]);
                 }
-
             }
         }
-
-
     }
 }

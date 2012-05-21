@@ -33,6 +33,7 @@ namespace Montador
             Boolean achou = false;
             string maquina = args[2].ToLower();
             string saidaErro = args[1]+".err";  //nome do arquivo para a saida de erro
+			esc.arquivo = saidaErro;
             System.IO.File.Delete(saidaErro);
             string erro = "";
             max = maquina.Length;
@@ -49,7 +50,7 @@ namespace Montador
             if (!achou)
             {
                 erro = maquina + " não é uma maquina válida.";
-                esc.errorOut(Escritor.ERRO,0,erro,saidaErro);
+                esc.errorOut(Escritor.ERRO,0,erro);
                 return;
             }
             //carrega a gramatica para a maquina
@@ -60,19 +61,19 @@ namespace Montador
             code.print();
 
             //code.converteHexa();
-            code.identificaTipos(gram);
-            code.print();
+            //code.identificaTipos(gram);
+            //code.print();
             
             //verifica se as linhas sao validas para a maquina
-            /*if (code.verificaSintaxe() == false)
+            if (code.ehValido(gram,esc) == false)
             {
                 return;
-            }*/
+            }
 
             //code.Monta();
 
 
-
+			/*
             foreach (string[] a in code.preprocessado)
             {
                 foreach (string b in a)
@@ -82,7 +83,7 @@ namespace Montador
                         Console.WriteLine(b);
                     }
                 }
-            }
+            }*/
             /*
             Console.Write("Instruções:\n");
 

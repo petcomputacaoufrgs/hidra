@@ -8,6 +8,7 @@ namespace Montador
         public const int ERRO = 0;
         public const int AVISO = 1;
 
+		public string arquivo;
         /**
          * tipo: ERRO ou AVISO
          * nlinha eh o numero da linha em que ocorreu o erro/aviso
@@ -15,7 +16,7 @@ namespace Montador
          * formato:
          * TIPO: descricao (linha nlinha)
          */
-        public void errorOut(int tipo, int nlinha, string descricao, string arquivo)
+        public void errorOut(int tipo, int nlinha, string descricao)
         {
             string erro = "ERRO: ";
             string aviso = "AVISO: ";
@@ -38,7 +39,7 @@ namespace Montador
             texto = texto + descricao + linha;
 
             //abre o arquivo para appending
-            System.IO.StreamWriter file = new System.IO.StreamWriter(arquivo,true);
+            System.IO.StreamWriter file = new System.IO.StreamWriter(this.arquivo,true);
             try
             {
                 file.WriteLine(texto);
