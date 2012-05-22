@@ -21,7 +21,7 @@ namespace Montador
             string erro = "ERRO: ";
             string aviso = "AVISO: ";
 
-            string linha = "(linha )".Insert(7, nlinha.ToString());
+            string linha = " (linha )".Insert(8, nlinha.ToString());
             string texto = "";
 
             //determina se eh um erro ou um aviso

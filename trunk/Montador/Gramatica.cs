@@ -328,9 +328,18 @@ namespace Montador
 				//verifica se ha algo diferente de registradores e enderecos
 				for (i++; i < tipos.Length; i++)
 				{
-					if (tipos[i] == (int)Tipos.INVALIDO)
+					switch(tipos[i])
 					{
-						saida.errorOut(Escritor.ERRO, nlinha, "Palavra inválida: " + linha[i]);
+						case (int)Tipos.INVALIDO:
+							saida.errorOut(Escritor.ERRO, nlinha, "Palavra inválida: " + linha[i]);
+							break;
+						case (int)Tipos.DEFLABEL:
+							saida.errorOut(Escritor.ERRO, nlinha, "Labels só podem ser definidas no início da linha.");
+							break;
+						case (int)Tipos.INSTRUCAO:
+						case (int)Tipos.DIRETIVA:
+							saida.errorOut(Escritor.ERRO, nlinha, "Não pode ter mais de uma instrução ou diretiva por linha.");
+							break;
 					}
 				}
 			}
