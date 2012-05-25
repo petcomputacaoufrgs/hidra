@@ -315,41 +315,100 @@ namespace Montador
 		 * 0?.(2).(4)*
 		 * retorna true se forem
 		 */
-		public bool verificaTipos(int[] tipos,string[] linha, int nlinha,Escritor saida)
+		public bool verificaTipos(int[] tipos,string[] linha, int nlinha,Escritor saida,Definicoes defs)
 		{
+			Instrucao inst;
 			int i = 0;
+			int j = 1;
+			int size = tipos.Length;
 			//a linha pode comecar por definicao de label
 			if (tipos[0] == 0)
+			{
+				defs.adicionaDef(linha[0].Substring(0,linha[0].Length-1),nlinha,saida);
 				i = 1;
+				size--;
+			}
+			//a linha eh a definicao de uma label apenas
 			if (i >= tipos.Length)
 				return true;
+
 			if (tipos[i] == (int)Tipos.INSTRUCAO)
-			{			
+			{
+				inst = this.instrucoes.Find(o => o.mnemonico == linha[i]);
+				if(size < inst.formato.Length)
+					saida.errorOut(Escritor.ERRO, nlinha, "Número incorreto de operandos. Esperava-se " + (inst.formato.Length - 1) + ", encontrou-se " + (size - 1));
 				//verifica se ha algo diferente de registradores e enderecos
 				for (i++; i < tipos.Length; i++)
 				{
-					switch(tipos[i])
+					if (j >= inst.formato.Length)
 					{
-						case (int)Tipos.INVALIDO:
-							saida.errorOut(Escritor.ERRO, nlinha, "Palavra inválida: " + linha[i]);
-							break;
-						case (int)Tipos.DEFLABEL:
-							saida.errorOut(Escritor.ERRO, nlinha, "Labels só podem ser definidas no início da linha.");
-							break;
-						case (int)Tipos.INSTRUCAO:
-						case (int)Tipos.DIRETIVA:
-							saida.errorOut(Escritor.ERRO, nlinha, "Não pode ter mais de uma instrução ou diretiva por linha.");
-							break;
+						if(tipos[i] != (int)Tipos.ENDERECAMENTO || tipos[i-1] != (int)Tipos.ENDERECO)
+							saida.errorOut(Escritor.ERRO, nlinha, "Número incorreto de operandos. Esperava-se " + (inst.formato.Length-1) + ", encontrou-se " + (size-1));
+						break;
 					}
+					if (tipos[i] != inst.formato[j])
+					{
+						switch (tipos[i])
+						{
+							case (int)Tipos.INVALIDO:
+								saida.errorOut(Escritor.ERRO, nlinha, "Palavra inválida: " + linha[i]);
+								break;
+							case (int)Tipos.DEFLABEL:
+								saida.errorOut(Escritor.ERRO, nlinha, "Labels só podem ser definidas no início da linha.");
+								break;
+							case (int)Tipos.INSTRUCAO:
+							case (int)Tipos.DIRETIVA:
+								saida.errorOut(Escritor.ERRO, nlinha, "Não pode ter mais de uma instrução ou diretiva por linha.");
+								break;
+							case (int)Tipos.ENDERECAMENTO:
+								if (tipos[i - 1] == (int)Tipos.ENDERECO)
+								{
+									size--;
+									j--;
+								}
+								else
+									saida.errorOut(Escritor.ERRO, nlinha, "Modos de endereçamento devem ser precedidos por endereços.");
+								break;
+						}
+					}
+					else if (tipos[i] == (int)Tipos.ENDERECO)
+					{
+						if(ehLabel)
+					}
+					j++;
 				}
 			}
 			else if (tipos[i] == (int)Tipos.DIRETIVA)
 			{
-				return true;
+				//se for a diretiva org, apenas 1 operando deve existir
+				if(linha[i] == "ORG")
+				{
+					if(size != 2)
+						saida.errorOut(Escritor.ERRO, nlinha, "Número incorreto de operandos. Esperava-se 1, encontrou-se " + (size - 1));
+				}
+				i++;
+				//o restante da linha so pode conter enderecos
+				while (i < tipos.Length)
+				{
+					switch (tipos[i])
+					{
+						case (int)Tipos.INSTRUCAO:
+						case (int)Tipos.DIRETIVA:
+							saida.errorOut(Escritor.ERRO, nlinha, "Não pode ter mais de uma instrução ou diretiva por linha.");
+							break;
+						case (int)Tipos.REGISTRADOR:
+							saida.errorOut(Escritor.ERRO, nlinha, linha[i] + " não é um operando válido.");
+							break;
+						case (int)Tipos.INVALIDO:
+							saida.errorOut(Escritor.ERRO, nlinha, "Palavra inválida: " + linha[i]);
+							break;
+					}
+					i++;
+				}
 			}
 			else
 			{
-				saida.errorOut(Escritor.ERRO, nlinha, "Instrucao inválida: " + linha[i]);
+				saida.errorOut(Escritor.ERRO, nlinha, "Instrução ou diretiva inválida: " + linha[i]);
 			}
 			return true;
 		}

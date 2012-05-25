@@ -69,6 +69,7 @@ namespace Montador
             {
                 return;
             }
+			code.defs.verificaLabels(esc);
 
             //code.Monta();
 

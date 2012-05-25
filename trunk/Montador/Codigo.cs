@@ -27,6 +27,8 @@ namespace Montador
          */
         public List<int[]> tipos;
 
+		public Definicoes defs = new Definicoes();
+
 
         /**
          * limpa a linha, removendo os espaços nas pontas
@@ -48,7 +50,7 @@ namespace Montador
                 return dividido;
 
             //separa a linha em "instrucao [operandos...]"
-            char[] whitespace = {' ','\t','\n' };
+            char[] whitespace = {' ','\t','\n',',' };
             string[] palavras = linha.Split(whitespace);
             string op;
             int total = 0;  //numero de palavras na linha
@@ -58,12 +60,9 @@ namespace Montador
             for(int i = 1; i<palavras.Length;i++)
             {
                 op = palavras[i];
-                
-                //se o caracter anteiror foi uma virgula, nao insere um espaco
-				if (linha[linha.Length - 1] == ',')
-					linha += op;
-				//se for uma virgula ou ':', cola-a na palavra anterior
-				else if (op == "," || op == ":")
+                                
+				//se for ':', cola-o na palavra anterior
+				if (op == ":")
 					linha += op;
 				//se for um comentario, remove tudo a direita
 				else if (op.IndexOf(COMENTARIO) >= 0)
@@ -157,7 +156,7 @@ namespace Montador
 			//verifica se os tipos de cada linha são validos
 			for (int i = 0; i < this.tipos.Count; i++)
 			{
-				gramatica.verificaTipos(this.tipos[i],this.preprocessado[i],this.linhasFonte[i],saida);
+				gramatica.verificaTipos(this.tipos[i],this.preprocessado[i],this.linhasFonte[i],saida,this.defs);
 			}
 				
 
@@ -197,14 +196,17 @@ namespace Montador
          */
         public void print()
         {
+			int i = 0;
             Console.WriteLine("*******");
             foreach (string[] linha in this.preprocessado)
             {
+				Console.Write(this.linhasFonte[i] + ":\t");
                 foreach (string w in linha)
                 {
                     Console.Write(w+" ");
                 }
                 Console.Write("\n");
+				i++;
             }
             Console.WriteLine("*******");
         }

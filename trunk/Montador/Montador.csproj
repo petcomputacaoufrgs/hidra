@@ -47,13 +47,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Escritor.cs" />
+    <Compile Include="Label.cs" />
+    <Compile Include="Definicoes.cs" />
     <Compile Include="Instrucao.cs" />
     <Compile Include="Gramatica.cs" />
     <Compile Include="Linguagem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Codigo.cs" />
     <Compile Include="Dados.cs" />
-    <Compile Include="escritor.cs" />
     <Compile Include="Program.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
