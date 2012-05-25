@@ -10,7 +10,7 @@ namespace Montador
     {
 
         public string[] inst;
-        public enum Tipos { DEFLABEL, INSTRUCAO, DIRETIVA, REGISTRADOR, ENDERECO, ENDERECAMENTO, INVALIDO };
+        public enum Tipos { DEFLABEL, INSTRUCAO, DIRETIVA, REGISTRADOR, ENDERECO, ENDERECAMENTO, INVALIDO, STRING };
         private const char IMEDIATO = '#';
 
         public List<Instrucao> instrucoes;
@@ -277,19 +277,24 @@ namespace Montador
          */
         public bool ehLabel(string palavra)
         {
+			char[] invalid = {',','\'','\"' ,':'};
 
             if (Char.IsDigit(palavra[0]))
             {
                 return false;
             }
-            foreach (char c in palavra)
-            {
-                if (c == ',')
-                    return false;
-            }
-            return true;
+			for (int i = 0; i < palavra.Length-1;i++)
+			{
+				//se for um dos caracteres invalidos
+				if (Array.Exists(invalid,c => c == palavra[i]))
+					return false;
+			}
 
-
+			if(palavra[palavra.Length-1] == ':')
+				return true;
+			else if (Array.Exists(invalid,c => c == palavra[palavra.Length-1]))
+				return false;
+			return true;
         }
 
         /*
@@ -298,6 +303,8 @@ namespace Montador
          * ex:
          * ENDERECO,ENDERECAMENTO -> ENDERECO
          * INSTRUCAO,REGISTRADOR -> INVALIDO
+		 * 
+		 * OBS: provavelmente essa funcao eh desnecessaria
          */
         public int identificaTipo(int esquerda, int direita, Gramatica gramatica)
         {
@@ -373,7 +380,10 @@ namespace Montador
 					}
 					else if (tipos[i] == (int)Tipos.ENDERECO)
 					{
-						if(ehLabel)
+						if (ehLabel(linha[i]))
+						{
+							defs.adicionaRef(linha[i], nlinha);
+						}
 					}
 					j++;
 				}

@@ -47,7 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Escritor.cs" />
+    <Compile Include="escritor.cs" />
     <Compile Include="Label.cs" />
     <Compile Include="Definicoes.cs" />
     <Compile Include="Instrucao.cs" />

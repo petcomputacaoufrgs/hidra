@@ -41,6 +41,9 @@ namespace Montador
          */
         private string[] limpaLinha(string linha)
         {
+			//verifica se ha strings no meio da linha
+
+
             //converte para maiusculas e remove os espacos nos cantos
             linha = linha.ToUpper().Trim();
             string[] dividido = {linha};

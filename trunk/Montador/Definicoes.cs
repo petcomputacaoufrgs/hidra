@@ -45,14 +45,14 @@ namespace Montador
 			{
 				if (defs.FindIndex(o => o.nome == uso.nome) < 0)
 				{
-					saida.errorOut(Escritor.ERRO,uso.linha,"Label nao definida: "+uso.nome);
+					saida.errorOut(Escritor.ERRO,uso.linha,"Label não definida: "+uso.nome);
 				}
 			}
 
 			foreach(Label def in defs)
 			{
-				if(referencias.FindIndex(o => o.nome == def.nome) <0)
-					saida.errorOut(Escritor.AVISO, def.linha, "Label nao utilizada: " + def.nome);
+				if(referencias.FindIndex(o => o.nome == def.nome) < 0)
+					saida.errorOut(Escritor.AVISO, def.linha, "Label não utilizada: " + def.nome);
 			}
 		}
 	}
