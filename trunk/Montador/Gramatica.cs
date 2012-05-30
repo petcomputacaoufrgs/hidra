@@ -10,7 +10,7 @@ namespace Montador
     {
 
         public string[] inst;
-        public enum Tipos { DEFLABEL, INSTRUCAO, DIRETIVA, REGISTRADOR, ENDERECO, ENDERECAMENTO, INVALIDO, STRING };
+        public enum Tipos { DEFLABEL, INSTRUCAO, DIRETIVA, REGISTRADOR, ENDERECO, ENDERECAMENTO, INVALIDO };
         private const char IMEDIATO = '#';
 
         public List<Instrucao> instrucoes;
@@ -202,18 +202,6 @@ namespace Montador
          */
         public int identificaTipo(string palavra, Gramatica gramatica)
         {
-            int esq, dir;
-            string[] aux;
-            //se a string contiver uma ',', divide-a em 2
-            if (palavra.IndexOf(',') >= 0)
-            {
-                aux = palavra.Split(',');
-                esq = identificaTipo(aux[0], gramatica);
-                dir = identificaTipo(aux[1], gramatica);
-
-                return identificaTipo(esq, dir, gramatica);
-            }
-
             if (ehNumero(palavra))
                 return (int)Tipos.ENDERECO;
             //se nao for um numero, verifica se eh alguma palavra conhecida
@@ -233,11 +221,30 @@ namespace Montador
                 else
                     return (int)Tipos.ENDERECO;
             }
+			else if(ehString(palavra))
+				return (int)Tipos.ENDERECO;
 
             //se nao for nada conhecido, entao eh invalido
             return (int)Tipos.INVALIDO;
 
         }
+
+		/*
+         * recebe os tipos dos elementos a direita e a esquerda de uma virgula
+         * retorna o tipo da concatenacao
+         * ex:
+         * ENDERECO,ENDERECAMENTO -> ENDERECO
+         * INSTRUCAO,REGISTRADOR -> INVALIDO
+		 * 
+		 * OBS: provavelmente essa funcao eh desnecessaria
+         */
+		public int identificaTipo(int esquerda, int direita, Gramatica gramatica)
+		{
+			if (esquerda == (int)Tipos.ENDERECO && direita == (int)Tipos.ENDERECAMENTO)
+				return (int)Tipos.ENDERECO;
+			return (int)Tipos.INVALIDO;
+
+		}
 
         /*
          * verifica se a string corresponde a um numero em hexa ou em decimal, podendo ser precedida ou nao por IMEDIATO ou '-'
@@ -297,23 +304,41 @@ namespace Montador
 			return true;
         }
 
-        /*
-         * recebe os tipos dos elementos a direita e a esquerda de uma virgula
-         * retorna o tipo da concatenacao
-         * ex:
-         * ENDERECO,ENDERECAMENTO -> ENDERECO
-         * INSTRUCAO,REGISTRADOR -> INVALIDO
-		 * 
-		 * OBS: provavelmente essa funcao eh desnecessaria
-         */
-        public int identificaTipo(int esquerda, int direita, Gramatica gramatica)
-        {
+		/*
+		 * determina se a palavra eh uma definicao de string, ou seja
+		 * comeca por ' ou " e termina pelo mesmo caractere
+		 */
 
-            if (esquerda == (int)Tipos.ENDERECO && direita == (int)Tipos.ENDERECAMENTO)
-                return (int)Tipos.ENDERECO;
-            return (int)Tipos.INVALIDO;
+		public bool ehString(string palavra)
+		{
+			char final;
+			bool escape = false;
 
-        }
+			if (palavra[0] != '\'' && palavra[0] != '\"')
+				return false;
+
+			final = palavra[0];
+			//verifica se termina pelo mesmo simbolo que comeca
+			//e esse simbolo nao aparece em nenhum outro lugar da string
+			for (int i = 1; i < palavra.Length-1; i++)
+			{
+				if (!escape)
+				{
+					if (palavra[i] == '\\')
+						escape = true;
+					//se o simbolo de final de string esta no meio dela, nao eh uma string
+					if (palavra[i] == final)
+						return false;
+				}
+				else
+				{
+					escape = false;
+				}
+			}
+
+			//se a palavra termina pelo caractere de final e este nao foi escapado, eh uma string
+			return (palavra[palavra.Length - 1] == final && !escape);
+		}
 
 		/*
 		 * verifica se os tipos de uma linha são validos

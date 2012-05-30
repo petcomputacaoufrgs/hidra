@@ -42,63 +42,109 @@ namespace Montador
         private string[] limpaLinha(string linha)
         {
 			//verifica se ha strings no meio da linha
+			Stringer parser = new Stringer();
+			char c;
+			bool espaco = true;
+			bool escape = false; //se o caractere anterior era de escape
+			bool copia = false;
+			int p = 0;
+			char final = '\'';
+			char[] parsed = new char[linha.Length+1];
 
+			int prev = 0; //indice do inicio do elemento
+			List<string> elem = new List<string>();
+			for(int i =0;i<linha.Length;i++)
+			{
+				c = linha[i];
 
-            //converte para maiusculas e remove os espacos nos cantos
-            linha = linha.ToUpper().Trim();
-            string[] dividido = {linha};
-            if (linha.Length == 0)
-                return dividido;
-            if (linha[0] == COMENTARIO)
-                return dividido;
-
-            //separa a linha em "instrucao [operandos...]"
-            char[] whitespace = {' ','\t','\n',',' };
-            string[] palavras = linha.Split(whitespace);
-            string op;
-            int total = 0;  //numero de palavras na linha
-            linha = palavras[0];
-
-            //deixa a linha no formato adequado
-            for(int i = 1; i<palavras.Length;i++)
-            {
-                op = palavras[i];
-                                
-				//se for ':', cola-o na palavra anterior
-				if (op == ":")
-					linha += op;
-				//se for um comentario, remove tudo a direita
-				else if (op.IndexOf(COMENTARIO) >= 0)
-					break;
-				else if (op != "")
+				if (copia)
 				{
-					linha += " " + op;
-					total++;
+					parsed[p++] = c;
+					if (!escape)
+					{
+						//se for um caractere de escape
+						if (c == '\\')
+							escape = true;
+						//se foi encontrado o final da string
+						if (c == final)
+						{
+							copia = false;
+						}
+					}
+					else
+					{
+						escape = false;
+					}
+					
 				}
+				else
+				{
+					//se for um espaco, verifica se ele deve ser copiado ou removido
+					if (c == ' ' || c == '\t' || c == ',')
+					{
+						//se o anterior nao era um espaco, copia
+						if (!espaco)
+						{
+							elem.Add(new string(parsed, prev, p - prev));
+							parsed[p++] = ' ';
+						}
+						espaco = true;
+					}
+					//se for o início de uma string
+					else
+					{
+						//se estavamos copiando espacos e paramos, aqui eh o inicio de um novo elemento
+						if (espaco)
+							prev = p;
+						if (c == '\"' || c == '\'')
+						{
+							//prev = p;
+							copia = true;
+							espaco = false;
+							parsed[p++] = c;
+							final = c;
+						}
 
-            }
+						//se for um comentario, remove
+						else if (c == ';')
+							break;
+						else
+						{
+							espaco = false;
+							parsed[p++] = Char.ToUpper(c);
+						}
+					}
+				}
+			}
 
-            //divide a linha em palavras
-            dividido = new string[total];
-            dividido = linha.Split(whitespace);
+			if(!espaco)
+				elem.Add(new string(parsed, prev, p - prev));
+			
+			string[] result = new string[elem.Count];
+			for (int i = 0; i < elem.Count; i++)
+			{
+				result[i] = elem[i];
+			}
 
-            return dividido;
+			return result;
+
         }
 
 
 
-        /**
-         * le o codigo de um arquivo, removendo os comentarios e espacos desnecessarios
-         * atualiza o conteudo de:
-         * Codigo.linhasFonte
-         * Codigo.preprocessado
-         */
-        public void lerCodigo(string arquivo)
+		/**
+		 * le o codigo de um arquivo, removendo os comentarios e espacos desnecessarios
+		 * atualiza o conteudo de:
+		 * Codigo.linhasFonte
+		 * Codigo.preprocessado
+		 */
+		public void lerCodigo(string arquivo)
         {
 
             this.linhasFonte = new List<int>();
             this.preprocessado = new List<string[]>();
             string linha;
+			string[] clean;
             int linhaAtual = 1;
 
             //le o arquivo, removendo espacos antes e depois de cada linha
@@ -106,7 +152,15 @@ namespace Montador
             {
                 while ((linha = file.ReadLine()) != null)
                 {
-                    this.preprocessado.Add(limpaLinha(linha));
+					clean = limpaLinha(linha);
+					if (clean.Length > 0)
+					{
+						this.preprocessado.Add(clean);
+						//adiciona o numero da linha
+						this.linhasFonte.Add(linhaAtual);
+					}
+					linhaAtual++;
+
                 }
             }
 
@@ -131,8 +185,7 @@ namespace Montador
                 }
                 else
                 {
-                    //acrescenta o numero dessa linha
-                    this.linhasFonte.Add(linhaAtual);
+                    
                 }
             }
 
