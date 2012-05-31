@@ -17,5 +17,11 @@ namespace Montador
 			this.formato = formato;
 			this.codigo = codigo;
         }
+		public Instrucao();
+
+		public int instCompare(Instrucao i0, Instrucao i1)
+		{
+			return String.Compare(i0.mnemonico, i1.mnemonico);
+		}
     }
 }

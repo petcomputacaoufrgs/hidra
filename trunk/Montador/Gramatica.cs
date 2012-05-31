@@ -11,93 +11,9 @@ namespace Montador
 
         public string[] inst;
         public enum Tipos { DEFLABEL, INSTRUCAO, DIRETIVA, REGISTRADOR, ENDERECO, ENDERECAMENTO, INVALIDO };
-        private const char IMEDIATO = '#';
 
-        public List<Instrucao> instrucoes;
+		public Linguagem linguagem;
 
-        public List<string> mnemonicos;
-        public string[] diretivas = {"DAB","DAW","DB","DW","ORG"};
-        public List<string> registradores;
-        public List<string> enderecamentos;
-
-        /*
-         * carrega os dados relativos a maquina fornecida
-         * TODO: tratar casos em que os arquivos nao existem
-         * 
-         * arquivos usados (data/maquina/):
-         * inst.txt, formato:
-         * mnemonico [r...] [end...]
-         * ex: add r end
-         * 
-         * end.txt, modos de enderecameto
-         * d: direto
-         * i: indireto
-         * #: imediato
-         * x: indexado
-         * p: relativo ao PC
-         * 
-         * reg.txt, registradores, uma palavra por linha
-         */
-        public void carrega(string maquina)
-        {
-			this.instrucoes = new List<Instrucao>();
-            this.mnemonicos = new List<string>();
-            this.registradores = new List<string>();
-            this.enderecamentos = new List<string>();
-
-            string linha;
-			int[] formato;
-			string[] words;
-            string arquivo = "data/" + maquina;
-            char[] space = {' '};
-
-            //adiciona o mnemonicos das instrucoes
-            using (StreamReader file = new StreamReader(arquivo + "/inst.txt"))
-            {
-                while ((linha = file.ReadLine()) != null)
-                {
-					words = linha.Split(space);
-                    this.mnemonicos.Add(words[1].ToUpper());
-
-					//determina o formato da instrucao
-					formato = new int[words.Length];
-					for (int i = 1; i < words.Length; i++)
-					{
-						if (words[i] == "r")
-							formato[i] = (int)Tipos.REGISTRADOR;
-						else if(words[i] == "end")
-							formato[i] = (int)Tipos.ENDERECO;
-						else
-							formato[i] = (int)Tipos.INSTRUCAO;
-					}
-						this.instrucoes.Add(new Instrucao(words[1].ToUpper(),formato,paraInteiro(words[0])));
-                }
-            }
-
-            //adiciona os registradores
-            using (StreamReader file = new StreamReader(arquivo + "/reg.txt"))
-            {
-                while ((linha = file.ReadLine()) != null)
-                {
-					words = linha.Split(space);
-                    this.registradores.Add(words[1].ToUpper(),paraInteiro(words[0]));
-                }
-            }
-
-            //adiciona os modos de enderecamentos
-            using (StreamReader file = new StreamReader(arquivo + "/end.txt"))
-            {
-                while ((linha = file.ReadLine()) != null)
-                {
-					words = linha.Split(space);
-                    this.enderecamentos.Add(words[1].ToUpper(),paraInteiro(words[0]));
-                }
-            }
-
-            this.mnemonicos.Sort();
-            this.registradores.Sort();
-            this.enderecamentos.Sort();
-        }
 
 		/*
 		 * recebe um string e converte para um inteiro
@@ -243,17 +159,13 @@ namespace Montador
          */
         public int identificaTipo(string palavra, Gramatica gramatica)
         {
+			int tipo;
             if (ehNumero(palavra))
                 return (int)Tipos.ENDERECO;
             //se nao for um numero, verifica se eh alguma palavra conhecida
-            if (Array.BinarySearch(this.diretivas, palavra) >= 0)
-                return (int)Tipos.DIRETIVA;
-            if (this.mnemonicos.BinarySearch(palavra) >= 0)
-                return (int)Tipos.INSTRUCAO;
-            if (this.registradores.BinarySearch(palavra) >= 0)
-                return (int)Tipos.REGISTRADOR;
-            if (this.enderecamentos.BinarySearch(palavra) >= 0)
-                return (int)Tipos.ENDERECAMENTO;
+			tipo = linguagem.identificaTipo(palavra);
+			if (tipo != (int)Tipos.INVALIDO)
+				return tipo;
 
             if (ehLabel(palavra))
             {

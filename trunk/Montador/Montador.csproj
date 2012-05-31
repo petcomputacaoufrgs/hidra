@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enderecamento.cs" />
     <Compile Include="escritor.cs" />
     <Compile Include="Label.cs" />
     <Compile Include="Definicoes.cs" />
@@ -57,6 +58,7 @@
     <Compile Include="Codigo.cs" />
     <Compile Include="Dados.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Registrador.cs" />
     <Compile Include="Stringer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
