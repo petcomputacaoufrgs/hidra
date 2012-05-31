@@ -57,11 +57,11 @@ namespace Montador
                 while ((linha = file.ReadLine()) != null)
                 {
 					words = linha.Split(space);
-                    this.mnemonicos.Add(words[0].ToUpper());
+                    this.mnemonicos.Add(words[1].ToUpper());
 
 					//determina o formato da instrucao
 					formato = new int[words.Length];
-					for (int i = 0; i < words.Length; i++)
+					for (int i = 1; i < words.Length; i++)
 					{
 						if (words[i] == "r")
 							formato[i] = (int)Tipos.REGISTRADOR;
@@ -70,7 +70,7 @@ namespace Montador
 						else
 							formato[i] = (int)Tipos.INSTRUCAO;
 					}
-						this.instrucoes.Add(new Instrucao(words[0].ToUpper(),formato,0));
+						this.instrucoes.Add(new Instrucao(words[1].ToUpper(),formato,paraInteiro(words[0])));
                 }
             }
 
@@ -79,7 +79,8 @@ namespace Montador
             {
                 while ((linha = file.ReadLine()) != null)
                 {
-                    this.registradores.Add(linha.Split(space)[0].ToUpper());
+					words = linha.Split(space);
+                    this.registradores.Add(words[1].ToUpper(),paraInteiro(words[0]));
                 }
             }
 
@@ -88,7 +89,8 @@ namespace Montador
             {
                 while ((linha = file.ReadLine()) != null)
                 {
-                    this.enderecamentos.Add(linha.Split(space)[0].ToUpper());
+					words = linha.Split(space);
+                    this.enderecamentos.Add(words[1].ToUpper(),paraInteiro(words[0]));
                 }
             }
 
@@ -96,6 +98,45 @@ namespace Montador
             this.registradores.Sort();
             this.enderecamentos.Sort();
         }
+
+		/*
+		 * recebe um string e converte para um inteiro
+		 * numberos decimais terminam por 'd',
+		 * hexadecimais terminam por 'h',
+		 * números binarios podem terminar por 'b', mas nao precisam
+		 */
+		public int paraInteiro(string numero)
+		{
+			//se o numero eh binario, decimal ou hexadecimal
+			char tipo = numero[numero.Length - 1];
+			int num = 0;
+
+			switch (tipo)
+			{
+				//decimal
+				case 'd':
+				case 'D':
+					num = (int)System.Convert.ToDecimal(numero);
+					return num;
+				case 'h':
+				case 'H':
+					for(int i = numero.Length -1,p =1;i>=0;i--,p*=16)
+					{
+						num += (int)(p * Char.GetNumericValue(numero[i]));
+					}
+					return num;
+				case '0':
+				case '1':
+				case 'b':
+					for(int i = numero.Length -1,p = 1;i>=0;i--,p*=2)
+					{
+						num += (int)(p * Char.GetNumericValue(numero[i]));
+					}
+					return num;
+			}
+
+			return 0;
+		}
 
         /**
          * independente da maquina, cada linha do codigo fonte pode ser:
