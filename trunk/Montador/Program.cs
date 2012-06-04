@@ -54,7 +54,7 @@ namespace Montador
                 return;
             }
             //carrega a gramatica para a maquina
-            gram.carrega(maquina);
+            gram.linguagem.carrega(maquina);
 
             //le o codigo fonte
             code.lerCodigo(args[0]);

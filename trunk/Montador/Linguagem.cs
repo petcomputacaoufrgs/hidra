@@ -6,7 +6,7 @@ using System.IO;
 
 namespace Montador
 {
-    class Linguagem
+    public class Linguagem
     {
         public List<Instrucao> instrucoes;
 		public List<Registrador> registradores;
@@ -97,8 +97,9 @@ namespace Montador
 		/*
 		 * verifica se a palavra eh conhecida
 		 * retorna um valor de enum Tipos
+		 * se for um enderecamento, escreve em nome o nome do endereco ou registrador encontrado
 		 */
-		public int identificaTipo(string palavra)
+		public int identificaTipo(string palavra,ref string nome)
 		{
 			Enderecamento end = new Enderecamento();
 
@@ -107,7 +108,7 @@ namespace Montador
 			if (this.instrucoes.FindIndex(o => o.mnemonico == palavra) >= 0)
 				return (int)Tipos.INSTRUCAO;
 
-			if (end.identifica(palavra,this.enderecamentos) >= 0)
+			if (end.identifica(palavra,this.enderecamentos,nome) >= 0)
 				return (int)Tipos.ENDERECAMENTO;
 
 			return (int)Tipos.INVALIDO;

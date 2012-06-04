@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Montador
 {
-	class Registrador
+	public class Registrador
 	{
 
 		public string nome;
@@ -17,7 +17,8 @@ namespace Montador
 			this.codigo = codigo;
 		}
 
-		public Registrador();
+		public Registrador() 
+		{ }
 
 		public int regCompare(Registrador r0, Registrador r1)
 		{

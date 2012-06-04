@@ -156,14 +156,15 @@ namespace Montador
 
         /*
          * identifica o tipo de uma palavra (olhar enum Tipos)
+		 * se for um endereco, escreve em nome o nome desse endereco ou registrador caso nao seja um numero
          */
-        public int identificaTipo(string palavra, Gramatica gramatica)
+        public int identificaTipo(string palavra, Gramatica gramatica, ref string nome)
         {
 			int tipo;
             if (ehNumero(palavra))
                 return (int)Tipos.ENDERECO;
             //se nao for um numero, verifica se eh alguma palavra conhecida
-			tipo = linguagem.identificaTipo(palavra);
+			tipo = linguagem.identificaTipo(palavra,ref nome);
 			if (tipo != (int)Tipos.INVALIDO)
 				return tipo;
 
@@ -319,7 +320,7 @@ namespace Montador
 
 			if (tipos[i] == (int)Tipos.INSTRUCAO)
 			{
-				inst = this.instrucoes.Find(o => o.mnemonico == linha[i]);
+				inst = this.linguagem.instrucoes.Find(o => o.mnemonico == linha[i]);
 				if(size < inst.formato.Length)
 					saida.errorOut(Escritor.ERRO, nlinha, "Número incorreto de operandos. Esperava-se " + (inst.formato.Length - 1) + ", encontrou-se " + (size - 1));
 				//verifica se ha algo diferente de registradores e enderecos

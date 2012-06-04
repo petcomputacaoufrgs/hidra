@@ -17,7 +17,10 @@ namespace Montador
 			this.formato = formato;
 			this.codigo = codigo;
         }
-		public Instrucao();
+		public Instrucao()
+		{
+
+		}
 
 		public int instCompare(Instrucao i0, Instrucao i1)
 		{
