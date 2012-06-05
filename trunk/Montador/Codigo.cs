@@ -8,27 +8,14 @@ namespace Montador
     {
         const char COMENTARIO = ';';
 
-        //contem a linha correspondente ao codigo fonte puro
-        //o indice eh a linha do fonte preprocessado (sem os comentarios etc...)
-        public List<int> linhasFonte;
-        /**
-         * contem cada linha do codigo apos o preprocessamento (em maiusculas), dividida em palavras
-         * cada linha pode ou nao comecar com uma label
-         */
-        public List<string[]> preprocessado;
+		public List<Linha> linhas;	//cada linha do codigo fonte
 
-        /**
+		/**
          * codigo binario ja montado
          */
         public byte[] binario;
 
-        /*
-         * os tipos de cada palavra
-         */
-        public List<int[]> tipos;
-
 		public Definicoes defs = new Definicoes();
-
 
         /**
          * limpa a linha, removendo os espaços nas pontas
@@ -75,7 +62,6 @@ namespace Montador
 					{
 						escape = false;
 					}
-					
 				}
 				else
 				{
@@ -141,9 +127,8 @@ namespace Montador
 		public void lerCodigo(string arquivo)
         {
 
-            this.linhasFonte = new List<int>();
-            this.preprocessado = new List<string[]>();
-            string linha;
+            this.linhas = new List<Linha>();
+			string linha;
 			string[] clean;
             int linhaAtual = 1;
 
@@ -155,23 +140,30 @@ namespace Montador
 					clean = limpaLinha(linha);
 					if (clean.Length > 0)
 					{
-						this.preprocessado.Add(clean);
-						//adiciona o numero da linha
-						this.linhasFonte.Add(linhaAtual);
+						this.linhas.Add(new Linha(clean, linhaAtual));
 					}
 					linhaAtual++;
-
                 }
             }
 
+			foreach (Linha l in this.linhas)
+			{
+				foreach (string w in l.preprocessado)
+				{
+					Console.Write(w + " ");
+				}
+				Console.Write("\n");
+			}
+
+			/*
             //remove os comentarios
             string l;
-            for(int i = 0,max = this.preprocessado.Count;i<max;i++,linhaAtual++)
+            for(int i = 0,max = this.linhas.Count;i<max;i++,linhaAtual++)
             {
-                l = this.preprocessado[i][0];
+                l = this.linhas[i].preprocessado[0];
                 if (l.Length == 0)
                 {
-                    this.preprocessado.RemoveAt(i);
+                    this.linhas.RemoveAt(i);
                     i--;
                     max--;
                     continue;
@@ -179,7 +171,7 @@ namespace Montador
                 //se for um comentario, remove
                 if (l[0] == COMENTARIO || l == "")
                 {
-                    this.preprocessado.RemoveAt(i);
+                    this.linhas.RemoveAt(i);
                     max--;
                     i--;
                 }
@@ -188,7 +180,7 @@ namespace Montador
                     
                 }
             }
-
+			*/
             return;
 
         }
@@ -202,21 +194,21 @@ namespace Montador
         {
 			this.identificaTipos(gramatica);
 
-			for (int i = 0; i < this.tipos.Count; i++)
+			for (int i = 0; i < this.linhas.Count; i++)
 			{
-				for (int j = 0; j < this.tipos[i].Length; j++)
-					Console.Write(this.tipos[i][j]+" ");
+				for (int j = 0; j < this.linhas[i].preprocessado.Length; j++)
+					Console.Write(this.linhas[i].preprocessado[j]+" ");
 				Console.WriteLine();
 			}
 
 			//verifica se os tipos de cada linha são validos
-			for (int i = 0; i < this.tipos.Count; i++)
+			for (int i = 0; i < this.linhas.Count; i++)
 			{
-				gramatica.verificaTipos(this.tipos[i],this.preprocessado[i],this.linhasFonte[i],saida,this.defs);
+				gramatica.verificaTipos(this.linhas[i],saida,this.defs);
 			}
 				
 
-					return true;
+			return true;
         }
 
         /**
@@ -232,32 +224,32 @@ namespace Montador
             int numero;
 
             //itera por todas as linhas do fonte
-            foreach (string[] linha in this.preprocessado)
+            foreach (Linha linha in this.linhas)
             {
-                for(int i = 0;i<linha.Length;i++)
+                for(int i = 0;i<linha.preprocessado.Length;i++)
                 {
-                    numeroHexa = gram.substringHexa(linha[i]);
+                    numeroHexa = gram.substringHexa(linha.preprocessado[i]);
 
                     if (numeroHexa != "")
                     {
                         numero = gram.hexa2int(numeroHexa);
-                        linha[i] = linha[i].Replace(numeroHexa+"H", numero.ToString());
+                        linha.preprocessado[i] = linha.preprocessado[i].Replace(numeroHexa+"H", numero.ToString());
                     }
                 }
             }
         }
 
         /*
-         *  escreve o conteudo de this.preprocessado na tela
+         *  escreve o conteudo as linhas preprocessadas
          */
         public void print()
         {
 			int i = 0;
             Console.WriteLine("*******");
-            foreach (string[] linha in this.preprocessado)
+            foreach (Linha linha in this.linhas)
             {
-				Console.Write(this.linhasFonte[i] + ":\t");
-                foreach (string w in linha)
+				Console.Write(this.linhas[i].linhaFonte + ":\t");
+                foreach (string w in linha.preprocessado)
                 {
                     Console.Write(w+" ");
                 }
@@ -275,13 +267,11 @@ namespace Montador
          */
         public void identificaTipos(Gramatica gram)
         {
-            this.tipos = new List<int[]>();
-            foreach (string[] linha in this.preprocessado)
+            foreach (Linha linha in this.linhas)
             {
-                tipos.Add(new int[linha.Length]);
-                for (int i = 0; i < linha.Length;i++)
+                for (int i = 0; i < linha.preprocessado.Length;i++)
                 {
-                    this.tipos[tipos.Count - 1][i] = gram.identificaTipo(linha[i],gram);
+                    linha.tipos[linha.preprocessado.Length - 1] = gram.identificaTipo(linha.preprocessado[i],gram);
                     //Console.WriteLine(linha[i] + "\t" + this.tipos[tipos.Count - 1][i]);
                 }
             }
