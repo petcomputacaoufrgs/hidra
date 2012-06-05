@@ -155,34 +155,7 @@ namespace Montador
 				Console.Write("\n");
 			}
 
-			/*
-            //remove os comentarios
-            string l;
-            for(int i = 0,max = this.linhas.Count;i<max;i++,linhaAtual++)
-            {
-                l = this.linhas[i].preprocessado[0];
-                if (l.Length == 0)
-                {
-                    this.linhas.RemoveAt(i);
-                    i--;
-                    max--;
-                    continue;
-                }
-                //se for um comentario, remove
-                if (l[0] == COMENTARIO || l == "")
-                {
-                    this.linhas.RemoveAt(i);
-                    max--;
-                    i--;
-                }
-                else
-                {
-                    
-                }
-            }
-			*/
             return;
-
         }
 
         /**
@@ -211,6 +184,23 @@ namespace Montador
 			return true;
         }
 
+		/*
+		* identifica os tipos de cada elemento das linhas
+		* altera os campos de this.linhas
+		* exemplo:
+		* ["label:", "JMP", "12,0Fh"] -> [DEFLABEL,INSTRUCAO,ENDERECO]
+		*/
+		public void identificaTipos(Gramatica gram)
+		{
+			foreach (Linha linha in this.linhas)
+			{
+				for (int i = 0; i < linha.preprocessado.Length; i++)
+				{
+					gram.identificaTipo(linha, gram);
+				}
+			}
+		}
+
         /**
          * converte todas as ocorrencias de numeros em hexadecimal para numeros em decimal
          * altera this.preprocessado
@@ -238,43 +228,24 @@ namespace Montador
                 }
             }
         }
-
-        /*
-         *  escreve o conteudo as linhas preprocessadas
+		/*
+         *  escreve o conteudo das linhas
          */
-        public void print()
-        {
+		public void print()
+		{
 			int i = 0;
-            Console.WriteLine("*******");
-            foreach (Linha linha in this.linhas)
-            {
+			Console.WriteLine("*******");
+			foreach (Linha linha in this.linhas)
+			{
 				Console.Write(this.linhas[i].linhaFonte + ":\t");
-                foreach (string w in linha.preprocessado)
-                {
-                    Console.Write(w+" ");
-                }
-                Console.Write("\n");
+				foreach (string w in linha.preprocessado)
+				{
+					Console.Write(w + " ");
+				}
+				Console.Write("\n");
 				i++;
-            }
-            Console.WriteLine("*******");
-        }
-
-        /*
-         * identifica os tipos de cada elemento das linhas de this.preprocessado
-         * altera this.tipos com os devidos codigos
-         * exemplo:
-         * ["label:", "JMP", "12,0Fh"] -> [DEFLABEL,INSTRUCAO,ENDERECO]
-         */
-        public void identificaTipos(Gramatica gram)
-        {
-            foreach (Linha linha in this.linhas)
-            {
-                for (int i = 0; i < linha.preprocessado.Length;i++)
-                {
-                    linha.tipos[linha.preprocessado.Length - 1] = gram.identificaTipo(linha.preprocessado[i],gram);
-                    //Console.WriteLine(linha[i] + "\t" + this.tipos[tipos.Count - 1][i]);
-                }
-            }
-        }
+			}
+			Console.WriteLine("*******");
+		}
     }
 }

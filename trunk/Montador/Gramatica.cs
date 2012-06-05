@@ -12,7 +12,7 @@ namespace Montador
         public string[] inst;
         public enum Tipos { DEFLABEL, INSTRUCAO, DIRETIVA, REGISTRADOR, ENDERECO, ENDERECAMENTO, INVALIDO };
 
-		public Linguagem linguagem;
+		public Linguagem linguagem = new Linguagem();
 
 
 		/*
@@ -98,32 +98,13 @@ namespace Montador
             }
             
             string n = new string(numero,0,p);
-            
-            if (achou)
-                return n;
-            else
-            {
-                return "";
-            }
-            
 
-        }
-
-        // 0-F
-        bool ehDigitoHexa(char c)
-        {
-            //0-9
-            if(c.CompareTo('0')>=0 && c.CompareTo('9')<=0)
-            {
-                return true;
-            }
-            //A-F
-            if (c.CompareTo('A') >= 0 && c.CompareTo('F') <= 0)
-            {
-                return true;
-            }
-
-            return false;
+			if (achou)
+				return n;
+			else
+			{
+				return "";
+			}
         }
 
         /**
@@ -158,141 +139,42 @@ namespace Montador
          * identifica o tipo de uma palavra (olhar enum Tipos)
 		 * se for um endereco, escreve em nome o nome desse endereco ou registrador caso nao seja um numero
          */
-        public int identificaTipo(string palavra, Gramatica gramatica, ref string nome)
+        public void identificaTipo(Linha linha, Gramatica gramatica)
         {
-			int tipo;
-            if (ehNumero(palavra))
-                return (int)Tipos.ENDERECO;
-            //se nao for um numero, verifica se eh alguma palavra conhecida
-			tipo = linguagem.identificaTipo(palavra,ref nome);
-			if (tipo != (int)Tipos.INVALIDO)
-				return tipo;
-
-            if (ehLabel(palavra))
-            {
-                if(palavra[palavra.Length -1] == ':')
-                    return (int)Tipos.DEFLABEL;
-                else
-                    return (int)Tipos.ENDERECO;
-            }
-			else if(ehString(palavra))
-				return (int)Tipos.ENDERECO;
-
-            //se nao for nada conhecido, entao eh invalido
-            return (int)Tipos.INVALIDO;
-
-        }
-
-		/*
-         * recebe os tipos dos elementos a direita e a esquerda de uma virgula
-         * retorna o tipo da concatenacao
-         * ex:
-         * ENDERECO,ENDERECAMENTO -> ENDERECO
-         * INSTRUCAO,REGISTRADOR -> INVALIDO
-		 * 
-		 * OBS: provavelmente essa funcao eh desnecessaria
-         */
-		public int identificaTipo(int esquerda, int direita, Gramatica gramatica)
-		{
-			if (esquerda == (int)Tipos.ENDERECO && direita == (int)Tipos.ENDERECAMENTO)
-				return (int)Tipos.ENDERECO;
-			return (int)Tipos.INVALIDO;
-
-		}
-
-        /*
-         * verifica se a string corresponde a um numero em hexa ou em decimal, podendo ser precedida ou nao por IMEDIATO ou '-'
-         */
-        public bool ehNumero(string palavra)
-        {
-            int i = 0;
-            bool hexa = false;
-            bool numero = true;
-            if (palavra[0] == IMEDIATO || palavra[0] == '-')
-                i++;
-
-            if (palavra[i] == '0' && palavra[palavra.Length-1] == 'H')
-                hexa = true;
-
-            for (; i < palavra.Length && numero; i++)
-            {
-                numero = false;
-                if ((hexa && ehDigitoHexa(palavra[i])))
-                    numero = true;
-                else if (Char.IsDigit(palavra[i]))
-                    numero = true;
-            }
-
-            if (numero)
-                return true;
-            //se o ultimo caracter encontrado foi um 'H' e este eh o ultimo caracter da string
-            //entao eh um numero em hexadeciamal
-            if (palavra[i-1] == 'H' && hexa && i == palavra.Length && hexa)
-                return true;
-            return false;
-
-        }
-
-        /*
-         * verifica se uma determinada palavra eh a definicao de uma label
-         */
-        public bool ehLabel(string palavra)
-        {
-			char[] invalid = {',','\'','\"' ,':'};
-
-            if (Char.IsDigit(palavra[0]))
-            {
-                return false;
-            }
-			for (int i = 0; i < palavra.Length-1;i++)
+			int i=0;
+			string palavra;
+			string nome = "";
+			for(i=0;i<linha.preprocessado.Length;i++)
 			{
-				//se for um dos caracteres invalidos
-				if (Array.Exists(invalid,c => c == palavra[i]))
-					return false;
-			}
-
-			if(palavra[palavra.Length-1] == ':')
-				return true;
-			else if (Array.Exists(invalid,c => c == palavra[palavra.Length-1]))
-				return false;
-			return true;
-        }
-
-		/*
-		 * determina se a palavra eh uma definicao de string, ou seja
-		 * comeca por ' ou " e termina pelo mesmo caractere
-		 */
-
-		public bool ehString(string palavra)
-		{
-			char final;
-			bool escape = false;
-
-			if (palavra[0] != '\'' && palavra[0] != '\"')
-				return false;
-
-			final = palavra[0];
-			//verifica se termina pelo mesmo simbolo que comeca
-			//e esse simbolo nao aparece em nenhum outro lugar da string
-			for (int i = 1; i < palavra.Length-1; i++)
-			{
-				if (!escape)
+				palavra = linha.preprocessado[i];
+				int tipo;
+				if (ehNumero(palavra))
 				{
-					if (palavra[i] == '\\')
-						escape = true;
-					//se o simbolo de final de string esta no meio dela, nao eh uma string
-					if (palavra[i] == final)
-						return false;
+					linha.tipos[i] =  (int)Tipos.ENDERECO;
+					linha.nomes[i] = palavra;
 				}
 				else
 				{
-					escape = false;
+					//se nao for um numero, verifica se eh alguma palavra conhecida
+					tipo = linguagem.identificaTipo(palavra, ref nome);
+					if (tipo != (int)Tipos.INVALIDO)
+					{
+						linha.tipos[i] = tipo;
+						linha.nomes[i] = nome;
+					}
+
+					if (ehLabel(palavra))
+					{
+						if (palavra[palavra.Length - 1] == ':')
+							linha.tipos[i] =  (int)Tipos.DEFLABEL;
+						else
+							linha.tipos[i] = (int)Tipos.ENDERECO;
+					}
+					else if (ehString(palavra))
+						linha.tipos[i] = (int)Tipos.ENDERECO;
 				}
 			}
-
-			//se a palavra termina pelo caractere de final e este nao foi escapado, eh uma string
-			return (palavra[palavra.Length - 1] == final && !escape);
-		}
+        }
 
 		/*
 		 * verifica se os tipos de uma linha são validos
@@ -379,17 +261,17 @@ namespace Montador
 				//o restante da linha so pode conter enderecos
 				while (i < linha.tipos.Length)
 				{
-					switch (liha.tipos[i])
+					switch (linha.tipos[i])
 					{
 						case (int)Tipos.INSTRUCAO:
 						case (int)Tipos.DIRETIVA:
-							saida.errorOut(Escritor.ERRO, nlinha, "Não pode ter mais de uma instrução ou diretiva por linha.");
+							saida.errorOut(Escritor.ERRO, linha.linhaFonte, "Não pode ter mais de uma instrução ou diretiva por linha.");
 							break;
 						case (int)Tipos.REGISTRADOR:
-							saida.errorOut(Escritor.ERRO, nlinha, linha[i] + " não é um operando válido.");
+							saida.errorOut(Escritor.ERRO, linha.linhaFonte, linha.preprocessado[i] + " não é um operando válido.");
 							break;
 						case (int)Tipos.INVALIDO:
-							saida.errorOut(Escritor.ERRO, nlinha, "Palavra inválida: " + linha[i]);
+							saida.errorOut(Escritor.ERRO, linha.linhaFonte, "Palavra inválida: " + linha.preprocessado[i]);
 							break;
 					}
 					i++;
@@ -400,6 +282,114 @@ namespace Montador
 				saida.errorOut(Escritor.ERRO, linha.linhaFonte, "Instrução ou diretiva inválida: " + linha.preprocessado[i]);
 			}
 			return true;
+		}
+
+		/*
+		* verifica se a string corresponde a um numero em hexa ou em decimal, podendo ser precedida ou nao por IMEDIATO ou '-'
+		*/
+		public bool ehNumero(string palavra)
+		{
+			int i = 0;
+			bool hexa = false;
+			bool numero = true;
+
+			if (palavra[i] == '0' && palavra[palavra.Length - 1] == 'H')
+				hexa = true;
+
+			for (; i < palavra.Length && numero; i++)
+			{
+				numero = false;
+				if ((hexa && ehDigitoHexa(palavra[i])))
+					numero = true;
+				else if (Char.IsDigit(palavra[i]))
+					numero = true;
+			}
+
+			if (numero)
+				return true;
+			//se o ultimo caracter encontrado foi um 'H' e este eh o ultimo caracter da string
+			//entao eh um numero em hexadeciamal
+			if (palavra[i - 1] == 'H' && hexa && i == palavra.Length && hexa)
+				return true;
+			return false;
+
+		}
+
+		/*
+		 * verifica se uma determinada palavra eh a definicao de uma label
+		 */
+		public bool ehLabel(string palavra)
+		{
+			char[] invalid = { ',', '\'', '\"', ':' };
+
+			if (Char.IsDigit(palavra[0]))
+			{
+				return false;
+			}
+			for (int i = 0; i < palavra.Length - 1; i++)
+			{
+				//se for um dos caracteres invalidos
+				if (Array.Exists(invalid, c => c == palavra[i]))
+					return false;
+			}
+
+			if (palavra[palavra.Length - 1] == ':')
+				return true;
+			else if (Array.Exists(invalid, c => c == palavra[palavra.Length - 1]))
+				return false;
+			return true;
+		}
+
+		/*
+		 * determina se a palavra eh uma definicao de string, ou seja
+		 * comeca por ' ou " e termina pelo mesmo caractere
+		 */
+		public bool ehString(string palavra)
+		{
+			char final;
+			bool escape = false;
+
+			if (palavra[0] != '\'' && palavra[0] != '\"')
+				return false;
+
+			final = palavra[0];
+			//verifica se termina pelo mesmo simbolo que comeca
+			//e esse simbolo nao aparece em nenhum outro lugar da string
+			for (int i = 1; i < palavra.Length - 1; i++)
+			{
+				if (!escape)
+				{
+					if (palavra[i] == '\\')
+						escape = true;
+					//se o simbolo de final de string esta no meio dela, nao eh uma string
+					if (palavra[i] == final)
+						return false;
+				}
+				else
+				{
+					escape = false;
+				}
+			}
+
+			//se a palavra termina pelo caractere de final e este nao foi escapado, eh uma string
+			return (palavra[palavra.Length - 1] == final && !escape);
+		}
+
+		// 0-F
+		bool ehDigitoHexa(char c)
+		{
+			//0-9
+			if (c.CompareTo('0') >= 0 && c.CompareTo('9') <= 0)
+			{
+				return true;
+			}
+			//A-F
+			if (c.CompareTo('A') >= 0 && c.CompareTo('F') <= 0)
+			{
+				return true;
+			}
+
+			return false;
 		}
     }
 }

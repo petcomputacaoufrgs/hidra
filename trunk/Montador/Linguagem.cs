@@ -108,10 +108,24 @@ namespace Montador
 			if (this.instrucoes.FindIndex(o => o.mnemonico == palavra) >= 0)
 				return (int)Tipos.INSTRUCAO;
 
-			if (end.identifica(palavra,this.enderecamentos,nome) >= 0)
+			if (end.identifica(palavra,this.enderecamentos,ref nome) >= 0)
 				return (int)Tipos.ENDERECAMENTO;
 
 			return (int)Tipos.INVALIDO;
+		}
+
+		public void print()
+		{
+			Console.WriteLine("Instrucoes:");
+			foreach (Instrucao inst in this.instrucoes)
+			{
+				Console.WriteLine(inst.mnemonico);
+				foreach (int f in inst.formato)
+				{
+					Console.Write(f + " ");
+				}
+				Console.Write("\n");
+			}
 		}
     }
 }
