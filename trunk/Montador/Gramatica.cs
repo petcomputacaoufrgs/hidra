@@ -139,11 +139,12 @@ namespace Montador
          * identifica o tipo de uma palavra (olhar enum Tipos)
 		 * se for um endereco, escreve em nome o nome desse endereco ou registrador caso nao seja um numero
          */
-        public void identificaTipo(Linha linha, Gramatica gramatica)
+        public void identificaTipo(ref Linha linha, Gramatica gramatica)
         {
 			int i=0;
 			string palavra;
 			string nome = "";
+
 			for(i=0;i<linha.preprocessado.Length;i++)
 			{
 				palavra = linha.preprocessado[i];
@@ -157,21 +158,26 @@ namespace Montador
 				{
 					//se nao for um numero, verifica se eh alguma palavra conhecida
 					tipo = linguagem.identificaTipo(palavra, ref nome);
+					Console.Write(palavra + " ");
+					Console.Write(tipo +"\n");
+
 					if (tipo != (int)Tipos.INVALIDO)
 					{
 						linha.tipos[i] = tipo;
 						linha.nomes[i] = nome;
 					}
-
-					if (ehLabel(palavra))
+					else
 					{
-						if (palavra[palavra.Length - 1] == ':')
-							linha.tipos[i] =  (int)Tipos.DEFLABEL;
-						else
+						if (ehLabel(palavra,palavra.Length-1))
+						{
+							if (palavra[palavra.Length - 1] == ':')
+								linha.tipos[i] = (int)Tipos.DEFLABEL;
+							else
+								linha.tipos[i] = (int)Tipos.ENDERECO;
+						}
+						else if (ehString(palavra))
 							linha.tipos[i] = (int)Tipos.ENDERECO;
 					}
-					else if (ehString(palavra))
-						linha.tipos[i] = (int)Tipos.ENDERECO;
 				}
 			}
         }
@@ -287,16 +293,16 @@ namespace Montador
 		/*
 		* verifica se a string corresponde a um numero em hexa ou em decimal, podendo ser precedida ou nao por IMEDIATO ou '-'
 		*/
-		public bool ehNumero(string palavra)
+		public bool ehNumero(string palavra,int begin,int end)
 		{
-			int i = 0;
+			int i = begin;
 			bool hexa = false;
 			bool numero = true;
 
-			if (palavra[i] == '0' && palavra[palavra.Length - 1] == 'H')
+			if (palavra[i] == '0' && palavra[end] == 'H')
 				hexa = true;
 
-			for (; i < palavra.Length && numero; i++)
+			for (; i <= end && numero; i++)
 			{
 				numero = false;
 				if ((hexa && ehDigitoHexa(palavra[i])))
@@ -309,16 +315,29 @@ namespace Montador
 				return true;
 			//se o ultimo caracter encontrado foi um 'H' e este eh o ultimo caracter da string
 			//entao eh um numero em hexadeciamal
-			if (palavra[i - 1] == 'H' && hexa && i == palavra.Length && hexa)
+			if (palavra[i - 1] == 'H' && hexa && i == end+1 && hexa)
 				return true;
 			return false;
 
 		}
 
+		public bool ehNumero(string palavra)
+		{
+			return ehNumero(palavra, 0, palavra.Length - 1);
+		}
+
 		/*
-		 * verifica se uma determinada palavra eh a definicao de uma label
+		 * verifica se uma determinada palavra pode ser uma label
 		 */
-		public bool ehLabel(string palavra)
+		public bool ehLabel(string palavra,int length)
+		{
+			return ehLabel(palavra, 0, length);
+		}
+
+		/*
+		 * verifica se uma determinada palavra pode ser uma label
+		 */
+		public bool ehLabel(string palavra, int begin, int end)
 		{
 			char[] invalid = { ',', '\'', '\"', ':' };
 
@@ -326,36 +345,41 @@ namespace Montador
 			{
 				return false;
 			}
-			for (int i = 0; i < palavra.Length - 1; i++)
+			for (int i = begin; i <= end; i++)
 			{
 				//se for um dos caracteres invalidos
 				if (Array.Exists(invalid, c => c == palavra[i]))
 					return false;
 			}
-
-			if (palavra[palavra.Length - 1] == ':')
-				return true;
-			else if (Array.Exists(invalid, c => c == palavra[palavra.Length - 1]))
-				return false;
 			return true;
+		}
+
+		/*
+		 * verifica se uma determinada palavra pode ser uma label
+		 */
+		public bool ehLabel(string palavra)
+		{
+			return ehLabel(palavra, palavra.Length);
 		}
 
 		/*
 		 * determina se a palavra eh uma definicao de string, ou seja
 		 * comeca por ' ou " e termina pelo mesmo caractere
 		 */
-		public bool ehString(string palavra)
+		public bool ehString(string palavra, int begin,int end)
 		{
+			int i;
 			char final;
 			bool escape = false;
 
-			if (palavra[0] != '\'' && palavra[0] != '\"')
+			if (palavra[begin] != '\'' && palavra[begin] != '\"')
 				return false;
-
-			final = palavra[0];
+			
+			final = palavra[begin];
+			Console.WriteLine("\t" + final);
 			//verifica se termina pelo mesmo simbolo que comeca
 			//e esse simbolo nao aparece em nenhum outro lugar da string
-			for (int i = 1; i < palavra.Length - 1; i++)
+			for ( i = begin+1; i <end; i++)
 			{
 				if (!escape)
 				{
@@ -372,7 +396,11 @@ namespace Montador
 			}
 
 			//se a palavra termina pelo caractere de final e este nao foi escapado, eh uma string
-			return (palavra[palavra.Length - 1] == final && !escape);
+			return (palavra[end] == final && !escape);
+		}
+		public bool ehString(string palavra)
+		{
+			return ehString(palavra, 0, palavra.Length - 1);
 		}
 
 		// 0-F

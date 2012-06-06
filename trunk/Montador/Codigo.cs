@@ -66,7 +66,7 @@ namespace Montador
 				else
 				{
 					//se for um espaco, verifica se ele deve ser copiado ou removido
-					if (c == ' ' || c == '\t' || c == ',')
+					if (c == ' ' || c == '\t')
 					{
 						//se o anterior nao era um espaco, copia
 						if (!espaco)
@@ -192,11 +192,12 @@ namespace Montador
 		*/
 		public void identificaTipos(Gramatica gram)
 		{
-			foreach (Linha linha in this.linhas)
+			for (int j = 0; j < this.linhas.Count;j++ )
 			{
+				Linha linha = this.linhas[j];
 				for (int i = 0; i < linha.preprocessado.Length; i++)
 				{
-					gram.identificaTipo(linha, gram);
+					gram.identificaTipo(ref linha, gram);
 				}
 			}
 		}
@@ -243,6 +244,11 @@ namespace Montador
 					Console.Write(w + " ");
 				}
 				Console.Write("\n");
+
+				foreach(int t in linha.tipos)
+					Console.Write(t + " ");
+				Console.Write("\n");
+
 				i++;
 			}
 			Console.WriteLine("*******");

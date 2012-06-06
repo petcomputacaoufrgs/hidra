@@ -13,7 +13,7 @@ namespace Montador
 		public List<Enderecamento> enderecamentos;
 		public string[] diretivas = { "DAB", "DAW", "DB", "DW", "ORG" };
 		
-		public enum Tipos { DEFLABEL, INSTRUCAO, DIRETIVA, REGISTRADOR, ENDERECO, ENDERECAMENTO, INVALIDO };
+		public enum Tipos { DEFLABEL, INSTRUCAO, DIRETIVA, REGISTRADOR, ENDERECO, INVALIDO };
 
 		/*
          * carrega os dados relativos a maquina fornecida
@@ -56,15 +56,15 @@ namespace Montador
 					words = linha.Split(space);
 
 					//determina o formato da instrucao
-					formato = new int[words.Length];
+					formato = new int[words.Length-1];
 					for (int i = 1; i < words.Length; i++)
 					{
 						if (words[i] == "r")
-							formato[i] = (int)Tipos.REGISTRADOR;
+							formato[i-1] = (int)Tipos.REGISTRADOR;
 						else if (words[i] == "end")
-							formato[i] = (int)Tipos.ENDERECO;
+							formato[i-1] = (int)Tipos.ENDERECO;
 						else
-							formato[i] = (int)Tipos.INSTRUCAO;
+							formato[i-1] = (int)Tipos.INSTRUCAO;
 					}
 					this.instrucoes.Add(new Instrucao(words[1].ToUpper(), formato, gram.paraInteiro(words[0])));
 				}
@@ -107,9 +107,8 @@ namespace Montador
 				return (int)Tipos.REGISTRADOR;
 			if (this.instrucoes.FindIndex(o => o.mnemonico == palavra) >= 0)
 				return (int)Tipos.INSTRUCAO;
-
 			if (end.identifica(palavra,this.enderecamentos,ref nome) >= 0)
-				return (int)Tipos.ENDERECAMENTO;
+				return (int)Tipos.ENDERECO;
 
 			return (int)Tipos.INVALIDO;
 		}

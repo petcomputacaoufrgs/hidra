@@ -70,41 +70,12 @@ namespace Montador
             {
                 return;
             }
+
+			code.print();
+
 			code.defs.verificaLabels(esc);
 
             //code.Monta();
-
-
-			/*
-            foreach (string[] a in code.preprocessado)
-            {
-                foreach (string b in a)
-                {
-                    if(gram.ehNumero(b))
-                    {
-                        Console.WriteLine(b);
-                    }
-                }
-            }*/
-            /*
-            Console.Write("Instruções:\n");
-
-            foreach (string inst in gram.instrucoes)
-            {
-                Console.WriteLine(inst);
-            }
-
-            Console.WriteLine("Tipos:\n");
-
-            foreach (int[] a in code.tipos)
-            {
-                foreach (int b in a)
-                {
-                    Console.Write(b + " ");
-                }
-                Console.Write("\n");
-            }
-            */
         }
     }
 }

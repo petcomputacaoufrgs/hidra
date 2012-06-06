@@ -31,9 +31,11 @@ namespace Montador
 		 */
 		public int identifica(string palavra, List<Enderecamento> lista, ref string endereco)
 		{
+			Gramatica gram = new Gramatica();
 			int pos;
-			int l, r;
-			string formato;
+			int l =0, r =0;
+			int pr = palavra.Length-1;
+			string formato = "";
 			Enderecamento end;
 
 			for (pos = 0; pos < lista.Count; pos++)
@@ -45,29 +47,34 @@ namespace Montador
 				r = formato.Length - 1;
 
 				//percorre o formato pelos dois lados ate encontrar o endereco,
-				//representado pelo simbolo 'e'
-				while (formato[l] != 'e' || formato[r] != 'e')
+				//representado pelo simbolo 'E'
+				while (formato[l] != 'E' || formato[r] != 'E')
 				{
-					if (formato[l] != 'e')
+					if (formato[l] != 'E')
 					{
-						if (palavra[l] != formato[l])
+						if (palavra[l] != formato[l] && palavra[l] != ' ')
+						{
 							break;
+						}
 						l++;
 					}
-					if (formato[r] != 'e')
+					if (formato[r] != 'E')
 					{
-						if (palavra[r] != formato[r])
+						if (palavra[pr] != formato[r] && palavra[pr] != ' ')
 							break;
 						r--;
 					}
+					pr--;
 				}
-				if (formato[l] == 'e' && formato[r] == 'e')
+				if (formato[l] == 'E' && formato[r] == 'E')
 				{
-					endereco = new String(palavra.ToCharArray(), l, r - l);
-					return pos;
+					if (gram.ehLabel(palavra,l,pr) || gram.ehNumero(palavra,l,pr) || gram.ehString(palavra,l,pr))
+					{
+						endereco = new String(palavra.ToCharArray(), l, r - l);
+						return pos;
+					}
 				}
 			}
-
 			return -1;
 		}
 	}//class
