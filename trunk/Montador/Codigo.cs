@@ -253,5 +253,14 @@ namespace Montador
 			}
 			Console.WriteLine("*******");
 		}
+
+		/*
+		 * monta o codigo,
+		 * retorna o binario resultante, que nao necessariamente utiliza todo o espaco
+		 *//*
+		public byte[] montar(int tamanho)
+		{
+
+		}*/
     }
 }

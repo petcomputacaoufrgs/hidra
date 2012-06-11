@@ -66,7 +66,7 @@ namespace Montador
 						else
 							formato[i-1] = (int)Tipos.INSTRUCAO;
 					}
-					this.instrucoes.Add(new Instrucao(words[1].ToUpper(), formato, gram.paraInteiro(words[0])));
+					this.instrucoes.Add(new Instrucao(words[1].ToUpper(), formato, gram.leCodigo(words[0])));
 				}
 			}
 
@@ -76,7 +76,7 @@ namespace Montador
 				while ((linha = file.ReadLine()) != null)
 				{
 					words = linha.Split(space);
-					this.registradores.Add(new Registrador(words[1].ToUpper(), gram.paraInteiro(words[0])));
+					this.registradores.Add(new Registrador(words[1].ToUpper(), gram.leCodigo(words[0])));
 				}
 			}
 
@@ -86,7 +86,7 @@ namespace Montador
 				while ((linha = file.ReadLine()) != null)
 				{
 					words = linha.Split(space);
-					this.enderecamentos.Add(new Enderecamento(words[1].ToUpper(), gram.paraInteiro(words[0])));
+					this.enderecamentos.Add(new Enderecamento(words[1].ToUpper(), gram.leCodigo(words[0])));
 				}
 			}
 
@@ -103,6 +103,8 @@ namespace Montador
 		{
 			Enderecamento end = new Enderecamento();
 
+			if (Array.FindIndex(this.diretivas, o => o == palavra ) >= 0)
+				return (int)Tipos.DIRETIVA;
 			if (this.registradores.FindIndex(o => o.nome == palavra) >= 0)
 				return (int)Tipos.REGISTRADOR;
 			if (this.instrucoes.FindIndex(o => o.mnemonico == palavra) >= 0)

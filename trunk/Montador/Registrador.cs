@@ -9,9 +9,9 @@ namespace Montador
 	{
 
 		public string nome;
-		public int codigo;
+		public byte[] codigo;
 
-		public Registrador(string nome, int codigo)
+		public Registrador(string nome, byte[] codigo)
 		{
 			this.nome = nome;
 			this.codigo = codigo;

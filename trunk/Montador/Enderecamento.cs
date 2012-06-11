@@ -9,9 +9,9 @@ namespace Montador
 	{
 
 		public string formato;
-		public int codigo;
+		public byte[] codigo;
 
-		public Enderecamento(string formato, int codigo)
+		public Enderecamento(string formato, byte[] codigo)
 		{
 			this.formato = formato;
 			this.codigo = codigo;
@@ -70,8 +70,13 @@ namespace Montador
 				{
 					if (gram.ehLabel(palavra,l,pr) || gram.ehNumero(palavra,l,pr) || gram.ehString(palavra,l,pr))
 					{
-						endereco = new String(palavra.ToCharArray(), l, r - l);
-						return pos;
+						endereco = new String(palavra.ToCharArray(), l, pr - l+1);
+						if(gram.ehLabel(endereco))
+							return pos;
+						if(gram.ehNumero(endereco))
+							return pos;
+						if (gram.ehString(endereco))
+							return pos;
 					}
 				}
 			}

@@ -10,7 +10,7 @@ namespace Montador
     {
 
         public string[] inst;
-        public enum Tipos { DEFLABEL, INSTRUCAO, DIRETIVA, REGISTRADOR, ENDERECO, ENDERECAMENTO, INVALIDO };
+        public enum Tipos { DEFLABEL, INSTRUCAO, DIRETIVA, REGISTRADOR, ENDERECO, INVALIDO };
 
 		public Linguagem linguagem = new Linguagem();
 
@@ -23,8 +23,16 @@ namespace Montador
 		 */
 		public int paraInteiro(string numero)
 		{
+			return this.paraInteiro(numero, 0, numero.Length - 1);
+		}
+		public int paraInteiro(string numero,int begin, int end)
+		{
+			if (begin < 0)
+				begin = 0;
+			if (end < begin)
+				return 0;
 			//se o numero eh binario, decimal ou hexadecimal
-			char tipo = numero[numero.Length - 1];
+			char tipo = numero[end];
 			int num = 0;
 
 			switch (tipo)
@@ -32,11 +40,14 @@ namespace Montador
 				//decimal
 				case 'd':
 				case 'D':
-					num = (int)System.Convert.ToDecimal(numero);
+					for (int i = end, p = 1; i >= begin; i--, p *= 10)
+					{
+						num += (int)(p * Char.GetNumericValue(numero[i]));
+					}
 					return num;
 				case 'h':
 				case 'H':
-					for(int i = numero.Length -1,p =1;i>=0;i--,p*=16)
+					for (int i = end, p = 1; i >= begin; i--, p *= 16)
 					{
 						num += (int)(p * Char.GetNumericValue(numero[i]));
 					}
@@ -44,9 +55,10 @@ namespace Montador
 				case '0':
 				case '1':
 				case 'b':
-					for(int i = numero.Length -1,p = 1;i>=0;i--,p*=2)
+					for (int i = end, p = 1; i >= begin; i--, p *= 2)
 					{
-						num += (int)(p * Char.GetNumericValue(numero[i]));
+						if(numero[i] == '1')
+							num += p;
 					}
 					return num;
 			}
@@ -158,8 +170,6 @@ namespace Montador
 				{
 					//se nao for um numero, verifica se eh alguma palavra conhecida
 					tipo = linguagem.identificaTipo(palavra, ref nome);
-					Console.Write(palavra + " ");
-					Console.Write(tipo +"\n");
 
 					if (tipo != (int)Tipos.INVALIDO)
 					{
@@ -202,7 +212,7 @@ namespace Montador
 				i = 1;
 				size--;
 			}
-			//a linha eh a definicao de uma label apenas
+			//a linha eh apenas a definicao de uma label
 			if (i >= linha.tipos.Length)
 				return true;
 
@@ -216,7 +226,7 @@ namespace Montador
 				{
 					if (j >= inst.formato.Length)
 					{
-						if(linha.tipos[i] != (int)Tipos.ENDERECAMENTO || linha.tipos[i-1] != (int)Tipos.ENDERECO)
+						if(linha.tipos[i-1] != (int)Tipos.ENDERECO)
 							saida.errorOut(Escritor.ERRO, linha.linhaFonte, "Número incorreto de operandos. Esperava-se " + (inst.formato.Length-1) + ", encontrou-se " + (size-1));
 						break;
 					}
@@ -233,15 +243,6 @@ namespace Montador
 							case (int)Tipos.INSTRUCAO:
 							case (int)Tipos.DIRETIVA:
 								saida.errorOut(Escritor.ERRO, linha.linhaFonte, "Não pode ter mais de uma instrução ou diretiva por linha.");
-								break;
-							case (int)Tipos.ENDERECAMENTO:
-								if (linha.tipos[i - 1] == (int)Tipos.ENDERECO)
-								{
-									size--;
-									j--;
-								}
-								else
-									saida.errorOut(Escritor.ERRO, linha.linhaFonte, "Modos de endereçamento devem ser precedidos por endereços.");
 								break;
 						}
 					}
@@ -331,7 +332,7 @@ namespace Montador
 		 */
 		public bool ehLabel(string palavra,int length)
 		{
-			return ehLabel(palavra, 0, length);
+			return ehLabel(palavra, 0, length-1);
 		}
 
 		/*
@@ -339,15 +340,19 @@ namespace Montador
 		 */
 		public bool ehLabel(string palavra, int begin, int end)
 		{
+			if (end < begin)
+				return false;
 			char[] invalid = { ',', '\'', '\"', ':' };
 
 			if (Char.IsDigit(palavra[0]))
 			{
 				return false;
 			}
+			//Console.WriteLine(palavra + " " + end);
 			for (int i = begin; i <= end; i++)
 			{
 				//se for um dos caracteres invalidos
+				//Console.WriteLine(palavra[i]);
 				if (Array.Exists(invalid, c => c == palavra[i]))
 					return false;
 			}
@@ -359,7 +364,7 @@ namespace Montador
 		 */
 		public bool ehLabel(string palavra)
 		{
-			return ehLabel(palavra, palavra.Length);
+			return ehLabel(palavra,0, palavra.Length-1);
 		}
 
 		/*
@@ -376,7 +381,6 @@ namespace Montador
 				return false;
 			
 			final = palavra[begin];
-			Console.WriteLine("\t" + final);
 			//verifica se termina pelo mesmo simbolo que comeca
 			//e esse simbolo nao aparece em nenhum outro lugar da string
 			for ( i = begin+1; i <end; i++)
@@ -404,7 +408,7 @@ namespace Montador
 		}
 
 		// 0-F
-		bool ehDigitoHexa(char c)
+		public bool ehDigitoHexa(char c)
 		{
 			//0-9
 			if (c.CompareTo('0') >= 0 && c.CompareTo('9') <= 0)
@@ -418,6 +422,48 @@ namespace Montador
 			}
 
 			return false;
+		}
+
+		/**
+		 * converte uma string com um numero para um array de bytes
+		 * a string deve estar em binario ou em hexadecimal (seguida de um 'H')
+		 * a primeria posicao do array retornado contem o byte mais significativo
+		 */
+		public byte[] leCodigo(string numero)
+		{
+			byte[] codigo;
+			int i = numero.Length - 1;
+			int b;
+			int bytes;
+			byte valor = 0;
+			//caso hexadecimal
+			if (numero[i] == 'H' || numero[i] == 'h')
+			{
+				bytes = i / 2 + i%2;
+				codigo = new byte[bytes];
+				b = bytes - 1;
+				for (i--; i >= 0; i-=2, b--)
+				{
+					valor = (byte)this.paraInteiro(numero, i - 1, i);
+					codigo[b] = valor;
+				}
+			}
+			//eh binario
+			else
+			{
+				bytes = i / 8;
+				if(i%8 != 0)
+					bytes++;
+				codigo = new byte[bytes];
+				b = bytes - 1;
+				for (i--; i >= 0; i-=7, b--)
+				{
+					valor = (byte)this.paraInteiro(numero, i - 7, i);
+					codigo[b] = valor;
+				}
+			}
+
+			return codigo;
 		}
     }
 }
