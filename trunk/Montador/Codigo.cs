@@ -7,15 +7,14 @@ namespace Montador
     public class Codigo
     {
         const char COMENTARIO = ';';
-
+		public enum Tipos { DEFLABEL, INSTRUCAO, DIRETIVA, REGISTRADOR, ENDERECO, INVALIDO };
 		public List<Linha> linhas;	//cada linha do codigo fonte
 
-		/**
-         * codigo binario ja montado
-         */
+		public Definicoes defs = new Definicoes();	//definicoes de labels
+		
         public byte[] binario;
 
-		public Definicoes defs = new Definicoes();
+		
 
         /**
          * limpa a linha, removendo os espaços nas pontas
@@ -257,10 +256,25 @@ namespace Montador
 		/*
 		 * monta o codigo,
 		 * retorna o binario resultante, que nao necessariamente utiliza todo o espaco
-		 *//*
+		 * mas nao vai exceder o tamanho definido
+		 */
 		public byte[] montar(int tamanho)
 		{
+			byte[] memoria = new byte[tamanho];
+			int b = 0;
 
-		}*/
+			foreach(Linha linha in this.linhas)
+			{
+
+				//se a linha contiver a definicao de uma label
+				if(linha.tipos[0] == (int)Tipos.DEFLABEL)
+				{
+					this.defs.atribuiDef(linha.nomes[0],b);
+				}
+
+			}
+
+			return memoria;
+		}
     }
 }

@@ -7,8 +7,7 @@ namespace Montador
 {
 	public class Definicoes
 	{
-		List<Label> defs = new List<Label>();
-		List<Label> referencias = new List<Label>();
+		List<Label> labels = new List<Label>();
 
 		/*
 		 * Adiciona a definicao de uma label na lista
@@ -16,13 +15,23 @@ namespace Montador
 		 */
 		public void adicionaDef(string label, int linha, Escritor saida)
 		{
-			if (defs.FindIndex(o => o.nome == label) >= 0)
+			Label lab;
+			int p = this.labels.FindIndex(o => o.nome == label);
+			if (p >= 0)
 			{
-				saida.errorOut(Escritor.ERRO, linha, "Redefinição da label: " + label);
+				lab = this.labels[p];
+				if (lab.linhaDef >= 0)
+					saida.errorOut(Escritor.ERRO, linha, "Redefinição da label: " + label);
+				else
+				{
+					lab.linhaDef = linha;
+				}
 			}
 			else
 			{
-				defs.Add(new Label(label, linha));
+				lab = new Label(label);
+				lab.linhas.Add(linha);
+				this.labels.Add(lab);
 			}
 		}
 
@@ -31,7 +40,8 @@ namespace Montador
 		 */
 		public void adicionaRef(string label, int linha)
 		{
-			referencias.Add(new Label(label,linha));
+			Label lab = labels.Find(o => o.nome == label);
+			lab.linhas.Add(linha);
 		}
 
 		/*
@@ -41,19 +51,22 @@ namespace Montador
 		 */
 		public void verificaLabels(Escritor saida)
 		{
-			foreach (Label uso in referencias)
+			foreach (Label label in this.labels)
 			{
-				if (defs.FindIndex(o => o.nome == uso.nome) < 0)
+				if (label.linhas.Count == 0)
 				{
-					saida.errorOut(Escritor.ERRO,uso.linha,"Label não definida: "+uso.nome);
+					saida.errorOut(saida.avisos, label.linhaDef, "Label não utilizada: " + label.nome);
 				}
 			}
+		}
 
-			foreach(Label def in defs)
-			{
-				if(referencias.FindIndex(o => o.nome == def.nome) < 0)
-					saida.errorOut(Escritor.AVISO, def.linha, "Label não utilizada: " + def.nome);
-			}
+		/*
+		 * atribui um valor a uma label
+		 */
+		public void atribuiDef(string label, int valor)
+		{
+			Label lab = this.labels.Find(o => o.nome == label);
+			lab.valor = valor;
 		}
 	}
 }

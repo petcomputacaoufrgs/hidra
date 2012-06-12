@@ -14,7 +14,6 @@ namespace Montador
 
 		public Linguagem linguagem = new Linguagem();
 
-
 		/*
 		 * recebe um string e converte para um inteiro
 		 * numberos decimais terminam por 'd',

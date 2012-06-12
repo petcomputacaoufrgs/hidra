@@ -19,6 +19,5 @@ namespace Montador
 			this.nomes = new string[preprocessado.Length];
 			this.linhaFonte = nlinha;
 		}
-
 	}
 }
