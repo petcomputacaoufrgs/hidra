@@ -26,10 +26,10 @@ namespace Montador
 		 * identifica se a palavra satisfaz um dos enderecamentos
 		 * retorna o indice na lista do enderecamento satisfeito,
 		 * -1 caso nao satisfaca
-		 * escreve o nome do endereco ou registrador em endereco se algum enderecamento for satisfeito,
+		 * escreve o nome do endereco ou registrador em endereco e o respectivo codigo se algum enderecamento for satisfeito,
 		 * nao altera caso nao tenha sido encontrado nenhum enderecamento adequado
 		 */
-		public int identifica(string palavra, List<Enderecamento> lista, ref string endereco)
+		public int identifica(string palavra, List<Enderecamento> lista, ref string endereco,ref byte[] enderecamento)
 		{
 			Gramatica gram = new Gramatica();
 			int pos;
@@ -71,8 +71,15 @@ namespace Montador
 					if (gram.ehLabel(palavra,l,pr) || gram.ehNumero(palavra,l,pr) || gram.ehString(palavra,l,pr))
 					{
 						endereco = new String(palavra.ToCharArray(), l, pr - l+1);
-						if(gram.ehLabel(endereco))
-							return pos;
+						if (enderecamento.Length < end.codigo.Length)
+						{
+							Array.Resize<byte>(ref enderecamento, end.codigo.Length);
+						}
+						for (int k = end.codigo.Length-1, e = enderecamento.Length-1; k>=0 ; k--,e--)
+							enderecamento[e] |= end.codigo[k];
+						
+						if (gram.ehLabel(endereco))
+								return pos;
 						if(gram.ehNumero(endereco))
 							return pos;
 						if (gram.ehString(endereco))

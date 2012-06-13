@@ -97,9 +97,10 @@ namespace Montador
 		/*
 		 * verifica se a palavra eh conhecida
 		 * retorna um valor de enum Tipos
-		 * se for um enderecamento, escreve em nome o nome do endereco ou registrador encontrado
+		 * se for um enderecamento, escreve em nome o nome do endereco ou registrador encontrado e em enderecamento,
+		 * o codigo do modo utilizado
 		 */
-		public int identificaTipo(string palavra,ref string nome)
+		public int identificaTipo(string palavra,ref string nome, ref byte[] enderecamento)
 		{
 			Enderecamento end = new Enderecamento();
 
@@ -109,7 +110,7 @@ namespace Montador
 				return (int)Tipos.REGISTRADOR;
 			if (this.instrucoes.FindIndex(o => o.mnemonico == palavra) >= 0)
 				return (int)Tipos.INSTRUCAO;
-			if (end.identifica(palavra,this.enderecamentos,ref nome) >= 0)
+			if (end.identifica(palavra,this.enderecamentos,ref nome,ref enderecamento) >= 0)
 				return (int)Tipos.ENDERECO;
 
 			return (int)Tipos.INVALIDO;

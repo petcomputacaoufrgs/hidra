@@ -168,7 +168,7 @@ namespace Montador
 				else
 				{
 					//se nao for um numero, verifica se eh alguma palavra conhecida
-					tipo = linguagem.identificaTipo(palavra, ref nome);
+					tipo = linguagem.identificaTipo(palavra, ref nome, ref linha.enderecamento);
 
 					if (tipo != (int)Tipos.INVALIDO)
 					{

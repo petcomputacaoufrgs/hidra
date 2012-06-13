@@ -258,18 +258,35 @@ namespace Montador
 		 * retorna o binario resultante, que nao necessariamente utiliza todo o espaco
 		 * mas nao vai exceder o tamanho definido
 		 */
-		public byte[] montar(int tamanho)
+		public byte[] montar(int tamanho,Linguagem linguagem)
 		{
 			byte[] memoria = new byte[tamanho];
+			Instrucao inst;
+
 			int b = 0;
 
 			foreach(Linha linha in this.linhas)
 			{
-
-				//se a linha contiver a definicao de uma label
-				if(linha.tipos[0] == (int)Tipos.DEFLABEL)
+				for (int i = 0; i < linha.tipos.Length;i++ )
 				{
-					this.defs.atribuiDef(linha.nomes[0],b);
+					//definicao de label
+					switch (linha.tipos[i])
+					{
+						case (int)Tipos.DEFLABEL:
+							this.defs.atribuiDef(linha.nomes[i], b);
+							break;
+						case (int)Tipos.INSTRUCAO:
+							inst = linguagem.instrucoes.Find(o => o.mnemonico == linha.preprocessado[i]);
+
+							//o primeiro byte contem um identificador da instrucao, registradores e modo de enderecamento
+							memoria[b] = inst.codigo[0];
+
+
+							break;
+							
+					}
+					
+
 				}
 
 			}
