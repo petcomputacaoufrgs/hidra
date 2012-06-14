@@ -261,8 +261,8 @@ namespace Montador
 		public byte[] montar(int tamanho,Linguagem linguagem)
 		{
 			byte[] memoria = new byte[tamanho];
+			byte[] regMask,endMask;
 			Instrucao inst;
-
 			int b = 0;
 
 			foreach(Linha linha in this.linhas)
@@ -277,21 +277,41 @@ namespace Montador
 							break;
 						case (int)Tipos.INSTRUCAO:
 							inst = linguagem.instrucoes.Find(o => o.mnemonico == linha.preprocessado[i]);
-
-							//o primeiro byte contem um identificador da instrucao, registradores e modo de enderecamento
-							memoria[b] = inst.codigo[0];
-
-
-							break;
 							
+							//determina a codificacao dos registradores e dos enderecos
+							regMask = mascaraRegistradores(linha,linguagem);
+							endMask = mascaraEnderecamentos(linha,linguagem);
+
+							//faz um ou bitwise com cada uma das mascaras de codigo
+							for (int k = 0; k < linha.bytes; k++)
+							{
+								memoria[b] = regMask[k] | endMask[k] | inst.codigo[k];
+							}
+							break;
 					}
-					
+				}
+			}
+			return memoria;
+		}
+
+
+		/**
+		 * determina a mascara de codigos dos registradores utilizados na linha
+		 */
+		public byte[] mascaraRegistradores(Linha linha,Linguagem lingua)
+		{
+			byte[] mascara = new byte[linha.bytes];
+
+			for(int t=0;t<linha.tipos.Length;t++)
+			{
+				if (linha.tipos[t] == (int)Tipos.REGISTRADOR)
+				{
 
 				}
-
 			}
 
-			return memoria;
+			return mascara;
+
 		}
     }
 }
