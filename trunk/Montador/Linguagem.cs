@@ -12,6 +12,7 @@ namespace Montador
 		public List<Registrador> registradores;
 		public List<Enderecamento> enderecamentos;
 		public string[] diretivas = { "DAB", "DAW", "DB", "DW", "ORG" };
+		public int tamanhoEndereco;
 		
 		public enum Tipos { DEFLABEL, INSTRUCAO, DIRETIVA, REGISTRADOR, ENDERECO, INVALIDO };
 

@@ -11,7 +11,7 @@ namespace Montador
 		public int[] tipos;
 		public int linhaFonte;	//a linha correspondente no codigo fonte original
 		public string[] nomes;	//os nomes dos enderecos,labels e registradores usados, na ordem em que aparecem
-		public byte[] enderecamento;	//o codigo do modo de enderecamento
+		public List<byte[]> enderecamento;	//o codigo do modo de cada um dos modos de enderecamento utilizados
 		public int bytes = 1;
 
 		public Linha(string[] preprocessado,int nlinha)
@@ -19,9 +19,7 @@ namespace Montador
 			this.preprocessado = preprocessado;
 			this.tipos = new int[preprocessado.Length];
 			this.nomes = new string[preprocessado.Length];
-			this.enderecamento = new byte[preprocessado.Length];
-			for (int e = 0; e < this.enderecamento.Length; e++)
-				this.enderecamento[e] = 0;
+			this.enderecamento = new List<byte[]>();
 
 			this.linhaFonte = nlinha;
 		}

@@ -7,7 +7,7 @@ namespace Montador
 {
 	public class Definicoes
 	{
-		List<Label> labels = new List<Label>();
+		public List<Label> labels = new List<Label>();
 
 		/*
 		 * Adiciona a definicao de uma label na lista

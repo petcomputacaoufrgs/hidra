@@ -260,10 +260,13 @@ namespace Montador
 		 */
 		public byte[] montar(int tamanho,Linguagem linguagem)
 		{
+			Gramatica gram = new Gramatica();
 			byte[] memoria = new byte[tamanho];
 			byte[] regMask,endMask;
+			byte[] endereco;
 			Instrucao inst;
 			int b = 0;
+			Stack<Pendencia> pendencias = new Stack<Pendencia>();
 
 			foreach(Linha linha in this.linhas)
 			{
@@ -285,8 +288,45 @@ namespace Montador
 							//faz um ou bitwise com cada uma das mascaras de codigo
 							for (int k = 0; k < linha.bytes; k++)
 							{
-								memoria[b] = regMask[k] | endMask[k] | inst.codigo[k];
+								memoria[b] = (byte)(regMask[k] | endMask[k] | inst.codigo[k]);
 							}
+
+							//escreve os enderecos utilizados
+							b += linha.bytes;
+
+							for(int k=i+1;k<linha.tipos.Length;k++)
+							{
+								if(linha.tipos[k] == (int)Tipos.ENDERECO)
+								{
+									//verifica se o endereco eh uma label
+									Label label;
+									int pos = this.defs.labels.FindIndex(o => o.nome == linha.nomes[k]);
+									if (pos >= 0)
+									{
+										label = this.defs.labels[i];
+										//se a label ja foi definida
+										if (label.valor >= 0)
+											endereco = gram.num2byteArray(label.valor);
+										//adiciona na pilha as labels referenciadas que ainda nao foram definidas
+										else
+										{
+											pendencias.Push(new Pendencia(linha.nomes[k],linha.linhaFonte));
+											b += linguagem.tamanhoEndereco;
+										}
+									}
+									else
+									{
+										endereco = gram.num2byteArray(linha.nomes[k]);
+									}
+									//escreve o endereco
+									foreach (byte e in endereco)
+									{
+										memoria[b] = e;
+										b++;
+									}
+								}
+							}
+
 							break;
 					}
 				}
@@ -301,17 +341,49 @@ namespace Montador
 		public byte[] mascaraRegistradores(Linha linha,Linguagem lingua)
 		{
 			byte[] mascara = new byte[linha.bytes];
+			Registrador reg;
+			string nome;
 
-			for(int t=0;t<linha.tipos.Length;t++)
+			//zera a mascara
+			for (int t = 0; t < mascara.Length; t++)
+			{
+				mascara[t] = 0;
+			}
+
+			for (int t = 0; t < linha.tipos.Length; t++)
 			{
 				if (linha.tipos[t] == (int)Tipos.REGISTRADOR)
 				{
-
+					nome = linha.nomes[t];
+					reg = lingua.registradores.Find(o => o.nome == nome);
+					mascara = reg.codigo;
 				}
 			}
 
 			return mascara;
+		}
 
+		/**
+		 * determina a mascara de codigos dos modos de enderecamento utilizados
+		 */
+		public byte[] mascaraEnderecamentos(Linha linha, Linguagem lingua)
+		{
+			byte[] mascara = new byte[linha.bytes];
+
+			//se nenhum modo de enderecamento foi utilizado, zera a mascara
+			if (linha.enderecamento.Count == 0)
+				for (int i = 0; i < mascara.Length; i++)
+				{
+					mascara[i] = 0;
+				}
+			else
+			{
+				for (int i = 0; i < mascara.Length; i++)
+				{
+					mascara[i] = linha.enderecamento[0][i];
+				}
+			}
+			return mascara;
 		}
     }
 }

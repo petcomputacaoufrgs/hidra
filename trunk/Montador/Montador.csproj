@@ -55,6 +55,7 @@
     <Compile Include="Gramatica.cs" />
     <Compile Include="Linguagem.cs" />
     <Compile Include="Linha.cs" />
+    <Compile Include="Pendencia.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Codigo.cs" />
     <Compile Include="Dados.cs" />

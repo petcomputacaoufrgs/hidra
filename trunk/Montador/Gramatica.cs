@@ -14,6 +14,13 @@ namespace Montador
 
 		public Linguagem linguagem = new Linguagem();
 
+		public byte[] num2byteArray(string num)
+		{
+
+
+
+		}
+
 		/*
 		 * recebe um string e converte para um inteiro
 		 * numberos decimais terminam por 'd',
@@ -167,8 +174,12 @@ namespace Montador
 				}
 				else
 				{
+					byte[] end = new byte[1];
+					end[0] = 0;
 					//se nao for um numero, verifica se eh alguma palavra conhecida
-					tipo = linguagem.identificaTipo(palavra, ref nome, ref linha.enderecamento);
+					tipo = linguagem.identificaTipo(palavra, ref nome, ref end);
+
+					linha.enderecamento.Add(end);
 
 					if (tipo != (int)Tipos.INVALIDO)
 					{
@@ -186,6 +197,8 @@ namespace Montador
 						}
 						else if (ehString(palavra))
 							linha.tipos[i] = (int)Tipos.ENDERECO;
+						else
+							linha.tipos[i] = (int)Tipos.INVALIDO;
 					}
 				}
 			}
