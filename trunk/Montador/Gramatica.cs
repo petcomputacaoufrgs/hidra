@@ -9,15 +9,43 @@ namespace Montador
     public class Gramatica
     {
 
+		/**
+		 * independente da maquina, cada linha do codigo fonte pode ser:
+		 * 
+		 * inst
+		 * inst end
+		 * inst r
+		 * inst r end
+		 * diretiva
+		 * 
+		 * precedida ou nao por uma definicao de label
+		 * um endereco pode ser um numero ou uma palavra, seguido de um modo de enderecamento
+		 * uma label eh uma palavra seguida de ':'
+		 * 
+		 */
+
         public string[] inst;
         public enum Tipos { DEFLABEL, INSTRUCAO, DIRETIVA, REGISTRADOR, ENDERECO, INVALIDO };
 
 		public Linguagem linguagem = new Linguagem();
 
-		public byte[] num2byteArray(string num)
+		/**
+		 * converte um numero para um array de bytes onde a primeria posição é o byte menos significativo
+		 */
+		public byte[] num2byteArray(int num)
 		{
 
+			byte[] array = new byte[(int)(Math.Log(num, 2) / 8)+1];
+			byte mask = 255;
 
+			for (int i = 0; i < array.Length; i++)
+			{
+				//pega o byte menos significativo do numero
+				array[i] = (byte)(mask & num);
+				num >>= 8;
+			}
+
+			return array;
 
 		}
 
@@ -71,21 +99,6 @@ namespace Montador
 
 			return 0;
 		}
-
-        /**
-         * independente da maquina, cada linha do codigo fonte pode ser:
-         * 
-         * inst
-         * inst end
-         * inst r
-         * inst r end
-         * diretiva
-         * 
-         * precedida ou nao por uma definicao de label
-         * um endereco pode ser um numero ou uma palavra, seguido de um modo de enderecamento
-         * uma label eh uma palavra seguida de ':'
-         * 
-         */
 
         /**
          * retorna a primeria subpalavra da string que seja um numero em hexadecimal

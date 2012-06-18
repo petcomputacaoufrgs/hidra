@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Montador
 {
-	class Label
+	public class Label
 	{
 		public string nome;
 		public int linhaDef = -1;	//a linha em que a label foi definida. sera -1 caso nao tenha sido definida

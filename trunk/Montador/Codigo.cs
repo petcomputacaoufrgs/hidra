@@ -258,7 +258,7 @@ namespace Montador
 		 * retorna o binario resultante, que nao necessariamente utiliza todo o espaco
 		 * mas nao vai exceder o tamanho definido
 		 */
-		public byte[] montar(int tamanho,Linguagem linguagem)
+		public byte[] montar(int tamanho,Linguagem linguagem,Escritor saida)
 		{
 			Gramatica gram = new Gramatica();
 			byte[] memoria = new byte[tamanho];
@@ -266,6 +266,7 @@ namespace Montador
 			byte[] endereco;
 			Instrucao inst;
 			int b = 0;
+			int num;
 			Stack<Pendencia> pendencias = new Stack<Pendencia>();
 
 			foreach(Linha linha in this.linhas)
@@ -306,31 +307,105 @@ namespace Montador
 										label = this.defs.labels[i];
 										//se a label ja foi definida
 										if (label.valor >= 0)
+										{
 											endereco = gram.num2byteArray(label.valor);
+											//escreve o endereco
+											foreach (byte e in endereco)
+											{
+												memoria[b] = e;
+												b++;
+											}
+										}
 										//adiciona na pilha as labels referenciadas que ainda nao foram definidas
 										else
 										{
-											pendencias.Push(new Pendencia(linha.nomes[k],linha.linhaFonte));
+											pendencias.Push(new Pendencia(linha.nomes[k], linha.linhaFonte));
 											b += linguagem.tamanhoEndereco;
 										}
 									}
 									else
 									{
-										endereco = gram.num2byteArray(linha.nomes[k]);
-									}
-									//escreve o endereco
-									foreach (byte e in endereco)
-									{
-										memoria[b] = e;
-										b++;
+										int num = gram.paraInteiro(linha.nomes[k]);
+										endereco = gram.num2byteArray(num);
+										//escreve o endereco
+										foreach (byte e in endereco)
+										{
+											memoria[b] = e;
+											b++;
+										}
 									}
 								}
 							}
+							break;
+						case (int)Tipos.DIRETIVA:
+							
+							switch (linha.nomes[i])
+							{
+								//se for ORG, muda a posicao em que se está escrevendo
+								case "ORG":
+
+									int novaPosicao = gram.paraInteiro(linha.nomes[i+1]);
+									//se a nova posição ficar antes do que estávamos escrevendo,
+									//gera um aviso
+									if (novaPosicao < b)
+									{
+										saida.errorOut(Escritor.AVISO, linha.linhaFonte, "A posição "+b+ " pode ter sido sobrescrita.");
+									}
+									b = novaPosicao;
+									i++;
+									break;
+								//escreve o valor do que estiver a direita em um único byte
+								case "DB":
+
+									num = gram.paraInteiro(linha.nomes[i+1]);
+									endereco = gram.num2byteArray(num);
+
+									if (endereco.Length > 1)
+										saida.errorOut(Escritor.AVISO, linha.linhaFonte, "O número: " + linha.nomes[i + 1] + " ocupa " + endereco.Length + " bytes e foi truncado.");
+
+									memoria[b] = endereco[0];
+									b++;
+									break;
+								//utiliza exatamente 2 bytes para escrever o número que estiver a direita
+								case "DW":
+									num = gram.paraInteiro(linha.nomes[i+1]);
+									endereco = gram.num2byteArray(num);
+
+									if (endereco.Length > 2)
+									{
+										saida.errorOut(Escritor.AVISO, linha.linhaFonte, "O número: " + linha.nomes[i + 1] + "ocupa " + endereco.Length + " bytes e foi truncado.");
+										memoria[b] = endereco[0];
+										memoria[b+1] = endereco[1];
+									}
+									else
+									{
+										memoria[b] = endereco[0];
+										memoria[b + 1] = endereco[1];
+									}
+									b+=2;
+									break;
+								//array de bytes
+								case "DAB":
+
+									for (; i < linha.nomes.Length; i++)
+									{
+										num = gram.paraInteiro(linha.nomes[i]);
+										endereco = gram.num2byteArray(num);
+										if (endereco.Length != 1)
+											saida.errorOut(Escritor.AVISO, linha.linhaFonte, "O número: " + linha.nomes[i + 1] + "ocupa " + endereco.Length + " bytes e foi truncado.");
+
+										memoria[b] = endereco[0];
+										b++;
+									}
+
+									break;
+
+							}//end switch nome
 
 							break;
-					}
-				}
-			}
+					}//end switch tipos
+				}//end for tipos
+			}//end foreach linha
 			return memoria;
 		}
 
