@@ -12,11 +12,8 @@ namespace Montador
 		/**
 		 * independente da maquina, cada linha do codigo fonte pode ser:
 		 * 
-		 * inst
-		 * inst end
-		 * inst r
-		 * inst r end
-		 * diretiva
+		 * inst <operandos...>
+		 * diretiva <operandos...>
 		 * 
 		 * precedida ou nao por uma definicao de label
 		 * um endereco pode ser um numero ou uma palavra, seguido de um modo de enderecamento
@@ -26,6 +23,7 @@ namespace Montador
 
         public string[] inst;
         public enum Tipos { DEFLABEL, INSTRUCAO, DIRETIVA, REGISTRADOR, ENDERECO, INVALIDO };
+		public enum SubTipos { STRING, LABEL, NUMERO };
 
 		public Linguagem linguagem = new Linguagem();
 
@@ -166,6 +164,19 @@ namespace Montador
                 return d.CompareTo('0');
         }
 
+		/*
+		 * identifica o subtipo da palavra
+		 */
+		public int identificaSubTipo(string nome)
+		{
+			if (ehNumero(nome))
+				return (int)SubTipos.NUMERO;
+			else if (ehString(nome))
+				return (int)SubTipos.STRING;
+			else
+				return (int)SubTipos.LABEL;
+		}
+
         /*
          * identifica o tipo de uma palavra (olhar enum Tipos)
 		 * se for um endereco, escreve em nome o nome desse endereco ou registrador caso nao seja um numero
@@ -183,6 +194,7 @@ namespace Montador
 				if (ehNumero(palavra))
 				{
 					linha.tipos[i] =  (int)Tipos.ENDERECO;
+					linha.subTipos[i] = (int)SubTipos.NUMERO;
 					linha.nomes[i] = palavra;
 				}
 				else
@@ -197,6 +209,11 @@ namespace Montador
 					if (tipo != (int)Tipos.INVALIDO)
 					{
 						linha.tipos[i] = tipo;
+						//se for um endereco, determina o subtipo
+						if (tipo == (int)Tipos.ENDERECO)
+						{
+							linha.subTipos[i] = identificaSubTipo(nome);
+						}
 						linha.nomes[i] = nome;
 					}
 					else
@@ -206,10 +223,16 @@ namespace Montador
 							if (palavra[palavra.Length - 1] == ':')
 								linha.tipos[i] = (int)Tipos.DEFLABEL;
 							else
+							{
 								linha.tipos[i] = (int)Tipos.ENDERECO;
+								linha.subTipos[i] = (int)SubTipos.LABEL;
+							}
 						}
 						else if (ehString(palavra))
+						{
 							linha.tipos[i] = (int)Tipos.ENDERECO;
+							linha.tipos[i] = (int)SubTipos.STRING;
+						}
 						else
 							linha.tipos[i] = (int)Tipos.INVALIDO;
 					}

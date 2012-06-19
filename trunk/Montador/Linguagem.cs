@@ -13,8 +13,6 @@ namespace Montador
 		public List<Enderecamento> enderecamentos;
 		public string[] diretivas = { "DAB", "DAW", "DB", "DW", "ORG" };
 		public int tamanhoEndereco;
-		
-		public enum Tipos { DEFLABEL, INSTRUCAO, DIRETIVA, REGISTRADOR, ENDERECO, INVALIDO };
 
 		/*
          * carrega os dados relativos a maquina fornecida
@@ -61,11 +59,11 @@ namespace Montador
 					for (int i = 1; i < words.Length; i++)
 					{
 						if (words[i] == "r")
-							formato[i-1] = (int)Tipos.REGISTRADOR;
+							formato[i-1] = (int)Gramatica.Tipos.REGISTRADOR;
 						else if (words[i] == "end")
-							formato[i-1] = (int)Tipos.ENDERECO;
+							formato[i - 1] = (int)Gramatica.Tipos.ENDERECO;
 						else
-							formato[i-1] = (int)Tipos.INSTRUCAO;
+							formato[i - 1] = (int)Gramatica.Tipos.INSTRUCAO;
 					}
 					this.instrucoes.Add(new Instrucao(words[1].ToUpper(), formato, gram.leCodigo(words[0])));
 				}
@@ -106,15 +104,15 @@ namespace Montador
 			Enderecamento end = new Enderecamento();
 
 			if (Array.FindIndex(this.diretivas, o => o == palavra ) >= 0)
-				return (int)Tipos.DIRETIVA;
+				return (int)Gramatica.Tipos.DIRETIVA;
 			if (this.registradores.FindIndex(o => o.nome == palavra) >= 0)
-				return (int)Tipos.REGISTRADOR;
+				return (int)Gramatica.Tipos.REGISTRADOR;
 			if (this.instrucoes.FindIndex(o => o.mnemonico == palavra) >= 0)
-				return (int)Tipos.INSTRUCAO;
+				return (int)Gramatica.Tipos.INSTRUCAO;
 			if (end.identifica(palavra,this.enderecamentos,ref nome,ref enderecamento) >= 0)
-				return (int)Tipos.ENDERECO;
+				return (int)Gramatica.Tipos.ENDERECO;
 
-			return (int)Tipos.INVALIDO;
+			return (int)Gramatica.Tipos.INVALIDO;
 		}
 
 		public void print()
