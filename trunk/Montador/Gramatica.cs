@@ -29,14 +29,21 @@ namespace Montador
 
 		/**
 		 * converte um numero para um array de bytes onde a primeria posição é o byte menos significativo
+		 * o array tera exatamente o tamanho especificado
 		 */
-		public byte[] num2byteArray(int num)
+		public byte[] num2byteArray(int num, int tamanho, ref Codigo.Estado estado)
 		{
 
-			byte[] array = new byte[(int)(Math.Log(num, 2) / 8)+1];
+			//byte[] array = new byte[(int)(Math.Log(num, 2) / 8)+1];
+			byte[] array = new byte[tamanho];
 			byte mask = 255;
 
-			for (int i = 0; i < array.Length; i++)
+			if (tamanho >= ((int)(Math.Log(num, 2) / 8) + 1))
+				estado = Codigo.Estado.OK;
+			else
+				estado = Codigo.Estado.TRUNCADO;
+
+			for (int i = 0; i < tamanho; i++)
 			{
 				//pega o byte menos significativo do numero
 				array[i] = (byte)(mask & num);
@@ -45,6 +52,26 @@ namespace Montador
 
 			return array;
 
+		}
+
+		/**
+		 * converte uma string para um array de bytes
+		 * tamanho eh o numero de bytes que cada caractere ocupara
+		 * usa little-endian
+		 */
+		public byte[] string2byteArray(string s,int tamanho, ref Codigo.Estado estado)
+		{
+			byte[] vetor = new byte[s.Length*tamanho];
+			int i;
+
+			for (i = 0; i < s.Length; i+=tamanho)
+			{
+				vetor[i] = (byte)s[i];
+				for (int k = 1; k < tamanho; k++)
+					vetor[i + k] = 0;
+			}
+
+			return vetor;
 		}
 
 		/*
