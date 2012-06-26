@@ -13,7 +13,6 @@ namespace Montador
 		public Definicoes defs = new Definicoes();	//definicoes de labels
 		
         public byte[] binario;
-
 		
 
         /**
@@ -55,6 +54,10 @@ namespace Montador
 						if (c == final)
 						{
 							copia = false;
+							if (p - prev > 0)
+								elem.Add(new string(parsed, prev, p - prev));
+							prev = p;
+							espaco = true;
 						}
 					}
 					else
@@ -70,7 +73,8 @@ namespace Montador
 						//se o anterior nao era um espaco, copia
 						if (!espaco)
 						{
-							elem.Add(new string(parsed, prev, p - prev));
+							if(p-prev > 0)
+								elem.Add(new string(parsed, prev, p - prev));
 							parsed[p++] = ' ';
 						}
 						espaco = true;
@@ -83,7 +87,7 @@ namespace Montador
 							prev = p;
 						if (c == '\"' || c == '\'')
 						{
-							//prev = p;
+							prev = p;
 							copia = true;
 							espaco = false;
 							parsed[p++] = c;
@@ -106,10 +110,14 @@ namespace Montador
 				elem.Add(new string(parsed, prev, p - prev));
 			
 			string[] result = new string[elem.Count];
+			Console.WriteLine("Palavras: ");
 			for (int i = 0; i < elem.Count; i++)
 			{
-				result[i] = elem[i];
+				if(elem[i].Length > 0)
+					result[i] = elem[i];
+				Console.WriteLine(result[i]);
 			}
+			Console.WriteLine("******" + result.Length);
 
 			return result;
 
@@ -125,7 +133,6 @@ namespace Montador
 		 */
 		public void lerCodigo(string arquivo)
         {
-
             this.linhas = new List<Linha>();
 			string linha;
 			string[] clean;
@@ -431,7 +438,7 @@ namespace Montador
 						}//end switch nome
 						break;
 				}//end switch tipos
-			}//end foreach linha
+				}//end foreach linha
 
 			//resolve as labels pendentes
 

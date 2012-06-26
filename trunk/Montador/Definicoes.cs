@@ -41,7 +41,8 @@ namespace Montador
 		public void adicionaRef(string label, int linha)
 		{
 			Label lab = labels.Find(o => o.nome == label);
-			lab.linhas.Add(linha);
+			if(lab != null)
+				lab.linhas.Add(linha);
 		}
 
 		/*
@@ -66,7 +67,8 @@ namespace Montador
 		public void atribuiDef(string label, int valor)
 		{
 			Label lab = this.labels.Find(o => o.nome == label);
-			lab.valor = valor;
+			if(lab != null)
+				lab.valor = valor;
 		}
 	}
 }

@@ -240,6 +240,8 @@ namespace Montador
 						if (tipo == (int)Tipos.ENDERECO)
 						{
 							linha.subTipos[i] = identificaSubTipo(nome);
+							//se for uma string, verifica se existe um modo de enderecamento ao lado
+
 						}
 						linha.nomes[i] = nome;
 					}
@@ -258,7 +260,7 @@ namespace Montador
 						else if (ehString(palavra))
 						{
 							linha.tipos[i] = (int)Tipos.ENDERECO;
-							linha.tipos[i] = (int)SubTipos.STRING;
+							linha.subTipos[i] = (int)SubTipos.STRING;
 						}
 						else
 							linha.tipos[i] = (int)Tipos.INVALIDO;
@@ -375,6 +377,9 @@ namespace Montador
 			bool hexa = false;
 			bool numero = true;
 
+			if (palavra.Length == 0)
+				return false;
+
 			if (palavra[i] == '0' && palavra[end] == 'H')
 				hexa = true;
 
@@ -451,6 +456,9 @@ namespace Montador
 			int i;
 			char final;
 			bool escape = false;
+
+			if (palavra.Length == 0)
+				return false;
 
 			if (palavra[begin] != '\'' && palavra[begin] != '\"')
 				return false;

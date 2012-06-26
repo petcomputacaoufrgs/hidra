@@ -19,6 +19,7 @@ namespace Montador
 		{
 			this.preprocessado = preprocessado;
 			this.tipos = new int[preprocessado.Length];
+			this.subTipos = new int[preprocessado.Length];
 			this.nomes = new string[preprocessado.Length];
 			this.enderecamento = new List<byte[]>();
 

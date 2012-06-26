@@ -38,6 +38,10 @@ namespace Montador
 			string formato = "";
 			Enderecamento end;
 
+			if (palavra.Length == 0)
+				return (int)Gramatica.Tipos.INVALIDO;
+
+			Console.WriteLine(palavra);
 			for (pos = 0; pos < lista.Count; pos++)
 			{
 				end = lista[pos];

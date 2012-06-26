@@ -76,8 +76,10 @@ namespace Montador
 			code.defs.verificaLabels(esc);
 
 			byte[] binario;
-
-            binario = code.montar(256,gram.linguagem,esc);
+			/*
+			if(esc.erros == 0)
+				binario = code.montar(256,gram.linguagem,esc);
+			 */
         }
     }
 }
