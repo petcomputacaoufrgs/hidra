@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -33,6 +34,7 @@ namespace Montador
             Boolean achou = false;
             string maquina = args[2].ToLower();
             string saidaErro = args[1]+".err";  //nome do arquivo para a saida de erro
+			string saidaMem = args[1] + ".mem";
 			esc.arquivo = saidaErro;
             System.IO.File.Delete(saidaErro);
             string erro = "";
@@ -76,10 +78,16 @@ namespace Montador
 			code.defs.verificaLabels(esc);
 
 			byte[] binario;
-			/*
-			if(esc.erros == 0)
-				binario = code.montar(256,gram.linguagem,esc);
-			 */
+
+			if (esc.erros == 0)
+			{
+				binario = code.montar(256, gram.linguagem, esc);
+
+				using (BinaryWriter binWriter = new BinaryWriter(File.Open(saidaMem, FileMode.Create)))
+				{
+					binWriter.Write(binario);
+				}
+			}
         }
     }
 }

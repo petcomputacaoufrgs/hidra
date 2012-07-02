@@ -61,6 +61,7 @@ namespace Montador
 		 */
 		public byte[] string2byteArray(string s,int tamanho, ref Codigo.Estado estado)
 		{
+			Console.WriteLine("l:"+s.Length + " tam: " + tamanho);
 			byte[] vetor = new byte[s.Length*tamanho];
 			int i;
 
@@ -241,7 +242,22 @@ namespace Montador
 						{
 							linha.subTipos[i] = identificaSubTipo(nome);
 							//se for uma string, verifica se existe um modo de enderecamento ao lado
-
+							if (linha.subTipos[i] == (int)SubTipos.STRING && i +1 <linha.preprocessado.Length)
+							{
+								//somente se a linha contiver uma instrucao sera testado algum modo de enderecamento
+								int k = 0;
+								if (linha.tipos[k] == (int)Tipos.DEFLABEL)
+									k++;
+								if (linha.tipos[k] == (int)Tipos.INSTRUCAO)
+								{
+									string ope = String.Concat(linha.preprocessado[i], linha.preprocessado[i + 1]);
+									if(linguagem.identificaTipo(ope,ref nome, ref end) == (int)Tipos.ENDERECO)
+									{
+										linha.enderecamento[i] = end;
+										linha.nomes[i] = nome;
+									}
+								}
+							}
 						}
 						linha.nomes[i] = nome;
 					}

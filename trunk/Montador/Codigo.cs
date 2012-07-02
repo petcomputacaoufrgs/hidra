@@ -273,9 +273,7 @@ namespace Montador
 			byte[] endereco;
 			Instrucao inst;
 			int b = 0;
-			int num;
 			Stack<Pendencia> pendencias = new Stack<Pendencia>();
-			Label label;
 
 			Codigo.Estado estado = Codigo.Estado.OK;
 
@@ -290,6 +288,8 @@ namespace Montador
 					this.defs.atribuiDef(linha.nomes[i], b);
 					i++;
 				}
+				if (i >= linha.tipos.Length)
+					continue;
 				//definicao de label
 				switch (linha.tipos[i])
 				{
@@ -313,7 +313,8 @@ namespace Montador
 						{
 							if (linha.tipos[k] == (int)Gramatica.Tipos.ENDERECO)
 							{
-								endereco = this.converteByteArray(linha.nomes[i], linguagem.tamanhoEndereco, ref estado);
+								Console.WriteLine(k+" line:"+linha.linhaFonte);
+								endereco = this.converteByteArray(linha.nomes[k], linguagem.tamanhoEndereco, ref estado);
 
 								if (estado != Estado.INDEFINIDO)
 								{
@@ -548,6 +549,7 @@ namespace Montador
 			//label
 			else
 			{
+				Console.WriteLine("Label:"+endereco);
 				Label label = this.defs.labels.Find(o => o.nome == endereco);
 				if (label.valor >= 0)
 					vetor = gram.num2byteArray(label.valor, tamanho, ref estado);

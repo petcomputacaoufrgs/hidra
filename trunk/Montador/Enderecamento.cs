@@ -40,8 +40,6 @@ namespace Montador
 
 			if (palavra.Length == 0)
 				return (int)Gramatica.Tipos.INVALIDO;
-
-			Console.WriteLine(palavra);
 			for (pos = 0; pos < lista.Count; pos++)
 			{
 				end = lista[pos];
@@ -52,6 +50,7 @@ namespace Montador
 
 				//percorre o formato pelos dois lados ate encontrar o endereco,
 				//representado pelo simbolo 'E'
+				pr = palavra.Length - 1;
 				while (formato[l] != 'E' || formato[r] != 'E')
 				{
 					if (formato[l] != 'E')
@@ -72,9 +71,13 @@ namespace Montador
 				}
 				if (formato[l] == 'E' && formato[r] == 'E')
 				{
-					if (gram.ehLabel(palavra,l,pr) || gram.ehNumero(palavra,l,pr) || gram.ehString(palavra,l,pr))
+					endereco = new String(palavra.ToCharArray(), l, pr - l + 1);
+					if (gram.ehLabel(endereco, l, pr) || gram.ehNumero(endereco, l, pr) || gram.ehString(endereco, l, pr))
 					{
-						endereco = new String(palavra.ToCharArray(), l, pr - l+1);
+						Console.WriteLine("len:" + palavra.Length);
+						Console.WriteLine("Palavra:" + palavra);
+						
+						Console.WriteLine("End:*" + endereco+"*");
 						if (enderecamento.Length < end.codigo.Length)
 						{
 							Array.Resize<byte>(ref enderecamento, end.codigo.Length);
@@ -82,12 +85,7 @@ namespace Montador
 						for (int k = end.codigo.Length-1, e = enderecamento.Length-1; k>=0 ; k--,e--)
 							enderecamento[e] |= end.codigo[k];
 						
-						if (gram.ehLabel(endereco))
-								return pos;
-						if(gram.ehNumero(endereco))
-							return pos;
-						if (gram.ehString(endereco))
-							return pos;
+						return pos;
 					}
 				}
 			}
