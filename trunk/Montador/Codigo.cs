@@ -281,7 +281,8 @@ namespace Montador
 
 			int l = 0;
 			int i;
-			for(Linha linha = this.linhas[0];l<this.linhas.Count;l++, linha = this.linhas[l])
+            Linha linha;
+			for(linha = this.linhas[0];l<this.linhas.Count;l++, linha = this.linhas[l])
 			{
 				i=0;
 				if(linha.tipos[i] == (int)Gramatica.Tipos.DEFLABEL)
@@ -441,9 +442,89 @@ namespace Montador
 				}//end foreach linha
 
 			//resolve as labels pendentes
+            Pendencia pend;
+            while (pendencias.Count != 0)
+            {
+                pend = pendencias.Pop();
+                i = 0;
+                b = pend.nbyte;
+                linha = this.linhas[pend.nlinha];
 
-			return memoria;
-		}
+                if (linha.tipos[i] == (int)Gramatica.Tipos.DEFLABEL)
+                    i++;
+
+                Boolean array = false;
+                int size = linguagem.tamanhoEndereco;
+                if(linha.tipos[i] ==  (int)Gramatica.Tipos.DIRETIVA)
+                {
+                    i++;
+                    switch (linha.nomes[i])
+                    {
+                        case "DB":
+                            array = false;
+                            size = 1;
+                            break;
+                        case "DW":
+                            array = false;
+                            size = 2;
+                            break;
+                        case "DAB":
+                            array = true;
+                            size = 1;
+                            break;
+                        case "DAW":
+                            array = true;
+                            size = 2;
+                            break;
+                    }
+
+                    endereco = this.converteByteArray(linha.nomes[i], size, ref estado);
+
+                    if (!array)
+                    {
+                        if (endereco.Length > size || estado == Estado.TRUNCADO)
+                        {
+                            saida.errorOut(Escritor.AVISO, linha.linhaFonte, "O valor: " + linha.nomes[i] + "ocupa " + endereco.Length + " bytes e foi truncado.");
+                        }
+
+                        //escreve o valor
+                        for (int k = 0; k < size; k++, b++)
+                        {
+                            memoria[b] = endereco[k];
+                        }
+                    }
+                    else
+                    {
+                        if(estado == Estado.TRUNCADO)
+                            saida.errorOut(Escritor.AVISO, linha.linhaFonte, "O valor: " + linha.nomes[i] + "ocupa " + endereco.Length + " bytes e foi truncado.");
+                        //escreve o valor
+                        for (int k = 0; k < size; k++, b++)
+                            memoria[b] = endereco[k];
+                    }
+
+                }
+                else
+                {
+                    i++;
+                    endereco = this.converteByteArray(linha.nomes[i],linguagem.tamanhoEndereco,ref estado);
+
+                    if (estado == Estado.TRUNCADO)
+                    {
+                        saida.errorOut(Escritor.AVISO,linha.linhaFonte, "O valor: " + linha.nomes[i] + "ocupa " + endereco.Length + " bytes e foi truncado.");
+                    }
+
+                    //escreve o valor
+                    for (int k = 0; k < linguagem.tamanhoEndereco; k++,b++)
+                    {
+                        memoria[b] = endereco[k];
+                    }
+
+                }
+            }
+        
+
+		return memoria;
+	}
 
 		/**
 		 * converte um endereco para um array de bytes 
