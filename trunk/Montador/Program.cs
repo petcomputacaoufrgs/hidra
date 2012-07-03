@@ -88,6 +88,8 @@ namespace Montador
 					binWriter.Write(binario);
 				}
 			}
+
+			code.print();
         }
     }
 }

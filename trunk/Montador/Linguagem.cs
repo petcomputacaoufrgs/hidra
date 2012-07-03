@@ -89,6 +89,27 @@ namespace Montador
 				}
 			}
 
+			//determina as caracteristicas da maquina
+			using (StreamReader file = new StreamReader(arquivo + "/maq.txt"))
+			{
+				//endianess
+				linha = file.ReadLine();
+				//formato de cada instrucao
+				linha = file.ReadLine();
+				//numero de bits do endereco
+				linha = file.ReadLine();
+				this.tamanhoEndereco = gram.paraInteiro(linha);
+
+				if (this.tamanhoEndereco % 8 == 0)
+					this.tamanhoEndereco /= 8;
+				else
+				{
+					this.tamanhoEndereco /= 8;
+					this.tamanhoEndereco += 1;
+				}
+				Console.WriteLine("Tam end:" + this.tamanhoEndereco);
+			}
+
 			this.registradores.Sort(reg.regCompare);
 			this.instrucoes.Sort(inst.instCompare);
 		}

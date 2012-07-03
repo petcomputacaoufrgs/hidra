@@ -110,15 +110,12 @@ namespace Montador
 				elem.Add(new string(parsed, prev, p - prev));
 			
 			string[] result = new string[elem.Count];
-			Console.WriteLine("Palavras: ");
+			
 			for (int i = 0; i < elem.Count; i++)
 			{
 				if(elem[i].Length > 0)
 					result[i] = elem[i];
-				Console.WriteLine(result[i]);
 			}
-			Console.WriteLine("******" + result.Length);
-
 			return result;
 
         }
@@ -240,23 +237,34 @@ namespace Montador
          */
 		public void print()
 		{
-			int i = 0;
 			Console.WriteLine("*******");
 			foreach (Linha linha in this.linhas)
 			{
-				Console.Write(this.linhas[i].linhaFonte + ":\t");
+				Console.Write(linha.linhaFonte + ":\t");
 				foreach (string w in linha.preprocessado)
 				{
 					Console.Write(w + " ");
 				}
 				Console.Write("\n");
 
+				foreach (string s in linha.nomes)
+					Console.Write(s + " ");
+				Console.Write("\n");
+
 				foreach(int t in linha.tipos)
 					Console.Write(t + " ");
 				Console.Write("\n");
 
-				i++;
+				foreach (int t in linha.subTipos)
+					Console.Write(t + " ");
+				Console.Write("\n");
 			}
+			
+			foreach (Label la in this.defs.labels)
+			{
+				Console.WriteLine(la.nome + "\t" + la.valor + "\t" + la.linhaDef);
+			}
+
 			Console.WriteLine("*******");
 		}
 
@@ -280,11 +288,14 @@ namespace Montador
 			int l = 0;
 			int i;
             Linha linha;
-			for(linha = this.linhas[0];l<this.linhas.Count;l++, linha = this.linhas[l])
+			Console.WriteLine("list c: " + this.linhas.Count);
+			for(linha = this.linhas[0];l<this.linhas.Count;l++)
 			{
+				linha = this.linhas[l];
 				i=0;
 				if(linha.tipos[i] == (int)Gramatica.Tipos.DEFLABEL)
 				{
+					Console.WriteLine("def: " + linha.nomes[i]);
 					this.defs.atribuiDef(linha.nomes[i], b);
 					i++;
 				}

@@ -28,6 +28,41 @@ namespace Montador
 		public Linguagem linguagem = new Linguagem();
 
 		/**
+		 * retorna o valor inteiro de um digito hexadecimal
+		 * ou -1 se nao foi hexadecimal
+		 */
+		public int getHexValue(Char d)
+		{
+			int v = (int)Char.GetNumericValue(d);
+			if (v > 0)
+				return v;
+
+			switch (d)
+			{
+				case 'A':
+				case 'a':
+					return 10;
+				case 'B':
+				case 'b':
+					return 11;
+				case 'C':
+				case 'c':
+					return 12;
+				case 'D':
+				case 'd':
+					return 13;
+				case 'E':
+				case 'e':
+					return 14;
+				case 'F':
+				case 'f':
+					return 15;
+				default:
+					return -1;
+			}
+				
+		}
+		/**
 		 * converte um numero para um array de bytes onde a primeria posição é o byte menos significativo
 		 * o array tera exatamente o tamanho especificado
 		 */
@@ -83,10 +118,14 @@ namespace Montador
 		 */
 		public int paraInteiro(string numero)
 		{
+			if (numero == null)
+				return 0;
 			return this.paraInteiro(numero, 0, numero.Length - 1);
 		}
 		public int paraInteiro(string numero,int begin, int end)
 		{
+			if (numero == null)
+				return 0;
 			if (begin < 0)
 				begin = 0;
 			if (end < begin)
@@ -100,21 +139,29 @@ namespace Montador
 				//decimal
 				case 'd':
 				case 'D':
-					for (int i = end, p = 1; i >= begin; i--, p *= 10)
+					for (int i = end-1, p = 1; i >= begin; i--, p *= 10)
 					{
 						num += (int)(p * Char.GetNumericValue(numero[i]));
+						Console.WriteLine("" + numero[i] + " : " + Char.GetNumericValue(numero[i]));
 					}
 					return num;
 				case 'h':
 				case 'H':
-					for (int i = end, p = 1; i >= begin; i--, p *= 16)
+					for (int i = end-1, p = 1; i >= begin; i--, p *= 16)
 					{
-						num += (int)(p * Char.GetNumericValue(numero[i]));
+						num += (int)(p * getHexValue(numero[i]));
+					}
+					return num;
+				case 'b':
+					for (int i = end-1, p = 1; i >= begin; i--, p *= 2)
+					{
+						if(numero[i] == '1')
+							num += p;
 					}
 					return num;
 				case '0':
 				case '1':
-				case 'b':
+				
 					for (int i = end, p = 1; i >= begin; i--, p *= 2)
 					{
 						if(numero[i] == '1')
@@ -266,7 +313,10 @@ namespace Montador
 						if (ehLabel(palavra,palavra.Length-1))
 						{
 							if (palavra[palavra.Length - 1] == ':')
+							{
 								linha.tipos[i] = (int)Tipos.DEFLABEL;
+								linha.nomes[i] = new string(palavra.ToCharArray(),0,palavra.Length-1);
+							}
 							else
 							{
 								linha.tipos[i] = (int)Tipos.ENDERECO;
