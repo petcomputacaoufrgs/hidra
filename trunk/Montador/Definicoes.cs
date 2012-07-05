@@ -30,7 +30,8 @@ namespace Montador
 			else
 			{
 				lab = new Label(label);
-				lab.linhas.Add(linha);
+				lab.linhaDef = linha;
+				lab.valor = 0;
 				this.labels.Add(lab);
 			}
 		}
@@ -41,7 +42,9 @@ namespace Montador
 		public void adicionaRef(string label, int linha)
 		{
 			Label lab = labels.Find(o => o.nome == label);
-			if(lab != null)
+			if (lab == null)
+				labels.Add(new Label(label,linha));
+			else
 				lab.linhas.Add(linha);
 		}
 
@@ -56,7 +59,13 @@ namespace Montador
 			{
 				if (label.linhas.Count == 0)
 				{
-					saida.errorOut(saida.avisos, label.linhaDef, "Label não utilizada: " + label.nome);
+					saida.errorOut(Escritor.AVISO, label.linhaDef, "Label não utilizada: " + label.nome);
+				}
+				//se nao foi definida
+				else if (label.linhaDef == -1)
+				{
+					foreach(int l in label.linhas)
+						saida.errorOut(Escritor.ERRO, l , "Label não definida: " + label.nome);
 				}
 			}
 		}

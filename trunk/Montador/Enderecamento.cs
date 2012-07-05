@@ -74,10 +74,6 @@ namespace Montador
 					endereco = new String(palavra.ToCharArray(), l, pr - l + 1);
 					if (gram.ehLabel(endereco, l, pr) || gram.ehNumero(endereco, l, pr) || gram.ehString(endereco, l, pr))
 					{
-						Console.WriteLine("len:" + palavra.Length);
-						Console.WriteLine("Palavra:" + palavra);
-						
-						Console.WriteLine("End:*" + endereco+"*");
 						if (enderecamento.Length < end.codigo.Length)
 						{
 							Array.Resize<byte>(ref enderecamento, end.codigo.Length);

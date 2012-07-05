@@ -57,14 +57,14 @@ namespace Montador
             }
             //carrega a gramatica para a maquina
             gram.linguagem.carrega(maquina);
-			gram.linguagem.print();
+			//gram.linguagem.print();
 
             //le o codigo fonte
             code.lerCodigo(args[0]);
-            code.print();
+            //code.print();
 
             //code.converteHexa();
-            //code.identificaTipos(gram);
+            code.identificaTipos(gram);
             //code.print();
             
             //verifica se as linhas sao validas para a maquina
@@ -73,7 +73,7 @@ namespace Montador
                 return;
             }
 
-			code.print();
+			//code.print();
 
 			code.defs.verificaLabels(esc);
 

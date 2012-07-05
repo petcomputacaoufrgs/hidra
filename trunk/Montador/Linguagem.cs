@@ -107,7 +107,6 @@ namespace Montador
 					this.tamanhoEndereco /= 8;
 					this.tamanhoEndereco += 1;
 				}
-				Console.WriteLine("Tam end:" + this.tamanhoEndereco);
 			}
 
 			this.registradores.Sort(reg.regCompare);
@@ -142,6 +141,11 @@ namespace Montador
 			foreach (Instrucao inst in this.instrucoes)
 			{
 				Console.WriteLine(inst.mnemonico);
+				foreach (byte b in inst.codigo)
+				{
+					Console.Write(b);
+				}
+				Console.WriteLine("");
 				foreach (int f in inst.formato)
 				{
 					Console.Write(f + " ");

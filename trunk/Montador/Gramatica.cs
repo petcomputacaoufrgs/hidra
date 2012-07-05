@@ -23,7 +23,7 @@ namespace Montador
 
         public string[] inst;
         public enum Tipos { DEFLABEL, INSTRUCAO, DIRETIVA, REGISTRADOR, ENDERECO, INVALIDO };
-		public enum SubTipos { STRING, LABEL, NUMERO };
+		public enum SubTipos { NONE,STRING, LABEL, NUMERO };
 
 		public Linguagem linguagem = new Linguagem();
 
@@ -90,13 +90,30 @@ namespace Montador
 		}
 
 		/**
+		 * converte uma string de uma string para uma string
+		 * ex:
+		 * "\"abc\"" -> "abc"
+		 *
+		public string rawString2string(string raw)
+		{
+			char final = raw[0];
+			char[] str = new char[raw.Length];
+			bool go = true;
+			int i = 1;
+			int p = 0;
+			while (go)
+			{
+
+			}
+		}*/
+
+		/**
 		 * converte uma string para um array de bytes
 		 * tamanho eh o numero de bytes que cada caractere ocupara
 		 * usa little-endian
 		 */
-		public byte[] string2byteArray(string s,int tamanho, ref Codigo.Estado estado)
+		public byte[] string2byteArray(string s, int tamanho, ref Codigo.Estado estado)
 		{
-			Console.WriteLine("l:"+s.Length + " tam: " + tamanho);
 			byte[] vetor = new byte[s.Length*tamanho];
 			int i;
 
@@ -142,7 +159,6 @@ namespace Montador
 					for (int i = end-1, p = 1; i >= begin; i--, p *= 10)
 					{
 						num += (int)(p * Char.GetNumericValue(numero[i]));
-						Console.WriteLine("" + numero[i] + " : " + Char.GetNumericValue(numero[i]));
 					}
 					return num;
 				case 'h':
@@ -288,6 +304,18 @@ namespace Montador
 						if (tipo == (int)Tipos.ENDERECO)
 						{
 							linha.subTipos[i] = identificaSubTipo(nome);
+							if (linha.subTipos[i] == (int)SubTipos.STRING)
+							{
+								Stringer str = new Stringer();
+								char[] parsedArr = new char[palavra.Length];
+								int size = 0;
+
+								str.parse(palavra, 1, parsedArr, ref size);
+								linha.nomes[i] = new string(parsedArr);
+
+								Console.WriteLine("Raw:" + palavra);
+								Console.WriteLine("Parsed:" + linha.nomes[i]);
+							}
 							//se for uma string, verifica se existe um modo de enderecamento ao lado
 							if (linha.subTipos[i] == (int)SubTipos.STRING && i +1 <linha.preprocessado.Length)
 							{
@@ -327,6 +355,16 @@ namespace Montador
 						{
 							linha.tipos[i] = (int)Tipos.ENDERECO;
 							linha.subTipos[i] = (int)SubTipos.STRING;
+
+							Stringer str = new Stringer();
+							char[] parsedArr = new char[palavra.Length];
+							int size = 0;
+							
+							str.parse(palavra, 1, parsedArr, ref size);
+							linha.nomes[i] = new string(parsedArr);
+
+							Console.WriteLine("Raw:" + palavra);
+							Console.WriteLine("Parsed:" + linha.nomes[i]);
 						}
 						else
 							linha.tipos[i] = (int)Tipos.INVALIDO;
@@ -349,7 +387,7 @@ namespace Montador
 			int j = 1;
 			int size = linha.tipos.Length;
 			//a linha pode comecar por definicao de label
-			if (linha.tipos[0] == 0)
+			if (linha.tipos[0] == (int)Tipos.DEFLABEL)
 			{
 				defs.adicionaDef(linha.preprocessado[0].Substring(0,linha.preprocessado[0].Length-1),linha.linhaFonte,saida);
 				i = 1;
@@ -494,11 +532,9 @@ namespace Montador
 			{
 				return false;
 			}
-			//Console.WriteLine(palavra + " " + end);
 			for (int i = begin; i <= end; i++)
 			{
 				//se for um dos caracteres invalidos
-				//Console.WriteLine(palavra[i]);
 				if (Array.Exists(invalid, c => c == palavra[i]))
 					return false;
 			}
@@ -591,7 +627,7 @@ namespace Montador
 				bytes = i / 2 + i%2;
 				codigo = new byte[bytes];
 				b = bytes - 1;
-				for (i--; i >= 0; i-=2, b--)
+				for (i--; i >= 1; i-=2, b--)
 				{
 					valor = (byte)this.paraInteiro(numero, i - 1, i);
 					codigo[b] = valor;
@@ -600,12 +636,14 @@ namespace Montador
 			//eh binario
 			else
 			{
-				bytes = i / 8;
-				if(i%8 != 0)
+				if (numero[i] == 'b' || numero[i] == 'B')
+					i--;
+				bytes = (i+1) / 8;
+				if((i+1)%8 != 0)
 					bytes++;
 				codigo = new byte[bytes];
 				b = bytes - 1;
-				for (i--; i >= 0; i-=7, b--)
+				for (; i >= 7; i-=7, b--)
 				{
 					valor = (byte)this.paraInteiro(numero, i - 7, i);
 					codigo[b] = valor;

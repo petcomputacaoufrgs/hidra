@@ -169,13 +169,13 @@ namespace Montador
         public Boolean ehValido(Gramatica gramatica,Escritor saida)
         {
 			this.identificaTipos(gramatica);
-
+			/*
 			for (int i = 0; i < this.linhas.Count; i++)
 			{
 				for (int j = 0; j < this.linhas[i].preprocessado.Length; j++)
 					Console.Write(this.linhas[i].preprocessado[j]+" ");
 				Console.WriteLine();
-			}
+			}*/
 
 			//verifica se os tipos de cada linha são validos
 			for (int i = 0; i < this.linhas.Count; i++)
@@ -288,7 +288,6 @@ namespace Montador
 			int l = 0;
 			int i;
             Linha linha;
-			Console.WriteLine("list c: " + this.linhas.Count);
 			for(linha = this.linhas[0];l<this.linhas.Count;l++)
 			{
 				linha = this.linhas[l];
@@ -358,6 +357,8 @@ namespace Montador
 							case "ORG":
 
 								int novaPosicao = gram.paraInteiro(linha.nomes[i]);
+								Console.Write("Antiga posicao:" + b);
+								Console.WriteLine("\tNova posicao:" + novaPosicao);
 								//se a nova posição ficar antes do que estávamos escrevendo,
 								//gera um aviso
 								if (novaPosicao < b)
