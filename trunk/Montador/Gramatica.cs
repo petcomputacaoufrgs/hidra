@@ -70,8 +70,6 @@ namespace Montador
 		 */
 		public byte[] num2byteArray(int num, int tamanho, ref Codigo.Estado estado)
 		{
-			Console.WriteLine("Num:" + num);
-			//byte[] array = new byte[(int)(Math.Log(num, 2) / 8)+1];
 			byte[] array = new byte[tamanho];
 			byte mask = 255;
 
@@ -86,28 +84,15 @@ namespace Montador
 				array[i] = (byte)(mask & num);
 				num >>= 8;
 			}
-
+			/*
+			Console.WriteLine("Array:");
+			foreach (byte b in array)
+				Console.Write(String.Format("{0} ", b));
+			Console.WriteLine("");
+			*/
 			return array;
 
 		}
-
-		/**
-		 * converte uma string de uma string para uma string
-		 * ex:
-		 * "\"abc\"" -> "abc"
-		 *
-		public string rawString2string(string raw)
-		{
-			char final = raw[0];
-			char[] str = new char[raw.Length];
-			bool go = true;
-			int i = 1;
-			int p = 0;
-			while (go)
-			{
-
-			}
-		}*/
 
 		/**
 		 * converte uma string para um array de bytes
@@ -116,7 +101,7 @@ namespace Montador
 		 */
 		public byte[] string2byteArray(string s, int tamanho, ref Codigo.Estado estado)
 		{
-			Console.WriteLine("Tamanho: " + tamanho);
+			//Console.WriteLine("Tamanho: " + tamanho);
 			byte[] vetor = new byte[s.Length*tamanho];
 			int i;
 
@@ -144,8 +129,8 @@ namespace Montador
 		}
 		public int paraInteiro(string numero,int begin, int end)
 		{
-			Console.WriteLine("Str numero:" + numero);
-			Console.WriteLine(String.Format("Begin:{0}\tEnd{1}",begin,end));
+			//Console.WriteLine("Str numero:" + numero);
+			//Console.WriteLine(String.Format("Begin:{0}\tEnd{1}",begin,end));
 			if (numero == null)
 				return 0;
 			if (begin < 0)
@@ -182,7 +167,7 @@ namespace Montador
 					}
 					break;
 			}
-			Console.WriteLine("Num:" + num);
+			//Console.WriteLine("Num:" + num);
 			return num;
 		}
 
@@ -210,7 +195,7 @@ namespace Montador
 
 			for (; i >= 0 && i < num.Length; i += dir,p+=8)
 			{
-				Console.WriteLine(String.Format("Byte:{0}", num[i]));
+				//Console.WriteLine(String.Format("Byte:{0}", num[i]));
 				val += num[i]<<p;
 			}
 
@@ -646,7 +631,6 @@ namespace Montador
 		 */
 		public byte[] leCodigo(string numero)
 		{
-			Console.WriteLine("Lecodigo:"+numero);
 			byte[] codigo;
 			int i = numero.Length - 1;
 			int b;
@@ -660,10 +644,7 @@ namespace Montador
 				b = bytes - 1;
 				for (i--; i >= 1; i-=2, b--)
 				{
-					Console.WriteLine("Char n:"+numero[i]); ;
-					Console.WriteLine(String.Format("Char {1}:{0}", numero[i-1],getHexValue(numero[i-1]))); ;
 					valor = ((byte)getHexValue(numero[i]));
-					Console.WriteLine("Valor:" + valor);
 					valor += (byte)((byte)getHexValue(numero[i - 1])<<4);
 					codigo[b] = valor;
 				}
@@ -684,11 +665,6 @@ namespace Montador
 					codigo[b] = valor;
 				}
 			}
-
-			Console.WriteLine("Codigo:");
-			foreach (Char c in codigo)
-				Console.Write(String.Format("{0}  ", (int)c));
-			Console.WriteLine("");
 
 			return codigo;
 		}
