@@ -34,8 +34,10 @@ namespace Montador
 		public int getHexValue(Char d)
 		{
 			int v = (int)Char.GetNumericValue(d);
-			if (v > 0)
+			if (v >= 0)
+			{
 				return v;
+			}
 
 			switch (d)
 			{
@@ -68,7 +70,7 @@ namespace Montador
 		 */
 		public byte[] num2byteArray(int num, int tamanho, ref Codigo.Estado estado)
 		{
-
+			Console.WriteLine("Num:" + num);
 			//byte[] array = new byte[(int)(Math.Log(num, 2) / 8)+1];
 			byte[] array = new byte[tamanho];
 			byte mask = 255;
@@ -114,6 +116,7 @@ namespace Montador
 		 */
 		public byte[] string2byteArray(string s, int tamanho, ref Codigo.Estado estado)
 		{
+			Console.WriteLine("Tamanho: " + tamanho);
 			byte[] vetor = new byte[s.Length*tamanho];
 			int i;
 
@@ -141,6 +144,8 @@ namespace Montador
 		}
 		public int paraInteiro(string numero,int begin, int end)
 		{
+			Console.WriteLine("Str numero:" + numero);
+			Console.WriteLine(String.Format("Begin:{0}\tEnd{1}",begin,end));
 			if (numero == null)
 				return 0;
 			if (begin < 0)
@@ -153,50 +158,73 @@ namespace Montador
 
 			switch (tipo)
 			{
-				//decimal
-				case 'd':
-				case 'D':
-					for (int i = end-1, p = 1; i >= begin; i--, p *= 10)
-					{
-						num += (int)(p * Char.GetNumericValue(numero[i]));
-					}
-					return num;
 				case 'h':
 				case 'H':
 					for (int i = end-1, p = 1; i >= begin; i--, p *= 16)
 					{
 						num += (int)(p * getHexValue(numero[i]));
 					}
-					return num;
+					break;
 				case 'b':
+				case 'B':
 					for (int i = end-1, p = 1; i >= begin; i--, p *= 2)
 					{
 						if(numero[i] == '1')
 							num += p;
 					}
-					return num;
-				case '0':
-				case '1':
-				
-					for (int i = end, p = 1; i >= begin; i--, p *= 2)
+					break;
+				//decimal
+				default:
+					for (int i = end, p = 1; i >= begin; i--, p *= 10)
 					{
-						if(numero[i] == '1')
-							num += p;
+						Console.WriteLine(numero[i]);
+						num += (int)(p * Char.GetNumericValue(numero[i]));
 					}
-					return num;
+					break;
 			}
-
-			return 0;
+			Console.WriteLine("Num:" + num);
+			return num;
 		}
 
-        /**
-         * retorna a primeria subpalavra da string que seja um numero em hexadecimal
-         * como nao eh possivel a existencia de 2 numeros na mesma palavra, apenas o primeiro eh necessario
-         * se nao existir tal subpalavra, retorna ""
-         * formato:
-         * 0.(0-9+A-F)*.h
-         */
-        public string substringHexa(string palavra)
+		/**
+		 * recebe um array de bytes e converte para um numero inteiro
+		 */
+		public int arrayParaInteiro(byte[] num,Linguagem.Endianness endianness)
+		{
+			int val = 0;
+			int dir;
+			int i;
+			int p = 0;
+
+			//se for little-endian, o primeiro byte eh o menos significativo
+			if (endianness == Linguagem.Endianness.Little)
+			{
+				dir = 1;
+				i = 0;
+			}
+			else
+			{
+				dir = -1;
+				i = num.Length-1;
+			}
+
+			for (; i >= 0 && i < num.Length; i += dir,p+=8)
+			{
+				Console.WriteLine(String.Format("Byte:{0}", num[i]));
+				val += num[i]<<p;
+			}
+
+			return val;
+		}
+
+		/**
+		 * retorna a primeria subpalavra da string que seja um numero em hexadecimal
+		 * como nao eh possivel a existencia de 2 numeros na mesma palavra, apenas o primeiro eh necessario
+		 * se nao existir tal subpalavra, retorna ""
+		 * formato:
+		 * 0.(0-9+A-F)*.h
+		 */
+		public string substringHexa(string palavra)
         {
             char[] numero = new char[palavra.Length];
             int i = 0,p = 0;
@@ -312,9 +340,10 @@ namespace Montador
 
 								str.parse(palavra, 1, parsedArr, ref size);
 								linha.nomes[i] = new string(parsedArr);
+								nome = linha.nomes[i];
 
-								Console.WriteLine("Raw:" + palavra);
-								Console.WriteLine("Parsed:" + linha.nomes[i]);
+								//Console.WriteLine("Raw:" + palavra);
+								//Console.WriteLine("Parsed:" + linha.nomes[i]);
 							}
 							//se for uma string, verifica se existe um modo de enderecamento ao lado
 							if (linha.subTipos[i] == (int)SubTipos.STRING && i +1 <linha.preprocessado.Length)
@@ -325,11 +354,12 @@ namespace Montador
 									k++;
 								if (linha.tipos[k] == (int)Tipos.INSTRUCAO)
 								{
+									string none = null;
 									string ope = String.Concat(linha.preprocessado[i], linha.preprocessado[i + 1]);
-									if(linguagem.identificaTipo(ope,ref nome, ref end) == (int)Tipos.ENDERECO)
+									if(linguagem.identificaTipo(ope, ref none, ref end) == (int)Tipos.ENDERECO)
 									{
 										linha.enderecamento[i] = end;
-										linha.nomes[i] = nome;
+										//linha.nomes[i] = nome;
 									}
 								}
 							}
@@ -616,6 +646,7 @@ namespace Montador
 		 */
 		public byte[] leCodigo(string numero)
 		{
+			Console.WriteLine("Lecodigo:"+numero);
 			byte[] codigo;
 			int i = numero.Length - 1;
 			int b;
@@ -629,7 +660,11 @@ namespace Montador
 				b = bytes - 1;
 				for (i--; i >= 1; i-=2, b--)
 				{
-					valor = (byte)this.paraInteiro(numero, i - 1, i);
+					Console.WriteLine("Char n:"+numero[i]); ;
+					Console.WriteLine(String.Format("Char {1}:{0}", numero[i-1],getHexValue(numero[i-1]))); ;
+					valor = ((byte)getHexValue(numero[i]));
+					Console.WriteLine("Valor:" + valor);
+					valor += (byte)((byte)getHexValue(numero[i - 1])<<4);
 					codigo[b] = valor;
 				}
 			}
@@ -649,6 +684,11 @@ namespace Montador
 					codigo[b] = valor;
 				}
 			}
+
+			Console.WriteLine("Codigo:");
+			foreach (Char c in codigo)
+				Console.Write(String.Format("{0}  ", (int)c));
+			Console.WriteLine("");
 
 			return codigo;
 		}

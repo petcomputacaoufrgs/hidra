@@ -294,7 +294,7 @@ namespace Montador
 				i=0;
 				if(linha.tipos[i] == (int)Gramatica.Tipos.DEFLABEL)
 				{
-					Console.WriteLine("def: " + linha.nomes[i]);
+					Console.WriteLine(String.Format("Def: {0}\tb:{1}\n",linha.nomes[i],b));
 					this.defs.atribuiDef(linha.nomes[i], b);
 					i++;
 				}
@@ -323,15 +323,15 @@ namespace Montador
 						{
 							if (linha.tipos[k] == (int)Gramatica.Tipos.ENDERECO)
 							{
-								Console.WriteLine(k+" line:"+linha.linhaFonte);
-								endereco = this.converteByteArray(linha.nomes[k], linguagem.tamanhoEndereco, ref estado);
+								//Console.WriteLine(k+" line:"+linha.linhaFonte);
+								endereco = this.converteByteArray(linha.nomes[k], linguagem.tamanhoEndereco,linha.subTipos[k], ref estado);
 
 								if (estado != Estado.INDEFINIDO)
 								{
 									if (estado == Estado.TRUNCADO)
 										saida.errorOut(Escritor.AVISO, linha.linhaFonte, "O valor: " + linha.nomes[i] + " ocupa " + endereco.Length + " bytes e foi truncado.");
 									//escreve o endereco
-									for (int j = 0; j < endereco.Length; j++)
+									for (int j = 0; j < linguagem.tamanhoEndereco && i<endereco.Length; j++)
 									{
 										memoria[b] = endereco[j];
 										b++;
@@ -340,30 +340,32 @@ namespace Montador
 								else
 								{
 									pendencias.Push(new Pendencia(linha.nomes[i], l, b));
+									b += linguagem.tamanhoEndereco;
 								}
 							}
 						}
 						break;
 					case (int)Gramatica.Tipos.DIRETIVA:
-						string tipo = linha.nomes[i];
+						string tipo = linha.preprocessado[i];
+						Console.WriteLine(String.Format("Tipo:{0}",tipo));
 						i++;
-
-						if (estado == Estado.INDEFINIDO)
-							pendencias.Push(new Pendencia(linha.nomes[i],l,b));
-
-						switch (linha.nomes[i++])
+						switch (tipo)
 						{
 							//se for ORG, muda a posicao em que se está escrevendo
 							case "ORG":
+								byte[] novaPosArr = converteByteArray(linha.nomes[i],linguagem.tamanhoEndereco,linha.subTipos[i],ref estado);
+								if (estado == Estado.INDEFINIDO)
+								{
+									pendencias.Push(new Pendencia(linha.nomes[i], l, b));
+									break;
+								}
 
-								int novaPosicao = gram.paraInteiro(linha.nomes[i]);
-								Console.Write("Antiga posicao:" + b);
-								Console.WriteLine("\tNova posicao:" + novaPosicao);
+								int novaPosicao = gram.arrayParaInteiro(novaPosArr, linguagem.endianess);
 								//se a nova posição ficar antes do que estávamos escrevendo,
 								//gera um aviso
 								if (novaPosicao < b)
 								{
-									saida.errorOut(Escritor.AVISO, linha.linhaFonte, "A posição "+b+ " pode ter sido sobrescrita.");
+									saida.errorOut(Escritor.AVISO, linha.linhaFonte, "A posição "+novaPosicao+ " pode ter sido sobrescrita.");
 								}
 								b = novaPosicao;
 								i++;
@@ -371,7 +373,7 @@ namespace Montador
 							//escreve o valor do que estiver a direita em um único byte
 							case "DB":
 
-								endereco = this.converteByteArray(linha.nomes[i],1, ref estado);
+								endereco = this.converteByteArray(linha.nomes[i],1,linha.subTipos[i], ref estado);
 								if (estado != Estado.INDEFINIDO)
 								{
 									if (endereco.Length > 1)
@@ -386,7 +388,7 @@ namespace Montador
 							//utiliza exatamente 2 bytes para escrever o número que estiver a direita
 							case "DW":
 
-								endereco = this.converteByteArray(linha.nomes[i], 2, ref estado);
+								endereco = this.converteByteArray(linha.nomes[i], 2,linha.subTipos[i], ref estado);
 
 								if (estado != Estado.INDEFINIDO)
 								{
@@ -413,7 +415,7 @@ namespace Montador
 
 								for (; i < linha.nomes.Length; i++)
 								{
-									endereco = this.converteByteArray(linha.nomes[i], 1, ref estado);
+									endereco = this.converteByteArray(linha.nomes[i], 1,linha.subTipos[i], ref estado);
 									if (estado != Estado.INDEFINIDO)
 									{
 										if (endereco.Length != 1)
@@ -433,7 +435,7 @@ namespace Montador
 
 								for (; i < linha.nomes.Length; i++)
 								{
-									endereco = this.converteByteArray(linha.nomes[i], 2, ref estado);
+									endereco = this.converteByteArray(linha.nomes[i], 2,linha.subTipos[i], ref estado);
 									if (estado != Estado.INDEFINIDO)
 									{
 										if (endereco.Length != 2)
@@ -450,6 +452,10 @@ namespace Montador
 
 								break;
 						}//end switch nome
+						break;
+					default:
+						Console.Write("****-*-*-**----****:");
+						Console.WriteLine(linha.nomes);
 						break;
 				}//end switch tipos
 				}//end foreach linha
@@ -491,7 +497,7 @@ namespace Montador
                             break;
                     }
 
-                    endereco = this.converteByteArray(linha.nomes[i], size, ref estado);
+					endereco = this.converteByteArray(linha.nomes[i], size, linha.subTipos[i], ref estado);
 
                     if (!array)
                     {
@@ -519,7 +525,7 @@ namespace Montador
                 else
                 {
                     i++;
-                    endereco = this.converteByteArray(linha.nomes[i],linguagem.tamanhoEndereco,ref estado);
+					endereco = this.converteByteArray(linha.nomes[i], linguagem.tamanhoEndereco, linha.subTipos[i], ref estado);
 
                     if (estado == Estado.TRUNCADO)
                     {
@@ -545,34 +551,34 @@ namespace Montador
 		 * o endereco pode ser um número, uma string ou uma label
 		 * escreve o estado na respectiva variavel
 		 */
-		public byte[] converteByteArray(string endereco, int tamanho,ref Estado estado)
+		public byte[] converteByteArray(string endereco, int tamanho,int subtipo,ref Estado estado)
 		{
 			Gramatica gram = new Gramatica();
 			byte[] vetor;
 
-			if (gram.ehNumero(endereco))
+			switch(subtipo)
 			{
-				vetor = gram.num2byteArray(gram.paraInteiro(endereco),tamanho,ref estado);
-			}
-			else if (gram.ehString(endereco))
-			{
-				vetor = gram.string2byteArray(endereco,tamanho,ref estado);
-			}
-			//label
-			else
-			{
-				Console.WriteLine("Label:"+endereco);
-				Label label = this.defs.labels.Find(o => o.nome == endereco);
-				if (label.valor >= 0)
-					vetor = gram.num2byteArray(label.valor, tamanho, ref estado);
-				else
-				{
-					estado = Estado.INDEFINIDO;
-					vetor = new byte[1];
-					vetor[0] = 255;
-				}
-			}
 
+				case (int)Gramatica.SubTipos.NUMERO:				
+					vetor = gram.num2byteArray(gram.paraInteiro(endereco),tamanho,ref estado);
+					break;
+				
+				case (int)Gramatica.SubTipos.STRING:
+					vetor = gram.string2byteArray(endereco,tamanho,ref estado);
+					break;
+				default:
+					Console.WriteLine("Label:"+endereco);
+					Label label = this.defs.labels.Find(o => o.nome == endereco);
+					if (label.valor >= 0)
+						vetor = gram.num2byteArray(label.valor, tamanho, ref estado);
+					else
+					{
+						estado = Estado.INDEFINIDO;
+						vetor = new byte[1];
+						vetor[0] = 255;
+					}
+					break;
+			}
 			return vetor;
 		}
 		/**

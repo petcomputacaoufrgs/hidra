@@ -8,6 +8,8 @@ namespace Montador
 {
     public class Linguagem
     {
+		public enum Endianness { Little, Big };
+		public Endianness endianess = Endianness.Little;
         public List<Instrucao> instrucoes;
 		public List<Registrador> registradores;
 		public List<Enderecamento> enderecamentos;

@@ -71,17 +71,29 @@ namespace Montador
 				}
 				if (formato[l] == 'E' && formato[r] == 'E')
 				{
-					endereco = new String(palavra.ToCharArray(), l, pr - l + 1);
-					if (gram.ehLabel(endereco, l, pr) || gram.ehNumero(endereco, l, pr) || gram.ehString(endereco, l, pr))
+					if (endereco != null)
+					{
+						endereco = new String(palavra.ToCharArray(), l, pr - l + 1);
+						if (gram.ehLabel(endereco, l, pr) || gram.ehNumero(endereco, l, pr) || gram.ehString(endereco, l, pr))
+						{
+							if (enderecamento.Length < end.codigo.Length)
+							{
+								Array.Resize<byte>(ref enderecamento, end.codigo.Length);
+							}
+							for (int k = end.codigo.Length - 1, e = enderecamento.Length - 1; k >= 0; k--, e--)
+								enderecamento[e] |= end.codigo[k];
+
+							return pos;
+						}
+					}
+					else
 					{
 						if (enderecamento.Length < end.codigo.Length)
 						{
 							Array.Resize<byte>(ref enderecamento, end.codigo.Length);
 						}
-						for (int k = end.codigo.Length-1, e = enderecamento.Length-1; k>=0 ; k--,e--)
+						for (int k = end.codigo.Length - 1, e = enderecamento.Length - 1; k >= 0; k--, e--)
 							enderecamento[e] |= end.codigo[k];
-						
-						return pos;
 					}
 				}
 			}
