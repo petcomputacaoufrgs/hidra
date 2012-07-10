@@ -271,14 +271,14 @@ namespace Montador
 		/*
 		 * identifica o subtipo da palavra
 		 */
-		public int identificaSubTipo(string nome)
+		public Gramatica.SubTipos identificaSubTipo(string nome)
 		{
 			if (ehNumero(nome))
-				return (int)SubTipos.NUMERO;
+				return SubTipos.NUMERO;
 			else if (ehString(nome))
-				return (int)SubTipos.STRING;
+				return SubTipos.STRING;
 			else
-				return (int)SubTipos.LABEL;
+				return SubTipos.LABEL;
 		}
 
         /*
@@ -294,11 +294,11 @@ namespace Montador
 			for(i=0;i<linha.preprocessado.Length;i++)
 			{
 				palavra = linha.preprocessado[i];
-				int tipo;
+				Gramatica.Tipos tipo;
 				if (ehNumero(palavra))
 				{
-					linha.tipos[i] =  (int)Tipos.ENDERECO;
-					linha.subTipos[i] = (int)SubTipos.NUMERO;
+					linha.tipos[i] =  Tipos.ENDERECO;
+					linha.subTipos[i] = SubTipos.NUMERO;
 					linha.nomes[i] = palavra;
 				}
 				else
@@ -310,14 +310,14 @@ namespace Montador
 
 					linha.enderecamento.Add(end);
 
-					if (tipo != (int)Tipos.INVALIDO)
+					if (tipo != Tipos.INVALIDO)
 					{
 						linha.tipos[i] = tipo;
 						//se for um endereco, determina o subtipo
-						if (tipo == (int)Tipos.ENDERECO)
+						if (tipo == Tipos.ENDERECO)
 						{
 							linha.subTipos[i] = identificaSubTipo(nome);
-							if (linha.subTipos[i] == (int)SubTipos.STRING)
+							if (linha.subTipos[i] == SubTipos.STRING)
 							{
 								Stringer str = new Stringer();
 								char[] parsedArr = new char[palavra.Length];
@@ -331,17 +331,17 @@ namespace Montador
 								//Console.WriteLine("Parsed:" + linha.nomes[i]);
 							}
 							//se for uma string, verifica se existe um modo de enderecamento ao lado
-							if (linha.subTipos[i] == (int)SubTipos.STRING && i +1 <linha.preprocessado.Length)
+							if (linha.subTipos[i] == SubTipos.STRING && i +1 <linha.preprocessado.Length)
 							{
 								//somente se a linha contiver uma instrucao sera testado algum modo de enderecamento
 								int k = 0;
-								if (linha.tipos[k] == (int)Tipos.DEFLABEL)
+								if (linha.tipos[k] == Tipos.DEFLABEL)
 									k++;
-								if (linha.tipos[k] == (int)Tipos.INSTRUCAO)
+								if (linha.tipos[k] == Tipos.INSTRUCAO)
 								{
 									string none = null;
 									string ope = String.Concat(linha.preprocessado[i], linha.preprocessado[i + 1]);
-									if(linguagem.identificaTipo(ope, ref none, ref end) == (int)Tipos.ENDERECO)
+									if(linguagem.identificaTipo(ope, ref none, ref end) == Tipos.ENDERECO)
 									{
 										linha.enderecamento[i] = end;
 										//linha.nomes[i] = nome;
@@ -357,19 +357,19 @@ namespace Montador
 						{
 							if (palavra[palavra.Length - 1] == ':')
 							{
-								linha.tipos[i] = (int)Tipos.DEFLABEL;
+								linha.tipos[i] = Tipos.DEFLABEL;
 								linha.nomes[i] = new string(palavra.ToCharArray(),0,palavra.Length-1);
 							}
 							else
 							{
-								linha.tipos[i] = (int)Tipos.ENDERECO;
-								linha.subTipos[i] = (int)SubTipos.LABEL;
+								linha.tipos[i] = Tipos.ENDERECO;
+								linha.subTipos[i] = SubTipos.LABEL;
 							}
 						}
 						else if (ehString(palavra))
 						{
-							linha.tipos[i] = (int)Tipos.ENDERECO;
-							linha.subTipos[i] = (int)SubTipos.STRING;
+							linha.tipos[i] = Tipos.ENDERECO;
+							linha.subTipos[i] = SubTipos.STRING;
 
 							Stringer str = new Stringer();
 							char[] parsedArr = new char[palavra.Length];
@@ -382,7 +382,7 @@ namespace Montador
 							Console.WriteLine("Parsed:" + linha.nomes[i]);
 						}
 						else
-							linha.tipos[i] = (int)Tipos.INVALIDO;
+							linha.tipos[i] = Tipos.INVALIDO;
 					}
 				}
 			}
@@ -402,7 +402,7 @@ namespace Montador
 			int j = 1;
 			int size = linha.tipos.Length;
 			//a linha pode comecar por definicao de label
-			if (linha.tipos[0] == (int)Tipos.DEFLABEL)
+			if (linha.tipos[0] == Tipos.DEFLABEL)
 			{
 				defs.adicionaDef(linha.preprocessado[0].Substring(0,linha.preprocessado[0].Length-1),linha.linhaFonte,saida);
 				i = 1;
@@ -412,37 +412,37 @@ namespace Montador
 			if (i >= linha.tipos.Length)
 				return true;
 
-			if (linha.tipos[i] == (int)Tipos.INSTRUCAO)
+			if (linha.tipos[i] == Tipos.INSTRUCAO)
 			{
 				inst = this.linguagem.instrucoes.Find(o => o.mnemonico == linha.preprocessado[i]);
 				if(size < inst.formato.Length)
-					saida.errorOut(Escritor.ERRO, linha.linhaFonte, "Número incorreto de operandos. Esperava-se " + (inst.formato.Length - 1) + ", encontrou-se " + (size - 1));
+					saida.errorOut(Escritor.Message.IncorrectNumOperands, linha.linhaFonte,(inst.formato.Length - 1) ,(size - 1));
 				//verifica se ha algo diferente de registradores e enderecos
 				for (i++; i < linha.tipos.Length; i++)
 				{
 					if (j >= inst.formato.Length)
 					{
-						if(linha.tipos[i-1] != (int)Tipos.ENDERECO)
-							saida.errorOut(Escritor.ERRO, linha.linhaFonte, "Número incorreto de operandos. Esperava-se " + (inst.formato.Length-1) + ", encontrou-se " + (size-1));
+						if(linha.tipos[i-1] != Tipos.ENDERECO)
+							saida.errorOut(Escritor.Message.IncorrectNumOperands, linha.linhaFonte, (inst.formato.Length-1),(size-1));
 						break;
 					}
 					if (linha.tipos[i] != inst.formato[j])
 					{
 						switch (linha.tipos[i])
 						{
-							case (int)Tipos.INVALIDO:
-								saida.errorOut(Escritor.ERRO, linha.linhaFonte, "Palavra inválida: " + linha.preprocessado[i]);
+							case Tipos.INVALIDO:
+								saida.errorOut(Escritor.Message.InvalidWord, linha.linhaFonte, linha.preprocessado[i]);
 								break;
 							case (int)Tipos.DEFLABEL:
-								saida.errorOut(Escritor.ERRO, linha.linhaFonte, "Labels só podem ser definidas no início da linha.");
+								saida.errorOut(Escritor.Message.IncorrectLabelDef, linha.linhaFonte);
 								break;
-							case (int)Tipos.INSTRUCAO:
-							case (int)Tipos.DIRETIVA:
-								saida.errorOut(Escritor.ERRO, linha.linhaFonte, "Não pode ter mais de uma instrução ou diretiva por linha.");
+							case Tipos.INSTRUCAO:
+							case Tipos.DIRETIVA:
+								saida.errorOut(Escritor.Message.IncorrectNumInstructions, linha.linhaFonte);
 								break;
 						}
 					}
-					else if (linha.tipos[i] == (int)Tipos.ENDERECO)
+					else if (linha.tipos[i] == Tipos.ENDERECO)
 					{
 						if (ehLabel(linha.preprocessado[i]))
 						{
@@ -452,13 +452,13 @@ namespace Montador
 					j++;
 				}
 			}
-			else if (linha.tipos[i] == (int)Tipos.DIRETIVA)
+			else if (linha.tipos[i] == Tipos.DIRETIVA)
 			{
 				//se for a diretiva org, apenas 1 operando deve existir
 				if(linha.preprocessado[i] == "ORG")
 				{
 					if(size != 2)
-						saida.errorOut(Escritor.ERRO, linha.linhaFonte, "Número incorreto de operandos. Esperava-se 1, encontrou-se " + (size - 1));
+						saida.errorOut(Escritor.Message.IncorrectNumOperands, linha.linhaFonte, 1, (size - 1));
 				}
 				i++;
 				//o restante da linha so pode conter enderecos
@@ -466,15 +466,15 @@ namespace Montador
 				{
 					switch (linha.tipos[i])
 					{
-						case (int)Tipos.INSTRUCAO:
-						case (int)Tipos.DIRETIVA:
-							saida.errorOut(Escritor.ERRO, linha.linhaFonte, "Não pode ter mais de uma instrução ou diretiva por linha.");
+						case Tipos.INSTRUCAO:
+						case Tipos.DIRETIVA:
+							saida.errorOut(Escritor.Message.IncorrectNumInstructions, linha.linhaFonte);
 							break;
-						case (int)Tipos.REGISTRADOR:
-							saida.errorOut(Escritor.ERRO, linha.linhaFonte, linha.preprocessado[i] + " não é um operando válido.");
+						case Tipos.REGISTRADOR:
+							saida.errorOut(Escritor.Message.InvalidOperand, linha.linhaFonte, linha.preprocessado[i]);
 							break;
-						case (int)Tipos.INVALIDO:
-							saida.errorOut(Escritor.ERRO, linha.linhaFonte, "Palavra inválida: " + linha.preprocessado[i]);
+						case Tipos.INVALIDO:
+							saida.errorOut(Escritor.Message.InvalidWord, linha.linhaFonte, linha.preprocessado[i]);
 							break;
 					}
 					i++;
@@ -482,7 +482,7 @@ namespace Montador
 			}
 			else
 			{
-				saida.errorOut(Escritor.ERRO, linha.linhaFonte, "Instrução ou diretiva inválida: " + linha.preprocessado[i]);
+				saida.errorOut(Escritor.Message.InvalidInstructionOrDirective, linha.linhaFonte, linha.preprocessado[i]);
 			}
 			return true;
 		}

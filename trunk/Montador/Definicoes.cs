@@ -21,7 +21,7 @@ namespace Montador
 			{
 				lab = this.labels[p];
 				if (lab.linhaDef >= 0)
-					saida.errorOut(Escritor.ERRO, linha, "Redefinição da label: " + label);
+					saida.errorOut(Escritor.Message.RedefinedLabel, linha, label);
 				else
 				{
 					lab.linhaDef = linha;
@@ -59,13 +59,13 @@ namespace Montador
 			{
 				if (label.linhas.Count == 0)
 				{
-					saida.errorOut(Escritor.AVISO, label.linhaDef, "Label não utilizada: " + label.nome);
+					saida.errorOut(Escritor.Message.UnusedLabel, label.linhaDef, label.nome);
 				}
 				//se nao foi definida
 				else if (label.linhaDef == -1)
 				{
 					foreach(int l in label.linhas)
-						saida.errorOut(Escritor.ERRO, l , "Label não definida: " + label.nome);
+						saida.errorOut(Escritor.Message.UndefinedLabel, l , label.nome);
 				}
 			}
 		}

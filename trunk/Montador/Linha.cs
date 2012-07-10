@@ -8,8 +8,8 @@ namespace Montador
 	public class Linha
 	{
 		public string[] preprocessado;	//a linha depois do preprocessamento
-		public int[] tipos;
-		public int[] subTipos;
+		public Gramatica.Tipos[] tipos;
+		public Gramatica.SubTipos[] subTipos;
 		public int linhaFonte;	//a linha correspondente no codigo fonte original
 		public string[] nomes;	//os nomes dos enderecos,labels e registradores usados, na ordem em que aparecem
 		public List<byte[]> enderecamento;	//o codigo do modo de cada um dos modos de enderecamento utilizados
@@ -18,8 +18,8 @@ namespace Montador
 		public Linha(string[] preprocessado,int nlinha)
 		{
 			this.preprocessado = preprocessado;
-			this.tipos = new int[preprocessado.Length];
-			this.subTipos = new int[preprocessado.Length];
+			this.tipos = new Gramatica.Tipos[preprocessado.Length];
+			this.subTipos = new Gramatica.SubTipos[preprocessado.Length];
 			this.nomes = new string[preprocessado.Length];
 			this.enderecamento = new List<byte[]>();
 

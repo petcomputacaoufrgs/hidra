@@ -37,7 +37,6 @@ namespace Montador
 			string saidaMem = args[1] + ".mem";
 			esc.arquivo = saidaErro;
             System.IO.File.Delete(saidaErro);
-            string erro = "";
             max = maquina.Length;
 
             //verifica se a maquina recebida eh uma das maquinas disponiveis
@@ -51,8 +50,7 @@ namespace Montador
             //se a maquina nao foi encontrada, escreve um erro
             if (!achou)
             {
-                erro = maquina + " não é uma maquina válida.";
-                esc.errorOut(Escritor.ERRO,0,erro);
+                esc.errorOut(Escritor.Message.InvalidMachine,maquina);
                 return;
             }
             //carrega a gramatica para a maquina

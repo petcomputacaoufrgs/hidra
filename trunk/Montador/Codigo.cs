@@ -303,7 +303,7 @@ namespace Montador
 				//definicao de label
 				switch (linha.tipos[i])
 				{
-					case (int)Gramatica.Tipos.INSTRUCAO:
+					case Gramatica.Tipos.INSTRUCAO:
 						inst = linguagem.instrucoes.Find(o => o.mnemonico == linha.preprocessado[i]);
 						Console.WriteLine("Inst:" + inst.mnemonico);
 						foreach(byte ba in inst.codigo)
@@ -325,7 +325,7 @@ namespace Montador
 
 						for(int k=i+1;k<linha.tipos.Length;k++)
 						{
-							if (linha.tipos[k] == (int)Gramatica.Tipos.ENDERECO)
+							if (linha.tipos[k] == Gramatica.Tipos.ENDERECO)
 							{
 								//Console.WriteLine(k+" line:"+linha.linhaFonte);
 								endereco = this.converteByteArray(linha.nomes[k], linguagem.tamanhoEndereco,linha.subTipos[k], ref estado);
@@ -338,7 +338,7 @@ namespace Montador
 								if (estado != Estado.INDEFINIDO)
 								{
 									if (estado == Estado.TRUNCADO)
-										saida.errorOut(Escritor.AVISO, linha.linhaFonte, "O valor: (" + linha.nomes[i] + ") ocupa " + endereco.Length + " bytes e foi truncado.");
+										saida.errorOut(Escritor.Message.TruncatedValue, linha.linhaFonte, linha.nomes[i], endereco.Length);
 									//escreve o endereco
 									for (int j = 0; j < linguagem.tamanhoEndereco && j<endereco.Length; j++)
 									{
@@ -355,7 +355,7 @@ namespace Montador
 							}
 						}
 						break;
-					case (int)Gramatica.Tipos.DIRETIVA:
+					case Gramatica.Tipos.DIRETIVA:
 						string tipo = linha.preprocessado[i];
 						Console.WriteLine(String.Format("Tipo:{0}",tipo));
 						i++;
@@ -375,7 +375,7 @@ namespace Montador
 								//gera um aviso
 								if (novaPosicao < b)
 								{
-									saida.errorOut(Escritor.AVISO, linha.linhaFonte, "A posição "+novaPosicao+ " pode ter sido sobrescrita.");
+									saida.errorOut(Escritor.Message.OverwrittenMemory, linha.linhaFonte,novaPosicao);
 								}
 								b = novaPosicao;
 								i++;
@@ -387,7 +387,7 @@ namespace Montador
 								if (estado != Estado.INDEFINIDO)
 								{
 									if (endereco.Length > 1)
-										saida.errorOut(Escritor.AVISO, linha.linhaFonte, "O valor: (" + linha.nomes[i] + ") ocupa " + endereco.Length + " bytes e foi truncado.");
+										saida.errorOut(Escritor.Message.TruncatedValue, linha.linhaFonte, linha.nomes[i], endereco.Length);
 
 									memoria[b] = endereco[0];
 								}
@@ -404,7 +404,7 @@ namespace Montador
 								{
 									if (endereco.Length > 2)
 									{
-										saida.errorOut(Escritor.AVISO, linha.linhaFonte, "O valor: (" + linha.nomes[i] + ")ocupa " + endereco.Length + " bytes e foi truncado.");
+										saida.errorOut(Escritor.Message.TruncatedValue, linha.linhaFonte, linha.nomes[i], endereco.Length);
 										memoria[b] = endereco[0];
 										memoria[b + 1] = endereco[1];
 									}
@@ -429,7 +429,7 @@ namespace Montador
 									if (estado != Estado.INDEFINIDO)
 									{
 										if (endereco.Length != 1)
-											saida.errorOut(Escritor.AVISO, linha.linhaFonte, "O valor: (" + linha.nomes[i] + ") ocupa " + endereco.Length + " bytes e foi truncado.");
+											saida.errorOut(Escritor.Message.TruncatedValue, linha.linhaFonte, linha.nomes[i], endereco.Length);
 
 										memoria[b] = endereco[0];
 									}
@@ -449,7 +449,7 @@ namespace Montador
 									if (estado != Estado.INDEFINIDO)
 									{
 										if (endereco.Length != 2)
-											saida.errorOut(Escritor.AVISO, linha.linhaFonte, "O valor: (" + linha.nomes[i] + ") ocupa " + endereco.Length + " bytes e foi truncado.");
+											saida.errorOut(Escritor.Message.TruncatedValue, linha.linhaFonte, linha.nomes[i], endereco.Length);
 
 										memoria[b] = endereco[0];
 									}
@@ -477,12 +477,12 @@ namespace Montador
                 b = pend.nbyte;
                 linha = this.linhas[pend.nlinha];
 
-                if (linha.tipos[i] == (int)Gramatica.Tipos.DEFLABEL)
+                if (linha.tipos[i] == Gramatica.Tipos.DEFLABEL)
                     i++;
 
                 Boolean array = false;
                 int size = linguagem.tamanhoEndereco;
-                if(linha.tipos[i] ==  (int)Gramatica.Tipos.DIRETIVA)
+                if(linha.tipos[i] ==  Gramatica.Tipos.DIRETIVA)
                 {
                     i++;
                     switch (linha.nomes[i])
@@ -511,7 +511,7 @@ namespace Montador
                     {
                         if (endereco.Length > size || estado == Estado.TRUNCADO)
                         {
-                            saida.errorOut(Escritor.AVISO, linha.linhaFonte, "O valor: (" + linha.nomes[i] + ") ocupa " + endereco.Length + " bytes e foi truncado.");
+                            saida.errorOut(Escritor.Message.TruncatedValue, linha.linhaFonte, linha.nomes[i], endereco.Length);
                         }
 
                         //escreve o valor
@@ -523,7 +523,7 @@ namespace Montador
                     else
                     {
                         if(estado == Estado.TRUNCADO)
-                            saida.errorOut(Escritor.AVISO, linha.linhaFonte, "O valor: (" + linha.nomes[i] + ") ocupa " + endereco.Length + " bytes e foi truncado.");
+                            saida.errorOut(Escritor.Message.TruncatedValue, linha.linhaFonte, linha.nomes[i], endereco.Length);
                         //escreve o valor
                         for (int k = 0; k < size; k++, b++)
                             memoria[b] = endereco[k];
@@ -537,7 +537,7 @@ namespace Montador
 
                     if (estado == Estado.TRUNCADO)
                     {
-                        saida.errorOut(Escritor.AVISO,linha.linhaFonte, "O valor: (" + linha.nomes[i] + ") ocupa " + endereco.Length + " bytes e foi truncado.");
+                        saida.errorOut(Escritor.Message.TruncatedValue,linha.linhaFonte, linha.nomes[i], endereco.Length);
                     }
 
                     //escreve o valor
@@ -545,7 +545,6 @@ namespace Montador
                     {
                         memoria[b] = endereco[k];
                     }
-
                 }
             }
 
@@ -556,9 +555,10 @@ namespace Montador
 		 * produz os bytes associados a uma linha
 		 * ignora definicoes de labels
 		 */
-		public List<byte> montaLinha(Linha linha, Linguagem linguagem,Stack<Pendencia> pends, Escritor saida)
+		public List<byte> montaLinha(Linha linha,ref int pos, Linguagem linguagem,Stack<Pendencia> pends, Escritor saida)
 		{
 			int i;
+			Estado estado = Estado.OK;
 			Gramatica gram = new Gramatica();
 			byte[] regMask, endMask;
 			byte[] endereco;
@@ -571,7 +571,7 @@ namespace Montador
 
 			switch (linha.tipos[i])
 			{
-				case (int)Gramatica.Tipos.INSTRUCAO:
+				case Gramatica.Tipos.INSTRUCAO:
 					inst = linguagem.instrucoes.Find(o => o.mnemonico == linha.preprocessado[i]);
 					Console.WriteLine("Inst:" + inst.mnemonico);
 					foreach(byte ba in inst.codigo)
@@ -586,15 +586,66 @@ namespace Montador
 					for (int k = 0; k < linha.bytes; k++)
 					{
 						bin.Add((byte)(regMask[k] | endMask[k] | inst.codigo[k]));
+						pos++;
 					}
 
 					//adiciona os enderecos
-					while (linha.tipos[i] != (int)Gramatica.Tipos.ENDERECO && i < linha.tipos.Length)
-						i++;
+					while (i < linha.tipos.Length)
+					{
+						while (linha.tipos[i] != Gramatica.Tipos.ENDERECO && i < linha.tipos.Length)
+							i++;
 
-					break;
+						endereco = converteByteArray(linha.nomes[i], linguagem.tamanhoEndereco, linha.subTipos[i], ref estado);
+						if (estado != Estado.INDEFINIDO)
+						{
+							if (estado == Estado.TRUNCADO)
+							{
+								saida.errorOut(Escritor.Message.TruncatedValue, linha.linhaFonte, endereco.Length, linguagem.tamanhoEndereco);
+							}
+							for (int k = 0; k > endereco.Length && k < linguagem.tamanhoEndereco; k++)
+							{
+								bin.Add(endereco[k]);
+								pos++;
+							}
+						}
+						//se ha uma label que ainda nao foi definida, marca a posicao atual de memoria,
+						//reservando o tamanho de um endereco
+						else
+						{
+							pends.Push(new Pendencia(linha.nomes[i],linha.linhaFonte,pos));
+							pos += linguagem.tamanhoEndereco;
+						}
+					}
+					break;//case instrucao
+
+				case Gramatica.Tipos.DIRETIVA:
+
+
+
+					break;//case diretiva
 			}
 
+			return bin;
+		}
+
+		/**
+		 * escreve os bytes referentes a um certo endereco a partir da posicao pos da memoria
+		 * retorna o estado do endereco
+		 * atualiza pos somente se algo for escrito na memoria
+		 */
+		public Estado escreveEndereco(byte[] memoria, ref int pos,Linguagem linguagem, string endereco, Gramatica.SubTipos subtipo)
+		{
+			Estado estado = Estado.OK;
+			byte[] bin = converteByteArray(endereco, linguagem.tamanhoEndereco, subtipo, ref estado);
+			if (estado != Estado.INDEFINIDO)
+			{
+				for(int k =0;k<endereco.Length && k<linguagem.tamanhoEndereco;k++,pos++)
+				{
+					memoria[pos] = bin[k];
+				}
+			}
+
+			return estado;
 
 		}
 
@@ -604,7 +655,7 @@ namespace Montador
 		 * o endereco pode ser um número, uma string ou uma label
 		 * escreve o estado na respectiva variavel
 		 */
-		public byte[] converteByteArray(string endereco, int tamanho,int subtipo,ref Estado estado)
+		public byte[] converteByteArray(string endereco, int tamanho,Gramatica.SubTipos subtipo,ref Estado estado)
 		{
 			Gramatica gram = new Gramatica();
 			byte[] vetor;
@@ -613,11 +664,11 @@ namespace Montador
 			switch(subtipo)
 			{
 
-				case (int)Gramatica.SubTipos.NUMERO:
+				case Gramatica.SubTipos.NUMERO:
 					vetor = gram.num2byteArray(gram.paraInteiro(endereco),tamanho,ref estado);
 					break;
 				
-				case (int)Gramatica.SubTipos.STRING:
+				case Gramatica.SubTipos.STRING:
 					vetor = gram.string2byteArray(endereco,tamanho,ref estado);
 					break;
 				default:
@@ -652,7 +703,7 @@ namespace Montador
 
 			for (int t = 0; t < linha.tipos.Length; t++)
 			{
-				if (linha.tipos[t] == (int)Gramatica.Tipos.REGISTRADOR)
+				if (linha.tipos[t] == Gramatica.Tipos.REGISTRADOR)
 				{
 					nome = linha.nomes[t];
 					reg = lingua.registradores.Find(o => o.nome == nome);

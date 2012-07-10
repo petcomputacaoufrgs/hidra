@@ -44,7 +44,7 @@ namespace Montador
 			this.enderecamentos = new List<Enderecamento>();
 
 			string linha;
-			int[] formato;
+			Gramatica.Tipos[] formato;
 			string[] words;
 			string arquivo = "data/" + maquina;
 			char[] space = { ' ' };
@@ -57,15 +57,15 @@ namespace Montador
 					words = linha.Split(space);
 
 					//determina o formato da instrucao
-					formato = new int[words.Length-1];
+					formato = new Gramatica.Tipos[words.Length-1];
 					for (int i = 1; i < words.Length; i++)
 					{
 						if (words[i] == "r")
-							formato[i-1] = (int)Gramatica.Tipos.REGISTRADOR;
+							formato[i-1] = Gramatica.Tipos.REGISTRADOR;
 						else if (words[i] == "end")
-							formato[i - 1] = (int)Gramatica.Tipos.ENDERECO;
+							formato[i - 1] = Gramatica.Tipos.ENDERECO;
 						else
-							formato[i - 1] = (int)Gramatica.Tipos.INSTRUCAO;
+							formato[i - 1] = Gramatica.Tipos.INSTRUCAO;
 					}
 					this.instrucoes.Add(new Instrucao(words[1].ToUpper(), formato, gram.leCodigo(words[0])));
 				}
@@ -121,20 +121,20 @@ namespace Montador
 		 * se for um enderecamento, escreve em nome o nome do endereco ou registrador encontrado e em enderecamento,
 		 * o codigo do modo utilizado
 		 */
-		public int identificaTipo(string palavra,ref string nome, ref byte[] enderecamento)
+		public Gramatica.Tipos identificaTipo(string palavra,ref string nome, ref byte[] enderecamento)
 		{
 			Enderecamento end = new Enderecamento();
 
 			if (Array.FindIndex(this.diretivas, o => o == palavra ) >= 0)
-				return (int)Gramatica.Tipos.DIRETIVA;
+				return Gramatica.Tipos.DIRETIVA;
 			if (this.registradores.FindIndex(o => o.nome == palavra) >= 0)
-				return (int)Gramatica.Tipos.REGISTRADOR;
+				return Gramatica.Tipos.REGISTRADOR;
 			if (this.instrucoes.FindIndex(o => o.mnemonico == palavra) >= 0)
-				return (int)Gramatica.Tipos.INSTRUCAO;
+				return Gramatica.Tipos.INSTRUCAO;
 			if (end.identifica(palavra,this.enderecamentos,ref nome,ref enderecamento) >= 0)
-				return (int)Gramatica.Tipos.ENDERECO;
+				return Gramatica.Tipos.ENDERECO;
 
-			return (int)Gramatica.Tipos.INVALIDO;
+			return Gramatica.Tipos.INVALIDO;
 		}
 
 		public void print()
