@@ -109,10 +109,10 @@ namespace Montador
 		}
 
 		/*
-		 * recebe um string e converte para um inteiro
-		 * numberos decimais terminam por 'd',
+		 * recebe uma string e converte para um inteiro
+		 * numberos decimais terminam por algum algarismo
 		 * hexadecimais terminam por 'h',
-		 * números binarios podem terminar por 'b', mas nao precisam
+		 * números binarios podem terminar por 'b'
 		 */
 		public int paraInteiro(string numero)
 		{
@@ -257,8 +257,8 @@ namespace Montador
 		}
 
 		/*
-		 * identifica o subtipo da palavra
-		 */
+		* identifica o subtipo da palavra
+		*/
 		public Gramatica.SubTipos identificaSubTipo(string nome)
 		{
 			if (ehNumero(nome))
@@ -270,9 +270,9 @@ namespace Montador
 		}
 
 		/*
-		 * identifica o tipo de uma palavra (olhar enum Tipos)
- * se for um endereco, escreve em nome o nome desse endereco ou registrador caso nao seja um numero
-		 */
+		* identifica o tipo de cada palavra de uma linha (olhar enum Tipos)
+		* atualiza o vetor de nomes da linha
+		*/
 		public void identificaTipo(ref Linha linha, Gramatica gramatica)
 		{
 			int i = 0;
@@ -281,6 +281,9 @@ namespace Montador
 
 			for (i = 0; i < linha.preprocessado.Length; i++)
 			{
+				byte[] end = new byte[1];
+				end[0] = 0;
+
 				palavra = linha.preprocessado[i];
 				Gramatica.Tipos tipo;
 				if (ehNumero(palavra))
@@ -291,12 +294,8 @@ namespace Montador
 				}
 				else
 				{
-					byte[] end = new byte[1];
-					end[0] = 0;
 					//se nao for um numero, verifica se eh alguma palavra conhecida
-					tipo = linguagem.identificaTipo(palavra, ref nome, ref end);
-
-					linha.enderecamento.Add(end);
+					tipo = linguagem.identificaTipo(palavra, ref nome, ref end);			
 
 					if (tipo != Tipos.INVALIDO)
 					{
@@ -366,7 +365,8 @@ namespace Montador
 							linha.tipos[i] = Tipos.INVALIDO;
 					}
 				}
-			}
+				linha.enderecamento.Add(end);
+			}//end for
 		}
 
 		/*
@@ -603,6 +603,64 @@ namespace Montador
 			}
 
 			return false;
+		}
+
+		//verifica se a palavra eh um array de palavras validas ou nao
+		//um elemento sozinho eh considerado um array
+		public bool ehArray(string palavra)
+		{
+			int i = 0;
+			int b = 0;
+			char final;
+			while (i < palavra.Length)
+			{
+				//ignora espacos a esquerda
+				while (palavra[i] == ' ')
+					i++;
+				//se for uma string, busca o final
+				if (palavra[i] == '\'' || palavra[i] == '\"')
+				{
+					final = palavra[i];
+					bool escape = false;
+					bool fim = false;
+					i++;
+					while (!fim && i < palavra.Length)
+					{
+						if (!escape)
+						{
+							//se for um caractere de escape
+							if (palavra[i] == '\\')
+								escape = true;
+							else if (palavra[i] == final)
+								fim = true;
+						}
+						else
+						{
+							escape = false;
+						}
+						i++;
+					}
+					//se o fim da string nao foi encontrado, entao a palavra eh invalida
+					if (!fim)
+						return false;
+					i++;
+					//busca o final da palavra ou uma virgula
+					//se for encontrado algum outro caractere, a palavra sera invalida
+					while (i < palavra.Length && palavra[i] != ',')
+					{
+						if (palavra[i] != ' ')
+							return false;
+						i++;
+					}
+					i++;
+				}
+				//verifica se eh um numero ou uma label valida
+				else
+				{
+					b = i;
+				}
+
+			}
 		}
 
 		/**

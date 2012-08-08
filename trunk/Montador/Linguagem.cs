@@ -133,6 +133,8 @@ namespace Montador
 				return Gramatica.Tipos.INSTRUCAO;
 			if (end.identifica(palavra,this.enderecamentos,ref nome,ref enderecamento) >= 0)
 				return Gramatica.Tipos.ENDERECO;
+			if (Gramatica.ehArray(palavra))
+				return Gramatica.Tipos.ENDERECO;
 
 			return Gramatica.Tipos.INVALIDO;
 		}

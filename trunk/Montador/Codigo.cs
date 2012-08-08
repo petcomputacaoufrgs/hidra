@@ -804,6 +804,8 @@ namespace Montador
 			byte[] vetor;
 			estado = Estado.OK;
 
+			Console.WriteLine(String.Format("Operando:{0}\tSubtipo:{1}",endereco,subtipo));
+
 			switch (subtipo)
 			{
 
