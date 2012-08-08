@@ -69,7 +69,7 @@ namespace Montador
 					avisos++;
 					break;
 				case Message.TruncatedValue:
-					texto = String.Format("AVISO: O valor ({0}) possui {1} bytes e foi truncado para {2}.",vals[1],vals[2],vals[3]);
+					texto = String.Format("AVISO: O valor {0} possui {1} bytes e foi truncado para {2}.",vals[1],vals[2],vals[3]);
 					avisos++;
 					break;
 			}

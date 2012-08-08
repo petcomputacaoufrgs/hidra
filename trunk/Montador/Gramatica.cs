@@ -6,8 +6,8 @@ using System.IO;
 
 namespace Montador
 {
-    public class Gramatica
-    {
+	public class Gramatica
+	{
 
 		/**
 		 * independente da maquina, cada linha do codigo fonte pode ser:
@@ -21,9 +21,9 @@ namespace Montador
 		 * 
 		 */
 
-        public string[] inst;
-        public enum Tipos { DEFLABEL, INSTRUCAO, DIRETIVA, REGISTRADOR, ENDERECO, INVALIDO };
-		public enum SubTipos { NONE,STRING, LABEL, NUMERO };
+		public string[] inst;
+		public enum Tipos { DEFLABEL, INSTRUCAO, DIRETIVA, REGISTRADOR, ENDERECO, INVALIDO };
+		public enum SubTipos { NONE, STRING, LABEL, NUMERO };
 
 		public Linguagem linguagem = new Linguagem();
 
@@ -62,7 +62,7 @@ namespace Montador
 				default:
 					return -1;
 			}
-				
+
 		}
 		/**
 		 * converte um numero para um array de bytes onde a primeria posição é o byte menos significativo
@@ -83,13 +83,7 @@ namespace Montador
 				//pega o byte menos significativo do numero
 				array[i] = (byte)(mask & num);
 				num >>= 8;
-			}
-			/*
-			Console.WriteLine("Array:");
-			foreach (byte b in array)
-				Console.Write(String.Format("{0} ", b));
-			Console.WriteLine("");
-			*/
+			}			
 			return array;
 
 		}
@@ -101,11 +95,10 @@ namespace Montador
 		 */
 		public byte[] string2byteArray(string s, int tamanho, ref Codigo.Estado estado)
 		{
-			//Console.WriteLine("Tamanho: " + tamanho);
-			byte[] vetor = new byte[s.Length*tamanho];
+			byte[] vetor = new byte[s.Length * tamanho];
 			int i;
 
-			for (i = 0; i < s.Length; i+=tamanho)
+			for (i = 0; i < s.Length; i += tamanho)
 			{
 				vetor[i] = (byte)s[i];
 				for (int k = 1; k < tamanho; k++)
@@ -127,10 +120,8 @@ namespace Montador
 				return 0;
 			return this.paraInteiro(numero, 0, numero.Length - 1);
 		}
-		public int paraInteiro(string numero,int begin, int end)
-		{
-			//Console.WriteLine("Str numero:" + numero);
-			//Console.WriteLine(String.Format("Begin:{0}\tEnd{1}",begin,end));
+		public int paraInteiro(string numero, int begin, int end)
+		{			
 			if (numero == null)
 				return 0;
 			if (begin < 0)
@@ -145,16 +136,16 @@ namespace Montador
 			{
 				case 'h':
 				case 'H':
-					for (int i = end-1, p = 1; i >= begin; i--, p *= 16)
+					for (int i = end - 1, p = 1; i >= begin; i--, p *= 16)
 					{
 						num += (int)(p * getHexValue(numero[i]));
 					}
 					break;
 				case 'b':
 				case 'B':
-					for (int i = end-1, p = 1; i >= begin; i--, p *= 2)
+					for (int i = end - 1, p = 1; i >= begin; i--, p *= 2)
 					{
-						if(numero[i] == '1')
+						if (numero[i] == '1')
 							num += p;
 					}
 					break;
@@ -162,19 +153,17 @@ namespace Montador
 				default:
 					for (int i = end, p = 1; i >= begin; i--, p *= 10)
 					{
-						Console.WriteLine(numero[i]);
 						num += (int)(p * Char.GetNumericValue(numero[i]));
 					}
 					break;
 			}
-			//Console.WriteLine("Num:" + num);
 			return num;
 		}
 
 		/**
 		 * recebe um array de bytes e converte para um numero inteiro
 		 */
-		public int arrayParaInteiro(byte[] num,Linguagem.Endianness endianness)
+		public int arrayParaInteiro(byte[] num, Linguagem.Endianness endianness)
 		{
 			int val = 0;
 			int dir;
@@ -190,13 +179,12 @@ namespace Montador
 			else
 			{
 				dir = -1;
-				i = num.Length-1;
+				i = num.Length - 1;
 			}
 
-			for (; i >= 0 && i < num.Length; i += dir,p+=8)
-			{
-				//Console.WriteLine(String.Format("Byte:{0}", num[i]));
-				val += num[i]<<p;
+			for (; i >= 0 && i < num.Length; i += dir, p += 8)
+			{				
+				val += num[i] << p;
 			}
 
 			return val;
@@ -210,27 +198,27 @@ namespace Montador
 		 * 0.(0-9+A-F)*.h
 		 */
 		public string substringHexa(string palavra)
-        {
-            char[] numero = new char[palavra.Length];
-            int i = 0,p = 0;
-            bool achou = false;
+		{
+			char[] numero = new char[palavra.Length];
+			int i = 0, p = 0;
+			bool achou = false;
 
-            //enquanto nao encontrar a substring
-            while (!achou && i < palavra.Length)
-            {
-                //busca um '0'
-                for (; i < palavra.Length && palavra[i] != '0'; i++)
-                    ;
-                //copia os caracteres para o numero
-                for (p = 0; i < palavra.Length && ehDigitoHexa(palavra[i]); numero[p] = palavra[i],p++,i++)
-                    ;
-                //se o proximo caracter for um 'H', o numero foi encontrado
-                if (i < palavra.Length)
-                    if (palavra[i] == 'H')
-                        achou = true;
-            }
-            
-            string n = new string(numero,0,p);
+			//enquanto nao encontrar a substring
+			while (!achou && i < palavra.Length)
+			{
+				//busca um '0'
+				for (; i < palavra.Length && palavra[i] != '0'; i++)
+					;
+				//copia os caracteres para o numero
+				for (p = 0; i < palavra.Length && ehDigitoHexa(palavra[i]); numero[p] = palavra[i], p++, i++)
+					;
+				//se o proximo caracter for um 'H', o numero foi encontrado
+				if (i < palavra.Length)
+					if (palavra[i] == 'H')
+						achou = true;
+			}
+
+			string n = new string(numero, 0, p);
 
 			if (achou)
 				return n;
@@ -238,35 +226,35 @@ namespace Montador
 			{
 				return "";
 			}
-        }
+		}
 
-        /**
-         * converte uma string em hexa para um numero inteiro
-         */
-        public int hexa2int(string hexa)
-        {
-            int numero = 0;
-            int i;
-            double power = 0;
-            for (i = hexa.Length - 1; i >= 0; i--,power++)
-            {
-                numero += (int)(valorHexa(hexa[i]) * Math.Pow(16, power));
-            }
+		/**
+		 * converte uma string em hexa para um numero inteiro
+		 */
+		public int hexa2int(string hexa)
+		{
+			int numero = 0;
+			int i;
+			double power = 0;
+			for (i = hexa.Length - 1; i >= 0; i--, power++)
+			{
+				numero += (int)(valorHexa(hexa[i]) * Math.Pow(16, power));
+			}
 
-            return numero;
-        }
+			return numero;
+		}
 
-        /**
-         * retorna o valor inteiro do caractere hexa d
-         * d deve estar em [0,f]
-         */
-        int valorHexa(char d)
-        {
-            if (d.CompareTo('A') >= 0)
-                return 10 + d.CompareTo('A');
-            else
-                return d.CompareTo('0');
-        }
+		/**
+		 * retorna o valor inteiro do caractere hexa d
+		 * d deve estar em [0,f]
+		 */
+		int valorHexa(char d)
+		{
+			if (d.CompareTo('A') >= 0)
+				return 10 + d.CompareTo('A');
+			else
+				return d.CompareTo('0');
+		}
 
 		/*
 		 * identifica o subtipo da palavra
@@ -281,23 +269,23 @@ namespace Montador
 				return SubTipos.LABEL;
 		}
 
-        /*
-         * identifica o tipo de uma palavra (olhar enum Tipos)
-		 * se for um endereco, escreve em nome o nome desse endereco ou registrador caso nao seja um numero
-         */
-        public void identificaTipo(ref Linha linha, Gramatica gramatica)
-        {
-			int i=0;
+		/*
+		 * identifica o tipo de uma palavra (olhar enum Tipos)
+ * se for um endereco, escreve em nome o nome desse endereco ou registrador caso nao seja um numero
+		 */
+		public void identificaTipo(ref Linha linha, Gramatica gramatica)
+		{
+			int i = 0;
 			string palavra;
 			string nome = "";
 
-			for(i=0;i<linha.preprocessado.Length;i++)
+			for (i = 0; i < linha.preprocessado.Length; i++)
 			{
 				palavra = linha.preprocessado[i];
 				Gramatica.Tipos tipo;
 				if (ehNumero(palavra))
 				{
-					linha.tipos[i] =  Tipos.ENDERECO;
+					linha.tipos[i] = Tipos.ENDERECO;
 					linha.subTipos[i] = SubTipos.NUMERO;
 					linha.nomes[i] = palavra;
 				}
@@ -324,14 +312,11 @@ namespace Montador
 								int size = 0;
 
 								str.parse(palavra, 1, parsedArr, ref size);
-								linha.nomes[i] = new string(parsedArr);
+								linha.nomes[i] = new string(parsedArr,0,size);
 								nome = linha.nomes[i];
-
-								//Console.WriteLine("Raw:" + palavra);
-								//Console.WriteLine("Parsed:" + linha.nomes[i]);
 							}
 							//se for uma string, verifica se existe um modo de enderecamento ao lado
-							if (linha.subTipos[i] == SubTipos.STRING && i +1 <linha.preprocessado.Length)
+							if (linha.subTipos[i] == SubTipos.STRING && i + 1 < linha.preprocessado.Length)
 							{
 								//somente se a linha contiver uma instrucao sera testado algum modo de enderecamento
 								int k = 0;
@@ -341,10 +326,9 @@ namespace Montador
 								{
 									string none = null;
 									string ope = String.Concat(linha.preprocessado[i], linha.preprocessado[i + 1]);
-									if(linguagem.identificaTipo(ope, ref none, ref end) == Tipos.ENDERECO)
+									if (linguagem.identificaTipo(ope, ref none, ref end) == Tipos.ENDERECO)
 									{
 										linha.enderecamento[i] = end;
-										//linha.nomes[i] = nome;
 									}
 								}
 							}
@@ -353,12 +337,12 @@ namespace Montador
 					}
 					else
 					{
-						if (ehLabel(palavra,palavra.Length-1))
+						if (ehLabel(palavra, palavra.Length - 1))
 						{
 							if (palavra[palavra.Length - 1] == ':')
 							{
 								linha.tipos[i] = Tipos.DEFLABEL;
-								linha.nomes[i] = new string(palavra.ToCharArray(),0,palavra.Length-1);
+								linha.nomes[i] = new string(palavra.ToCharArray(), 0, palavra.Length - 1);
 							}
 							else
 							{
@@ -374,19 +358,16 @@ namespace Montador
 							Stringer str = new Stringer();
 							char[] parsedArr = new char[palavra.Length];
 							int size = 0;
-							
+
 							str.parse(palavra, 1, parsedArr, ref size);
 							linha.nomes[i] = new string(parsedArr);
-
-							Console.WriteLine("Raw:" + palavra);
-							Console.WriteLine("Parsed:" + linha.nomes[i]);
 						}
 						else
 							linha.tipos[i] = Tipos.INVALIDO;
 					}
 				}
 			}
-        }
+		}
 
 		/*
 		 * verifica se os tipos de uma linha são validos
@@ -395,7 +376,7 @@ namespace Montador
 		 * 0?.(2).(4)*
 		 * retorna true se forem
 		 */
-		public bool verificaTipos(Linha linha,Escritor saida,Definicoes defs)
+		public bool verificaTipos(Linha linha, Escritor saida, Definicoes defs)
 		{
 			Instrucao inst;
 			int i = 0;
@@ -404,7 +385,7 @@ namespace Montador
 			//a linha pode comecar por definicao de label
 			if (linha.tipos[0] == Tipos.DEFLABEL)
 			{
-				defs.adicionaDef(linha.preprocessado[0].Substring(0,linha.preprocessado[0].Length-1),linha.linhaFonte,saida);
+				defs.adicionaDef(linha.preprocessado[0].Substring(0, linha.preprocessado[0].Length - 1), linha.linhaFonte, saida);
 				i = 1;
 				size--;
 			}
@@ -415,15 +396,15 @@ namespace Montador
 			if (linha.tipos[i] == Tipos.INSTRUCAO)
 			{
 				inst = this.linguagem.instrucoes.Find(o => o.mnemonico == linha.preprocessado[i]);
-				if(size < inst.formato.Length)
-					saida.errorOut(Escritor.Message.IncorrectNumOperands, linha.linhaFonte,(inst.formato.Length - 1) ,(size - 1));
+				if (size < inst.formato.Length)
+					saida.errorOut(Escritor.Message.IncorrectNumOperands, linha.linhaFonte, (inst.formato.Length - 1), (size - 1));
 				//verifica se ha algo diferente de registradores e enderecos
 				for (i++; i < linha.tipos.Length; i++)
 				{
 					if (j >= inst.formato.Length)
 					{
-						if(linha.tipos[i-1] != Tipos.ENDERECO)
-							saida.errorOut(Escritor.Message.IncorrectNumOperands, linha.linhaFonte, (inst.formato.Length-1),(size-1));
+						if (linha.tipos[i - 1] != Tipos.ENDERECO)
+							saida.errorOut(Escritor.Message.IncorrectNumOperands, linha.linhaFonte, (inst.formato.Length - 1), (size - 1));
 						break;
 					}
 					if (linha.tipos[i] != inst.formato[j])
@@ -433,7 +414,7 @@ namespace Montador
 							case Tipos.INVALIDO:
 								saida.errorOut(Escritor.Message.InvalidWord, linha.linhaFonte, linha.preprocessado[i]);
 								break;
-							case (int)Tipos.DEFLABEL:
+							case Tipos.DEFLABEL:
 								saida.errorOut(Escritor.Message.IncorrectLabelDef, linha.linhaFonte);
 								break;
 							case Tipos.INSTRUCAO:
@@ -444,9 +425,9 @@ namespace Montador
 					}
 					else if (linha.tipos[i] == Tipos.ENDERECO)
 					{
-						if (ehLabel(linha.preprocessado[i]))
+						if (ehLabel(linha.nomes[i]))
 						{
-							defs.adicionaRef(linha.preprocessado[i], linha.linhaFonte);
+							defs.adicionaRef(linha.nomes[i], linha.linhaFonte);
 						}
 					}
 					j++;
@@ -455,9 +436,9 @@ namespace Montador
 			else if (linha.tipos[i] == Tipos.DIRETIVA)
 			{
 				//se for a diretiva org, apenas 1 operando deve existir
-				if(linha.preprocessado[i] == "ORG")
+				if (linha.preprocessado[i] == "ORG")
 				{
-					if(size != 2)
+					if (size != 2)
 						saida.errorOut(Escritor.Message.IncorrectNumOperands, linha.linhaFonte, 1, (size - 1));
 				}
 				i++;
@@ -490,7 +471,7 @@ namespace Montador
 		/*
 		* verifica se a string corresponde a um numero em hexa ou em decimal, podendo ser precedida ou nao por IMEDIATO ou '-'
 		*/
-		public bool ehNumero(string palavra,int begin,int end)
+		public bool ehNumero(string palavra, int begin, int end)
 		{
 			int i = begin;
 			bool hexa = false;
@@ -515,7 +496,7 @@ namespace Montador
 				return true;
 			//se o ultimo caracter encontrado foi um 'H' e este eh o ultimo caracter da string
 			//entao eh um numero em hexadeciamal
-			if (palavra[i - 1] == 'H' && hexa && i == end+1 && hexa)
+			if (palavra[i - 1] == 'H' && hexa && i == end + 1 && hexa)
 				return true;
 			return false;
 
@@ -529,9 +510,9 @@ namespace Montador
 		/*
 		 * verifica se uma determinada palavra pode ser uma label
 		 */
-		public bool ehLabel(string palavra,int length)
+		public bool ehLabel(string palavra, int length)
 		{
-			return ehLabel(palavra, 0, length-1);
+			return ehLabel(palavra, 0, length - 1);
 		}
 
 		/*
@@ -561,14 +542,14 @@ namespace Montador
 		 */
 		public bool ehLabel(string palavra)
 		{
-			return ehLabel(palavra,0, palavra.Length-1);
+			return ehLabel(palavra, 0, palavra.Length - 1);
 		}
 
 		/*
 		 * determina se a palavra eh uma definicao de string, ou seja
 		 * comeca por ' ou " e termina pelo mesmo caractere
 		 */
-		public bool ehString(string palavra, int begin,int end)
+		public bool ehString(string palavra, int begin, int end)
 		{
 			int i;
 			char final;
@@ -579,11 +560,11 @@ namespace Montador
 
 			if (palavra[begin] != '\'' && palavra[begin] != '\"')
 				return false;
-			
+
 			final = palavra[begin];
 			//verifica se termina pelo mesmo simbolo que comeca
 			//e esse simbolo nao aparece em nenhum outro lugar da string
-			for ( i = begin+1; i <end; i++)
+			for (i = begin + 1; i < end; i++)
 			{
 				if (!escape)
 				{
@@ -639,13 +620,13 @@ namespace Montador
 			//caso hexadecimal
 			if (numero[i] == 'H' || numero[i] == 'h')
 			{
-				bytes = i / 2 + i%2;
+				bytes = i / 2 + i % 2;
 				codigo = new byte[bytes];
 				b = bytes - 1;
-				for (i--; i >= 1; i-=2, b--)
+				for (i--; i >= 1; i -= 2, b--)
 				{
 					valor = ((byte)getHexValue(numero[i]));
-					valor += (byte)((byte)getHexValue(numero[i - 1])<<4);
+					valor += (byte)((byte)getHexValue(numero[i - 1]) << 4);
 					codigo[b] = valor;
 				}
 			}
@@ -654,12 +635,12 @@ namespace Montador
 			{
 				if (numero[i] == 'b' || numero[i] == 'B')
 					i--;
-				bytes = (i+1) / 8;
-				if((i+1)%8 != 0)
+				bytes = (i + 1) / 8;
+				if ((i + 1) % 8 != 0)
 					bytes++;
 				codigo = new byte[bytes];
 				b = bytes - 1;
-				for (; i >= 7; i-=7, b--)
+				for (; i >= 7; i -= 7, b--)
 				{
 					valor = (byte)this.paraInteiro(numero, i - 7, i);
 					codigo[b] = valor;
@@ -668,5 +649,5 @@ namespace Montador
 
 			return codigo;
 		}
-    }
+	}
 }

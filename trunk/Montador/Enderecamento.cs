@@ -66,15 +66,15 @@ namespace Montador
 						if (palavra[pr] != formato[r] && palavra[pr] != ' ')
 							break;
 						r--;
+						pr--;
 					}
-					pr--;
 				}
 				if (formato[l] == 'E' && formato[r] == 'E')
 				{
 					if (endereco != null)
 					{
-						endereco = new String(palavra.ToCharArray(), l, pr - l + 1);
-						if (gram.ehLabel(endereco, l, pr) || gram.ehNumero(endereco, l, pr) || gram.ehString(endereco, l, pr))
+						endereco = new String(palavra.ToCharArray(), l, pr - l + 1);						
+						if (gram.ehLabel(endereco) || gram.ehNumero(endereco) || gram.ehString(endereco))
 						{
 							if (enderecamento.Length < end.codigo.Length)
 							{

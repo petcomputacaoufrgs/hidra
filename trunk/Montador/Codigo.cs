@@ -4,28 +4,28 @@ using System.Collections.Generic;
 
 namespace Montador
 {
-    public class Codigo
-    {
-        const char COMENTARIO = ';';
-		public enum Estado {OK,TRUNCADO, INDEFINIDO};	//estado da geração do binário de um endereço
+	public class Codigo
+	{
+		const char COMENTARIO = ';';
+		public enum Estado { OK, TRUNCADO, INDEFINIDO };	//estado da geração do binário de um endereço
 		public List<Linha> linhas;	//cada linha do codigo fonte
 
 		public Definicoes defs = new Definicoes();	//definicoes de labels
-		
-        public byte[] binario;
-		
 
-        /**
-         * limpa a linha, removendo os espaços nas pontas
-         * e deixando-a no formato:
-         * instrucao operandos
-         * ex:
-         * "    add a 127 ,x " -> {"ADD", "A", "127,X"}
-         * "label   :" -> {"label:"}
-         * se a linha for um comentario, retorna um array com a propria string
-         */
-        private string[] limpaLinha(string linha)
-        {
+		public byte[] binario;
+
+
+		/**
+		 * limpa a linha, removendo os espaços nas pontas
+		 * e deixando-a no formato:
+		 * instrucao operandos
+		 * ex:
+		 * "		add a 127 ,x " -> {"ADD", "A", "127,X"}
+		 * "label	 :" -> {"label:"}
+		 * se a linha for um comentario, retorna um array com a propria string
+		 */
+		private string[] limpaLinha(string linha)
+		{
 			//verifica se ha strings no meio da linha
 			Stringer parser = new Stringer();
 			char c;
@@ -34,11 +34,11 @@ namespace Montador
 			bool copia = false;
 			int p = 0;
 			char final = '\'';
-			char[] parsed = new char[linha.Length+1];
+			char[] parsed = new char[linha.Length + 1];
 
 			int prev = 0; //indice do inicio do elemento
 			List<string> elem = new List<string>();
-			for(int i =0;i<linha.Length;i++)
+			for (int i = 0; i < linha.Length; i++)
 			{
 				c = linha[i];
 
@@ -73,7 +73,7 @@ namespace Montador
 						//se o anterior nao era um espaco, copia
 						if (!espaco)
 						{
-							if(p-prev > 0)
+							if (p - prev > 0)
 								elem.Add(new string(parsed, prev, p - prev));
 							parsed[p++] = ' ';
 						}
@@ -106,19 +106,22 @@ namespace Montador
 				}
 			}
 
-			if(!espaco)
+			if (!espaco)
 				elem.Add(new string(parsed, prev, p - prev));
-			
+
 			string[] result = new string[elem.Count];
-			
+
 			for (int i = 0; i < elem.Count; i++)
 			{
-				if(elem[i].Length > 0)
+				if (elem[i].Length > 0)
+				{
+					//Console.WriteLine("(" +elem[i] + ")");
 					result[i] = elem[i];
+				}
 			}
-			return result;
 
-        }
+			return result;
+		}
 
 
 
@@ -129,45 +132,43 @@ namespace Montador
 		 * Codigo.preprocessado
 		 */
 		public void lerCodigo(string arquivo)
-        {
-            this.linhas = new List<Linha>();
+		{
+			this.linhas = new List<Linha>();
 			string linha;
 			string[] clean;
-            int linhaAtual = 1;
+			int linhaAtual = 1;
 
-            //le o arquivo, removendo espacos antes e depois de cada linha
-            using (StreamReader file = new StreamReader(arquivo))
-            {
-                while ((linha = file.ReadLine()) != null)
-                {
+			//le o arquivo, removendo espacos antes e depois de cada linha
+			using (StreamReader file = new StreamReader(arquivo))
+			{
+				while ((linha = file.ReadLine()) != null)
+				{
 					clean = limpaLinha(linha);
 					if (clean.Length > 0)
 					{
 						this.linhas.Add(new Linha(clean, linhaAtual));
 					}
 					linhaAtual++;
-                }
-            }
+				}
+			}
 
-			foreach (Linha l in this.linhas)
+			/*foreach (Linha l in this.linhas)
 			{
 				foreach (string w in l.preprocessado)
 				{
 					Console.Write(w + " ");
 				}
 				Console.Write("\n");
-			}
+			}*/
+		}
 
-            return;
-        }
-
-        /**
-         * determina se o codigo eh valido
-         * 
-         * retorna true se for
-         */
-        public Boolean ehValido(Gramatica gramatica,Escritor saida)
-        {
+		/**
+		 * determina se o codigo eh valido
+		 * 
+		 * retorna true se for
+		 */
+		public Boolean ehValido(Gramatica gramatica, Escritor saida)
+		{
 			this.identificaTipos(gramatica);
 			/*
 			for (int i = 0; i < this.linhas.Count; i++)
@@ -180,12 +181,12 @@ namespace Montador
 			//verifica se os tipos de cada linha são validos
 			for (int i = 0; i < this.linhas.Count; i++)
 			{
-				gramatica.verificaTipos(this.linhas[i],saida,this.defs);
+				gramatica.verificaTipos(this.linhas[i], saida, this.defs);
 			}
-				
+
 
 			return true;
-        }
+		}
 
 		/*
 		* identifica os tipos de cada elemento das linhas
@@ -195,7 +196,7 @@ namespace Montador
 		*/
 		public void identificaTipos(Gramatica gram)
 		{
-			for (int j = 0; j < this.linhas.Count;j++ )
+			for (int j = 0; j < this.linhas.Count; j++)
 			{
 				Linha linha = this.linhas[j];
 				for (int i = 0; i < linha.preprocessado.Length; i++)
@@ -205,36 +206,36 @@ namespace Montador
 			}
 		}
 
-        /**
-         * converte todas as ocorrencias de numeros em hexadecimal para numeros em decimal
-         * altera this.preprocessado
-         * TODO: modificar apenas nos campos de endereco para nao alterar definicoes de labels
-         * chamar esta funcao depois de substituir o valor das labels no codigo
-         */
-        public void converteHexa()
-        {
-            Gramatica gram = new Gramatica();
-            string numeroHexa;
-            int numero;
+		/**
+		 * converte todas as ocorrencias de numeros em hexadecimal para numeros em decimal
+		 * altera this.preprocessado
+		 * TODO: modificar apenas nos campos de endereco para nao alterar definicoes de labels
+		 * chamar esta funcao depois de substituir o valor das labels no codigo
+		 */
+		public void converteHexa()
+		{
+			Gramatica gram = new Gramatica();
+			string numeroHexa;
+			int numero;
 
-            //itera por todas as linhas do fonte
-            foreach (Linha linha in this.linhas)
-            {
-                for(int i = 0;i<linha.preprocessado.Length;i++)
-                {
-                    numeroHexa = gram.substringHexa(linha.preprocessado[i]);
+			//itera por todas as linhas do fonte
+			foreach (Linha linha in this.linhas)
+			{
+				for (int i = 0; i < linha.preprocessado.Length; i++)
+				{
+					numeroHexa = gram.substringHexa(linha.preprocessado[i]);
 
-                    if (numeroHexa != "")
-                    {
-                        numero = gram.hexa2int(numeroHexa);
-                        linha.preprocessado[i] = linha.preprocessado[i].Replace(numeroHexa+"H", numero.ToString());
-                    }
-                }
-            }
-        }
+					if (numeroHexa != "")
+					{
+						numero = gram.hexa2int(numeroHexa);
+						linha.preprocessado[i] = linha.preprocessado[i].Replace(numeroHexa + "H", numero.ToString());
+					}
+				}
+			}
+		}
 		/*
-         *  escreve o conteudo das linhas
-         */
+				 *	escreve o conteudo das linhas
+				 */
 		public void print()
 		{
 			Console.WriteLine("*******");
@@ -251,7 +252,7 @@ namespace Montador
 					Console.Write(s + " ");
 				Console.Write("\n");
 
-				foreach(int t in linha.tipos)
+				foreach (int t in linha.tipos)
 					Console.Write(t + " ");
 				Console.Write("\n");
 
@@ -259,7 +260,7 @@ namespace Montador
 					Console.Write(t + " ");
 				Console.Write("\n");
 			}
-			
+
 			foreach (Label la in this.defs.labels)
 			{
 				Console.WriteLine(la.nome + "\t" + la.valor + "\t" + la.linhaDef);
@@ -273,11 +274,11 @@ namespace Montador
 		 * retorna o binario resultante, que nao necessariamente utiliza todo o espaco
 		 * mas nao vai exceder o tamanho definido
 		 */
-		public byte[] montar(int tamanho,Linguagem linguagem,Escritor saida)
+		public byte[] montar(int tamanho, Linguagem linguagem, Escritor saida)
 		{
 			Gramatica gram = new Gramatica();
 			byte[] memoria = new byte[tamanho];
-			byte[] regMask,endMask;
+			byte[] regMask, endMask;
 			byte[] endereco;
 			Instrucao inst;
 			int b = 0;
@@ -287,14 +288,14 @@ namespace Montador
 
 			int l = 0;
 			int i;
-            Linha linha;
-			for(linha = this.linhas[0];l<this.linhas.Count;l++)
+			Linha linha;
+			for (linha = this.linhas[0]; l < this.linhas.Count; l++)
 			{
 				linha = this.linhas[l];
-				i=0;
-				if(linha.tipos[i] == (int)Gramatica.Tipos.DEFLABEL)
+				i = 0;
+				if (linha.tipos[i] == (int)Gramatica.Tipos.DEFLABEL)
 				{
-					Console.WriteLine(String.Format("Def: {0}\tb:{1}\n",linha.nomes[i],b));
+					//Console.WriteLine(String.Format("Def: {0}\tb:{1}\n", linha.nomes[i], b));
 					this.defs.atribuiDef(linha.nomes[i], b);
 					i++;
 				}
@@ -305,14 +306,14 @@ namespace Montador
 				{
 					case Gramatica.Tipos.INSTRUCAO:
 						inst = linguagem.instrucoes.Find(o => o.mnemonico == linha.preprocessado[i]);
-						Console.WriteLine("Inst:" + inst.mnemonico);
-						foreach(byte ba in inst.codigo)
+						/*Console.WriteLine("Inst:" + inst.mnemonico);
+						foreach (byte ba in inst.codigo)
 							Console.Write(ba + " ");
-						Console.WriteLine("");
-							
+						Console.WriteLine("");*/
+
 						//determina a codificacao dos registradores e dos enderecos
-						regMask = mascaraRegistradores(linha,linguagem);
-						endMask = mascaraEnderecamentos(linha,linguagem);
+						regMask = mascaraRegistradores(linha, linguagem);
+						endMask = mascaraEnderecamentos(linha, linguagem);
 
 						//faz um ou bitwise com cada uma das mascaras de codigo
 						for (int k = 0; k < linha.bytes; k++)
@@ -323,26 +324,26 @@ namespace Montador
 						//escreve os enderecos utilizados
 						//b += linha.bytes;
 
-						for(int k=i+1;k<linha.tipos.Length;k++)
+						for (int k = i + 1; k < linha.tipos.Length; k++)
 						{
 							if (linha.tipos[k] == Gramatica.Tipos.ENDERECO)
 							{
 								//Console.WriteLine(k+" line:"+linha.linhaFonte);
-								endereco = this.converteByteArray(linha.nomes[k], linguagem.tamanhoEndereco,linha.subTipos[k], ref estado);
+								endereco = this.converteByteArray(linha.nomes[k], linguagem.tamanhoEndereco, linha.subTipos[k], ref estado);
 
-								Console.WriteLine("Endereco:" + estado);
+								/*Console.WriteLine("Endereco:" + estado);
 								foreach (byte e in endereco)
 									Console.Write(e + " ");
-								Console.WriteLine("");
+								Console.WriteLine("");*/
 
 								if (estado != Estado.INDEFINIDO)
 								{
 									if (estado == Estado.TRUNCADO)
-										saida.errorOut(Escritor.Message.TruncatedValue, linha.linhaFonte, linha.nomes[i], endereco.Length);
+										saida.errorOut(Escritor.Message.TruncatedValue, linha.linhaFonte, linha.preprocessado[i], endereco.Length);
 									//escreve o endereco
-									for (int j = 0; j < linguagem.tamanhoEndereco && j<endereco.Length; j++)
+									for (int j = 0; j < linguagem.tamanhoEndereco && j < endereco.Length; j++)
 									{
-										Console.WriteLine("End:" + endereco[j]);
+										//Console.WriteLine("End:" + endereco[j]);
 										memoria[b] = endereco[j];
 										b++;
 									}
@@ -357,13 +358,13 @@ namespace Montador
 						break;
 					case Gramatica.Tipos.DIRETIVA:
 						string tipo = linha.preprocessado[i];
-						Console.WriteLine(String.Format("Tipo:{0}",tipo));
+						//Console.WriteLine(String.Format("Tipo:{0}", tipo));
 						i++;
 						switch (tipo)
 						{
 							//se for ORG, muda a posicao em que se está escrevendo
 							case "ORG":
-								byte[] novaPosArr = converteByteArray(linha.nomes[i],linguagem.tamanhoEndereco,linha.subTipos[i],ref estado);
+								byte[] novaPosArr = converteByteArray(linha.nomes[i], linguagem.tamanhoEndereco, linha.subTipos[i], ref estado);
 								if (estado == Estado.INDEFINIDO)
 								{
 									pendencias.Push(new Pendencia(linha.nomes[i], l, b));
@@ -375,7 +376,7 @@ namespace Montador
 								//gera um aviso
 								if (novaPosicao < b)
 								{
-									saida.errorOut(Escritor.Message.OverwrittenMemory, linha.linhaFonte,novaPosicao);
+									saida.errorOut(Escritor.Message.OverwrittenMemory, linha.linhaFonte, novaPosicao);
 								}
 								b = novaPosicao;
 								i++;
@@ -383,11 +384,11 @@ namespace Montador
 							//escreve o valor do que estiver a direita em um único byte
 							case "DB":
 
-								endereco = this.converteByteArray(linha.nomes[i],1,linha.subTipos[i], ref estado);
+								endereco = this.converteByteArray(linha.nomes[i], 1, linha.subTipos[i], ref estado);
 								if (estado != Estado.INDEFINIDO)
 								{
 									if (endereco.Length > 1)
-										saida.errorOut(Escritor.Message.TruncatedValue, linha.linhaFonte, linha.nomes[i], endereco.Length);
+										saida.errorOut(Escritor.Message.TruncatedValue, linha.linhaFonte, linha.preprocessado[i], endereco.Length);
 
 									memoria[b] = endereco[0];
 								}
@@ -398,13 +399,13 @@ namespace Montador
 							//utiliza exatamente 2 bytes para escrever o número que estiver a direita
 							case "DW":
 
-								endereco = this.converteByteArray(linha.nomes[i], 2,linha.subTipos[i], ref estado);
+								endereco = this.converteByteArray(linha.nomes[i], 2, linha.subTipos[i], ref estado);
 
 								if (estado != Estado.INDEFINIDO)
 								{
 									if (endereco.Length > 2)
 									{
-										saida.errorOut(Escritor.Message.TruncatedValue, linha.linhaFonte, linha.nomes[i], endereco.Length);
+										saida.errorOut(Escritor.Message.TruncatedValue, linha.linhaFonte, linha.preprocessado[i], endereco.Length);
 										memoria[b] = endereco[0];
 										memoria[b + 1] = endereco[1];
 									}
@@ -418,24 +419,24 @@ namespace Montador
 								{
 									pendencias.Push(new Pendencia(linha.nomes[i], l, b));
 								}
-								b+=2;
+								b += 2;
 								break;
 							//array de bytes
 							case "DAB":
 
 								for (; i < linha.nomes.Length; i++)
 								{
-									endereco = this.converteByteArray(linha.nomes[i], 1,linha.subTipos[i], ref estado);
+									endereco = this.converteByteArray(linha.nomes[i], 1, linha.subTipos[i], ref estado);
 									if (estado != Estado.INDEFINIDO)
 									{
 										if (endereco.Length != 1)
-											saida.errorOut(Escritor.Message.TruncatedValue, linha.linhaFonte, linha.nomes[i], endereco.Length, linguagem.tamanhoEndereco);
+											saida.errorOut(Escritor.Message.TruncatedValue, linha.linhaFonte, linha.preprocessado[i], endereco.Length, linguagem.tamanhoEndereco);
 
 										memoria[b] = endereco[0];
 									}
 									else
 									{
-										pendencias.Push(new Pendencia(linha.nomes[i],l,b));
+										pendencias.Push(new Pendencia(linha.nomes[i], l, b));
 									}
 									b++;
 								}
@@ -445,11 +446,11 @@ namespace Montador
 
 								for (; i < linha.nomes.Length; i++)
 								{
-									endereco = this.converteByteArray(linha.nomes[i], 2,linha.subTipos[i], ref estado);
+									endereco = this.converteByteArray(linha.nomes[i], 2, linha.subTipos[i], ref estado);
 									if (estado != Estado.INDEFINIDO)
 									{
 										if (endereco.Length != 2)
-											saida.errorOut(Escritor.Message.TruncatedValue, linha.linhaFonte, linha.nomes[i], endereco.Length);
+											saida.errorOut(Escritor.Message.TruncatedValue, linha.linhaFonte, linha.preprocessado[i], endereco.Length);
 
 										memoria[b] = endereco[0];
 									}
@@ -466,87 +467,87 @@ namespace Montador
 					default:
 						break;
 				}//end switch tipos
-				}//end foreach linha
+			}//end foreach linha
 
 			//resolve as labels pendentes
-            Pendencia pend;
-            while (pendencias.Count != 0)
-            {
-                pend = pendencias.Pop();
-                i = 0;
-                b = pend.nbyte;
-                linha = this.linhas[pend.nlinha];
+			Pendencia pend;
+			while (pendencias.Count != 0)
+			{
+				pend = pendencias.Pop();
+				i = 0;
+				b = pend.nbyte;
+				linha = this.linhas[pend.nlinha];
 
-                if (linha.tipos[i] == Gramatica.Tipos.DEFLABEL)
-                    i++;
+				if (linha.tipos[i] == Gramatica.Tipos.DEFLABEL)
+					i++;
 
-                Boolean array = false;
-                int size = linguagem.tamanhoEndereco;
-                if(linha.tipos[i] ==  Gramatica.Tipos.DIRETIVA)
-                {
-                    i++;
-                    switch (linha.nomes[i])
-                    {
-                        case "DB":
-                            array = false;
-                            size = 1;
-                            break;
-                        case "DW":
-                            array = false;
-                            size = 2;
-                            break;
-                        case "DAB":
-                            array = true;
-                            size = 1;
-                            break;
-                        case "DAW":
-                            array = true;
-                            size = 2;
-                            break;
-                    }
+				Boolean array = false;
+				int size = linguagem.tamanhoEndereco;
+				if (linha.tipos[i] == Gramatica.Tipos.DIRETIVA)
+				{
+					i++;
+					switch (linha.nomes[i])
+					{
+						case "DB":
+							array = false;
+							size = 1;
+							break;
+						case "DW":
+							array = false;
+							size = 2;
+							break;
+						case "DAB":
+							array = true;
+							size = 1;
+							break;
+						case "DAW":
+							array = true;
+							size = 2;
+							break;
+					}
 
 					endereco = this.converteByteArray(linha.nomes[i], size, linha.subTipos[i], ref estado);
 
-                    if (!array)
-                    {
-                        if (endereco.Length > size || estado == Estado.TRUNCADO)
-                        {
-                            saida.errorOut(Escritor.Message.TruncatedValue, linha.linhaFonte, linha.nomes[i], endereco.Length);
-                        }
+					if (!array)
+					{
+						if (endereco.Length > size || estado == Estado.TRUNCADO)
+						{
+							saida.errorOut(Escritor.Message.TruncatedValue, linha.linhaFonte, linha.preprocessado[i], endereco.Length);
+						}
 
-                        //escreve o valor
-                        for (int k = 0; k < size; k++, b++)
-                        {
-                            memoria[b] = endereco[k];
-                        }
-                    }
-                    else
-                    {
-                        if(estado == Estado.TRUNCADO)
-                            saida.errorOut(Escritor.Message.TruncatedValue, linha.linhaFonte, linha.nomes[i], endereco.Length);
-                        //escreve o valor
-                        for (int k = 0; k < size; k++, b++)
-                            memoria[b] = endereco[k];
-                    }
+						//escreve o valor
+						for (int k = 0; k < size; k++, b++)
+						{
+							memoria[b] = endereco[k];
+						}
+					}
+					else
+					{
+						if (estado == Estado.TRUNCADO)
+							saida.errorOut(Escritor.Message.TruncatedValue, linha.linhaFonte, linha.preprocessado[i], endereco.Length);
+						//escreve o valor
+						for (int k = 0; k < size; k++, b++)
+							memoria[b] = endereco[k];
+					}
 
-                }
-                else
-                {
-                    i++;
+				}
+				else
+				{
+					i++;
 					endereco = this.converteByteArray(linha.nomes[i], linguagem.tamanhoEndereco, linha.subTipos[i], ref estado);
 
-                    if (estado == Estado.TRUNCADO)
-                    {
-                        saida.errorOut(Escritor.Message.TruncatedValue,linha.linhaFonte, linha.nomes[i], endereco.Length);
-                    }
+					if (estado == Estado.TRUNCADO)
+					{
+						saida.errorOut(Escritor.Message.TruncatedValue, linha.linhaFonte, linha.preprocessado[i], endereco.Length);
+					}
 
-                    //escreve o valor
-                    for (int k = 0; k < linguagem.tamanhoEndereco; k++,b++)
-                    {
-                        memoria[b] = endereco[k];
-                    }
-                }
-            }
+					//escreve o valor
+					for (int k = 0; k < linguagem.tamanhoEndereco; k++, b++)
+					{
+						memoria[b] = endereco[k];
+					}
+				}
+			}
 
 			return memoria;
 		}
@@ -555,7 +556,7 @@ namespace Montador
 		 * produz os bytes associados a uma linha
 		 * ignora definicoes de labels
 		 */
-		public List<byte> montaLinha(Linha linha,ref int pos, Linguagem linguagem,Stack<Pendencia> pends, Escritor saida)
+		public List<byte> montaLinha(Linha linha, ref int pos, Linguagem linguagem, Stack<Pendencia> pends, Escritor saida)
 		{
 			int i;
 			Estado estado = Estado.OK;
@@ -573,14 +574,14 @@ namespace Montador
 			{
 				case Gramatica.Tipos.INSTRUCAO:
 					inst = linguagem.instrucoes.Find(o => o.mnemonico == linha.preprocessado[i]);
-					Console.WriteLine("Inst:" + inst.mnemonico);
-					foreach(byte ba in inst.codigo)
+					/*Console.WriteLine("Inst:" + inst.mnemonico);
+					foreach (byte ba in inst.codigo)
 						Console.Write(ba + " ");
 					Console.WriteLine("");
-							
+					*/
 					//determina a codificacao dos registradores e dos enderecos
-					regMask = mascaraRegistradores(linha,linguagem);
-					endMask = mascaraEnderecamentos(linha,linguagem);
+					regMask = mascaraRegistradores(linha, linguagem);
+					endMask = mascaraEnderecamentos(linha, linguagem);
 
 					//faz um ou bitwise com cada uma das mascaras de codigo
 					for (int k = 0; k < linha.bytes; k++)
@@ -612,7 +613,7 @@ namespace Montador
 						//reservando o tamanho de um endereco
 						else
 						{
-							pends.Push(new Pendencia(linha.nomes[i],linha.linhaFonte,pos));
+							pends.Push(new Pendencia(linha.nomes[i], linha.linhaFonte, pos));
 							pos += linguagem.tamanhoEndereco;
 						}
 					}
@@ -632,7 +633,7 @@ namespace Montador
 		 * monta a linha de uma diretiva
 		 * ignora definicoes de labels
 		 */
-		public List<byte> montaDiretiva(Linha linha,ref int pos, Linguagem linguagem, Escritor saida,Stack<Pendencia> pendencias)
+		public List<byte> montaDiretiva(Linha linha, ref int pos, Linguagem linguagem, Escritor saida, Stack<Pendencia> pendencias)
 		{
 
 			List<byte> memoria = new List<byte>();
@@ -646,7 +647,7 @@ namespace Montador
 
 			Boolean array = true;
 			int size = 0;
-			switch( linha.preprocessado[i])
+			switch (linha.preprocessado[i])
 			{
 				case "ORG":
 					Gramatica gram = new Gramatica();
@@ -670,14 +671,14 @@ namespace Montador
 					size = 2;
 					break;
 			}
-			for(i++;i<linha.nomes.Length;i++)
+			for (i++; i < linha.nomes.Length; i++)
 			{
 				end = converteByteArray(linha.nomes[i], size, linha.subTipos[i], ref estado);
 				if (estado == Estado.TRUNCADO && !array)
 					saida.errorOut(Escritor.Message.TruncatedValue, linha.nomes[i], end.Length, size);
 				else if (estado == Estado.INDEFINIDO)
 				{
-					pendencias.Push(new Pendencia(linha.nomes[i],linha.linhaFonte,pos+memoria.Count));
+					pendencias.Push(new Pendencia(linha.nomes[i], linha.linhaFonte, pos + memoria.Count));
 					//reserva espaco
 					for (int j = 0; j < size; j++)
 						memoria.Add(0);
@@ -704,7 +705,7 @@ namespace Montador
 		 *	ignora definicoes de labels
 		 */
 
-		public List<byte> montaInstrucao(Linha linha, int pos,int linhaNum, Linguagem linguagem, Escritor saida,Stack<Pendencia> pendencias)
+		public List<byte> montaInstrucao(Linha linha, int pos, int linhaNum, Linguagem linguagem, Escritor saida, Stack<Pendencia> pendencias)
 		{
 			Estado estado = Estado.OK;
 			Gramatica gram = new Gramatica();
@@ -720,10 +721,10 @@ namespace Montador
 				i = 0;
 
 			inst = linguagem.instrucoes.Find(o => o.mnemonico == linha.preprocessado[i]);
-			Console.WriteLine("Inst:" + inst.mnemonico);
+			/*Console.WriteLine("Inst:" + inst.mnemonico);
 			foreach (byte ba in inst.codigo)
 				Console.Write(ba + " ");
-			Console.WriteLine("");
+			Console.WriteLine("");*/
 
 			//determina a codificacao dos registradores e dos enderecos
 			regMask = mascaraRegistradores(linha, linguagem);
@@ -740,7 +741,6 @@ namespace Montador
 			{
 				if (linha.tipos[k] == Gramatica.Tipos.ENDERECO)
 				{
-					//Console.WriteLine(k+" line:"+linha.linhaFonte);
 					endereco = this.converteByteArray(linha.nomes[k], linguagem.tamanhoEndereco, linha.subTipos[k], ref estado);
 
 					Console.WriteLine("Endereco:" + estado);
@@ -776,13 +776,13 @@ namespace Montador
 		 * retorna o estado do endereco
 		 * atualiza pos somente se algo for escrito na memoria
 		 */
-		public Estado escreveEndereco(byte[] memoria, ref int pos,Linguagem linguagem, string endereco, Gramatica.SubTipos subtipo)
+		public Estado escreveEndereco(byte[] memoria, ref int pos, Linguagem linguagem, string endereco, Gramatica.SubTipos subtipo)
 		{
 			Estado estado = Estado.OK;
 			byte[] bin = converteByteArray(endereco, linguagem.tamanhoEndereco, subtipo, ref estado);
 			if (estado != Estado.INDEFINIDO)
 			{
-				for(int k =0;k<endereco.Length && k<linguagem.tamanhoEndereco;k++,pos++)
+				for (int k = 0; k < endereco.Length && k < linguagem.tamanhoEndereco; k++, pos++)
 				{
 					memoria[pos] = bin[k];
 				}
@@ -798,24 +798,23 @@ namespace Montador
 		 * o endereco pode ser um número, uma string ou uma label
 		 * escreve o estado na respectiva variavel
 		 */
-		public byte[] converteByteArray(string endereco, int tamanho,Gramatica.SubTipos subtipo,ref Estado estado)
+		public byte[] converteByteArray(string endereco, int tamanho, Gramatica.SubTipos subtipo, ref Estado estado)
 		{
 			Gramatica gram = new Gramatica();
 			byte[] vetor;
 			estado = Estado.OK;
 
-			switch(subtipo)
+			switch (subtipo)
 			{
 
 				case Gramatica.SubTipos.NUMERO:
-					vetor = gram.num2byteArray(gram.paraInteiro(endereco),tamanho,ref estado);
+					vetor = gram.num2byteArray(gram.paraInteiro(endereco), tamanho, ref estado);
 					break;
-				
+
 				case Gramatica.SubTipos.STRING:
-					vetor = gram.string2byteArray(endereco,tamanho,ref estado);
+					vetor = gram.string2byteArray(endereco, tamanho, ref estado);
 					break;
 				default:
-					Console.WriteLine("Label:"+endereco);
 					Label label = this.defs.labels.Find(o => o.nome == endereco);
 					if (label.valor >= 0)
 						vetor = gram.num2byteArray(label.valor, tamanho, ref estado);
@@ -832,7 +831,7 @@ namespace Montador
 		/**
 		 * determina a mascara de codigos dos registradores utilizados na linha
 		 */
-		public byte[] mascaraRegistradores(Linha linha,Linguagem lingua)
+		public byte[] mascaraRegistradores(Linha linha, Linguagem lingua)
 		{
 			byte[] mascara = new byte[linha.bytes];
 			Registrador reg;
@@ -879,5 +878,5 @@ namespace Montador
 			}
 			return mascara;
 		}
-    }
+	}
 }
