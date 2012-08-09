@@ -23,7 +23,7 @@ namespace Montador
 
 		public string[] inst;
 		public enum Tipos { DEFLABEL, INSTRUCAO, DIRETIVA, REGISTRADOR, ENDERECO, INVALIDO };
-		public enum SubTipos { NONE, STRING, LABEL, NUMERO };
+		public enum SubTipos { NONE, STRING, LABEL, NUMERO, ARRAY };
 
 		public Linguagem linguagem = new Linguagem();
 
@@ -265,8 +265,13 @@ namespace Montador
 				return SubTipos.NUMERO;
 			else if (ehString(nome))
 				return SubTipos.STRING;
-			else
+			else if (ehLabel(nome))
 				return SubTipos.LABEL;
+			else if (ehArray(nome))
+				return SubTipos.ARRAY;
+			else
+				return SubTipos.NONE;
+
 		}
 
 		/*
@@ -658,9 +663,19 @@ namespace Montador
 				else
 				{
 					b = i;
+					while (i < palavra.Length)
+					{
+						if (palavra[i] == ',')
+							break;
+						i++;
+					}
+					string el = new string(palavra.ToCharArray(), b, i - b);
+					if (!ehNumero(el) && !ehLabel(el))
+						return false;
+					i++;
 				}
-
 			}
+			return true;
 		}
 
 		/**

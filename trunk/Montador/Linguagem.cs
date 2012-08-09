@@ -124,6 +124,7 @@ namespace Montador
 		public Gramatica.Tipos identificaTipo(string palavra,ref string nome, ref byte[] enderecamento)
 		{
 			Enderecamento end = new Enderecamento();
+			Gramatica gram = new Gramatica();
 
 			if (Array.FindIndex(this.diretivas, o => o == palavra ) >= 0)
 				return Gramatica.Tipos.DIRETIVA;
@@ -133,7 +134,7 @@ namespace Montador
 				return Gramatica.Tipos.INSTRUCAO;
 			if (end.identifica(palavra,this.enderecamentos,ref nome,ref enderecamento) >= 0)
 				return Gramatica.Tipos.ENDERECO;
-			if (Gramatica.ehArray(palavra))
+			if (gram.ehArray(palavra))
 				return Gramatica.Tipos.ENDERECO;
 
 			return Gramatica.Tipos.INVALIDO;
