@@ -673,7 +673,23 @@ namespace Montador
 			}
 			for (i++; i < linha.nomes.Length; i++)
 			{
-				end = converteByteArray(linha.nomes[i], size, linha.subTipos[i], ref estado);
+				if (linha.subTipos[i] == Gramatica.SubTipos.ARRAY)
+				{
+					Gramatica gram = new Gramatica();
+					List<byte[]> ends = new List<byte[]>();
+					int p = 0;
+					int max = linha.nomes[i].Length;
+					string el = gram.proximoElemento(linha.nomes[i],ref p,max);
+					while (el != "")
+					{
+						ends.Add(converteByteArray(el,size,gram.identificaSubTipo(el),ref estado));
+						el = gram.proximoElemento(linha.nomes[i], ref p, max);
+					}
+				}
+				else
+				{
+					end = converteByteArray(linha.nomes[i], size, linha.subTipos[i], ref estado);
+				}
 				if (estado == Estado.TRUNCADO && !array)
 					saida.errorOut(Escritor.Message.TruncatedValue, linha.nomes[i], end.Length, size);
 				else if (estado == Estado.INDEFINIDO)
@@ -801,7 +817,7 @@ namespace Montador
 		public byte[] converteByteArray(string endereco, int tamanho, Gramatica.SubTipos subtipo, ref Estado estado)
 		{
 			Gramatica gram = new Gramatica();
-			byte[] vetor;
+			byte[] vetor = new byte[1];
 			estado = Estado.OK;
 
 			Console.WriteLine(String.Format("Operando:{0}\tSubtipo:{1}",endereco,subtipo));
@@ -816,8 +832,10 @@ namespace Montador
 				case Gramatica.SubTipos.STRING:
 					vetor = gram.string2byteArray(endereco, tamanho, ref estado);
 					break;
-				default:
+									
+				case Gramatica.SubTipos.LABEL:
 					Label label = this.defs.labels.Find(o => o.nome == endereco);
+					Console.WriteLine(String.Format("Endereco:{0}",endereco));
 					if (label.valor >= 0)
 						vetor = gram.num2byteArray(label.valor, tamanho, ref estado);
 					else

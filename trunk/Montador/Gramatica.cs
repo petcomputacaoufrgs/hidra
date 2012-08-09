@@ -376,9 +376,6 @@ namespace Montador
 
 		/*
 		 * verifica se os tipos de uma linha são validos
-		 * linhas sao do tipo
-		 * 0?.(1).(3+4)* ou
-		 * 0?.(2).(4)*
 		 * retorna true se forem
 		 */
 		public bool verificaTipos(Linha linha, Escritor saida, Definicoes defs)
@@ -430,9 +427,9 @@ namespace Montador
 					}
 					else if (linha.tipos[i] == Tipos.ENDERECO)
 					{
-						if (ehLabel(linha.nomes[i]))
+						if (ehLabel(linha.preprocessado[i]))
 						{
-							defs.adicionaRef(linha.nomes[i], linha.linhaFonte);
+							defs.adicionaRef(linha.preprocessado[i], linha.linhaFonte);
 						}
 					}
 					j++;
@@ -721,6 +718,77 @@ namespace Montador
 			}
 
 			return codigo;
+		}
+
+		/*
+		 * recebe uma string que contenha uma string.
+		 * retorna o indice do caractere do final da string interna
+		 * ou -1, caso ela esteja aberta
+		 * palavra[begin] deve ser '\'' ou '\"'
+		 */
+		public int finalString(string palavra,int begin, int end)
+		{
+			if (begin > end)
+				return end;
+			char final = palavra[begin];
+			if (final != '\'' && final != '\"')
+				return begin;
+
+			begin++;
+			bool escape = false;
+			while (begin < end)
+			{
+				if (escape == false)
+				{
+					if (palavra[begin] == final)
+						break;
+					else if (palavra[begin] == '\\')
+						escape = true;
+				}
+				else
+				{
+					escape = false;
+				}
+				begin++;
+			}
+
+			return begin;
+		}
+
+		/*
+		 * recebe um array onde cada elemento esta separado por virgulas
+		 * retorna o proximo elemento a partir da posição dada
+		 * atualiza a posicao
+		 * exemplo:
+		 * proximoElemento("ab,cd",2,5) = "cd"
+		 * proximoElemento("ab,cd",1,5) = "b"
+		 */
+		public string proximoElemento(string array, ref int pos, int end)
+		{
+			string elemento;
+			if(pos > end)
+				return "";
+
+			int b = pos;
+			//se for uma string
+			if (array[pos] == '\'' || array[pos] == '\"')
+			{
+				int e = finalString(array, b, end);
+
+			}
+			else
+			{
+				//busca o final do elemento
+				while (pos < end)
+				{
+					if (array[pos] == ',')
+						break;
+					pos++;
+				}
+				elemento = new string(array.ToCharArray(), b, pos - b);
+
+			}
+			return elemento;
 		}
 	}
 }
