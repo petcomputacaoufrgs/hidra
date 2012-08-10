@@ -21,6 +21,7 @@ namespace Montador
 			this.tipos = new Gramatica.Tipos[preprocessado.Length];
 			this.subTipos = new Gramatica.SubTipos[preprocessado.Length];
 			this.nomes = new string[preprocessado.Length];
+
 			this.enderecamento = new List<byte[]>();
 
 			this.linhaFonte = nlinha;

@@ -299,6 +299,7 @@ namespace Montador
 				}
 				else
 				{
+					nome = linha.preprocessado[i];
 					//se nao for um numero, verifica se eh alguma palavra conhecida
 					tipo = linguagem.identificaTipo(palavra, ref nome, ref end);			
 
@@ -766,7 +767,7 @@ namespace Montador
 		public string proximoElemento(string array, ref int pos, int end)
 		{
 			string elemento;
-			if(pos > end)
+			if(pos > end || pos>=array.Length)
 				return "";
 
 			if (array[pos] == ',')
@@ -774,7 +775,7 @@ namespace Montador
 			int b = pos;
 			pos = finalString(array,pos,end);
 			
-			while (pos < end)
+			while (pos <= end)
 			{
 				if (array[pos] == ',')
 					break;

@@ -249,7 +249,7 @@ namespace Montador
 				Console.Write("\n");
 
 				foreach (string s in linha.nomes)
-					Console.Write(s + " ");
+					Console.Write(s + "|");
 				Console.Write("\n");
 
 				foreach (int t in linha.tipos)
@@ -279,15 +279,22 @@ namespace Montador
 			for (int i = 0; i < tamanho; i++)
 				mem[i] = 0;
 			Stack<Pendencia> pendencias = new Stack<Pendencia>();
+			Console.WriteLine("PendSize:{0}", pendencias.Count);
 			int pos = 0;
 			int lnum = 0;
 			foreach (Linha l in this.linhas)
 			{
+				Console.WriteLine(String.Format("L[0]:{0}",l.preprocessado[0]));
 				int i = 0;
 				if (l.tipos[0] == Gramatica.Tipos.DEFLABEL)
 				{
 					this.defs.atribuiDef(l.preprocessado[0], pos);
 					i++;
+				}
+				if (i >= l.preprocessado.Length)
+				{
+					lnum++;
+					continue;
 				}
 				if (l.tipos[i] == Gramatica.Tipos.INSTRUCAO)
 				{
@@ -303,13 +310,25 @@ namespace Montador
 				}
 				lnum++;
 			}
-
+			Console.WriteLine("PendSize:{0}",pendencias.Count);
 			foreach (Pendencia p in pendencias)
 			{
+				Console.WriteLine(String.Format("Pend:{0}\tL:{1}",p.nome,p.nlinha));
+				Estado estado = Estado.OK;
 				pos = p.nbyte;
 				Linha l = this.linhas[p.nlinha];
-				byte[] end = converteByteArray(p.nome,);
+				byte[] end = converteByteArray(p.nome,p.tamanho,Gramatica.SubTipos.LABEL,ref estado);
+				if (estado == Estado.TRUNCADO)
+				{
+					saida.errorOut(Escritor.Message.TruncatedValue,p.nlinha,p.nome,end.Length,p.tamanho);
+				}
+				for (int b = 0; b < p.tamanho; b++)
+				{
+					mem[pos++] = end[b];
+				}
 			}
+
+			return mem;
 		}
 
 		/**
@@ -337,7 +356,7 @@ namespace Montador
 					Gramatica gram = new Gramatica();
 					end = converteByteArray(linha.nomes[i + 1], linguagem.tamanhoEndereco, linha.subTipos[i + 1], ref estado);
 					pos = gram.arrayParaInteiro(end, linguagem.endianess);
-					break;
+					return memoria;
 				case "DB":
 					array = false;
 					size = 1;
@@ -361,16 +380,17 @@ namespace Montador
 				{
 					Gramatica gram = new Gramatica();
 					int p = 0;
-					int max = linha.nomes[i].Length;
+					int max = linha.nomes[i].Length-1;
 					string el = gram.proximoElemento(linha.nomes[i], ref p, max);
 					while (el != "")
 					{
+						Console.WriteLine(String.Format("El:{0}\tT:{1}",el,el.Length));
 						Gramatica.SubTipos subt = gram.identificaSubTipo(el);
 						end = converteByteArray(el, size, subt, ref estado);
 
 						if (estado == Estado.INDEFINIDO)
 						{
-							pendencias.Push(new Pendencia(el, linha.linhaFonte, pos + memoria.Count));
+							pendencias.Push(new Pendencia(el, linha.linhaFonte,size, pos + memoria.Count));
 							//reserva espaco
 							for (int j = 0; j < size; j++)
 								memoria.Add(0);
@@ -391,7 +411,7 @@ namespace Montador
 					
 					if (estado == Estado.INDEFINIDO)
 					{
-						pendencias.Push(new Pendencia(linha.nomes[i], lnum, pos + memoria.Count));
+						pendencias.Push(new Pendencia(linha.nomes[i], lnum,size, pos + memoria.Count));
 						//reserva espaco
 						for (int j = 0; j < size; j++)
 							memoria.Add(0);
@@ -481,7 +501,11 @@ namespace Montador
 					}
 					else
 					{
-						pendencias.Push(new Pendencia(linha.nomes[i], lnum, memoria.Count + pos));
+						Console.Write(String.Format("{0}Nomes:\n",linha.nomes.Length));
+						foreach (string s in linha.nomes)
+							Console.Write(s + "\n");
+						Console.Write("\n");
+						pendencias.Push(new Pendencia(linha.nomes[k], lnum,linguagem.tamanhoEndereco, memoria.Count + pos));
 						//reserva o espaco para o endereco
 						for (int j = 0; j < linguagem.tamanhoEndereco; j++)
 							memoria.Add(0);

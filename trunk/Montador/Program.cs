@@ -74,6 +74,7 @@ namespace Montador
 			//code.print();
 
 			code.defs.verificaLabels(esc);
+			code.print();
 
 			byte[] binario;
 
