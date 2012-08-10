@@ -769,25 +769,19 @@ namespace Montador
 			if(pos > end)
 				return "";
 
+			if (array[pos] == ',')
+				pos++;
 			int b = pos;
-			//se for uma string
-			if (array[pos] == '\'' || array[pos] == '\"')
+			pos = finalString(array,pos,end);
+			
+			while (pos < end)
 			{
-				int e = finalString(array, b, end);
-
+				if (array[pos] == ',')
+					break;
+				pos++;
 			}
-			else
-			{
-				//busca o final do elemento
-				while (pos < end)
-				{
-					if (array[pos] == ',')
-						break;
-					pos++;
-				}
-				elemento = new string(array.ToCharArray(), b, pos - b);
-
-			}
+			elemento = new string(array.ToCharArray(), b, pos - b);
+			
 			return elemento;
 		}
 	}
