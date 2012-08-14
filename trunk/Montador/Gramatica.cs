@@ -742,7 +742,7 @@ namespace Montador
 				if (escape == false)
 				{
 					if (palavra[begin] == final)
-						break;
+						return begin;
 					else if (palavra[begin] == '\\')
 						escape = true;
 				}
@@ -753,7 +753,7 @@ namespace Montador
 				begin++;
 			}
 
-			return begin;
+			return -1;
 		}
 
 		/*
@@ -774,13 +774,17 @@ namespace Montador
 				pos++;
 			int b = pos;
 			pos = finalString(array,pos,end);
-			
+			if (pos == -1)
+				return "";
+			Console.WriteLine(array);
+			Console.WriteLine(String.Format("Pos:{0}  b:{1}  end:{2}", pos, b,end));
 			while (pos <= end)
 			{
 				if (array[pos] == ',')
 					break;
 				pos++;
 			}
+			Console.WriteLine(String.Format("Pos:{0}  b:{1}  end:{2}", pos, b, end));
 			elemento = new string(array.ToCharArray(), b, pos - b);
 			
 			return elemento;

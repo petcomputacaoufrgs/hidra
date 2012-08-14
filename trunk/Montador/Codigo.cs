@@ -34,6 +34,7 @@ namespace Montador
 			bool copia = false;
 			int p = 0;
 			char final = '\'';
+			char anterior = ' ';
 			char[] parsed = new char[linha.Length + 1];
 
 			int prev = 0; //indice do inicio do elemento
@@ -57,7 +58,7 @@ namespace Montador
 							if (p - prev > 0)
 								elem.Add(new string(parsed, prev, p - prev));
 							prev = p;
-							espaco = true;
+							espaco = false;
 						}
 					}
 					else
@@ -67,6 +68,16 @@ namespace Montador
 				}
 				else
 				{
+					if (c == ' ' || c == '\t')
+					{
+						do
+						{
+							i++;
+							c = linha[i];
+						} while ((c == ' ' || c == '\t') && i < linha.Length-1);
+
+
+					}
 					//se for um espaco, verifica se ele deve ser copiado ou removido
 					if (c == ' ' || c == '\t')
 					{
@@ -75,16 +86,19 @@ namespace Montador
 						{
 							if (p - prev > 0)
 								elem.Add(new string(parsed, prev, p - prev));
-							parsed[p++] = ' ';
+							anterior = ' ';
+							espaco = true;
 						}
-						espaco = true;
 					}
 					//se for o início de uma string
 					else
 					{
 						//se estavamos copiando espacos e paramos, aqui eh o inicio de um novo elemento
 						if (espaco)
+						{
+							parsed[p++] = anterior;
 							prev = p;
+						}
 						if (c == '\"' || c == '\'')
 						{
 							prev = p;
