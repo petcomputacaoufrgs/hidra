@@ -29,12 +29,12 @@ namespace Montador
 			//verifica se ha strings no meio da linha
 			Stringer parser = new Stringer();
 			char c;
-			bool espaco = true;
+			bool espaco = false;
 			bool escape = false; //se o caractere anterior era de escape
 			bool copia = false;
 			int p = 0;
 			char final = '\'';
-			char anterior = ' ';
+			bool unir = false;
 			char[] parsed = new char[linha.Length + 1];
 
 			int prev = 0; //indice do inicio do elemento
@@ -55,9 +55,9 @@ namespace Montador
 						if (c == final)
 						{
 							copia = false;
-							if (p - prev > 0)
+							/*if (p - prev > 0)
 								elem.Add(new string(parsed, prev, p - prev));
-							prev = p;
+							prev = p;*/
 							espaco = false;
 						}
 					}
@@ -68,55 +68,66 @@ namespace Montador
 				}
 				else
 				{
-					if (c == ' ' || c == '\t')
+					unir = false;
+					while (c == ' ' || c == '\t' && i<linha.Length-1)
 					{
-						do
+						espaco = true;
+						while ((c == ' ' || c == '\t') && (i < linha.Length-1))
 						{
 							i++;
 							c = linha[i];
-						} while ((c == ' ' || c == '\t') && i < linha.Length-1);
-
-
-					}
-					//se for um espaco, verifica se ele deve ser copiado ou removido
-					if (c == ' ' || c == '\t')
-					{
-						//se o anterior nao era um espaco, copia
-						if (!espaco)
+						}
+						if (c == ':')
 						{
-							if (p - prev > 0)
+							parsed[p++] = c;
+							if(p - prev > 0)
 								elem.Add(new string(parsed, prev, p - prev));
-							anterior = ' ';
-							espaco = true;
+							prev = p;
+						}
+						else if (c == ',')
+						{
+							unir = true;
+							parsed[p++] = c;
+							i++;
+							if (i < linha.Length)
+							{
+								c = linha[i];
+							}
+						}
+						else
+						{
+							if (!unir)
+							{
+								if (p - prev > 0)
+									elem.Add(new string(parsed, prev, p - prev));
+								prev = p;
+								parsed[p++] = Char.ToUpper(c);
+							}
+							else
+							{
+								parsed[p++] = Char.ToUpper(c);
+								unir = false;
+							}
 						}
 					}
 					//se for o início de uma string
-					else
+					if (c == '\"' || c == '\'')
 					{
-						//se estavamos copiando espacos e paramos, aqui eh o inicio de um novo elemento
-						if (espaco)
-						{
-							parsed[p++] = anterior;
-							prev = p;
-						}
-						if (c == '\"' || c == '\'')
-						{
-							prev = p;
-							copia = true;
-							espaco = false;
-							parsed[p++] = c;
-							final = c;
-						}
-
-						//se for um comentario, remove
-						else if (c == ';')
-							break;
-						else
-						{
-							espaco = false;
-							parsed[p++] = Char.ToUpper(c);
-						}
+						prev = p;
+						copia = true;
+						espaco = false;
+						parsed[p++] = c;
+						final = c;
 					}
+					//se for um comentario, remove
+					else if (c == ';')
+						break;
+					else if (!espaco)
+					{
+						parsed[p++] = Char.ToUpper(c);
+					}
+					else
+						espaco = false;
 				}
 			}
 
@@ -129,7 +140,7 @@ namespace Montador
 			{
 				if (elem[i].Length > 0)
 				{
-					//Console.WriteLine("(" +elem[i] + ")");
+					Console.WriteLine("(" +elem[i] + ")");
 					result[i] = elem[i];
 				}
 			}
