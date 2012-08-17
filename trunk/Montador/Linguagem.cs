@@ -134,8 +134,11 @@ namespace Montador
 				return Gramatica.Tipos.INSTRUCAO;
 			if (end.identifica(palavra,this.enderecamentos,ref nome,ref enderecamento) >= 0)
 				return Gramatica.Tipos.ENDERECO;
+			if(gram.ehDefLabel(palavra,0,palavra.Length-1))
+				return Gramatica.Tipos.DEFLABEL;
 			if (gram.ehArray(palavra))
 				return Gramatica.Tipos.ENDERECO;
+			Console.WriteLine(String.Format("Pal:{0}",palavra));
 
 			return Gramatica.Tipos.INVALIDO;
 		}

@@ -18,7 +18,6 @@ namespace Montador
 		static void Main(string[] args)
 		{
 			DateTime t0 = DateTime.Now;
-			Dados dados = new Dados();
 			Gramatica gram = new Gramatica();
 
 			Escritor esc = new Escritor();
@@ -30,29 +29,12 @@ namespace Montador
 				Console.WriteLine("montador <codigo_fonte> <destino> <maquina>");
 				return;
 			}
-			int i, max;
-			Boolean achou = false;
 			string maquina = args[2].ToLower();
 			string saidaErro = args[1] + ".err";	//nome do arquivo para a saida de erro
 			string saidaMem = args[1] + ".mem";
 			esc.arquivo = saidaErro;
 			System.IO.File.Delete(saidaErro);
-			max = maquina.Length;
 
-			//verifica se a maquina recebida eh uma das maquinas disponiveis
-			for (i = 0; i < max && !achou; i++)
-			{
-				if (maquina == dados.maquinasDisponiveis[i])
-				{
-					achou = true;
-				}
-			}
-			//se a maquina nao foi encontrada, escreve um erro
-			if (!achou)
-			{
-				esc.errorOut(Escritor.Message.InvalidMachine, maquina);
-				return;
-			}
 			//carrega a gramatica para a maquina
 			gram.linguagem.carrega(maquina);
 			//gram.linguagem.print();
@@ -74,7 +56,7 @@ namespace Montador
 			//code.print();
 
 			code.defs.verificaLabels(esc);
-			code.print();
+			//code.print();
 
 			byte[] binario;
 
@@ -88,7 +70,7 @@ namespace Montador
 				}
 			}
 
-			code.print();
+			//code.print();
 		}
 	}
 }

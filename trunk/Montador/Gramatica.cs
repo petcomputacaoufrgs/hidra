@@ -286,11 +286,13 @@ namespace Montador
 
 			for (i = 0; i < linha.preprocessado.Length; i++)
 			{
-				byte[] end = new byte[1];
-				end[0] = 0;
+				byte[] end;
+				//enderecamento padrao
+				end = linguagem.enderecamentos[linguagem.enderecamentos.Count -1].codigo;
 
 				palavra = linha.preprocessado[i];
 				Gramatica.Tipos tipo;
+				Console.WriteLine(String.Format("Palavra:{0}",palavra));
 				if (ehNumero(palavra))
 				{
 					linha.tipos[i] = Tipos.ENDERECO;
@@ -319,23 +321,6 @@ namespace Montador
 								str.parse(palavra, 1, parsedArr, ref size);
 								linha.nomes[i] = new string(parsedArr,0,size);
 								nome = linha.nomes[i];
-							}
-							//se for uma string, verifica se existe um modo de enderecamento ao lado
-							if (linha.subTipos[i] == SubTipos.STRING && i + 1 < linha.preprocessado.Length)
-							{
-								//somente se a linha contiver uma instrucao sera testado algum modo de enderecamento
-								int k = 0;
-								if (linha.tipos[k] == Tipos.DEFLABEL)
-									k++;
-								if (linha.tipos[k] == Tipos.INSTRUCAO)
-								{
-									string none = null;
-									string ope = String.Concat(linha.preprocessado[i], linha.preprocessado[i + 1]);
-									if (linguagem.identificaTipo(ope, ref none, ref end) == Tipos.ENDERECO)
-									{
-										linha.enderecamento[i] = end;
-									}
-								}
 							}
 						}
 						linha.nomes[i] = nome;
@@ -371,6 +356,7 @@ namespace Montador
 							linha.tipos[i] = Tipos.INVALIDO;
 					}
 				}
+				Console.WriteLine(String.Format("End:{0}",end[0]));
 				linha.enderecamento.Add(end);
 			}//end for
 		}
@@ -549,6 +535,20 @@ namespace Montador
 		}
 
 		/*
+		 * verifica se a palavra eh a definicao de uma label
+		 */
+		public bool ehDefLabel(string palavra,int begin,int end)
+		{
+			if (begin >= end)
+				return false;
+			if (palavra[end] != ':')
+				return false;
+			if(ehLabel(palavra,begin,end-1))
+				return true;
+			return false;
+		}
+
+		/*
 		 * determina se a palavra eh uma definicao de string, ou seja
 		 * comeca por ' ou " e termina pelo mesmo caractere
 		 */
@@ -612,66 +612,36 @@ namespace Montador
 		//um elemento sozinho eh considerado um array
 		public bool ehArray(string palavra)
 		{
+			Console.WriteLine(String.Format("Pal:{0}",palavra));
 			int i = 0;
 			int b = 0;
-			char final;
+
 			while (i < palavra.Length)
 			{
 				//ignora espacos a esquerda
 				while (palavra[i] == ' ')
 					i++;
+				b = i;
 				//se for uma string, busca o final
 				if (palavra[i] == '\'' || palavra[i] == '\"')
 				{
-					final = palavra[i];
-					bool escape = false;
-					bool fim = false;
-					i++;
-					while (!fim && i < palavra.Length)
-					{
-						if (!escape)
-						{
-							//se for um caractere de escape
-							if (palavra[i] == '\\')
-								escape = true;
-							else if (palavra[i] == final)
-								fim = true;
-						}
-						else
-						{
-							escape = false;
-						}
-						i++;
-					}
-					//se o fim da string nao foi encontrado, entao a palavra eh invalida
-					if (!fim)
+					i = finalString(palavra, i, palavra.Length);
+					if (i == -1)
 						return false;
-					i++;
-					//busca o final da palavra ou uma virgula
-					//se for encontrado algum outro caractere, a palavra sera invalida
-					while (i < palavra.Length && palavra[i] != ',')
-					{
-						if (palavra[i] != ' ')
-							return false;
-						i++;
-					}
-					i++;
+
 				}
-				//verifica se eh um numero ou uma label valida
-				else
+				//busca a virgula
+				while (i < palavra.Length)
 				{
-					b = i;
-					while (i < palavra.Length)
-					{
-						if (palavra[i] == ',')
-							break;
-						i++;
-					}
-					string el = new string(palavra.ToCharArray(), b, i - b);
-					if (!ehNumero(el) && !ehLabel(el))
-						return false;
+					if (palavra[i] == ',')
+						break;
 					i++;
 				}
+				Console.WriteLine(String.Format("B:{0}  i:{1}",b,i));
+				if (b == i)
+					return false;
+				i++;
+				
 			}
 			return true;
 		}
@@ -716,8 +686,12 @@ namespace Montador
 					valor = (byte)this.paraInteiro(numero, i - 7, i);
 					codigo[b] = valor;
 				}
+				if (i >= 0)
+				{
+					valor = (byte)this.paraInteiro(numero, 0, i);
+					codigo[0] = valor;
+				}
 			}
-
 			return codigo;
 		}
 

@@ -55,9 +55,6 @@ namespace Montador
 						if (c == final)
 						{
 							copia = false;
-							/*if (p - prev > 0)
-								elem.Add(new string(parsed, prev, p - prev));
-							prev = p;*/
 							espaco = false;
 						}
 					}
@@ -68,7 +65,6 @@ namespace Montador
 				}
 				else
 				{
-					unir = false;
 					while (c == ' ' || c == '\t' && i<linha.Length-1)
 					{
 						espaco = true;
@@ -83,10 +79,12 @@ namespace Montador
 							if(p - prev > 0)
 								elem.Add(new string(parsed, prev, p - prev));
 							prev = p;
+							unir = false;
 						}
 						else if (c == ',')
 						{
 							unir = true;
+							espaco = false;
 							parsed[p++] = c;
 							i++;
 							if (i < linha.Length)
@@ -94,18 +92,21 @@ namespace Montador
 								c = linha[i];
 							}
 						}
-						else
+						else if(c != ';')
 						{
 							if (!unir)
 							{
 								if (p - prev > 0)
 									elem.Add(new string(parsed, prev, p - prev));
 								prev = p;
-								parsed[p++] = Char.ToUpper(c);
+
+								if(c != '\'' && c!='\"')
+									parsed[p++] = Char.ToUpper(c);
 							}
 							else
 							{
-								parsed[p++] = Char.ToUpper(c);
+								if (c != '\'' && c != '\"')
+									parsed[p++] = Char.ToUpper(c);
 								unir = false;
 							}
 						}
@@ -113,7 +114,6 @@ namespace Montador
 					//se for o início de uma string
 					if (c == '\"' || c == '\'')
 					{
-						prev = p;
 						copia = true;
 						espaco = false;
 						parsed[p++] = c;
@@ -121,17 +121,20 @@ namespace Montador
 					}
 					//se for um comentario, remove
 					else if (c == ';')
-						break;
-					else if (!espaco)
 					{
-						parsed[p++] = Char.ToUpper(c);
+						espaco = false;
+						break;
 					}
+					else if (!espaco)
+						parsed[p++] = Char.ToUpper(c);
 					else
 						espaco = false;
+					if (c == ',')
+						unir = true;
 				}
 			}
 
-			if (!espaco)
+			if (!espaco && p - prev > 0)
 				elem.Add(new string(parsed, prev, p - prev));
 
 			string[] result = new string[elem.Count];
@@ -176,15 +179,6 @@ namespace Montador
 					linhaAtual++;
 				}
 			}
-
-			/*foreach (Linha l in this.linhas)
-			{
-				foreach (string w in l.preprocessado)
-				{
-					Console.Write(w + " ");
-				}
-				Console.Write("\n");
-			}*/
 		}
 
 		/**
@@ -224,10 +218,7 @@ namespace Montador
 			for (int j = 0; j < this.linhas.Count; j++)
 			{
 				Linha linha = this.linhas[j];
-				for (int i = 0; i < linha.preprocessado.Length; i++)
-				{
-					gram.identificaTipo(ref linha, gram);
-				}
+				gram.identificaTipo(ref linha, gram);
 			}
 		}
 
