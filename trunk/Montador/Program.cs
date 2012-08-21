@@ -37,26 +37,18 @@ namespace Montador
 
 			//carrega a gramatica para a maquina
 			gram.linguagem.carrega(maquina);
-			//gram.linguagem.print();
 
 			//le o codigo fonte
 			code.lerCodigo(args[0]);
-			//code.print();
 
-			//code.converteHexa();
 			code.identificaTipos(gram);
-			//code.print();
 
 			//verifica se as linhas sao validas para a maquina
 			if (code.ehValido(gram, esc) == false)
 			{
 				return;
 			}
-
-			//code.print();
-
 			code.defs.verificaLabels(esc);
-			//code.print();
 
 			byte[] binario;
 
@@ -69,8 +61,6 @@ namespace Montador
 					binWriter.Write(binario);
 				}
 			}
-
-			//code.print();
 		}
 	}
 }

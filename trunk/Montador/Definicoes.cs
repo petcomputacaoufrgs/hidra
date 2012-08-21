@@ -76,7 +76,7 @@ namespace Montador
 		public void atribuiDef(string label, int valor)
 		{
 			Label lab = this.labels.Find(o => o.nome == label);
-			if(lab != null)
+			if (lab != null)
 				lab.valor = valor;
 		}
 	}

@@ -143,7 +143,6 @@ namespace Montador
 			{
 				if (elem[i].Length > 0)
 				{
-					Console.WriteLine("(" +elem[i] + ")");
 					result[i] = elem[i];
 				}
 			}
@@ -189,13 +188,6 @@ namespace Montador
 		public Boolean ehValido(Gramatica gramatica, Escritor saida)
 		{
 			this.identificaTipos(gramatica);
-			/*
-			for (int i = 0; i < this.linhas.Count; i++)
-			{
-				for (int j = 0; j < this.linhas[i].preprocessado.Length; j++)
-					Console.Write(this.linhas[i].preprocessado[j]+" ");
-				Console.WriteLine();
-			}*/
 
 			//verifica se os tipos de cada linha são validos
 			for (int i = 0; i < this.linhas.Count; i++)
@@ -250,8 +242,8 @@ namespace Montador
 			}
 		}
 		/*
-				 *	escreve o conteudo das linhas
-				 */
+		*	escreve o conteudo das linhas
+		*/
 		public void print()
 		{
 			Console.WriteLine("*******");
@@ -295,16 +287,14 @@ namespace Montador
 			for (int i = 0; i < tamanho; i++)
 				mem[i] = 0;
 			Stack<Pendencia> pendencias = new Stack<Pendencia>();
-			Console.WriteLine("PendSize:{0}", pendencias.Count);
 			int pos = 0;
 			int lnum = 0;
 			foreach (Linha l in this.linhas)
 			{
-				Console.WriteLine(String.Format("L[0]:{0}",l.preprocessado[0]));
 				int i = 0;
 				if (l.tipos[0] == Gramatica.Tipos.DEFLABEL)
 				{
-					this.defs.atribuiDef(l.preprocessado[0], pos);
+					this.defs.atribuiDef(l.nomes[0], pos);
 					i++;
 				}
 				if (i >= l.preprocessado.Length)
@@ -326,10 +316,8 @@ namespace Montador
 				}
 				lnum++;
 			}
-			Console.WriteLine("PendSize:{0}",pendencias.Count);
 			foreach (Pendencia p in pendencias)
 			{
-				Console.WriteLine(String.Format("Pend:{0}\tL:{1}",p.nome,p.nlinha));
 				Estado estado = Estado.OK;
 				pos = p.nbyte;
 				Linha l = this.linhas[p.nlinha];
@@ -398,10 +386,18 @@ namespace Montador
 					int p = 0;
 					int max = linha.nomes[i].Length-1;
 					string el = gram.proximoElemento(linha.nomes[i], ref p, max);
+					
 					while (el != "")
 					{
-						Console.WriteLine(String.Format("El:{0}\tT:{1}",el,el.Length));
 						Gramatica.SubTipos subt = gram.identificaSubTipo(el);
+						if (subt == Gramatica.SubTipos.STRING)
+						{
+							char[] elemento = new char[el.Length];
+							int b = 0;
+							Stringer str = new Stringer();
+							str.parse(el, 1, elemento, ref b);
+							el = new string(elemento, 0, b);
+						}
 						end = converteByteArray(el, size, subt, ref estado);
 
 						if (estado == Estado.INDEFINIDO)
@@ -477,10 +473,6 @@ namespace Montador
 				i = 0;
 
 			inst = linguagem.instrucoes.Find(o => o.mnemonico == linha.preprocessado[i]);
-			/*Console.WriteLine("Inst:" + inst.mnemonico);
-			foreach (byte ba in inst.codigo)
-				Console.Write(ba + " ");
-			Console.WriteLine("");*/
 
 			//determina a codificacao dos registradores e dos enderecos
 			regMask = mascaraRegistradores(linha, linguagem);
@@ -499,11 +491,6 @@ namespace Montador
 				{
 					endereco = this.converteByteArray(linha.nomes[k], linguagem.tamanhoEndereco, linha.subTipos[k], ref estado);
 
-					Console.WriteLine("Endereco:" + estado);
-					foreach (byte e in endereco)
-						Console.Write(e + " ");
-					Console.WriteLine("");
-
 					if (estado != Estado.INDEFINIDO)
 					{
 						if (estado == Estado.TRUNCADO)
@@ -511,16 +498,11 @@ namespace Montador
 						//escreve o endereco
 						for (int j = 0; j < linguagem.tamanhoEndereco && j < endereco.Length; j++)
 						{
-							Console.WriteLine("End:" + endereco[j]);
 							memoria.Add(endereco[j]);
 						}
 					}
 					else
 					{
-						Console.Write(String.Format("{0}Nomes:\n",linha.nomes.Length));
-						foreach (string s in linha.nomes)
-							Console.Write(s + "\n");
-						Console.Write("\n");
 						pendencias.Push(new Pendencia(linha.nomes[k], lnum,linguagem.tamanhoEndereco, memoria.Count + pos));
 						//reserva o espaco para o endereco
 						for (int j = 0; j < linguagem.tamanhoEndereco; j++)
@@ -564,8 +546,6 @@ namespace Montador
 			byte[] vetor = new byte[1];
 			estado = Estado.OK;
 
-			Console.WriteLine(String.Format("Operando:{0}\tSubtipo:{1}",endereco,subtipo));
-
 			switch (subtipo)
 			{
 
@@ -579,7 +559,6 @@ namespace Montador
 									
 				case Gramatica.SubTipos.LABEL:
 					Label label = this.defs.labels.Find(o => o.nome == endereco);
-					Console.WriteLine(String.Format("Endereco:{0}",endereco));
 					if (label.valor >= 0)
 						vetor = gram.num2byteArray(label.valor, tamanho, ref estado);
 					else
@@ -627,19 +606,19 @@ namespace Montador
 		{
 			byte[] mascara = new byte[linha.bytes];
 
-			//se nenhum modo de enderecamento foi utilizado, zera a mascara
-			if (linha.enderecamento.Count == 0)
-				for (int i = 0; i < mascara.Length; i++)
-				{
-					mascara[i] = 0;
-				}
-			else
+			//zera a mascara
+			for (int i = 0; i < mascara.Length; i++)
 			{
-				for (int i = 0; i < mascara.Length; i++)
+				mascara[i] = 0;
+			}
+			for (int j = 0; j < linha.enderecamento.Count;j++ )
+			{
+				for (int i = 0; i < mascara.Length && i<linha.enderecamento[j].Length; i++)
 				{
-					mascara[i] = linha.enderecamento[0][i];
+					mascara[i] |= linha.enderecamento[j][i];
 				}
 			}
+			
 			return mascara;
 		}
 	}

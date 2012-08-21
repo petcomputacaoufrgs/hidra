@@ -283,16 +283,14 @@ namespace Montador
 			int i = 0;
 			string palavra;
 			string nome = "";
-
 			for (i = 0; i < linha.preprocessado.Length; i++)
 			{
 				byte[] end;
 				//enderecamento padrao
-				end = linguagem.enderecamentos[linguagem.enderecamentos.Count -1].codigo;
+				end = (byte[])linguagem.enderecamentos[linguagem.enderecamentos.Count -1].codigo.Clone();
 
 				palavra = linha.preprocessado[i];
 				Gramatica.Tipos tipo;
-				Console.WriteLine(String.Format("Palavra:{0}",palavra));
 				if (ehNumero(palavra))
 				{
 					linha.tipos[i] = Tipos.ENDERECO;
@@ -356,7 +354,6 @@ namespace Montador
 							linha.tipos[i] = Tipos.INVALIDO;
 					}
 				}
-				Console.WriteLine(String.Format("End:{0}",end[0]));
 				linha.enderecamento.Add(end);
 			}//end for
 		}
@@ -536,15 +533,19 @@ namespace Montador
 
 		/*
 		 * verifica se a palavra eh a definicao de uma label
+		 * se for, escreve seu nome sem ':' em nome
 		 */
-		public bool ehDefLabel(string palavra,int begin,int end)
+		public bool ehDefLabel(string palavra,int begin,int end,ref string nome)
 		{
 			if (begin >= end)
 				return false;
 			if (palavra[end] != ':')
 				return false;
-			if(ehLabel(palavra,begin,end-1))
+			if (ehLabel(palavra, begin, end - 1))
+			{
+				nome = new string(palavra.ToCharArray(),begin,end-begin);
 				return true;
+			}
 			return false;
 		}
 
@@ -612,7 +613,6 @@ namespace Montador
 		//um elemento sozinho eh considerado um array
 		public bool ehArray(string palavra)
 		{
-			Console.WriteLine(String.Format("Pal:{0}",palavra));
 			int i = 0;
 			int b = 0;
 
@@ -637,7 +637,6 @@ namespace Montador
 						break;
 					i++;
 				}
-				Console.WriteLine(String.Format("B:{0}  i:{1}",b,i));
 				if (b == i)
 					return false;
 				i++;
@@ -711,7 +710,7 @@ namespace Montador
 
 			begin++;
 			bool escape = false;
-			while (begin < end)
+			while (begin <= end)
 			{
 				if (escape == false)
 				{
@@ -741,8 +740,9 @@ namespace Montador
 		public string proximoElemento(string array, ref int pos, int end)
 		{
 			string elemento;
-			if(pos > end || pos>=array.Length)
+			if (pos > end || pos >= array.Length)
 				return "";
+			
 
 			if (array[pos] == ',')
 				pos++;
@@ -750,15 +750,13 @@ namespace Montador
 			pos = finalString(array,pos,end);
 			if (pos == -1)
 				return "";
-			Console.WriteLine(array);
-			Console.WriteLine(String.Format("Pos:{0}  b:{1}  end:{2}", pos, b,end));
+			
 			while (pos <= end)
 			{
 				if (array[pos] == ',')
 					break;
 				pos++;
 			}
-			Console.WriteLine(String.Format("Pos:{0}  b:{1}  end:{2}", pos, b, end));
 			elemento = new string(array.ToCharArray(), b, pos - b);
 			
 			return elemento;

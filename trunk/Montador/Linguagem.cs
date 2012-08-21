@@ -90,7 +90,6 @@ namespace Montador
 					this.enderecamentos.Add(new Enderecamento(words[1].ToUpper(), gram.leCodigo(words[0])));
 				}
 			}
-
 			//determina as caracteristicas da maquina
 			using (StreamReader file = new StreamReader(arquivo + "/maq.txt"))
 			{
@@ -134,11 +133,10 @@ namespace Montador
 				return Gramatica.Tipos.INSTRUCAO;
 			if (end.identifica(palavra,this.enderecamentos,ref nome,ref enderecamento) >= 0)
 				return Gramatica.Tipos.ENDERECO;
-			if(gram.ehDefLabel(palavra,0,palavra.Length-1))
+			if(gram.ehDefLabel(palavra,0,palavra.Length-1,ref nome))
 				return Gramatica.Tipos.DEFLABEL;
 			if (gram.ehArray(palavra))
 				return Gramatica.Tipos.ENDERECO;
-			Console.WriteLine(String.Format("Pal:{0}",palavra));
 
 			return Gramatica.Tipos.INVALIDO;
 		}
