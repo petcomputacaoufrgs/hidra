@@ -77,7 +77,7 @@ namespace Montador
 				while ((linha = file.ReadLine()) != null)
 				{
 					words = linha.Split(space);
-					this.registradores.Add(new Registrador(words[1].ToUpper(), gram.leCodigo(words[0])));
+					this.registradores.Add(new Registrador(words[1].ToUpper(), gram.leCodigo(words[0]),gram.paraInteiro(words[2])));
 				}
 			}
 
@@ -120,7 +120,7 @@ namespace Montador
 		 * se for um enderecamento, escreve em nome o nome do endereco ou registrador encontrado e em enderecamento,
 		 * o codigo do modo utilizado
 		 */
-		public Gramatica.Tipos identificaTipo(string palavra,ref string nome, ref byte[] enderecamento)
+		public Gramatica.Tipos identificaTipo(string palavra,ref string nome, ref byte[] enderecamento, ref Gramatica.SubTipos subt)
 		{
 			Enderecamento end = new Enderecamento();
 			Gramatica gram = new Gramatica();
@@ -131,7 +131,7 @@ namespace Montador
 				return Gramatica.Tipos.REGISTRADOR;
 			if (this.instrucoes.FindIndex(o => o.mnemonico == palavra) >= 0)
 				return Gramatica.Tipos.INSTRUCAO;
-			if (end.identifica(palavra,this.enderecamentos,ref nome,ref enderecamento) >= 0)
+			if (end.identifica(palavra,this.enderecamentos,ref nome,ref enderecamento,ref subt) >= 0)
 				return Gramatica.Tipos.ENDERECO;
 			if(gram.ehDefLabel(palavra,0,palavra.Length-1,ref nome))
 				return Gramatica.Tipos.DEFLABEL;

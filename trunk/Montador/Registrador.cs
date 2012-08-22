@@ -10,11 +10,13 @@ namespace Montador
 
 		public string nome;
 		public byte[] codigo;
+		public int bits;
 
-		public Registrador(string nome, byte[] codigo)
+		public Registrador(string nome, byte[] codigo,int bits)
 		{
 			this.nome = nome;
 			this.codigo = codigo;
+			this.bits = bits;
 		}
 
 		public Registrador() 

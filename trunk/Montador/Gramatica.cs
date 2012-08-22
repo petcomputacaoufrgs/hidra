@@ -300,8 +300,9 @@ namespace Montador
 				else
 				{
 					nome = linha.preprocessado[i];
+					Gramatica.SubTipos subt = Gramatica.SubTipos.NONE;
 					//se nao for um numero, verifica se eh alguma palavra conhecida
-					tipo = linguagem.identificaTipo(palavra, ref nome, ref end);			
+					tipo = linguagem.identificaTipo(palavra, ref nome, ref end,ref subt);
 
 					if (tipo != Tipos.INVALIDO)
 					{
@@ -309,7 +310,10 @@ namespace Montador
 						//se for um endereco, determina o subtipo
 						if (tipo == Tipos.ENDERECO)
 						{
-							linha.subTipos[i] = identificaSubTipo(nome);
+							if(subt == Gramatica.SubTipos.NONE)
+								linha.subTipos[i] = identificaSubTipo(nome);
+							else
+								linha.subTipos[i] = subt;
 							if (linha.subTipos[i] == SubTipos.STRING)
 							{
 								Stringer str = new Stringer();
@@ -411,7 +415,7 @@ namespace Montador
 					}
 					else if (linha.tipos[i] == Tipos.ENDERECO)
 					{
-						if (ehLabel(linha.preprocessado[i]))
+						if(linha.subTipos[i] == Gramatica.SubTipos.LABEL)
 						{
 							defs.adicionaRef(linha.preprocessado[i], linha.linhaFonte);
 						}

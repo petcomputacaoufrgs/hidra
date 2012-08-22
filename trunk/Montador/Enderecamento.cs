@@ -29,7 +29,7 @@ namespace Montador
 		 * escreve o nome do endereco ou registrador em endereco e o respectivo codigo se algum enderecamento for satisfeito,
 		 * nao altera caso nao tenha sido encontrado nenhum enderecamento adequado
 		 */
-		public int identifica(string palavra, List<Enderecamento> lista, ref string endereco,ref byte[] enderecamento)
+		public int identifica(string palavra, List<Enderecamento> lista, ref string endereco,ref byte[] enderecamento,ref Gramatica.SubTipos subt)
 		{
 			Gramatica gram = new Gramatica();
 			int pos;
@@ -73,8 +73,17 @@ namespace Montador
 				{
 					if (endereco != null)
 					{
-						endereco = new String(palavra.ToCharArray(), l, pr - l + 1);						
-						if (gram.ehLabel(endereco) || gram.ehNumero(endereco) || gram.ehString(endereco))
+						endereco = new String(palavra.ToCharArray(), l, pr - l + 1);
+
+						subt = Gramatica.SubTipos.NONE;
+						if (gram.ehLabel(endereco))
+							subt = Gramatica.SubTipos.LABEL;
+						else if(gram.ehNumero(endereco))
+							subt = Gramatica.SubTipos.NUMERO;
+						else if(gram.ehString(endereco))
+							subt = Gramatica.SubTipos.STRING;
+						
+						if (subt != Gramatica.SubTipos.NONE)
 						{
 							if (enderecamento.Length < end.codigo.Length)
 							{
@@ -82,7 +91,6 @@ namespace Montador
 							}
 							for (int k = end.codigo.Length - 1, e = enderecamento.Length - 1; k >= 0; k--, e--)
 								enderecamento[e] |= end.codigo[k];
-
 							return pos;
 						}
 					}
