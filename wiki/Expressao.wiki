@@ -1,0 +1,13 @@
+#summary Definição de uma expressão
+
+= Definição =
+
+Uma expressão identifica um padrão de forma similar a uma expressão regular. São usados os símbolos:
+ * r - registrador
+ * n - endereço numérico
+ * l - label
+ * e - n ou l
+ * `*` - qualquer um dos acima
+ * \ - caractere de escape
+
+Ao ler uma expressão, espaços entre os caracteres são ignorados. Por isso, uma expressão não pode conter espaços.
