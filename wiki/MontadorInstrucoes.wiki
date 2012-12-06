@@ -1,0 +1,28 @@
+#summary Descrição do arquivo de instruções usado pelo montador.
+#labels Phase-Implementation
+
+= Função =
+
+O arquivo deve determinar qual o mnemônico, formato, modos de endereçamento e registradores possíveis para cada instrução.
+
+= Formato =
+
+{{{
+<código> <mnemônico> <formato assembly> <endereçamento0,...> <[registrador0,...] / -> <formato binário> 
+}}}
+
+onde:
+ * <código> : [Numero número] do código da instrução
+ * <mnemônico> : qualquer sequência dos caracteres a-z e A-Z (case insensitive)
+ * <formato assembly> : [Expressao Expressão] que indica como a instrução deve ser escrita em assembly
+ * <endereçamento0,...> : quais modos de [MontadorEnderecamento endereçamento] podem ser usados com essa instrução
+ * <registrador0,...> : quais [MontadorRegistrador registradores] podem ser usados por essa instrução. Se for informado um "-", então nenhum registrador pode ser usado
+ * <formato binário> : como que a instrução é montada. São usados os símbolos:
+  * e : endereço (colocados na ordem em que aparecem)
+  * i : código da instrução (apenas 1 por instrução)
+  * m : modo de endereçamento (colocados na ordem em que aparecem
+  * r : código do registrador (são colocados na ordem em que aparecem)
+  * 0 : bit 0
+
+Exemplo (Neander):
+0011b ADD e d,i - i000me
