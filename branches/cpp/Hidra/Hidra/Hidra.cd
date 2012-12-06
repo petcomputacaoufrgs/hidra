@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="Hidra.Simulator">
+    <Position X="3.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Simulator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hidra.Simulators.Reg">
+    <Position X="0.5" Y="2.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAAAAAIAAAAAAAAAAAIAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Simulators\Reg.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hidra.Simulators.Neander">
+    <Position X="3.5" Y="4.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAEAAAAAAAAAAAAAAAAAAgAAAAAQAAAAA=</HashCode>
+      <FileName>Simulators\Neander.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hidra.Simulators.Queops">
+    <Position X="5.75" Y="5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Simulators\Queops.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hidra.Simulators.Cromag">
+    <Position X="5.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Simulators\Cromag.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hidra.Simulators.PitAhmes">
+    <Position X="3.5" Y="10.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAMAAgAAAAAAAAAAAAAAAAAAAAAAAABAAAAIAA=</HashCode>
+      <FileName>Simulators\PitAhmes.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hidra.Simulators.Pitagoras">
+    <Position X="4.75" Y="12.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Simulators\Pitagoras.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hidra.Simulators.Ahmes">
+    <Position X="2.25" Y="12.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAIAAAQAAAAgAAAAAAAIAAAAAAAAAAE=</HashCode>
+      <FileName>Simulators\Ahmes.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hidra.Simulators.PeriPitAhmes">
+    <Position X="5.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Simulators\PeriPitAhmes.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hidra.Simulators.RamsesPericles">
+    <Position X="5.75" Y="10.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>Simulators\RamsesPericles.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hidra.Simulators.VoltaNeader">
+    <Position X="3.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAIAAAAAAgAAAAAAAAAAAAAAACAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>Simulators\VoltaNeader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Hidra.Simulators.Volta">
+    <Position X="0.5" Y="4.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAEACgACABBIAACQABAAACAICAEAAgFAABAKEA=</HashCode>
+      <FileName>Simulators\Volta.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="Hidra.Instructions" Collapsed="true">
+    <Position X="6" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAIEEgACCCGswAAIDASAAAAIlIIAAAAEAAAABANCA=</HashCode>
+      <FileName>Instructions.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
