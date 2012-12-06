@@ -12,7 +12,7 @@ O arquivo deve determinar qual o mnemônico, formato, modos de endereçamento e 
 }}}
 
 onde:
- * <código> : [Numero número] do código da instrução
+ * <código> : [Numeros número] do código da instrução
  * <mnemônico> : qualquer sequência dos caracteres a-z e A-Z (case insensitive)
  * <formato assembly> : [Expressao Expressão] que indica como a instrução deve ser escrita em assembly
  * <endereçamento0,...> : quais modos de [MontadorEnderecamento endereçamento] podem ser usados com essa instrução
