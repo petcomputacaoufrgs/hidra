@@ -12,19 +12,13 @@ Descreve os modos de endereçamento de cada máquina, como o formato pelo qual �
 onde:
  * <nome> : nome do modo de endereçamento (usado internamente). Pode ser qualquer sequência de caracteres a-z e A-Z
  * [=/-] : (Default: =) Determina se o valor do endereço deve ser calculado em relação ao PC ou não. "=" indica que deve ser simplesmente copiado, "-" que é relativo ao PC.
- * <código binário>: [WikiSyntax Número]
- * `<`identificador>: Expressão que identifica o modo de endereçamento. São usados os símbolos (exceto o de escape, apenas um pode aparecer por expressão):
-  * r : registrador
-  * n : endereço numérico
-  * l : label
-  * e : endereço numérico ou label
-  * `*` : qualquer um dos acima
-  * \ : caractere de escape
+ * <código binário>: [Numeros Número]
+ * `<`identificador>: [Expressao Expressão] que identifica o modo de endereçamento. Somente um registrador ou endereço pode aparecer por expressão. 
 
 Exemplo:
 Modo indireto, Neander
 {{{
-= 0 e,i
+i = 0 e,i
 }}}
 Identificará:
 ADD 128,i
