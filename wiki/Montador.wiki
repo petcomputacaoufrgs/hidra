@@ -12,4 +12,4 @@ Para a descrição das máquinas, são usados os seguintes arquivos:
  * [MontadorEnderecamentos Endereçamentos]
  * [MontadorInstrucoes Instruções]
  * [MontadorMaquina Máquina]
- * [MontadorRegistradores Registradores]
+ * [MontadorRegistrador Registradores]
