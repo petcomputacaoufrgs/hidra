@@ -6,13 +6,13 @@ BIN = bin
 OBJECTS = $(OBJ)/main.o
 NAME = montador
 
-all: linuxRelease
+all: release
 
-linuxRelease: CFLAGS += -s -O3
-linuxRelease: montador
+release: CFLAGS += -s -O3
+release: montador
 
-linuxDebug: CFLAGS += -g
-linuxDebug: montador
+debug: CFLAGS += -g
+debug: montador
 
 montador: $(OBJECTS)
 	$(CC) $(CFLAGS) $(OBJECTS) -o $(BIN)/$(NAME)
