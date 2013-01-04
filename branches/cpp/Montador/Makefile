@@ -9,16 +9,13 @@ NAME = montador
 all: linuxRelease
 
 linuxRelease: CFLAGS += -s -O3
-linuxRelease: BIN = bin/linux/release
-linuxRelease: objs
-	#R
+linuxRelease: montador
+
 linuxDebug: CFLAGS += -g
 linuxDebug: montador
-	#D
-	#O $(OBJ)
+
 montador: $(OBJECTS)
-#	$(CC) $(CFLAGS) $(objects) -o $(BIN)/$(NAME)
-	#$(OBJECTS)
+	$(CC) $(CFLAGS) $(OBJECTS) -o $(BIN)/$(NAME)
 
 $(OBJ)/%.o: $(SRC)/%.cpp
 	$(CC) $(CFLAGS) $< -c -o $@
