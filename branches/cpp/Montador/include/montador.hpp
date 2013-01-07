@@ -1,6 +1,17 @@
 #ifndef MONTADOR_HPP
 #define MONTADOR_HPP
 
+#include <string>
+#include <stack>
+#include <list>
+
+using namespace std;
+
+typedef int Labels;
+typedef int Adressing;
+typedef int Machine;
+typedef int Registers;
+typedef int Instructions;
 
 class Montador
 {
@@ -10,6 +21,9 @@ class Montador
 	*	cria um montador, especificando quais sao as propriedades da maquina/arquiterua para qual os codigos serao montados
 	*/
 	Montador(Instructions *inst, Registers *reg, Machine *machine, Adressing *adr);
+
+	//dummy
+	Montador();
 
 	/**
 	*	monta o codigo assembly passado
@@ -42,7 +56,7 @@ class Montador
 	*/
 	int assembleLine(string line, char *memory,int byte, stack<int,string> pendencies,Labels labels);
 
-}
+};
 
 #endif // MONTADOR_HPP
 

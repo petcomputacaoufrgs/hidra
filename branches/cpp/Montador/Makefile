@@ -3,7 +3,7 @@ CFLAGS = -Wall -Wextra
 SRC = src
 OBJ = obj
 BIN = bin
-OBJECTS = $(OBJ)/main.o
+OBJECTS = $(OBJ)/main.o $(OBJ)/montador.hpp $(OBJ)/sha1.o
 NAME = montador
 
 all: release
