@@ -26,15 +26,18 @@ using namespace std;
 	* escreve em size o tamanho da memoria
 	* retorna a memoria gerada
 	*/
-	//char *Montador::assembleCode(string code,int *size);
+	char *Montador::assembleCode(string code,int *size)
+	{
+
+	}
 
 	/**
 	*	cria o arquivo binario para a memoria
 	* o arquivo tera o seguinte formato:
 	* primeiro byte: versao (0, no caso)
 	* nome da maquina, terminado por um '\0'
-	* SHA1 do resto do arquivo (20 bytes)
 	* dump da memoria (size bytes)
+	* SHA1 do resto do arquivo (20 bytes)
 	*/
 	void Montador::createBinaryV0(string filename,string machineName,char *memory, int size)
 	{
@@ -65,15 +68,18 @@ using namespace std;
 		unsigned int *sha = (unsigned int *)malloc(20);	//SHA1 = 160 bits = 20 bytes
 		shaCalc->Result(sha);
 
+		//faz um dump da memoria
+		fwrite(memory,1,size,fl);
+
 		//escreve o SHA1
 		fwrite(sha,1,20,fl);
 
-		//faz um dump da memoria
-		fwrite(memory,1,size,fl);
 		fclose(fl);
 		delete shaCalc;
 		free(cat);
 		free(sha);
+
+
 	}
 
 	/**
@@ -83,4 +89,7 @@ using namespace std;
 	* se for encontrada a definicao de uma label, acrescenta-a as Labels conhecidas
 	* retorna a posicao da memoria em que a proxima linha deve comecar
 	*/
-	//int Montador::assembleLine(string line, char *memory,int byte, stack<int,string> pendencies,Labels labels);
+	int Montador::assembleLine(string *line, char *memory,int byte)
+	{
+
+	}

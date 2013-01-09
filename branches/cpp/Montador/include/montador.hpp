@@ -46,6 +46,10 @@ class Montador
 
 	stack<int,string> *pendecies; //bytes em que ha labels pendentes
 	Labels *labels; //labels definidas
+	Instructions *inst;
+	Registers *regs;
+	Adressing *adr;
+	Machine *mach;
 
 	/**
 	*	monta uma linha, escrevendo seu codigo binario a partir de memory[byte]
