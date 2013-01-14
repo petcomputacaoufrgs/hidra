@@ -1,5 +1,5 @@
-#ifndef MONTADOR_HPP
-#define MONTADOR_HPP
+#ifndef ASSEMBLER_HPP
+#define ASSEMBLER_HPP
 
 #include <string>
 #include <stack>
@@ -7,23 +7,31 @@
 
 using namespace std;
 
+//dummy
 typedef int Labels;
 typedef int Adressing;
 typedef int Machine;
 typedef int Registers;
 typedef int Instructions;
 
-class Montador
+typedef enum {CAT_NONE,CAT_INST,CAT_ADDR,CAT_REGI} e_category;
+
+class Assembler
 {
 
 	public:
 	/**
 	*	cria um montador, especificando quais sao as propriedades da maquina/arquiterua para qual os codigos serao montados
 	*/
-	Montador(Instructions *inst, Registers *reg, Machine *machine, Adressing *adr);
+	Assembler(Instructions *inst, Registers *reg, Machine *machine, Adressing *adr);
+
+	/**
+	*	le as caracteristicas da arquitetura que estao no arquivo dado
+	*/
+	Assembler::Assembler(const char *filename);
 
 	//dummy
-	Montador();
+	Assembler();
 
 	/**
 	*	monta o codigo assembly passado
@@ -48,7 +56,7 @@ class Montador
 	Labels *labels; //labels definidas
 	Instructions *inst;
 	Registers *regs;
-	Adressing *adr;
+	Adressing *addr;
 	Machine *mach;
 
 	/**
@@ -62,5 +70,5 @@ class Montador
 
 };
 
-#endif // MONTADOR_HPP
+#endif // ASSEMBLER_HPP
 

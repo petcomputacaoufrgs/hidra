@@ -4,8 +4,8 @@ CFLAGS = -Wall -Wextra -g -I$(INCLUDE)
 SRC = ../../src
 OBJ = .
 BIN = .
-OBJECTS = $(OBJ)/numbers.o readNum.o
-NAME = readnum
+OBJECTS = $(OBJ)/stringer.o caseCmp.o
+NAME = casecmp
 
 all: $(OBJECTS)
 	$(CC) $(CFLAGS) $(OBJECTS) -o $(BIN)/$(NAME)

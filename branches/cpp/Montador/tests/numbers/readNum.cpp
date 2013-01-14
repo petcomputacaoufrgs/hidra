@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
 	string *n = new string(argv[1]);
 
 	Number *num = new Number();
-	int value = num->toInt(n);
+	int value = num->toInt(*n);
 
 	printf("%d\n",value);
 

@@ -1,9 +1,10 @@
 CC = g++
-CFLAGS = -Wall -Wextra
+CFLAGS = -Wall -Wextra -I$(INC)
 SRC = src
 OBJ = obj
 BIN = bin
-OBJECTS = $(OBJ)/main.o $(OBJ)/montador.hpp $(OBJ)/sha1.o
+INC = include
+OBJECTS = $(OBJ)/main.o $(OBJ)/montador.o $(OBJ)/stringer.o $(OBJ)/sha1.o
 NAME = montador
 
 all: release
