@@ -1,10 +1,16 @@
 #ifndef MACHINE_HPP
 #define MACHINE_HPP
 
+#include <string>
+
+using namespace std;
+
 class	Machine
 {
 
 	public:
+
+	Machine();
 
 	/**
 	*	carrega as caracteristicas da maquina que estao definidas na string config
@@ -12,7 +18,7 @@ class	Machine
 	void load(string *config);
 
 	/**
-	*	retorna o numero de bytes do PC
+	*	retorna o numero de bits do PC
 	*/
 	int getPCSize();
 

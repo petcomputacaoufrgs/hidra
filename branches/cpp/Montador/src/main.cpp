@@ -6,7 +6,7 @@ int main(int argc,char *argv[])
 {
 	bool help = false;
 
-	if(argc == <3)
+	if(argc <=3)
 		help = true;
 	else
 	{

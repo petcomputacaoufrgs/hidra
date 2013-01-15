@@ -1,10 +1,16 @@
 #ifndef INSTRUCTIONS_HPP
 #define INSTRUCTIONS_HPP
 
+#include <string>
+
+using namespace std;
+
 class Instructions
 {
 
 	public:
+
+	Instructions();
 
 	/**
 	*	carrega as instrucoes que estao definidas na string config

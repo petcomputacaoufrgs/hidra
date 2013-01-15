@@ -7,8 +7,13 @@
 #include "sha1.hpp"
 
 #include "assembler.hpp"
+#include "instructions.hpp"
+#include "addressings.hpp"
+#include "registers.hpp"
+#include "machine.hpp"
+#include "stringer.hpp"
 
-#define SIZE 512
+#include "defs.hpp"
 
 using namespace std;
 
@@ -35,28 +40,34 @@ using namespace std;
 		}
 		else
 		{
+			//cria as estruturas necessarias para o montador
+			this->inst = new Instructions();
+			this->addr = new Addressings();
+			this->regs = new Registers();
+			this->mach = new Machine();
 
 			int size;
 			fseek(fl,0,SEEK_END);
 			size = ftell(fl);
 			char *data = (char *)malloc(size+1);
+			fseek(fl,0,SEEK_SET);
 			fread(data,1,size,fl);
 			fclose(fl);
 			data[size] = '\0';
 
-			string *text = new string(data)
+			string *text = new string(data);
 
-			list<string> *lines = stringSplitChar(text,"\n\r");
+			list<string> *lines = stringSplitChar(*text,"\n\r");
 			list<string>::iterator it;
 
+			e_category category = CAT_NONE;
 			for(it=lines->begin() ; it!=lines->end() ; it++)
 			{
 				string line = *it;
-
-				e_category category = CAT_NONE;
-				for(int i=0 ; i<line.size() ; i++)
+				for(unsigned int i=0 ; i<line.size() ; i++)
 				{
 					char c = line[i];
+
 					//ignora caracteres em branco
 					if(c==' ' || c=='\t')
 						continue;
@@ -65,39 +76,17 @@ using namespace std;
 					if(c=='#')
 						break;
 
-					if(category == CAT_INST)
-					{
-						this->inst->load(line);
-						break;
-					}
-					else if(category == CAT_ADDR)
-					{
-						this->addr->load(line);
-						break;
-					}
-					else if(category == CAT_REGI)
-					{
-						this->regs->load(line);
-						break;
-					}
-					else if(category == CAT_INST)
-					{
-						this->mach->load(line);
-						break;
-					}
-
 					//se for um '[', eh a definicao de uma categoria
 					if(c=='[')
 					{
 						//busca o ']'
 						i++;
 						int start = i;
-						while(i<line.size && line[i]!=']')
+						while(i<line.size() && line[i]!=']')
 							i++;
 						if(line[i]!=']')
-							throw eWrongFormat;
+							throw eInvalidFormat;
 						string catName = stringTrim(string(line,start,i-start)," \t");
-
 						if(stringCaselessCompare(catName,"instructions")==0)
 							category = CAT_INST;
 						else if(stringCaselessCompare(catName,"addressings")==0)
@@ -108,6 +97,26 @@ using namespace std;
 							category = CAT_REGI;
 						else
 							category = CAT_NONE;
+					}
+					else if(category == CAT_INST)
+					{
+						this->inst->load(&line);
+						break;
+					}
+					else if(category == CAT_ADDR)
+					{
+						this->addr->load(&line);
+						break;
+					}
+					else if(category == CAT_REGI)
+					{
+						this->regs->load(&line);
+						break;
+					}
+					else if(category == CAT_MACH)
+					{
+						this->mach->load(&line);
+						break;
 					}
 				}
 			}
@@ -126,7 +135,7 @@ using namespace std;
 	*/
 	char *Assembler::assembleCode(string code,int *size)
 	{
-
+		return NULL;
 	}
 
 	/**
@@ -189,5 +198,5 @@ using namespace std;
 	*/
 	int Assembler::assembleLine(string *line, char *memory,int byte)
 	{
-
+		return 0;
 	}

@@ -3,7 +3,7 @@
 
 #define LOG10 1.301029995663981195
 
-typedef enum Exceptions {eFileNoteFound,eInvalidFormat} e_exception;
+typedef enum Exceptions {eFileNotFound,eInvalidFormat} e_exception;
 
 #endif // DEFS_HPP
 

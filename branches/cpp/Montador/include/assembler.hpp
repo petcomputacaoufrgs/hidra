@@ -5,16 +5,21 @@
 #include <stack>
 #include <list>
 
+#include "addressings.hpp"
+#include "instructions.hpp"
+#include "registers.hpp"
+#include "machine.hpp"
+
 using namespace std;
 
 //dummy
 typedef int Labels;
-typedef int Adressing;
-typedef int Machine;
-typedef int Registers;
-typedef int Instructions;
+//typedef int Adressings;
+//typedef int Machine;
+//typedef int Registers;
+//typedef int Instructions;
 
-typedef enum {CAT_NONE,CAT_INST,CAT_ADDR,CAT_REGI} e_category;
+typedef enum {CAT_NONE,CAT_INST,CAT_ADDR,CAT_REGI,CAT_MACH} e_category;
 
 class Assembler
 {
@@ -23,12 +28,12 @@ class Assembler
 	/**
 	*	cria um montador, especificando quais sao as propriedades da maquina/arquiterua para qual os codigos serao montados
 	*/
-	Assembler(Instructions *inst, Registers *reg, Machine *machine, Adressing *adr);
+	Assembler(Instructions *inst, Registers *reg, Machine *machine, Addressings *adr);
 
 	/**
 	*	le as caracteristicas da arquitetura que estao no arquivo dado
 	*/
-	Assembler::Assembler(const char *filename);
+	Assembler(const char *filename);
 
 	//dummy
 	Assembler();
@@ -56,7 +61,7 @@ class Assembler
 	Labels *labels; //labels definidas
 	Instructions *inst;
 	Registers *regs;
-	Adressing *addr;
+	Addressings *addr;
 	Machine *mach;
 
 	/**
@@ -66,7 +71,7 @@ class Assembler
 	* se for encontrada a definicao de uma label, acrescenta-a as Labels conhecidas
 	* retorna a posicao da memoria em que a proxima linha deve comecar
 	*/
-	int assembleLine(string line, char *memory,int byte, stack<int,string> pendencies,Labels labels);
+	int assembleLine(string *line, char *memory,int byte);
 
 };
 

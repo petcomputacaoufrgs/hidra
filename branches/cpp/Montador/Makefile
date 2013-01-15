@@ -4,18 +4,18 @@ SRC = src
 OBJ = obj
 BIN = bin
 INC = include
-OBJECTS = $(OBJ)/main.o $(OBJ)/montador.o $(OBJ)/stringer.o $(OBJ)/sha1.o
-NAME = montador
+OBJECTS = $(OBJ)/main.o $(OBJ)/assembler.o $(OBJ)/stringer.o $(OBJ)/sha1.o $(OBJ)/instructions.o $(OBJ)/addressings.o $(OBJ)/registers.o $(OBJ)/machine.o
+NAME = hidrassembler
 
 all: release
 
 release: CFLAGS += -s -O3
-release: montador
+release: assembler
 
 debug: CFLAGS += -g
-debug: montador
+debug: assembler
 
-montador: $(OBJECTS)
+assembler: $(OBJECTS)
 	$(CC) $(CFLAGS) $(OBJECTS) -o $(BIN)/$(NAME)
 
 $(OBJ)/%.o: $(SRC)/%.cpp
