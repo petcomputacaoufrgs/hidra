@@ -1,3 +1,6 @@
+#ifndef LABELS_HPP
+#define LABELS_HPP
+
 #include <string>
 
 using namespace std;
@@ -19,3 +22,4 @@ class Labels
 	unsigned int value(string name);
 
 };
+#endif // LABELS_HPP

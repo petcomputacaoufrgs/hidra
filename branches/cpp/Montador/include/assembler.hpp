@@ -5,19 +5,13 @@
 #include <stack>
 #include <list>
 
-#include "addressings.hpp"
 #include "instructions.hpp"
+#include "addressings.hpp"
 #include "registers.hpp"
 #include "machine.hpp"
+#include "labels.hpp"
 
 using namespace std;
-
-//dummy
-typedef int Labels;
-//typedef int Adressings;
-//typedef int Machine;
-//typedef int Registers;
-//typedef int Instructions;
 
 typedef enum {CAT_NONE,CAT_INST,CAT_ADDR,CAT_REGI,CAT_MACH} e_category;
 
@@ -43,7 +37,7 @@ class Assembler
 	* escreve em size o tamanho da memoria
 	* retorna a memoria gerada
 	*/
-	char *assembleCode(string code,int *size);
+	unsigned char *assembleCode(string code,int *size);
 
 	/**
 	*	cria o arquivo binario para a memoria
@@ -53,11 +47,11 @@ class Assembler
 	* md5 do resto do arquivo (16 bytes)
 	* dump da memoria (size bytes)
 	*/
-	void createBinaryV0(string filename,string machineName,char *memory, int size);
+	void createBinaryV0(string filename,string machineName,Memory *memory);
 
 	private:
 
-	stack<int,string> *pendecies; //bytes em que ha labels pendentes
+	stack<unsigned int,string> *pendecies; //bytes em que ha labels pendentes
 	Labels *labels; //labels definidas
 	Instructions *inst;
 	Registers *regs;
@@ -66,12 +60,12 @@ class Assembler
 
 	/**
 	*	monta uma linha, escrevendo seu codigo binario a partir de memory[byte]
-	* line eh a linha a ser montado
+	* line eh a linha a ser montada
 	* se houver alguma label que ainda nao foi definida, reserva espaco e adiciona a pendencia na pilha
 	* se for encontrada a definicao de uma label, acrescenta-a as Labels conhecidas
 	* retorna a posicao da memoria em que a proxima linha deve comecar
 	*/
-	int assembleLine(string *line, char *memory,int byte);
+	unsigned int assembleLine(string *line, Memory *memory,unsigned int byte);
 
 };
 

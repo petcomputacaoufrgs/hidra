@@ -130,12 +130,19 @@ using namespace std;
 
 	/**
 	*	monta o codigo assembly passado
-	* escreve em size o tamanho da memoria
 	* retorna a memoria gerada
 	*/
-	char *Assembler::assembleCode(string code,int *size)
+	Memory *Assembler::assembleCode(string code)
 	{
-		return NULL;
+		//quebra as linhas
+		list<string> *lines = stringSplitChar(code,"\n\r");
+
+		//aloca espaco suficiente para a memoria
+		*size = pow(2,this->machine->getPCSize());
+		unsigned char *memory = (unsigned char *)malloc(*size);
+
+
+
 	}
 
 	/**
@@ -146,7 +153,7 @@ using namespace std;
 	* dump da memoria (size bytes)
 	* SHA1 do resto do arquivo (20 bytes)
 	*/
-	void Assembler::createBinaryV0(string filename,string machineName,char *memory, int size)
+	void Assembler::createBinaryV0(string filename,string machineName,Memory *memory)
 	{
 		FILE *fl = fopen(filename.c_str(),"wb");
 		//escreve a versão
@@ -165,8 +172,11 @@ using namespace std;
 		memcpy(cat+pos,machineName.c_str(),machineName.size());
 		pos+=machineName.size();
 		cat[pos++]='\0';
-		//copia a memoria
-		memcpy(cat+pos,memory,size);
+
+		//copia a memoria compactada
+		unsigned int size;
+		unsigned char *memPack = memory->pack(&size);
+		memcpy(cat+pos,memPack,size);
 		pos+=size;
 
 		//calcula o SHA1
@@ -176,7 +186,7 @@ using namespace std;
 		shaCalc->Result(sha);
 
 		//faz um dump da memoria
-		fwrite(memory,1,size,fl);
+		fwrite(memPack,1,size,fl);
 
 		//escreve o SHA1
 		fwrite(sha,1,20,fl);
@@ -196,7 +206,14 @@ using namespace std;
 	* se for encontrada a definicao de uma label, acrescenta-a as Labels conhecidas
 	* retorna a posicao da memoria em que a proxima linha deve comecar
 	*/
-	int Assembler::assembleLine(string *line, char *memory,int byte)
+	unsigned int Assembler::assembleLine(string *line, unsigned char *memory,unsigned int byte)
 	{
 		return 0;
 	}
+
+
+
+
+
+
+
