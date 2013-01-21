@@ -4,8 +4,8 @@ CFLAGS = -Wall -Wextra -g -I$(INCLUDE)
 SRC = ../../src
 OBJ = .
 BIN = .
-OBJECTS = $(OBJ)/messenger.o $(OBJ)/file.o $(OBJ)/stringer.o msgs.o
-NAME = msgs
+OBJECTS = $(OBJ)/messenger.o $(OBJ)/file.o $(OBJ)/stringer.o msg.o
+NAME = msg
 
 all: $(OBJECTS)
 	$(CC) $(CFLAGS) $(OBJECTS) -o $(BIN)/$(NAME)

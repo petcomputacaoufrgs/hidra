@@ -14,12 +14,12 @@ using namespace std;
 */
 Messenger::Messenger()
 {
-	this->msgs = new map<unsigned int,t_message>();
+	this->msgs = map<unsigned int,t_message>();
 }
 
 Messenger::~Messenger()
 {
-	delete this->msgs;
+
 }
 
 /**
@@ -27,7 +27,7 @@ Messenger::~Messenger()
 */
 Messenger::Messenger(const char *filename)
 {
-	this->msgs = new map<unsigned int,t_message>();
+	this->msgs = map<unsigned int,t_message>();
 	this->load(filename);
 }
 
@@ -86,7 +86,7 @@ void Messenger::load(const char *filename)
 			msg.message = line.substr(i,line.size()-i);
 			msg.error = error;
 
-			this->msgs->insert(pair<unsigned int,t_message>(num,msg));
+			this->msgs.insert(pair<unsigned int,t_message>(num,msg));
 		}
 
 	}
@@ -98,7 +98,33 @@ void Messenger::load(const char *filename)
 */
 void Messenger::generateMessage(unsigned int code,t_status *status,FILE *stream)
 {
+	this->updateVariables(status);
 
+
+
+}
+
+/**
+*	atualiza o valor de todas as variaveis utilizadas que esta em this->variables
+*/
+void Messenger::updateVariables(t_status *status)
+{
+	#define LOG102 0.30102999566398119801746702250966
+	//log10(2^s) = s*log10(2)
+	//+2 por causa do sinal e do \0
+	char buffer[sizeof(status->value)*8*LOG102+2];
+
+	this->variables["$ADDRESSING_MODE"] = status->operand;
+	sprintf(buffer,"%d",status->value);
+	this->variables["$DISTANCE"] = string(buffer);
+	sprintf(buffer,"%d",status->expectedOperands);
+	this->variables["$EXPECTED_OPERANDS"] = string(buffer);
+	sprintf(buffer,"%d",status->foundOperands);
+	this->variables["$FOUND_OPERANDS"] = string(buffer);
+	this->variables["$LABEL"] = status->label;
+	sprintf(buffer,"%d",status->lastOrgLine);
+	this->variables["$LAST_ORG_LINE"] = string(buffer);
+	this->variables["$MNEMONIC"] = status->mnemonic;
 }
 
 

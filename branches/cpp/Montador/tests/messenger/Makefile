@@ -1,6 +1,6 @@
 CC = g++
 INCLUDE = ../../include
-CFLAGS = -Wall -Wextra -g -I$(INCLUDE)
+CFLAGS = -Wall -Wextra -g -I$(INCLUDE) -std=c++11
 SRC = ../../src
 OBJ = .
 BIN = .

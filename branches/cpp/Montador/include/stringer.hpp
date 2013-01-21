@@ -25,7 +25,7 @@ bool stringIn(char c, string s);
 *	substitui cada ocorrencia da primeira string do par pela segunda, para cada par de elements
 * retorna a nova string
 */
-string stringReplaceAll(string s,list<pair<string,string>> elements);
+string stringReplaceAll(string s,list<pair<string,string> > elements);
 
 /**
 *	compara duas strings ignorando maiusculas e minusculas

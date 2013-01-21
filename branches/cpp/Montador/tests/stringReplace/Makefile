@@ -4,8 +4,8 @@ CFLAGS = -Wall -Wextra -g -I$(INCLUDE)
 SRC = ../../src
 OBJ = .
 BIN = .
-OBJECTS = $(OBJ)/stringer.o caseCmp.o
-NAME = casecmp
+OBJECTS = $(OBJ)/stringer.o $(OBJ)/file.o stringReplace.o
+NAME = replace
 
 all: $(OBJECTS)
 	$(CC) $(CFLAGS) $(OBJECTS) -o $(BIN)/$(NAME)

@@ -16,10 +16,14 @@ using namespace std;
 typedef struct s_status
 {
 	unsigned int position;	//a posicao do proximo byte a ser escrito
-	string *label;	//a ultima label lida (referencia ou definicao)
-	string *mnemonic;	//mnemonico da ultima instrucao ou diretiva lida
+	unsigned int lastOrgLine;	//a linha do codigo fonte em que ocorreu o ultimo ORG
+	int value;	//valor do operando, sem truncar
+	unsigned int expectedOperands;
+	unsigned int foundOperands;
+	string operand;	//o operando junto com seu modo de enderecamento
+	string label;	//a ultima label lida (referencia ou definicao)
+	string mnemonic;	//mnemonico da ultima instrucao ou diretiva lida
 	Labels *labels;	//todas as labels
-	list<string> operands;
 	Instructions *insts; //todas as instrucoes
 	Machine *machine;	//a maquina para a qual esta-se gerando o binario
 }t_status;
@@ -60,7 +64,14 @@ class Messenger
 
 	private:
 
-	map<unsigned int, t_message> *msgs;
+	/**
+	*	atualiza o valor de todas as variaveis utilizadas que esta em this->variables
+	*/
+	void updateVariables(t_status *status);
+
+	map<unsigned int, t_message> msgs;
+
+	map<string,string> variables;	//asocia cada variavel a seu valor
 
 };
 

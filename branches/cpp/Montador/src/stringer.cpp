@@ -3,6 +3,7 @@
 
 #include <list>
 #include <string>
+#include <utility>
 
 #include "stringer.hpp"
 using namespace std;
@@ -88,22 +89,23 @@ bool stringIn(char c, string s)
 *	substitui cada ocorrencia da primeira string do par pela segunda, para cada par de elements
 * retorna a nova string
 */
-string stringReplaceAll(string s,list<pair<string,string>> elements)
+string stringReplaceAll(string s,list<pair<string,string> > elements)
 {
-	list<pair<string,string>>::iterator it;
+	size_t pos;
+	list<pair<string,string> >::iterator it;
 	for(it=elements.begin() ; it!=elements.end() ; it++)
 	{
-		pos = s.find(first(*it),);;
+		pos = s.find(it->first);
 
 		//npos: valor de retorno de string::find quando nao eh encontrado
-		while(pos == npos)
+		while(pos != string::npos)
 		{
-			pos = s.find(first(*it),pos);
-
-
+			s = s.replace(s.begin()+pos,s.begin()+it->first.size()+pos,it->second);
+			pos = s.find(it->first,pos+it->second.size());
 		}
-
 	}
+
+	return s;
 }
 
 /**

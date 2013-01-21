@@ -1,6 +1,7 @@
 #Erros
-0	e Instrução ou diretiva inválida: $MNEMONIC
-1 e Número incorreto de operandos: encontrou-se $FOUND_OPERANDS, esperava-se $EXPECTED_OPERANDS
-2 e Label não definida: $LABEL
-3 w Região possivelmente sobrescrita (gerado pela linha $LAST_ORG_POSITION).
-4 w Label definida mas não utilizada: $LABEL
+0 e Instrução ou diretiva desconhecida: $MNEMONIC
+1 e Número incorreto de operandos: esperava-se $EXPECTED_OPERANDS, encontrou-se $FOUND_OPERANDS
+2 e Endereço relativo ao PC muito grande: $LABEL está a uma distância de $DISTANCE bytes do PC, mas o máximo possível é $OPERAND_SIZE bytes
+#Avisos
+3 w Região possivelmente sobrescrita a partir da linha $LAST_ORG_LINE
+4 w Modo de endereçamento desconhecido: $ADDRESSING_MODE
