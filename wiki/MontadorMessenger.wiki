@@ -26,11 +26,13 @@ Comentários são feitos com o símbolo '#'.
 Para que o usuário possua mais informações, as mensagens podem conter variáveis que descrevem a linha em que ocorreu o problema. São elas:
 
  * ADDRESSING_MODE: modo de endereçamento usado;
+ * DISTANCE: valor, em bytes, do último endereço relativo ao PC (sem truncamentos);
  * EXPECTED_OPERANDS: número de operandos esperado pela diretiva ou instrução
  * FOUND_OPERANDS: número de operandos encontrados
  * LABEL: nome da label;
  * LAST_ORG_LINE: número da linha do último ORG encontrado;
  * MNEMONIC: mnemônico da instrução ou diretiva.
+ * OPERAND_SIZE: valor máximo que o operando pode assumir.
 
 Para serem usadas, as variáveis devem ser precedidas por '$'.
 
