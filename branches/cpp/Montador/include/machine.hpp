@@ -3,6 +3,8 @@
 
 #include <string>
 
+#include "memory.hpp"
+
 using namespace std;
 
 class	Machine
@@ -26,8 +28,16 @@ class	Machine
 	*	escreve uma palavra na memoria, respeitando a endianess da maquina
 	*	a palavra de entrada deve usar a notacao little-endian
 	*/
-	void writeWord(unsigned char *word,int wordSize,unsigned char *memory, int memorySize);
+	void writeWord(unsigned char *word,unsigned int wordSize,Memory *memory,unsigned int position);
 
+	/**
+	*	escreve o valor na memoria, respeitando a endianess da maquina
+	*/
+	void writeValue(unsigned int value,unsigned int wordSize,Memory *memory,unsigned int position);
+
+	private:
+
+	bool bigEndian;
 };
 
 #endif // MACHINE_HPP

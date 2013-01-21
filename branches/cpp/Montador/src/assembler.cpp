@@ -138,11 +138,42 @@ using namespace std;
 		list<string> *lines = stringSplitChar(code,"\n\r");
 
 		//aloca espaco suficiente para a memoria
-		*size = pow(2,this->machine->getPCSize());
-		unsigned char *memory = (unsigned char *)malloc(*size);
+		int size = pow(2,this->machine->getPCSize());
+		Memory *memory = new Memory (size);
 
+		unsigned int pos = 0;
 
+		list<string>::iterator it;
 
+		//monta cada linha
+		for(it=lines->begin() ; it!=lines->end() ; it++)
+		{
+			pos = this->assembleLine(*it,memory,pos);
+		}
+
+		//resolve as pendencias
+		while(!this->pendecies->empty())
+		{
+			t_pendency pend = this->pendecies->top();
+			this->pendecies->pop();
+
+			//valor da label
+			unsigned int value = this->labels->value(*pend.label);
+			//se for relativo ao PC, calcula a distancia
+			if(pend.relative)
+			{
+				int distance = value-pend.byte;
+				this->mach->writeValue(distance,memory,pend.byte);
+			}
+			else
+			{
+				this->mach->writeValue(value,memory,pend.byte);
+			}
+		}
+
+		delete lines;
+
+		return memory;
 	}
 
 	/**
@@ -201,12 +232,12 @@ using namespace std;
 
 	/**
 	*	monta uma linha, escrevendo seu codigo binario a partir de memory[byte]
-	* line eh a linha a ser montado
+	* line eh a linha a ser montada
 	* se houver alguma label que ainda nao foi definida, reserva espaco e adiciona a pendencia na pilha
 	* se for encontrada a definicao de uma label, acrescenta-a as Labels conhecidas
 	* retorna a posicao da memoria em que a proxima linha deve comecar
 	*/
-	unsigned int Assembler::assembleLine(string *line, unsigned char *memory,unsigned int byte)
+	unsigned int Assembler::assembleLine(string line, Memory *memory,unsigned int byte)
 	{
 		return 0;
 	}

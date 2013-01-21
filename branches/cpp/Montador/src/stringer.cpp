@@ -85,12 +85,34 @@ bool stringIn(char c, string s)
 }
 
 /**
+*	substitui cada ocorrencia da primeira string do par pela segunda, para cada par de elements
+* retorna a nova string
+*/
+string stringReplaceAll(string s,list<pair<string,string>> elements)
+{
+	list<pair<string,string>>::iterator it;
+	for(it=elements.begin() ; it!=elements.end() ; it++)
+	{
+		pos = s.find(first(*it),);;
+
+		//npos: valor de retorno de string::find quando nao eh encontrado
+		while(pos == npos)
+		{
+			pos = s.find(first(*it),pos);
+
+
+		}
+
+	}
+}
+
+/**
 *	compara duas strings ignorando maiusculas e minusculas
 *	retorna 0 se forem iguais, >0 se a >b, <0 se a<b
 */
 int stringCaselessCompare(string a, string b)
 {
-	int i,j;
+	unsigned int i;
 	for(i=0 ; i<a.size() ; i++)
 	{
 		char d = tolower(a[i]);

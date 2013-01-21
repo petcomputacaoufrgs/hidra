@@ -15,6 +15,14 @@ using namespace std;
 
 typedef enum {CAT_NONE,CAT_INST,CAT_ADDR,CAT_REGI,CAT_MACH} e_category;
 
+typedef struct s_pendency
+{
+	unsigned int byte;
+	string *label;
+	bool relative;	//se a label eh relativa ao PC ou nao
+	unsigned int size;	//numero de bytes que devem ser usados para o valor
+}t_pendency;
+
 class Assembler
 {
 
@@ -51,7 +59,7 @@ class Assembler
 
 	private:
 
-	stack<unsigned int,string> *pendecies; //bytes em que ha labels pendentes
+	stack<t_pendency> *pendecies; //bytes em que ha labels pendentes
 	Labels *labels; //labels definidas
 	Instructions *inst;
 	Registers *regs;
@@ -65,7 +73,7 @@ class Assembler
 	* se for encontrada a definicao de uma label, acrescenta-a as Labels conhecidas
 	* retorna a posicao da memoria em que a proxima linha deve comecar
 	*/
-	unsigned int assembleLine(string *line, Memory *memory,unsigned int byte);
+	unsigned int assembleLine(string line, Memory *memory,unsigned int byte);
 
 };
 
