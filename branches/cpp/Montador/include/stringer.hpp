@@ -1,6 +1,7 @@
 #ifndef STRINGER_HPP
 #define STRINGER_HPP
 
+#include <map>
 #include <list>
 #include <string>
 
@@ -27,6 +28,7 @@ bool stringIn(char c, string s);
 */
 string stringReplaceAll(string s,list<pair<string,string> > elements);
 
+string stringReplaceAll(string s,map<string,string> elements);
 /**
 *	compara duas strings ignorando maiusculas e minusculas
 *	retorna 0 se forem iguais, >0 se a >b, <0 se a<b

@@ -15,17 +15,16 @@ using namespace std;
 
 typedef struct s_status
 {
-	unsigned int position;	//a posicao do proximo byte a ser escrito
+	unsigned int line;
 	unsigned int lastOrgLine;	//a linha do codigo fonte em que ocorreu o ultimo ORG
-	int value;	//valor do operando, sem truncar
-	unsigned int expectedOperands;
+	unsigned int position;	//a posicao do proximo byte a ser escrito
 	unsigned int foundOperands;
+	unsigned int expectedOperands;
+	unsigned int operandSize;	//numero de bits do operando
+	int value;	//valor do operando, sem truncar
 	string operand;	//o operando junto com seu modo de enderecamento
 	string label;	//a ultima label lida (referencia ou definicao)
 	string mnemonic;	//mnemonico da ultima instrucao ou diretiva lida
-	Labels *labels;	//todas as labels
-	Instructions *insts; //todas as instrucoes
-	Machine *machine;	//a maquina para a qual esta-se gerando o binario
 }t_status;
 
 typedef struct s_message
@@ -42,12 +41,12 @@ class Messenger
 	/**
 	*	inicializa sem nenhuma mensagem
 	*/
-	Messenger();
+	Messenger(FILE *warningStream = stderr, FILE *errorStream = stderr);
 
 	/**
 	*	inicializa e carrega as mensagens do arquivo
 	*/
-	Messenger(const char *filename);
+	Messenger(const char *filename,FILE *warningStream = stderr, FILE *errorStream = stderr);
 
 	~Messenger();
 
@@ -57,10 +56,15 @@ class Messenger
 	void load(const char *filename);
 
 	/**
-	*	gera a mensagem com o codigo dado, escrevendo-a em stream
+	*	gera a mensagem com o codigo dado, escrevendo-a na stream adequada
 	*	usa as informacoes de status para gerar a mensagem
 	*/
-	void generateMessage(unsigned int code,t_status *status,FILE *stream);
+	void generateMessage(unsigned int code,t_status *status);
+
+	/**
+	*	retorna o numero de erros que ocorreram
+	*/
+	unsigned int numberErrors();
 
 	private:
 
@@ -72,6 +76,12 @@ class Messenger
 	map<unsigned int, t_message> msgs;
 
 	map<string,string> variables;	//asocia cada variavel a seu valor
+
+	unsigned int errors;
+	unsigned int warnings;
+
+	FILE *errorStream;
+	FILE *warningStream;
 
 };
 

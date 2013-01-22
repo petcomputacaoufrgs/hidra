@@ -1,7 +1,0 @@
-#Erros
-0 e Instrução ou diretiva desconhecida: $MNEMONIC
-1 e Número incorreto de operandos: esperava-se $EXPECTED_OPERANDS, encontrou-se $FOUND_OPERANDS
-2 e Endereço relativo ao PC muito grande: $LABEL está a uma distância de $DISTANCE bytes do PC, mas o máximo possível são $OPERAND_SIZE bytes
-#Avisos
-3 w Região possivelmente sobrescrita a partir da linha $LAST_ORG_LINE
-4 w Modo de endereçamento desconhecido: $ADDRESSING_MODE

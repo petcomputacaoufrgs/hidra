@@ -108,6 +108,25 @@ string stringReplaceAll(string s,list<pair<string,string> > elements)
 	return s;
 }
 
+string stringReplaceAll(string s,map<string,string> elements)
+{
+	size_t pos;
+	map<string,string >::iterator it;
+	for(it=elements.begin() ; it!=elements.end() ; it++)
+	{
+		pos = s.find(it->first);
+
+		//npos: valor de retorno de string::find quando nao eh encontrado
+		while(pos != string::npos)
+		{
+			s = s.replace(s.begin()+pos,s.begin()+it->first.size()+pos,it->second);
+			pos = s.find(it->first,pos+it->second.size());
+		}
+	}
+
+	return s;
+}
+
 /**
 *	compara duas strings ignorando maiusculas e minusculas
 *	retorna 0 se forem iguais, >0 se a >b, <0 se a<b
