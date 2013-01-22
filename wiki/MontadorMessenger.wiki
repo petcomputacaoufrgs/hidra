@@ -31,6 +31,7 @@ Para que o usuário possua mais informações, as mensagens podem conter variáv
  * FOUND_OPERANDS: número de operandos encontrados
  * LABEL: nome da label;
  * LAST_ORG_LINE: número da linha do último ORG encontrado;
+ * LINE: a linha atual do código;
  * MNEMONIC: mnemônico da instrução ou diretiva.
  * OPERAND_SIZE: valor máximo que o operando pode assumir.
 
