@@ -239,7 +239,119 @@ using namespace std;
 	*/
 	unsigned int Assembler::assembleLine(string line, Memory *memory,unsigned int byte)
 	{
-		return 0;
+
+		typedef enum {STATE_INI,STATE_FIRST_WORD,STATE_FIRST_END,STATE_LABEL,STATE_INST,STATE_INST_END,STATE_OPERAND,STATE_OPERAND_END} e_states;
+
+		e_states state = STATE_INI;
+
+		unsigned int i;
+		unsigned int b;
+		string inst;
+		string defLabel;
+		list<string> operands;
+		for(i=0 ; i<line.size() ; i++)
+		{
+			char c = line[i];
+			if(c == '#')
+				break;
+			switch(state)
+			{
+				case STATE_INI:
+					if(!ISWHITESPACE(c))
+					{
+						state = STATE_FIRST_WORD;
+						b = i;
+					}
+					break;
+
+				case STATE_FIRST_WORD:
+
+					//a primeira palavra eh uma instrucao ou diretiva
+					if(ISWHITESPACE(c))
+					{
+						state = STATE_FIRST_END;
+						inst = line.substr(b,i-b);
+						//verifica se existe
+						//TODO
+					}
+					//eh uma label
+					else if(c==':')
+					{
+						state = STATE_LABEL;
+						defLabel = line.substr(b,i-b);
+						//define a label
+						//TODO
+					}
+					break;
+				//le os espacos em branco ate encontrar outro caractere
+				case STATE_FIRST_END:
+					if(!ISWHITESPACE(c))
+					{
+						state = STATE_OPERAND;
+					}
+					break;
+				//a definicao de uma label foi lida
+				//a proxima palavra eh um instrucao ou diretiva
+				//le os espacos em branco
+				case STATE_LABEL:
+					if(!ISWHITESPACE(c))
+					{
+						state = STATE_INST;
+						b = i;
+					}
+					break;
+				//inicio de uma instrucao ou diretiva
+				case STATE_INST:
+					if(ISWHITESPACE(c))
+					{
+						state = STATE_INST_END;
+						inst = line.substr(b,i-b);
+						//verifica se a instrucao ou diretiva existe
+						//TODO
+					}
+					break;
+				//le os espacos em branco apos uma instrucao
+				case STATE_INST_END:
+					//a proxima palavra eh um operando
+					if(!ISWHITESPACE(c))
+					{
+						state = STATE_OPERAND;
+						b = i;
+					}
+					break;
+				case STATE_OPERAND:
+					//o operando foi lido
+					if(ISWHITESPACE(c))
+					{
+						state = STATE_OPERAND_END;
+						operands.push_back(line.substr(b,i-b));
+					}
+					break;
+				case STATE_OPERAND_END:
+
+					if(!ISWHITESPACE(c))
+					{
+						state = STATE_OPERAND;
+						b = i;
+					}
+
+					break;
+			}
+
+		}
+
+		printf("Line:%s\n",line.c_str());
+		printf("Defined Label: %s\n",defLabel.c_str());
+		printf("Instruction: %s\n",inst.c_str());
+		printf("Operands: ");
+		list<string>::iterator it;
+		for(it=operands.begin() ; it!=operands.end() ; i++)
+		{
+			printf("%s ",it->c_str());
+		}
+		printf("\n\n*********\n");
+
+		return byte;
 	}
 
 

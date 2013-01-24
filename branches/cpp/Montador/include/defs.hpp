@@ -3,6 +3,8 @@
 
 #define LOG10 1.301029995663981195
 
+#define ISWHITESPACE(c) ((c)==' ' || (c)=='\t')
+
 typedef enum Exceptions {eFileNotFound,eInvalidFormat} e_exception;
 
 #endif // DEFS_HPP
