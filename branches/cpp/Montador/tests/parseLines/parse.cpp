@@ -11,13 +11,13 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
-	Assembler a ();
+	Assembler a;
 	int size;
 
 	char *code = fileRead(argv[1],&size,1);
 	code[size] = '\0';
 
-	a.assembleCode(string(code),&size);
+	a.assembleCode(string(code));
 
 	return 0;
 }

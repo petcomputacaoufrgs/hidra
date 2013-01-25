@@ -2,6 +2,8 @@
 #define LABELS_HPP
 
 #include <string>
+#include <map>
+#include <set>
 
 using namespace std;
 
@@ -20,6 +22,11 @@ class Labels
 	*	conta como uma referencia a label
 	*/
 	unsigned int value(string name);
+
+	private:
+
+	map<string,unsigned int> defs;	//labels definidas
+	set<string> unrefs;	//labels que ainda nao foram referenciadas
 
 };
 #endif // LABELS_HPP

@@ -33,7 +33,7 @@ class	Machine
 	/**
 	*	escreve o valor na memoria, respeitando a endianess da maquina
 	*/
-	void writeValue(unsigned int value,unsigned int wordSize,Memory *memory,unsigned int position);
+	void writeValue(int value,unsigned int wordSize,Memory *memory,unsigned int position);
 
 	private:
 

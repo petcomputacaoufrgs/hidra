@@ -4,7 +4,7 @@ CFLAGS = -Wall -Wextra -g -I$(INCLUDE)
 SRC = ../../src
 OBJ = .
 BIN = .
-OBJECTS = $(OBJ)/assembler.o $(OBJ)/addressings.o $(OBJ)/instructions.o $(OBJ)/registers.o $(OBJ)/machine.o $(OBJ)/stringer.o $(OBJ)/sha1.o parse.o
+OBJECTS = $(OBJ)/assembler.o $(OBJ)/addressings.o $(OBJ)/instructions.o $(OBJ)/registers.o $(OBJ)/machine.o $(OBJ)/labels.o $(OBJ)/stringer.o $(OBJ)/memory.o $(OBJ)/file.o $(OBJ)/sha1.o parse.o
 NAME = parse
 
 all: $(OBJECTS)

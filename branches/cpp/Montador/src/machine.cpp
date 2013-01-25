@@ -22,7 +22,7 @@ void Machine::load(string *config)
 /**
 *	retorna o numero de bits do PC
 */
-int getPCSize()
+int Machine::getPCSize()
 {
 	return 8;
 }
@@ -31,9 +31,10 @@ int getPCSize()
 *	escreve uma palavra na memoria, respeitando a endianess da maquina
 *	a palavra de entrada deve usar a notacao little-endian
 */
-void writeWord(unsigned char *word,unsigned int wordSize,Memory *memory,unsigned int position)
+void Machine::writeWord(unsigned char *word,unsigned int wordSize,Memory *memory,unsigned int position)
 {
 	unsigned char buffer[wordSize];
+	unsigned char *wat = buffer;
 	//se for big-endian, inverte a ordem
 	if(this->bigEndian)
 	{
@@ -42,15 +43,15 @@ void writeWord(unsigned char *word,unsigned int wordSize,Memory *memory,unsigned
 			buffer[i] = word[j];
 	}
 	else
-		buffer = word;
+		wat = word;
 
-	memory->writeArray(buffer,wordSize,position);
+	memory->writeArray(wat,wordSize,position);
 }
 
 /**
 *	escreve o valor na memoria, respeitando a endianess da maquina
 */
-void writeValue(unsigned int value,unsigned int wordSize,Memory *memory,unsigned int position)
+void Machine::writeValue(int value,unsigned int wordSize,Memory *memory,unsigned int position)
 {
 	if(this->bigEndian)
 	{
@@ -64,7 +65,7 @@ void writeValue(unsigned int value,unsigned int wordSize,Memory *memory,unsigned
 	}
 	else
 	{
-		int i;
+		unsigned int i;
 		for(i=0;i<wordSize;i++,position++)
 		{
 			//escreve o byte menos significativo do valor

@@ -18,7 +18,7 @@ typedef enum {CAT_NONE,CAT_INST,CAT_ADDR,CAT_REGI,CAT_MACH} e_category;
 typedef struct s_pendency
 {
 	unsigned int byte;
-	string *label;
+	string label;
 	bool relative;	//se a label eh relativa ao PC ou nao
 	unsigned int size;	//numero de bytes que devem ser usados para o valor
 }t_pendency;
@@ -30,7 +30,7 @@ class Assembler
 	/**
 	*	cria um montador, especificando quais sao as propriedades da maquina/arquiterua para qual os codigos serao montados
 	*/
-	Assembler(Instructions *inst, Registers *reg, Machine *machine, Addressings *adr);
+	Assembler(Instructions inst, Registers reg, Machine machine, Addressings adr);
 
 	/**
 	*	le as caracteristicas da arquitetura que estao no arquivo dado
@@ -42,10 +42,9 @@ class Assembler
 
 	/**
 	*	monta o codigo assembly passado
-	* escreve em size o tamanho da memoria
 	* retorna a memoria gerada
 	*/
-	unsigned char *assembleCode(string code,int *size);
+	Memory *assembleCode(string code);
 
 	/**
 	*	cria o arquivo binario para a memoria
@@ -59,12 +58,12 @@ class Assembler
 
 	private:
 
-	stack<t_pendency> *pendecies; //bytes em que ha labels pendentes
-	Labels *labels; //labels definidas
-	Instructions *inst;
-	Registers *regs;
-	Addressings *addr;
-	Machine *mach;
+	stack<t_pendency> pendecies; //bytes em que ha labels pendentes
+	Labels labels; //labels definidas
+	Instructions inst;
+	Registers regs;
+	Addressings addr;
+	Machine mach;
 
 	/**
 	*	monta uma linha, escrevendo seu codigo binario a partir de memory[byte]

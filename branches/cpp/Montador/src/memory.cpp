@@ -1,3 +1,6 @@
+#include <stdlib.h>
+#include <string.h>
+
 #include "memory.hpp"
 
 using namespace std;
@@ -5,7 +8,7 @@ using namespace std;
 /**
 *	inicializa uma memoria com suporte de, pelo menos, size bytes
 */
-Memory(unsigned int size)
+Memory::Memory(unsigned int size)
 {
 	this->area = (unsigned char*)malloc(size);
 	this->size = size;
@@ -14,7 +17,7 @@ Memory(unsigned int size)
 /**
 *	escreve um valor numa determinada posicao da memoria
 */
-void writeValue(unsigned char value,unsigned int pos)
+void Memory::writeValue(unsigned char value,unsigned int pos)
 {
 	this->area[pos] = value;
 }
@@ -22,7 +25,7 @@ void writeValue(unsigned char value,unsigned int pos)
 /**
 *	escreve todos os valores do array a partir da posicao startPos na memoria
 */
-void writeArray(unsigned char *array, unsigned int arraySize, unsigned int startPos)
+void Memory::writeArray(unsigned char *array, unsigned int arraySize, unsigned int startPos)
 {
 	memcpy(this->area+startPos,array,arraySize);
 }
@@ -30,7 +33,7 @@ void writeArray(unsigned char *array, unsigned int arraySize, unsigned int start
 /**
 *	le um o valor que esta na posicao dada da memoria
 */
-unsigned char readValue(unsigned int pos)
+unsigned char Memory::readValue(unsigned int pos)
 {
 	return this->area[pos];
 }
@@ -38,7 +41,7 @@ unsigned char readValue(unsigned int pos)
 /**
 *	le amount posicoes da memoria a partir da posicao dada, escrevendo os valores em array
 */
-void readArray(unsigned char *array, unsigned int amount, unsigned int pos)
+void Memory::readArray(unsigned char *array, unsigned int amount, unsigned int pos)
 {
 	memcpy(array,this->area+pos,amount);
 }
@@ -48,7 +51,7 @@ void readArray(unsigned char *array, unsigned int amount, unsigned int pos)
 *	o vetor retornado nao deve ser desalocado
 * (por enquanto, eh apenas o dump da memoria, sem nenhuma compactacao)
 */
-unsigned char *pack(unsigned int *size)
+unsigned char *Memory::pack(unsigned int *size)
 {
 	*size = this->size;
 	return this->area;

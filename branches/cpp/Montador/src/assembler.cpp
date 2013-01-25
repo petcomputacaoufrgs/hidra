@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 #include <string>
 
@@ -12,6 +13,7 @@
 #include "registers.hpp"
 #include "machine.hpp"
 #include "stringer.hpp"
+#include "memory.hpp"
 
 #include "defs.hpp"
 
@@ -40,11 +42,6 @@ using namespace std;
 		}
 		else
 		{
-			//cria as estruturas necessarias para o montador
-			this->inst = new Instructions();
-			this->addr = new Addressings();
-			this->regs = new Registers();
-			this->mach = new Machine();
 
 			int size;
 			fseek(fl,0,SEEK_END);
@@ -100,22 +97,22 @@ using namespace std;
 					}
 					else if(category == CAT_INST)
 					{
-						this->inst->load(&line);
+						this->inst.load(&line);
 						break;
 					}
 					else if(category == CAT_ADDR)
 					{
-						this->addr->load(&line);
+						this->addr.load(&line);
 						break;
 					}
 					else if(category == CAT_REGI)
 					{
-						this->regs->load(&line);
+						this->regs.load(&line);
 						break;
 					}
 					else if(category == CAT_MACH)
 					{
-						this->mach->load(&line);
+						this->mach.load(&line);
 						break;
 					}
 				}
@@ -138,7 +135,7 @@ using namespace std;
 		list<string> *lines = stringSplitChar(code,"\n\r");
 
 		//aloca espaco suficiente para a memoria
-		int size = pow(2,this->machine->getPCSize());
+		int size = pow(2,this->mach.getPCSize());
 		Memory *memory = new Memory (size);
 
 		unsigned int pos = 0;
@@ -152,22 +149,22 @@ using namespace std;
 		}
 
 		//resolve as pendencias
-		while(!this->pendecies->empty())
+		while(!this->pendecies.empty())
 		{
-			t_pendency pend = this->pendecies->top();
-			this->pendecies->pop();
+			t_pendency pend = this->pendecies.top();
+			this->pendecies.pop();
 
 			//valor da label
-			unsigned int value = this->labels->value(*pend.label);
+			unsigned int value = this->labels.value(pend.label);
 			//se for relativo ao PC, calcula a distancia
 			if(pend.relative)
 			{
 				int distance = value-pend.byte;
-				this->mach->writeValue(distance,memory,pend.byte);
+				this->mach.writeValue(distance,pend.size,memory,pend.byte);
 			}
 			else
 			{
-				this->mach->writeValue(value,memory,pend.byte);
+				this->mach.writeValue(value,pend.size,memory,pend.byte);
 			}
 		}
 
@@ -197,6 +194,8 @@ using namespace std;
 		fwrite(&zero,1,1,fl);
 		//calcula o SHA1 do arquivo
 		//comeca concatenando o arquivo
+		unsigned int size;
+		unsigned char *memPack = memory->pack(&size);
 		char *cat = (char *)malloc(1+machineName.size()+1+size);
 		unsigned int pos=0;
 		cat[pos++] = 0;
@@ -205,8 +204,7 @@ using namespace std;
 		cat[pos++]='\0';
 
 		//copia a memoria compactada
-		unsigned int size;
-		unsigned char *memPack = memory->pack(&size);
+
 		memcpy(cat+pos,memPack,size);
 		pos+=size;
 
@@ -249,9 +247,13 @@ using namespace std;
 		string inst;
 		string defLabel;
 		list<string> operands;
+		bool read = false;	//indica se uma palavra esta sendo lida ou nao
 		for(i=0 ; i<line.size() ; i++)
 		{
+
 			char c = line[i];
+			//printf("State:%d\t%c\n",state,c);
+			//getchar();
 			if(c == '#')
 				break;
 			switch(state)
@@ -261,6 +263,7 @@ using namespace std;
 					{
 						state = STATE_FIRST_WORD;
 						b = i;
+						read = true;
 					}
 					break;
 
@@ -271,6 +274,7 @@ using namespace std;
 					{
 						state = STATE_FIRST_END;
 						inst = line.substr(b,i-b);
+						read = false;
 						//verifica se existe
 						//TODO
 					}
@@ -279,6 +283,7 @@ using namespace std;
 					{
 						state = STATE_LABEL;
 						defLabel = line.substr(b,i-b);
+						read = false;
 						//define a label
 						//TODO
 					}
@@ -288,6 +293,8 @@ using namespace std;
 					if(!ISWHITESPACE(c))
 					{
 						state = STATE_OPERAND;
+						b = i;
+						read = true;
 					}
 					break;
 				//a definicao de uma label foi lida
@@ -298,6 +305,7 @@ using namespace std;
 					{
 						state = STATE_INST;
 						b = i;
+						read = true;
 					}
 					break;
 				//inicio de uma instrucao ou diretiva
@@ -306,6 +314,7 @@ using namespace std;
 					{
 						state = STATE_INST_END;
 						inst = line.substr(b,i-b);
+						read = false;
 						//verifica se a instrucao ou diretiva existe
 						//TODO
 					}
@@ -317,6 +326,7 @@ using namespace std;
 					{
 						state = STATE_OPERAND;
 						b = i;
+						read = true;
 					}
 					break;
 				case STATE_OPERAND:
@@ -325,6 +335,7 @@ using namespace std;
 					{
 						state = STATE_OPERAND_END;
 						operands.push_back(line.substr(b,i-b));
+						read = false;
 					}
 					break;
 				case STATE_OPERAND_END:
@@ -333,11 +344,19 @@ using namespace std;
 					{
 						state = STATE_OPERAND;
 						b = i;
+						read = true;
 					}
-
 					break;
 			}
+		}
 
+		//se uma palavra ainda deve ser lida
+		if(read)
+		{
+			if(inst == "")
+				inst = line.substr(b,i-b);
+			else
+				operands.push_back(line.substr(b,i-b));
 		}
 
 		printf("Line:%s\n",line.c_str());
@@ -345,11 +364,12 @@ using namespace std;
 		printf("Instruction: %s\n",inst.c_str());
 		printf("Operands: ");
 		list<string>::iterator it;
-		for(it=operands.begin() ; it!=operands.end() ; i++)
+		for(it=operands.begin() ; it!=operands.end() ; it++)
 		{
 			printf("%s ",it->c_str());
 		}
 		printf("\n\n*********\n");
+		getchar();
 
 		return byte;
 	}
