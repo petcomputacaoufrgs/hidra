@@ -8,7 +8,7 @@ Uma expressão identifica um padrão de forma similar a uma expressão regular. 
  * l - label
  * e - n ou l
  * w - qualquer um dos acima
- * qualquer caractere fora de a-zA-Z0-9 para indicar um caractere que deve aparecer na frase
+ * qualquer caractere fora de a-zA-Z0-9 e diferente de `_` para indicar um caractere que deve aparecer na frase
 
 Ao ler uma expressão, espaços entre os caracteres são ignorados. Por isso, uma expressão não pode conter espaços.
 
