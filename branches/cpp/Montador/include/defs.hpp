@@ -5,7 +5,7 @@
 
 #define ISWHITESPACE(c) ((c)==' ' || (c)=='\t')
 
-typedef enum Exceptions {eFileNotFound,eInvalidFormat} e_exception;
+typedef enum Exceptions {eFileNotFound,eInvalidFormat,eUnmatchedExpression} e_exception;
 
 #endif // DEFS_HPP
 

@@ -18,12 +18,28 @@ class Expression
 	* retorna uma lista de pares onde o primeiro elemento eh a variavel e o segundo, seu tipo
 	* se a frase nao satisfizer, throws eUnmatchedExpression
 	*/
-	list<pair<string,string> > findAll(string phrase,string expression = "");
+	list<pair<string,char> > findAll(string phrase,string expression = "");
+
+	/**
+	* retorna a string da expressao
+	*/
+	string expression();
 
 	private:
 
 	string exp;
-}
+};
+
+
+/**
+* verifica se o caractere passado eh um dos reservados para variaveis
+*/
+bool isVarChar(char c);
+
+/**
+* verifica se o caractere eh reservado
+*/
+bool isReserved(char c);
 
 #endif // EXPRESSION_HPP
 
