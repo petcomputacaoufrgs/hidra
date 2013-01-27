@@ -8,15 +8,19 @@ Uma expressão identifica um padrão de forma similar a uma expressão regular. 
  * l - label
  * e - n ou l
  * w - qualquer um dos acima
- * qualquer caractere fora de a-zA-Z0-9 e diferente de `_` para indicar um caractere que deve aparecer na frase
+ * \ - caractere de escape
+ * qualquer outro caractere indica algum que deve aparecer na frase
 
-Ao ler uma expressão, espaços entre os caracteres são ignorados. Por isso, uma expressão não pode conter espaços.
+As variáveis identificadas podem ter somente os caracteres em a-zA-Z0-9 e _ . Elas devem estar separadas por um caractere em branco se a expressão exigir algum dos caracteres que as compõem (ver exemplo).
+
+Ao ler uma expressão, espaços entre os caracteres são ignorados. Por isso, uma expressão não pode conter espaços (se contiver, estes serão ignorados).
 
 = Exemplo =
 
-As seguintes frases satisfazem "(e),e":
- * "(125),red" (match de 125 e red)
- * " ( red ) , 125" (match de red e 125)
-As seguintes frases não satisfazem "(e),e":
- * "1(24),red"
- * "((red),32"
+As seguintes frases satisfazem "(ea),e":
+ * "(125 a),red" (match de 125 e red)
+ * " ( reda a) , 125" (match de reda e 125)
+As seguintes frases não satisfazem "(ea),e":
+ * "1(24 a),red"
+ * "(reda),32"
+ * "((red a),32"
