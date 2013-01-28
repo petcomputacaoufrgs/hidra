@@ -17,7 +17,7 @@ onde:
  * <mnemônico> : qualquer sequência dos caracteres a-z e A-Z (case insensitive)
  * <formato assembly> : [Expressao Expressão] que indica como a instrução deve ser escrita em assembly
  * <endereçamento0,...> : quais modos de [MontadorEnderecamentos endereçamento] podem ser usados com essa instrução
- * <registrador0,...> : quais [MontadorRegistrador registradores] podem ser usados por essa instrução. Se for informado um "-", então nenhum registrador pode ser usado
+ * <registrador0,...> : quais [MontadorRegistrador registradores] podem ser usados por essa instrução. "-" indica nenhum,"`*`" indica todos  
  * <formato binário> : como que a instrução é montada. São usados os símbolos:
   * e : endereço (colocados na ordem em que aparecem)
   * i : código da instrução (apenas 1 por instrução)
