@@ -10,7 +10,7 @@ using namespace std;
 	*	quebra a string nos divisores passados
 	* nao acrescenta elementos vazios a lista
 	*/
-list<string> *stringSplitChar(string text, string dividers);
+list<string> stringSplitChar(string text, string dividers);
 
 /**
 	*	remove todos os dividers que estiverem nos cantos de s, retornando a nova string

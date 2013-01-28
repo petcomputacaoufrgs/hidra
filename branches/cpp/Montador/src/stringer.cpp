@@ -11,9 +11,9 @@ using namespace std;
 	*	quebra a string nos divisores passados
 	* nao acrescenta elementos vazios a lista
 	*/
-list<string> *stringSplitChar(string text, string dividers)
+list<string> stringSplitChar(string text, string dividers)
 {
-	list<string> *sections = new list<string>();
+	list<string> sections;
 
 	string::iterator it;
 	int i=0,b = 0;
@@ -25,14 +25,14 @@ list<string> *stringSplitChar(string text, string dividers)
 			//se houver mais de um caractere para adicionar,adiciona
 			if(i>b)
 			{
-				sections->push_back(text.substr(b,i-b));
+				sections.push_back(text.substr(b,i-b));
 			}
 			b=i+1;
 		}
 	}
 	//adiciona o ultimo elemento se este tiver mais de um caractere
 	if(i>b)
-		sections->push_back(text.substr(b,i-b));
+		sections.push_back(text.substr(b,i-b));
 
 	return sections;
 

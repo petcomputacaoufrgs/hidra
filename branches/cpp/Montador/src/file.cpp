@@ -12,15 +12,16 @@ using namespace std;
 /**
 *	le todas as linhas do arquivo, criando uma lista com cada uma delas
 */
-list<string> *fileReadLines(const char *filename)
+list<string> fileReadLines(const char *filename)
 {
 	int size;
 	char *raw = fileRead(filename,&size,1);
+	list<string> list;
 	if(raw == NULL)
-		return NULL;
+		return list;
 	raw[size] = '\0';
 	string text (raw);
-	list<string> *list = stringSplitChar(text,"\n\r");
+	list = stringSplitChar(text,"\n\r");
 	free(raw);
 
 	return list;

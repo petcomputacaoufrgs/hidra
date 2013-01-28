@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 #include <string>
 #include <list>
 
@@ -36,11 +38,13 @@ list<pair<string,char> > Expression::findAll(string phrase,string exp)
 	unsigned int p=0,e=0;
 	unsigned int b=0;
 	e_state state = STATE_INI;
-
-	while(p<phrase.size() && e<phrase.size())
+	char ec;
+	while(p<phrase.size() && e<exp.size())
 	{
 		char pc = phrase[p];
-		char ec = exp[e];
+		ec = exp[e];
+
+		//printf("e:%c\tp:%c\n",ec,pc);
 
 		switch(state)
 		{
@@ -87,7 +91,20 @@ list<pair<string,char> > Expression::findAll(string phrase,string exp)
 		}
 	}
 
-	return vars;
+	if(p==phrase.size())
+	{
+		if(e==exp.size())
+			return vars;
+		else if(e==exp.size()-1 && state==STATE_VAR)
+		{
+			vars.push_back(pair<string,char>(phrase.substr(b,p-b),ec));
+			return vars;
+		}
+		else
+			throw (eUnmatchedExpression);
+	}
+	else
+		throw (eUnmatchedExpression);
 }
 
 string Expression::expression()

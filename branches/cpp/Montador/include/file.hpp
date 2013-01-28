@@ -9,7 +9,7 @@ using namespace std;
 /**
 *	le todas as linhas do arquivo, criando uma lista com cada uma delas
 */
-list<string> *fileReadLines(const char *filename);
+list<string> fileReadLines(const char *filename);
 
 /**
 *	le todos os bytes do arquivo, escrevendo seu tamanho em size
