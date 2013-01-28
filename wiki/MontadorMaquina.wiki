@@ -1,4 +1,4 @@
-#summary Descrição do arquivo da máquina usado pelo montador
+#summary Descrição da seção sobre características da máquina. Usada pelo montador.
 #labels Phase-Implementation
 
 = Função =
@@ -8,6 +8,7 @@ Descrever diversos aspectos da máquina, como tamanho do PC e a endianness usada
 
 = Formato =
 {{{
+[machine]
 <little-endian / big-endian> <bits do PC>
 }}}
  onde:
