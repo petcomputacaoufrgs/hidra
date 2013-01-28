@@ -9,13 +9,13 @@ O arquivo deve determinar qual o mnemônico, formato, modos de endereçamento e 
 
 {{{
 [instructions]
-<código> <mnemônico> <formato assembly> <endereçamento0,...> <[registrador0,...] / -> <formato binário> 
+<código> <mnemônico> <operandos> <endereçamento0,...> <[registrador0,...] | - | *> <formato binário> 
 }}}
 
 onde:
  * <código> : [Numeros número] do código da instrução
  * <mnemônico> : qualquer sequência dos caracteres a-z e A-Z (case insensitive)
- * <formato assembly> : [Expressao Expressão] que indica como a instrução deve ser escrita em assembly
+ * `<`operandos`>` : [Expressao Expressão] que indica como os operandos da instrução deven aparecer
  * <endereçamento0,...> : quais modos de [MontadorEnderecamentos endereçamento] podem ser usados com essa instrução
  * <registrador0,...> : quais [MontadorRegistrador registradores] podem ser usados por essa instrução. "-" indica nenhum,"`*`" indica todos  
  * <formato binário> : como que a instrução é montada. São usados os símbolos:
