@@ -1,4 +1,4 @@
-#summary Descrição do arquivo de endereçamentos usado pelo montador
+#summary Descrição da seção de endereçamentos. Usada pelo montador.
 #labels Phase-Implementation
 
 = Função =
@@ -7,6 +7,7 @@ Descreve os modos de endereçamento de cada máquina, como o formato pelo qual �
 
 = Formato =
 {{{
+[addressings]
 <nome> [=/-] <código binário> <identificador>
 }}}
 onde:
