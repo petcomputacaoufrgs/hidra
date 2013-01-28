@@ -1,4 +1,4 @@
-#summary Descrição do arquivo de instruções usado pelo montador.
+#summary Descrição da seção de instruções. Usada pelo montador.
 #labels Phase-Implementation
 
 = Função =
@@ -8,6 +8,7 @@ O arquivo deve determinar qual o mnemônico, formato, modos de endereçamento e 
 = Formato =
 
 {{{
+[instructions]
 <código> <mnemônico> <formato assembly> <endereçamento0,...> <[registrador0,...] / -> <formato binário> 
 }}}
 
