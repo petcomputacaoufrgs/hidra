@@ -13,6 +13,15 @@ using namespace std;
 list<string> stringSplitChar(string text, string dividers);
 
 /**
+* le todas as palavras de uma string, as quais podem estar separadas por '\t' ou ' '
+* strings sao identificadas por qualquer caractere em delimiters, e sao fechadas pelo mesmo caractere
+* caracteres precedidos por escape sao escapados
+* ignora tudo o que estiver depois de um caractere comment
+* retorna uma lista com todas as palavras
+*/
+list<string> stringReadWords(string text, string delimiters, char escape, char comment);
+
+/**
 	*	remove todos os dividers que estiverem nos cantos de s, retornando a nova string
 	*/
 string stringTrim(string s,string dividers);

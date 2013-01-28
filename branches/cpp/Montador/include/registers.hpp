@@ -15,7 +15,7 @@ class	Registers
 	/**
 	*	carrega os registradores que estao definidas na string config
 	*/
-	void load(string *config);
+	void load(string config);
 
 	/**
 	*	retorna o numero do registrador caso ele exista,

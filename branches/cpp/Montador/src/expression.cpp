@@ -44,8 +44,6 @@ list<pair<string,char> > Expression::findAll(string phrase,string exp)
 		char pc = phrase[p];
 		ec = exp[e];
 
-		//printf("e:%c\tp:%c\n",ec,pc);
-
 		switch(state)
 		{
 			//elimina whitespaces no inicio

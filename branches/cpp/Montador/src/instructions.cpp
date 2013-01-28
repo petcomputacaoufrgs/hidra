@@ -14,9 +14,11 @@ Instructions::Instructions()
 /**
 *	carrega as instrucoes que estao definidas na string config
 */
-void Instructions::load(string *config)
+void Instructions::load(string config)
 {
-	printf("Instructions:\nLine:\n%s\n",config->c_str());
+	printf("Instructions:\nLine:\n%s\n",config.c_str());
+
+	typedef enum {STATE_INI,} e_state;
 }
 
 /**

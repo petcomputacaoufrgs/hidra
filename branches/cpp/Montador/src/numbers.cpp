@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <math.h>
 
 #include <string>
 
@@ -132,7 +133,7 @@ int Number::toInt(string n)
 	int base;
 	int power = 1;
 	int end = n.size()-1;
-	e_numType type = numberType(n);
+	e_numType type = this->numberType(n);
 	char last = n[end];
 	switch(type)
 	{
@@ -187,12 +188,12 @@ int Number::toInt(string n)
 	*	escreve o numero de bytes do numero em size
 	*	se o numero fo invalido, retorna NULL e escreve 0 em size
 	*/
-unsigned char *toByteArray(string n, int *size)
+unsigned char *Number::toByteArray(string n, int *size)
 {
 
 	unsigned char values[n.size()];
-	char *number;
-	e_numType type = numberType(n);
+	unsigned char *number;
+	e_numType type = this->numberType(n);
 
 	if(type == INVALID)
 	{
@@ -209,7 +210,7 @@ unsigned char *toByteArray(string n, int *size)
 	if(n[last] <'0' || n[last]>'9')
 		last--;
 
-	int size = last-first+1;
+	int len = last-first+1;
 	int i;
 	int max;
 	int byte;
@@ -219,14 +220,14 @@ unsigned char *toByteArray(string n, int *size)
 
 			//cada digito representa um bit
 			//numero de bytes = digitos/8
-			max = ceil(size/8.0);
-			number = (char *)malloc(max);
+			max = ceil(len/8.0);
+			number = (unsigned char *)malloc(max);
 
 			for(byte=0 ; byte<max ; byte++)
 			{
 				int pos = byte*8;
 				number[byte] = 0;
-				for(i=0 ; i<7 && pos<size ; i++,pos++)
+				for(i=0 ; i<7 && pos<len ; i++,pos++)
 				{
 					number[byte] |= 1<<i*values[pos];
 				}
@@ -236,15 +237,19 @@ unsigned char *toByteArray(string n, int *size)
 		case DECIMAL:
 			//numero de bytes = log2(10^(digitos+1)-1)/8
 			//                = (digitos+1)*log2(10)/8
-			max = ceil(((size+1)*LOG10)/8);
-			number = (char *)malloc(max);
+			max = ceil(((len+1)*LOG10)/8);
+			number = (unsigned char *)malloc(max);
 			break;
 		case HEXADECIMAL:
 			//numero de bytes = digitos/2
-			max = ceil(size/2.0)
-			number = (char *)malloc(max);
+			max = ceil(len/2.0);
+			number = (unsigned char *)malloc(max);
 			break;
 	}
+
+	*size = byte;
+
+	return number;
 
 }
 

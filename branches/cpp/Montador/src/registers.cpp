@@ -14,9 +14,9 @@ Registers::Registers()
 /**
 *	carrega os registradores que estao definidas na string config
 */
-void Registers::load(string *config)
+void Registers::load(string config)
 {
-	printf("Registers:\nLine:\n%s\n",config->c_str());
+	printf("Registers:\nLine:\n%s\n",config.c_str());
 }
 
 /**

@@ -15,7 +15,7 @@ class Instructions
 	/**
 	*	carrega as instrucoes que estao definidas na string config
 	*/
-	void load(string *config);
+	void load(string config);
 
 	/**
 	*	determina se o dado mnemonico corresponde a uma instrucao ou nao

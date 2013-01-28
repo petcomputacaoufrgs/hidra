@@ -52,13 +52,13 @@ using namespace std;
 			fclose(fl);
 			data[size] = '\0';
 
-			string *text = new string(data);
+			string text (data);
 
-			list<string> *lines = stringSplitChar(*text,"\n\r");
+			list<string> lines = stringSplitChar(text,"\n\r");
 			list<string>::iterator it;
 
 			e_category category = CAT_NONE;
-			for(it=lines->begin() ; it!=lines->end() ; it++)
+			for(it=lines.begin() ; it!=lines.end() ; it++)
 			{
 				string line = *it;
 				for(unsigned int i=0 ; i<line.size() ; i++)
@@ -97,29 +97,27 @@ using namespace std;
 					}
 					else if(category == CAT_INST)
 					{
-						this->inst.load(&line);
+						this->inst.load(line);
 						break;
 					}
 					else if(category == CAT_ADDR)
 					{
-						this->addr.load(&line);
+						this->addr.load(line);
 						break;
 					}
 					else if(category == CAT_REGI)
 					{
-						this->regs.load(&line);
+						this->regs.load(line);
 						break;
 					}
 					else if(category == CAT_MACH)
 					{
-						this->mach.load(&line);
+						this->mach.load(line);
 						break;
 					}
 				}
 			}
 
-			delete(text);
-			delete(lines);
 			free(data);
 
 		}
@@ -129,23 +127,23 @@ using namespace std;
 	*	monta o codigo assembly passado
 	* retorna a memoria gerada
 	*/
-	Memory *Assembler::assembleCode(string code)
+	Memory Assembler::assembleCode(string code)
 	{
 		//quebra as linhas
-		list<string> *lines = stringSplitChar(code,"\n\r");
+		list<string> lines = stringSplitChar(code,"\n\r");
 
 		//aloca espaco suficiente para a memoria
 		int size = pow(2,this->mach.getPCSize());
-		Memory *memory = new Memory (size);
+		Memory memory(size);
 
 		unsigned int pos = 0;
 
 		list<string>::iterator it;
 
 		//monta cada linha
-		for(it=lines->begin() ; it!=lines->end() ; it++)
+		for(it=lines.begin() ; it!=lines.end() ; it++)
 		{
-			pos = this->assembleLine(*it,memory,pos);
+			pos = this->assembleLine(*it,&memory,pos);
 		}
 
 		//resolve as pendencias
@@ -160,15 +158,13 @@ using namespace std;
 			if(pend.relative)
 			{
 				int distance = value-pend.byte;
-				this->mach.writeValue(distance,pend.size,memory,pend.byte);
+				this->mach.writeValue(distance,pend.size,&memory,pend.byte);
 			}
 			else
 			{
-				this->mach.writeValue(value,pend.size,memory,pend.byte);
+				this->mach.writeValue(value,pend.size,&memory,pend.byte);
 			}
 		}
-
-		delete lines;
 
 		return memory;
 	}

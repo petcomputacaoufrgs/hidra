@@ -17,12 +17,12 @@ class	Machine
 	/**
 	*	carrega as caracteristicas da maquina que estao definidas na string config
 	*/
-	void load(string *config);
+	void load(string config);
 
 	/**
 	*	retorna o numero de bits do PC
 	*/
-	int getPCSize();
+	unsigned int getPCSize();
 
 	/**
 	*	escreve uma palavra na memoria, respeitando a endianess da maquina
@@ -38,6 +38,7 @@ class	Machine
 	private:
 
 	bool bigEndian;
+	unsigned int pcBits;
 };
 
 #endif // MACHINE_HPP

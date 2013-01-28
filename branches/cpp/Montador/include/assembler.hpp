@@ -44,7 +44,7 @@ class Assembler
 	*	monta o codigo assembly passado
 	* retorna a memoria gerada
 	*/
-	Memory *assembleCode(string code);
+	Memory assembleCode(string code);
 
 	/**
 	*	cria o arquivo binario para a memoria
