@@ -9,7 +9,7 @@ O arquivo deve determinar qual o mnemônico, formato, modos de endereçamento e 
 
 {{{
 [instructions]
-<código> <mnemônico> <operandos> <endereçamento0,...> <[registrador0,...] | - | *> <formato binário> 
+<código> <mnemônico> <operandos> <endereçamento0,...> <<registrador0,...> | - | *> <formato binário> 
 }}}
 
 onde:
