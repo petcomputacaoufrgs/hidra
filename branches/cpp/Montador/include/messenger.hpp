@@ -13,6 +13,21 @@
 
 using namespace std;
 
+typedef enum
+{
+	mBaseError,
+	mBaseWarning,
+	mUnknownInstruction,
+	mIncorrectOperands,
+	mLargeRelativeAddress,
+	mUnkownAddressing,
+	mRedefinedLabel,
+	mUndefinedLabel,
+	mOverwritenRegion,
+	mUnusedLabel
+
+}e_messages;
+
 typedef struct s_status
 {
 	unsigned int line;
@@ -21,6 +36,7 @@ typedef struct s_status
 	unsigned int foundOperands;
 	unsigned int expectedOperands;
 	unsigned int operandSize;	//numero de bits do operando
+	unsigned int firstDefinition; //numero da linha da primeira definicao da label
 	int value;	//valor do operando, sem truncar
 	string operand;	//o operando junto com seu modo de enderecamento
 	string label;	//a ultima label lida (referencia ou definicao)

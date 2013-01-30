@@ -5,7 +5,8 @@
 3 e Número incorreto de operandos para $MNEMONIC: esperava-se $EXPECTED_OPERANDS, encontrou-se $FOUND_OPERANDS
 4 e Endereço relativo ao PC muito grande: $LABEL está a uma distância de $DISTANCE bytes do PC, mas o máximo possível é $OPERAND_SIZE bytes
 5 e Modo de endereçamento desconhecido: $ADDRESSING_MODE
-6 e Label $LABEL não definida
+6 e Label $LABEL redefinida. Primeira definição: linha $FIRST_DEFINITION
+7 e Label $LABEL não definida
 #Avisos
-7 w Região sobrescrita por causa da linha $LAST_ORG_LINE
-8 w Label $LABEL definida mas não utilizada
+8 w Região sobrescrita por causa da linha $LAST_ORG_LINE
+9 w Label $LABEL definida mas não utilizada

@@ -22,7 +22,7 @@ class Number
 	int toInt(string n);
 
 	/**
-	*	converte o numero para um array de bytes com notacao big-endian
+	*	converte o numero para um array de bytes com notacao little-endian
 	*	o ultimo caractere determina o tipo do numero:
 	*	b/B - binario
 	*	d/D - decimal

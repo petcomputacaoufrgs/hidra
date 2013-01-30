@@ -6,7 +6,15 @@
 #define ISWHITESPACE(c) ((c)==' ' || (c)=='\t')
 #define ISEOL(c) ((c)=='\r' || (c)=='\n')
 
-typedef enum Exceptions {eFileNotFound,eInvalidFormat,eUnmatchedExpression,eOpenString} e_exception;
+typedef enum Exceptions
+{
+	eFileNotFound,
+	eInvalidFormat,
+	eUnmatchedExpression,
+	eOpenString,
+	eRedefinedLabel
+
+} e_exception;
 
 #endif // DEFS_HPP
 

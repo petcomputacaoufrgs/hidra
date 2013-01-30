@@ -231,13 +231,16 @@ using namespace std;
 	* se for encontrada a definicao de uma label, acrescenta-a as Labels conhecidas
 	* retorna a posicao da memoria em que a proxima linha deve comecar
 	*/
-	unsigned int Assembler::assembleLine(string line, Memory *memory,unsigned int byte)
+	unsigned int Assembler::assembleLine(string line, Memory *memory,unsigned int byte,unsigned int lineNumber)
 	{
 
 		typedef enum {STATE_INI,STATE_FIRST_WORD,STATE_FIRST_END,STATE_LABEL,STATE_INST,STATE_INST_END,STATE_OPERAND} e_states;
 
 		e_states state = STATE_INI;
 
+		t_status status;
+		status.position = byte;
+		status.line = lineNumber;
 		unsigned int i;
 		unsigned int b;
 		string inst;
@@ -246,10 +249,7 @@ using namespace std;
 		bool read = false;	//indica se uma palavra esta sendo lida ou nao
 		for(i=0 ; i<line.size() ; i++)
 		{
-
 			char c = line[i];
-			//printf("State:%d\t%c\n",state,c);
-			//getchar();
 			if(c == ';')
 				break;
 			switch(state)
@@ -264,15 +264,18 @@ using namespace std;
 					break;
 
 				case STATE_FIRST_WORD:
-
 					//a primeira palavra eh uma instrucao ou diretiva
 					if(ISWHITESPACE(c))
 					{
 						state = STATE_FIRST_END;
 						inst = line.substr(b,i-b);
 						read = false;
-						//verifica se existe
-						//TODO
+						//verifica se a instrucao ou diretiva existe
+						if(!this->inst.isInstruction(inst) && !this->directives.isDirective(inst))
+						{
+							status.mnemonic = inst;
+							this->messenger.generateMessage(mUnknownInstruction,&status);
+						}
 					}
 					//eh uma label
 					else if(c==':')
@@ -281,7 +284,15 @@ using namespace std;
 						defLabel = line.substr(b,i-b);
 						read = false;
 						//define a label
-						this->labels.defineLabel(defLabel,byte);
+						try
+							this->labels.defineLabel(defLabel,byte,lineNumber);
+						catch(e_exception e)
+						{
+							status.firstDefinition = this->labels.line(defLabel);
+							status.label = defLabel;
+							if(e==eRedefinedLabel)
+								this->messenger.generateMessage(mRedefinedLabel,&status);
+						}
 					}
 					break;
 				//le os espacos em branco ate encontrar outro caractere
@@ -312,7 +323,12 @@ using namespace std;
 						inst = line.substr(b,i-b);
 						read = false;
 						//verifica se a instrucao ou diretiva existe
-						//TODO
+						if(!this->inst.isInstruction(inst) && !this->directives.isDirective(inst))
+						{
+							status.mnemonic = inst;
+							this->messenger.generateMessage(mUnknownInstruction,&status);
+						}
+
 					}
 					break;
 				//le os espacos em branco apos uma instrucao

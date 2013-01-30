@@ -157,18 +157,29 @@ void Messenger::updateVariables(t_status *status)
 	char buffer[MAXDIGITS];
 
 	this->variables["$ADDRESSING_MODE"] = status->operand;
+
 	sprintf(buffer,"%d",status->value);
 	this->variables["$DISTANCE"] = string(buffer);
+
 	sprintf(buffer,"%d",status->expectedOperands);
 	this->variables["$EXPECTED_OPERANDS"] = string(buffer);
+
+	sprintf(buffer,"%d",status->firstDefinition);
+	this->variables["$FIRST_DEFINITION"] = string(buffer);
+
 	sprintf(buffer,"%d",status->foundOperands);
 	this->variables["$FOUND_OPERANDS"] = string(buffer);
+
 	this->variables["$LABEL"] = status->label;
+
 	sprintf(buffer,"%d",status->lastOrgLine);
 	this->variables["$LAST_ORG_LINE"] = string(buffer);
+
 	sprintf(buffer,"%d",status->line);
 	this->variables["$LINE"] = string(buffer);
+
 	this->variables["$MNEMONIC"] = status->mnemonic;
+
 	sprintf(buffer,"%d",(int)(pow(2,status->operandSize-1)-1));
 	this->variables["$OPERAND_SIZE"] = string(buffer);
 }

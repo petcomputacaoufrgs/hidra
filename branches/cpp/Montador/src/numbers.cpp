@@ -203,7 +203,7 @@ unsigned char *Number::toByteArray(string n, int *size)
 
 	convertDigits(n,values,type);
 
-	int first;
+	int first=0;
 	int last = n.size()-1;
 	if(n[0] == '-')
 		first=1;

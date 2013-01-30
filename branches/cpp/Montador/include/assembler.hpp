@@ -64,6 +64,7 @@ class Assembler
 	Registers regs;
 	Addressings addr;
 	Machine mach;
+	Messenger messenger;
 
 	/**
 	*	monta uma linha, escrevendo seu codigo binario a partir de memory[byte]
