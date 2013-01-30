@@ -32,16 +32,18 @@ class Instructions
 	/**
 	*	determina se o dado mnemonico corresponde a uma instrucao ou nao
 	*/
-	bool isInstruction(string *mnemonic);
+	bool isInstruction(string mnemonic);
 
 	/**
 	*	gera o codigo binario de uma instrucao, escrevendo-o em word (notacao little-endian, sempre)
 	* word deve ser grande o suficiente para guardar a instrucao
 	*	retorna o numero de bytes da palavra
 	*/
-	int assemble(string *mnemonic, string *operands,unsigned char *word);
+	int assemble(string mnemonic, string operands,unsigned char *word);
 
 	private:
+
+	map<string,t_instruction> insts;	//relaciona o mnemonico com a estrutura
 };
 
 #endif // INSTRUCTIONS_HPP

@@ -5,6 +5,11 @@
 
 using namespace std;
 
+typedef struct s_register
+{
+	string name;
+}t_register;
+
 class	Registers
 {
 
@@ -21,7 +26,11 @@ class	Registers
 	*	retorna o numero do registrador caso ele exista,
 	* -1 caso nao exista
 	*/
-	int number(string *regName);
+	int number(string regName);
+
+	private:
+
+	map<string,t_register> regs;
 
 };
 

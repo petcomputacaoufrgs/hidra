@@ -20,8 +20,6 @@ Machine::Machine()
 */
 void Machine::load(string config)
 {
-	printf("Machine:\nLine:\n%s\n",config.c_str());
-
 	typedef enum {STATE_INI,STATE_ENDIAN,STATE_SKIP,STATE_PC,STATE_END} e_state;
 
 	e_state state = STATE_INI;
@@ -96,9 +94,6 @@ void Machine::load(string config)
 		Number n;
 		this->pcBits = n.toInt(number);
 	}
-
-	cout << "Big Endian:" << this->bigEndian << '\n';
-	cout << "PC:" << this->pcBits << '\n';
 
 }
 

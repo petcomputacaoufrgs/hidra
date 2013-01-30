@@ -17,8 +17,6 @@ Addressings::Addressings()
 */
 void Addressings::load(string config)
 {
-	printf("Addressings:\nLine:\n%s\n",config.c_str());
-
 	typedef enum {STATE_INI,STATE_NAME,STATE_RELATIVE,STATE_SKIP,STATE_CODE,STATE_EXP,STATE_END} e_state;
 
 	e_state state = STATE_INI;
@@ -114,10 +112,4 @@ void Addressings::load(string config)
 	}
 
 	this->addrs[name] = addr;
-
-	printf("Addressing:%s\n",name.c_str());
-	printf("Expression:%s\n",addr.exp.c_str());
-	printf("Code:%s\n",addr.code.c_str());
-	printf("Relative:%d\n",addr.relative);
-
 }
