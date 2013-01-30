@@ -48,7 +48,10 @@ void Instructions::load(string config)
 */
 bool Instructions::isInstruction(string mnemonic)
 {
-	return true;
+	if(this->insts.find(mnemonic)!=map::end)
+		return true;
+	else
+		return false;
 }
 
 /**
@@ -58,5 +61,8 @@ bool Instructions::isInstruction(string mnemonic)
 */
 int Instructions::assemble(string mnemonic, string operands,unsigned char *word)
 {
+
+
+
 	return 0;
 }
