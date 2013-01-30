@@ -2,8 +2,20 @@
 #define INSTRUCTIONS_HPP
 
 #include <string>
+#include <list>
 
 using namespace std;
+
+typedef struct s_instruction
+{
+	string code;
+	string mnemonic;
+	string operandExpression;
+	list<string> addrs;
+	list<string> regs;
+	string binFormat;
+
+}t_instruction;
 
 class Instructions
 {

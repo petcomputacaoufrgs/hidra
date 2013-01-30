@@ -18,6 +18,7 @@ list<string> stringSplitChar(string text, string dividers);
 * caracteres precedidos por escape sao escapados
 * ignora tudo o que estiver depois de um caractere comment
 * retorna uma lista com todas as palavras
+* caso uma string termine em aberto, throws eOpenString
 */
 list<string> stringReadWords(string text, string delimiters, char escape, char comment);
 

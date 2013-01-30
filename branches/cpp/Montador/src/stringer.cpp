@@ -6,6 +6,8 @@
 #include <utility>
 
 #include "stringer.hpp"
+#include "defs.hpp"
+
 using namespace std;
 /**
 	*	quebra a string nos divisores passados
@@ -13,25 +15,37 @@ using namespace std;
 	*/
 list<string> stringSplitChar(string text, string dividers)
 {
+	typedef enum {STATE_READ,STATE_SPLIT} e_state;
 	list<string> sections;
 
-	string::iterator it;
-	int i=0,b = 0;
-	for(it=text.begin();it!=text.end();it++,i++)
+	e_state state = STATE_READ;
+	unsigned int i=0,b = 0;
+	for(i=0 ; i<text.size() ; i++)
 	{
-		//se o caractere for um divisor
-		if(stringIn(*it,dividers))
+		char c = text[i];
+		switch(state)
 		{
-			//se houver mais de um caractere para adicionar,adiciona
-			if(i>b)
-			{
-				sections.push_back(text.substr(b,i-b));
-			}
-			b=i+1;
+			case STATE_READ:
+				//se for encontrado um divisor
+				if(dividers.find(c)!=string::npos)
+				{
+					sections.push_back(text.substr(b,i-b));
+					state = STATE_SPLIT;
+				}
+				break;
+			case STATE_SPLIT:
+				//se nao for um divider
+				if(dividers.find(c)==string::npos)
+				{
+					state = STATE_READ;
+					b = i;
+				}
+				break;
 		}
+
 	}
-	//adiciona o ultimo elemento se este tiver mais de um caractere
-	if(i>b)
+
+	if(state == STATE_READ)
 		sections.push_back(text.substr(b,i-b));
 
 	return sections;
@@ -48,14 +62,87 @@ list<string> stringSplitChar(string text, string dividers)
 list<string> stringReadWords(string text, string delimiters, char escape, char comment)
 {
 
-	typedef enum {STATE_SKIP,STATE_READ,STATE_STRING,STATE_ESCAPE} e_state;
+	typedef enum {STATE_SKIP,STATE_READ,STATE_STRING,STATE_ESCAPE,STATE_COMMENT} e_state;
 
 	list<string> words;
 
-	unsigned int i;
+	unsigned int i,b;
 
-	statu
+	e_state state = STATE_SKIP;
+	e_state nextState;
+	char close;
 
+	for(i=0 ; i<text.size() ; i++)
+	{
+		char c = text[i];
+
+		switch(state)
+		{
+			//pula caracteres em branco
+			case STATE_SKIP:
+
+				if(!ISWHITESPACE(c) && !ISEOL(c))
+				{
+					b = i;
+					//se for o inicio de uma string
+					if(delimiters.find(c)!=string::npos)
+					{
+						close = c;
+						state = STATE_STRING;
+
+					}
+					else if(c == comment)
+						state = STATE_COMMENT;
+					//inicio de uma palavra
+					else
+					{
+						state = STATE_READ;
+					}
+				}
+				break;
+			case STATE_READ:
+				//final de uma palavra
+				if(ISWHITESPACE(c) || ISEOL(c))
+				{
+					words.push_back(text.substr(b,i-b));
+					state = STATE_SKIP;
+				}
+				//inicio de uma string
+				else if(delimiters.find(c) != string::npos)
+				{
+					close = c;
+					state = STATE_STRING;
+				}
+				else if(c==comment)
+					state = STATE_COMMENT;
+
+				break;
+			case STATE_STRING:
+				//final da string
+				if(c == close)
+					state = STATE_READ;
+				else if(c==escape)
+				{
+					state = STATE_ESCAPE;
+					nextState = STATE_STRING;
+				}
+				break;
+			//pula o caractere
+			case STATE_ESCAPE:
+				state = nextState;
+				break;
+			case STATE_COMMENT:
+				if(ISEOL(c))
+					state = STATE_SKIP;
+		}
+	}
+
+	if(state == STATE_READ)
+		words.push_back(text.substr(b,i-b));
+	else if(state == STATE_STRING)
+		throw(eOpenString);
+
+	return words;
 }
 
 /**

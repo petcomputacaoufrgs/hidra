@@ -3,6 +3,8 @@
 #include <string>
 
 #include "instructions.hpp"
+#include "stringer.hpp"
+#include "defs.hpp"
 
 using namespace std;
 
@@ -16,9 +18,46 @@ Instructions::Instructions()
 */
 void Instructions::load(string config)
 {
-	printf("Instructions:\nLine:\n%s\n",config.c_str());
+	printf("11111111111111\n");
 
-	typedef enum {STATE_INI,} e_state;
+	list<string> words = stringReadWords(config,"'\"",'\\','#');
+
+	list<string>::iterator it=words.begin();
+
+	t_instruction inst;
+	inst.code = *(it++);
+
+	if(it==words.end()) throw (eInvalidFormat);
+	inst.mnemonic = *(it++);
+
+	if(it==words.end()) throw (eInvalidFormat);
+	inst.operandExpression = *(it++);
+
+	if(it==words.end()) throw (eInvalidFormat);
+	inst.addrs = stringSplitChar(*(it++),",");
+
+	if(it==words.end()) throw (eInvalidFormat);
+	inst.regs = stringSplitChar(*(it++),",");
+
+	if(it==words.end()) throw (eInvalidFormat);
+	inst.binFormat = *it;
+
+	printf("Mnemonic:%s\n",inst.mnemonic.c_str());
+	printf("Code:%s\n",inst.code.c_str());
+	printf("Operands:%s\n",inst.operandExpression.c_str());
+	printf("Binary Format:%s\n",inst.binFormat.c_str());
+
+	printf("****\nAddressings:\n");
+	for(it=inst.addrs.begin() ; it!=inst.addrs.end() ; it++)
+		printf("(%s)\n",it->c_str());
+
+	printf("****\nRegisters:\n");
+	for(it=inst.regs.begin() ; it!=inst.regs.end() ; it++)
+		printf("%s\n",it->c_str());
+
+	printf("11111111111111\n");
+	getchar();
+
 }
 
 /**
