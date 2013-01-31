@@ -19,10 +19,10 @@ onde:
  * <endereçamento0,...> : quais modos de [MontadorEnderecamentos endereçamento] podem ser usados com essa instrução
  * <registrador0,...> : quais [MontadorRegistrador registradores] podem ser usados por essa instrução. "-" indica nenhum,"`*`" indica todos  
  * <formato binário> : como que a instrução é montada. São usados os símbolos:
-  * e : endereço (colocados na ordem em que aparecem)
+  * e`<`n> : endereço n (se o n nâo for informado, são colocados na ordem em que aparecem)
   * i : código da instrução (apenas 1 por instrução)
-  * m : modo de endereçamento (colocados na ordem em que aparecem
-  * r : código do registrador (são colocados na ordem em que aparecem)
+  * m`<`n> : modo de endereçamento n (se o n nâo for informado, são colocados na ordem em que aparecem)
+  * r`<`n> : código do registrador n (se o n nâo for informado, são colocados na ordem em que aparecem)
   * 0 : bit 0
   * 1 : bit 1
 
