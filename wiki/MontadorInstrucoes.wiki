@@ -13,7 +13,7 @@ O arquivo deve determinar qual o mnemônico, formato, modos de endereçamento e 
 }}}
 
 onde:
- * <tamanho> : [Numeros número] de bits da instrução
+ * `<`tamanho> : [Numeros número] de bits da instrução
  * <mnemônico> : qualquer sequência dos caracteres a-z e A-Z (case insensitive)
  * `<`operandos`>` : [Expressao Expressão] que indica como os operandos da instrução devem aparecer. Uma expressão sem variáveis será ignorada e indicará que nenhum operando deve ser utilizado
  * <endereçamento0,...> : quais modos de [MontadorEnderecamentos endereçamento] podem ser usados com essa instrução
