@@ -2,6 +2,7 @@
 #define REGISTERS_HPP
 
 #include <string>
+#include <map>
 
 using namespace std;
 

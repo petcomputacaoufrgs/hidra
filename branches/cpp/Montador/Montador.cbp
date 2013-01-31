@@ -49,7 +49,7 @@
 		<Unit filename="include/stringer.hpp" />
 		<Unit filename="src/addressings.cpp" />
 		<Unit filename="src/assembler.cpp" />
-		<Unit filename="src/directive.cpp" />
+		<Unit filename="src/directives.cpp" />
 		<Unit filename="src/expression.cpp" />
 		<Unit filename="src/file.cpp" />
 		<Unit filename="src/instructions.cpp" />

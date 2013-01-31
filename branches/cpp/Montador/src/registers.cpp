@@ -1,8 +1,11 @@
 #include <stdio.h>
 
 #include <string>
+#include <list>
 
 #include "registers.hpp"
+#include "stringer.hpp"
+#include "defs.hpp"
 
 using namespace std;
 
@@ -21,7 +24,7 @@ void Registers::load(string config)
 	if(words.size() != 1)
 		throw(eInvalidFormat);
 
-	t_reg r;
+	t_register r;
 	r.name = *(words.begin());
 
 	this->regs[r.name] = r;

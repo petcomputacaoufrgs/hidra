@@ -7,7 +7,9 @@
 
 #include "instructions.hpp"
 #include "addressings.hpp"
+#include "directives.hpp"
 #include "registers.hpp"
+#include "messenger.hpp"
 #include "machine.hpp"
 #include "labels.hpp"
 
@@ -65,6 +67,7 @@ class Assembler
 	Addressings addr;
 	Machine mach;
 	Messenger messenger;
+	Directives directives;
 
 	/**
 	*	monta uma linha, escrevendo seu codigo binario a partir de memory[byte]
@@ -73,7 +76,7 @@ class Assembler
 	* se for encontrada a definicao de uma label, acrescenta-a as Labels conhecidas
 	* retorna a posicao da memoria em que a proxima linha deve comecar
 	*/
-	unsigned int assembleLine(string line, Memory *memory,unsigned int byte);
+	unsigned int assembleLine(string line, Memory *memory,unsigned int byte,unsigned int lineNumber);
 
 };
 

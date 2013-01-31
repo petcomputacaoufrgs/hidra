@@ -9,10 +9,13 @@
 typedef enum Exceptions
 {
 	eFileNotFound,
+	eUnknownDirective,
 	eInvalidFormat,
+	eIncorrectOperands,
 	eUnmatchedExpression,
 	eOpenString,
-	eRedefinedLabel
+	eRedefinedLabel,
+	eUndefinedLabel
 
 } e_exception;
 

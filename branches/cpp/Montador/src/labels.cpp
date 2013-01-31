@@ -12,7 +12,7 @@ using namespace std;
 /**
 *	adiciona a definicao de uma label
 */
-void Labels::defineLabel(string name,unsigned int pos,unsigned int line)
+void Labels::define(string name,unsigned int pos,unsigned int line)
 {
 
 	if(this->defs.find(name) == this->defs.end())
@@ -50,7 +50,7 @@ unsigned int Labels::value(string name)
 * nao conta como uma referencia
 * se a label ainda nao foi definida, throws eUndefinedLabel
 */
-unsigned int line(string name)
+unsigned int Labels::line(string name)
 {
 	map<string,unsigned int>::iterator i = this->lines.find(name);
 	if(i == this->defs.end())

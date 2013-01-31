@@ -57,11 +57,11 @@ Messenger::Messenger(const char *filename,FILE *warningStream, FILE *errorStream
 */
 void Messenger::load(const char *filename)
 {
-	list<string> *lines = fileReadLines(filename);
+	list<string> lines = fileReadLines(filename);
 
 	list<string>::iterator it;
 
-	for(it=lines->begin() ; it!=lines->end() ; it++)
+	for(it=lines.begin() ; it!=lines.end() ; it++)
 	{
 		string line = stringTrim(*it," \t");
 
@@ -187,7 +187,7 @@ void Messenger::updateVariables(t_status *status)
 /**
 *	retorna o numero de erros que ocorreram
 */
-unsigned int numberErrors()
+unsigned int Messenger::numberErrors()
 {
 	return this->errors;
 }

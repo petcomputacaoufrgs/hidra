@@ -13,6 +13,7 @@
 
 using namespace std;
 
+//OBS: A ordem dos elementos eh MUITO importante e deve corresponder a do arquivo que possui as mensagens
 typedef enum
 {
 	mBaseError,
@@ -91,7 +92,7 @@ class Messenger
 
 	map<unsigned int, t_message> msgs;
 
-	map<string,string> variables;	//asocia cada variavel a seu valor
+	map<string,string> variables;	//associa cada variavel a seu valor
 
 	unsigned int errors;
 	unsigned int warnings;

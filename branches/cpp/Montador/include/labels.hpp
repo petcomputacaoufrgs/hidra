@@ -15,7 +15,7 @@ class Labels
 	/**
 	*	adiciona a definicao de uma label
 	*/
-	void defineLabel(string name,unsigned int pos,unsigned int line);
+	void define(string name,unsigned int pos,unsigned int line);
 
 	/**
 	*	retorna a posicao em que a label foi definida

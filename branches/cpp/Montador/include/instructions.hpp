@@ -3,12 +3,13 @@
 
 #include <string>
 #include <list>
+#include <map>
 
 using namespace std;
 
 typedef struct s_instruction
 {
-	string code;
+	unsigned int size;
 	string mnemonic;
 	string operandExpression;
 	list<string> addrs;
@@ -35,15 +36,15 @@ class Instructions
 	bool isInstruction(string mnemonic);
 
 	/**
-	*	gera o codigo binario de uma instrucao, escrevendo-o em word (notacao little-endian, sempre)
-	* word deve ser grande o suficiente para guardar a instrucao
-	*	retorna o numero de bytes da palavra
+	*	gera o codigo binario de uma instrucao usando notacao little-endian
+	* retorna o array com esse codigo
+	* escreve o numero de bytes em size
 	*/
-	int assemble(string mnemonic, string operands,unsigned char *word);
+	unsigned char* assemble(string mnemonic, string operands,int *size);
 
 	private:
 
-	map<string,t_instruction> insts;	//relaciona o mnemonico com a estrutura
+	map<string,list<t_instruction> > insts;	//relaciona o mnemonico com a estrutura
 };
 
 #endif // INSTRUCTIONS_HPP

@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include <string>
 
-#include "montador.hpp"
+#include "assembler.hpp"
+#include "memory.hpp"
 
 using namespace std;
 /**
@@ -41,12 +42,13 @@ int main(int argc, char *argv[])
 
 	int size;
 	char *mem = readBinFile(memFile,&size);
+	Memory m (size);
+	m.writeArray((unsigned char *)mem,size,0);
 
-	Montador *mont = new Montador();
+	Assembler mont;
 
-	mont->createBinaryV0(string(dest),string(machName),mem,size);
+	mont.createBinaryV0(string(dest),string(machName),&m);
 	free(mem);
-	delete mont;
 
 	return 0;
 

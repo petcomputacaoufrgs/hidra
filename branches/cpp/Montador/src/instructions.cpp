@@ -23,7 +23,8 @@ void Instructions::load(string config)
 	list<string>::iterator it=words.begin();
 
 	t_instruction inst;
-	inst.code = *(it++);
+	Number n;
+	inst.size = n.toInt(*(it++));
 
 	if(it==words.end()) throw (eInvalidFormat);
 	inst.mnemonic = *(it++);
@@ -40,7 +41,7 @@ void Instructions::load(string config)
 	if(it==words.end()) throw (eInvalidFormat);
 	inst.binFormat = *it;
 
-	this->insts[inst.mnemonic] = inst;
+	this->insts[inst.mnemonic].push_back(inst);
 }
 
 /**
@@ -48,21 +49,21 @@ void Instructions::load(string config)
 */
 bool Instructions::isInstruction(string mnemonic)
 {
-	if(this->insts.find(mnemonic)!=map::end)
+	if(this->insts.find(mnemonic)!=this->insts.end())
 		return true;
 	else
 		return false;
 }
 
 /**
-*	gera o codigo binario de uma instrucao, escrevendo-o em word (notacao little-endian, sempre)
-* word deve ser grande o suficiente para guardar a instrucao
-*	retorna o numero de bytes da palavra
+*	gera o codigo binario de uma instrucao usando notacao little-endian
+* retorna o array com esse codigo
+* escreve o numero de bytes em size
 */
-int Instructions::assemble(string mnemonic, string operands,unsigned char *word)
+unsigned char* assemble(string mnemonic, string operands,int *size)
 {
 
+	unsigned char *code;
 
-
-	return 0;
+	return NULL;
 }
