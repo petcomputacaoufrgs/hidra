@@ -11,7 +11,7 @@ Uma expressão identifica um padrão de forma similar a uma expressão regular. 
  * \ - caractere de escape
  * qualquer outro caractere indica algum que deve aparecer na frase
 
-As variáveis identificadas podem ter somente os caracteres em a-zA-Z0-9 e _ . Elas devem estar separadas por um caractere em branco se a expressão exigir algum dos caracteres que as compõem (ver exemplo).
+As variáveis identificadas podem ter somente os caracteres em a-zA-Z0-9 e `_` . Elas devem estar separadas por um caractere em branco se a expressão exigir algum dos caracteres que as compõem (ver exemplo).
 
 Ao ler uma expressão, espaços entre os caracteres são ignorados. Por isso, uma expressão não pode conter espaços (se contiver, estes serão ignorados).
 
