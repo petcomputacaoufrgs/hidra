@@ -25,9 +25,14 @@ class Addressings
 	*/
 	void load(string config);
 
+	/**
+	*	retorna a estrutura do modo de enderecamento com o nome dado
+	*/
+	t_addressing getAddressing(string name);
+
 	private:
 
-	map<string,t_addressing> addrs;
+	map<string,t_addressing> addrs;	//associa o nome do modo de enderecamento com seus atributos
 
 };
 

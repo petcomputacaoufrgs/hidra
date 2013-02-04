@@ -63,7 +63,7 @@ e_numType Number::numberType(string n)
 				else
 					return INVALID;
 			}
-			if(n[0]=='-' || (n[0]>='0' && n[0]<='9'))
+			if(n[0]=='-' || (n[0]>='0' && n[0]<='9') || (n[i]>='A' && n[i]<='F') || (n[i]>='a' && n[i]<='f'))
 				return HEXADECIMAL;
 			else
 				return INVALID;
@@ -149,7 +149,7 @@ int Number::toInt(string n)
 			base = 16;
 			break;
 		case INVALID:
-			return 0;
+			throw (eInvalidFormat);
 	}
 	int begin = 0;
 	bool negative = false;
@@ -178,16 +178,14 @@ int Number::toInt(string n)
 
 	return val;
 }
-	/**
-	*	converte o numero para um array de bytes com notacao little-endian
-	*	o ultimo caractere determina o tipo do numero:
-	*	b/B - binario
-	*	d/D - decimal
-	*	h/H - hexadecimal
-	*	nada/algarismo - decimal
-	*	escreve o numero de bytes do numero em size
-	*	se o numero fo invalido, retorna NULL e escreve 0 em size
-	*/
+/**
+*	converte o numero para um array de bytes com notacao little-endian
+*	o ultimo caractere determina o tipo do numero:
+*	b/B - binario
+*	h/H - hexadecimal
+*	escreve o numero de bytes do numero em size
+* nao suporta numeros decimais
+*/
 unsigned char *Number::toByteArray(string n, int *size)
 {
 
@@ -195,7 +193,7 @@ unsigned char *Number::toByteArray(string n, int *size)
 	unsigned char *number;
 	e_numType type = this->numberType(n);
 
-	if(type == INVALID)
+	if(type == INVALID || type==DECIMAL)
 	{
 		*size = 0;
 		return NULL;
@@ -214,10 +212,10 @@ unsigned char *Number::toByteArray(string n, int *size)
 	int i;
 	int max;
 	int byte;
+	int pos = n.size()-2;
 	switch(type)
 	{
 		case BINARY:
-
 			//cada digito representa um bit
 			//numero de bytes = digitos/8
 			max = ceil(len/8.0);
@@ -225,29 +223,32 @@ unsigned char *Number::toByteArray(string n, int *size)
 
 			for(byte=0 ; byte<max ; byte++)
 			{
-				int pos = byte*8;
 				number[byte] = 0;
-				for(i=0 ; i<7 && pos<len ; i++,pos++)
+				for(i=0 ; i<=7 && pos<len ; i++,pos--)
 				{
-					number[byte] |= 1<<i*values[pos];
+					number[byte] |= (values[pos]<<i);
 				}
 			}
 
 			break;
-		case DECIMAL:
-			//numero de bytes = log2(10^(digitos+1)-1)/8
-			//                = (digitos+1)*log2(10)/8
-			max = ceil(((len+1)*LOG10)/8);
-			number = (unsigned char *)malloc(max);
-			break;
 		case HEXADECIMAL:
 			//numero de bytes = digitos/2
 			max = ceil(len/2.0);
-			number = (unsigned char *)malloc(max);
+			number = (unsigned char *)calloc(max,1);
+
+			for(byte=0 ; byte<max ; byte++)
+			{
+				char shift;
+				for(shift=0, i=n.size()-2 -byte*2; shift<=4 && i>=0 ; i--,shift+=4)
+				{
+					number[byte] |= values[i]<<shift;
+				}
+			}
+
 			break;
 	}
 
-	*size = byte;
+	*size = max;
 
 	return number;
 

@@ -9,7 +9,7 @@
 typedef enum Exceptions
 {
 	eFileNotFound,
-	eUnknownDirective,
+	eUnknownMnemonic,
 	eInvalidFormat,
 	eIncorrectOperands,
 	eUnmatchedExpression,

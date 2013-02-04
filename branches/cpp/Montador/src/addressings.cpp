@@ -113,3 +113,11 @@ void Addressings::load(string config)
 
 	this->addrs[name] = addr;
 }
+
+/**
+*	retorna a estrutura do modo de enderecamento com o nome dado
+*/
+t_addressing getAddressing(string name)
+{
+	return this->addrs.find(name)->second;
+}

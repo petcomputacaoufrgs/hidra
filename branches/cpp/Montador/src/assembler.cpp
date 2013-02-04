@@ -371,7 +371,7 @@ unsigned int Assembler::assembleLine(string line, Memory *memory,unsigned int by
 		{
 			switch(e)
 			{
-				case eUnkownDirective:
+				case eUnkownMnemonic:
 					this->messenger.generateMessage(mUnknownInstruction,&status);
 					break;
 				case eIncorrectOperands:

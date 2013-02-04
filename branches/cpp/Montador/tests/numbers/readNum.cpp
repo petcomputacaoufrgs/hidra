@@ -14,12 +14,21 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 
-	string *n = new string(argv[1]);
+	string n (argv[1]);
 
-	Number *num = new Number();
-	int value = num->toInt(*n);
+	Number num;
+	int value = num.toInt(n);
+	int size;
+	unsigned char *bytes = num.toByteArray(n,&size);
 
 	printf("%d\n",value);
+
+	int i;
+	for(i=0 ; i<size ; i++)
+	{
+		printf("%x ",(unsigned int)bytes[i]);
+	}
+	printf("\n");
 
 	return 0;
 

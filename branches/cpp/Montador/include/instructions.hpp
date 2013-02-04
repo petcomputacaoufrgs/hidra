@@ -5,6 +5,8 @@
 #include <list>
 #include <map>
 
+#include "addressings.hpp"
+
 using namespace std;
 
 typedef struct s_instruction
@@ -12,7 +14,7 @@ typedef struct s_instruction
 	unsigned int size;
 	string mnemonic;
 	string operandExpression;
-	list<string> addrs;
+	list<string> addressingNames;
 	list<string> regs;
 	string binFormat;
 
@@ -40,7 +42,7 @@ class Instructions
 	* retorna o array com esse codigo
 	* escreve o numero de bytes em size
 	*/
-	unsigned char* assemble(string mnemonic, string operands,int *size);
+	unsigned char* assemble(string mnemonic, string operands,int *size,Addressings addressings);
 
 	private:
 

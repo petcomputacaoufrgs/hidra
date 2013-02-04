@@ -25,10 +25,10 @@ class Number
 	*	converte o numero para um array de bytes com notacao little-endian
 	*	o ultimo caractere determina o tipo do numero:
 	*	b/B - binario
-	*	d/D - decimal
 	*	h/H - hexadecimal
-	*	nada/algarismo - decimal
+	*	nada/algarismo - binario
 	*	escreve o numero de bytes do numero em size
+	* nao suporta numeros decimais
 	*/
 	unsigned char *toByteArray(string n, int *size);
 
