@@ -25,6 +25,7 @@ onde:
   * 0 : bit 0
   * 1 : bit 1
   * qualquer outro caractere será ignorado
+  * n deve ser um número decimal
 
 Exemplo (Neander):
 16 ADD a d - 0011000ma
