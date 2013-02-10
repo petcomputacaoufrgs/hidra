@@ -6,8 +6,8 @@ Uma expressão identifica um padrão de forma similar a uma expressão regular. 
  * r - registrador
  * n - endereço numérico
  * l - label
- * e - n ou l
- * w - qualquer um dos acima
+ * a - n ou l
+ * o - qualquer um dos acima (o de operando)
  * \ - caractere de escape
  * qualquer outro caractere indica algum que deve aparecer na frase
 
@@ -17,10 +17,10 @@ Ao ler uma expressão, espaços entre os caracteres são ignorados. Por isso, um
 
 = Exemplo =
 
-As seguintes frases satisfazem "(ea),e":
- * "(125 a),red" (match de 125 e red)
- * " ( reda a) , 125" (match de reda e 125)
-As seguintes frases não satisfazem "(ea),e":
- * "1(24 a),red"
- * "(reda),32"
- * "((red a),32"
+As seguintes frases satisfazem "(as),a":
+ * "(125 s),red" (match de 125 e red)
+ * " ( reds s) , 125" (match de reds e 125)
+As seguintes frases não satisfazem "(as),a":
+ * "1(24 s),red"
+ * "(reds),32"
+ * "((red s),32"
