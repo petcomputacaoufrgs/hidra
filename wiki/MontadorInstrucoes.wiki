@@ -16,15 +16,15 @@ onde:
  * `<`tamanho> : [Numeros número] de bits da instrução
  * <mnemônico> : qualquer sequência dos caracteres a-z e A-Z (case insensitive)
  * `<`operandos`>` : [Expressao Expressão] que indica como os operandos da instrução devem aparecer. Uma expressão sem variáveis será ignorada e indicará que nenhum operando deve ser utilizado
- * <endereçamento0,...> : quais modos de [MontadorEnderecamentos endereçamento] podem ser usados com essa instrução
+ * <endereçamento0,...> : quais modos de [MontadorEnderecamentos endereçamento] podem ser usados com essa instrução. `*` indica qualquer um.
  * <registrador0,...> : quais [MontadorRegistrador registradores] podem ser usados por essa instrução. "-" indica nenhum,"`*`" indica todos  
  * <formato binário> : como que a instrução é montada. São usados os símbolos:
-  * e`<`n> : n-ésimo endereço (se o n nâo for informado, são colocados na ordem em que aparecem)
-  * m`<`n> : n-ésimo modo de endereçamento (se o n nâo for informado, são colocados na ordem em que aparecem)
-  * r`<`n> : n-ésimo registrador (se o n nâo for informado, são colocados na ordem em que aparecem)
+  * a`[`n] : n-ésimo endereço (se o n nâo for informado, são colocados na ordem em que aparecem)
+  * m`[`n] : n-ésimo modo de endereçamento (se o n nâo for informado, são colocados na ordem em que aparecem)
+  * r`[`n] : n-ésimo registrador (se o n nâo for informado, são colocados na ordem em que aparecem)
   * 0 : bit 0
   * 1 : bit 1
   * qualquer outro caractere será ignorado
 
 Exemplo (Neander):
-16 ADD e d - 0011000me
+16 ADD a d - 0011000ma
