@@ -1,3 +1,21 @@
+/**
+* Copyright 2013 Marcelo Millani
+*	This file is part of hidrasm.
+*
+* hidrasm is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* hidrasm is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with hidrasm.  If not, see <http://www.gnu.org/licenses/>
+*/
+
 #include <stdio.h>
 
 #include <string>
@@ -74,10 +92,7 @@ unsigned char* assemble(string mnemonic, string operands,int *size,Addressings a
 	bool inOk = false;	//se foi encontrada a instrucao certa
 	t_instruction i;
 
-	list<string> opRegs;//codigo dos registradores que aparecem como operando
-	list<string> opAddrs;//codigo dos modos de enderecamento
-	list<string> opNumbers;//numeros que aparecem
-	list<string> opLabels; //labels que aparecem
+	list<t_operand> operands;
 
 	for(jt=matches.begin() ; jt!=matches.end() && !inOk; jt++)
 	{
@@ -99,43 +114,55 @@ unsigned char* assemble(string mnemonic, string operands,int *size,Addressings a
 		list<t_match>::iterator imatch;
 
 		//limpa as listas de operandos
-		opLabels = list<string>();
-		opRegs = list<string>();
-		opNumbers = list<string>();
-		opAddrs = list<string>();
+		operands = list<t_operand>();
 
 		Number number;
 		bool opOk = true;
-		for(imatch=matches.begin() ; imatch!=matches.end() && ok ; imatch++)
+		for(imatch=matches.begin() ; imatch!=matches.end() && opOk ; imatch++)
 		{
 			opOk = false;
 			t_match m = *imatch;
-
+			//determina o tipo do operando
 			if(m.subtype[VAR_REGISTER] || m.subtype[VAR_ANYTHING])
 			{
 				if(registers.exists(m.element))
 				{
-					opRegs.push_back(m.element);
-					opAddrs.push_back(m.subCode[VAR_REGISTER]);
+					t_operand op;
+					op.name = m.element;
+					op.type = 'r';
+					op.relative = m.relative[VAR_REGISTER];
+					op.addressingCode = m.subCode[VAR_REGISTER];
+					operands.push_back(op);
 					opOk=true;
+					continue;
 				}
 			}
 			if(m.subtype[VAR_NUMBER] || m.subtype[VAR_ANYTHING] || m.subtype[VAR_ADDRESS])
 			{
 				if(number.exists(m.element))
 				{
-					opNumbers.push_back(m.element);
-					opAddrs.push_back(m.subCode[VAR_NUMBER]);
+					t_operand op;
+					op.name = m.element;
+					op.type = 'n';
+					op.relative = m.relative[VAR_NUMBER];
+					op.addressingCode = m.subCode[VAR_NUMBER];
+					operands.push_back(op);
 					opOk=true;
+					continue;
 				}
 			}
 			if(m.subtype[VAR_LABEL] || m.subtype[VAR_ANYTHING] || m.subtype[VAR_ADDRESS])
 			{
 				if(labels.exists(m.element))
 				{
-					opLabels.push_back(m.element);
-					opAddrs.push_back(m.subCode[VAR_REGISTER]);
+					t_operand op;
+					op.name = m.element;
+					op.type = 'l';
+					op.relative = m.relative[VAR_LABEL];
+					op.addressingCode = m.subCode[VAR_LABEL];
+					operands.push_back(op);
 					opOk=true;
+					continue;
 				}
 			}
 		}//end for match
@@ -150,9 +177,117 @@ unsigned char* assemble(string mnemonic, string operands,int *size,Addressings a
 	else
 	{
 		//i contem a ultima instrucao avaliada
-		string code = replaceOperands(i.binFormat,opRegs,opLabels,opNumbers,opAddrs,registers,labels,addressings);
+		string code = replaceOperands(i.binFormat,operands,registers,labels,addressings);
 		Number n;
 		unsigned char *code = n.toByteArray(code,size);
 		return code;
+	}
+}
+
+/**
+* substitui os operandos, escrevendo seu valor binario na string
+* em format:
+* r[n] indica o n-esimo registrador. Se n for omitido, segue a ordem em que aparecem
+* e[n] indica o n-esimo endereco. Se n for omitido, segue a ordem em que aparecem
+* m[n] indica o n-esimo modo de enderecamento. Se n for omitido, segue a ordem em que aparecem
+* 1 e 0 indicam os proprios algarismos
+* qualquer outro caractere sera ignorado
+* size indica quantos bits o resultado deve ter
+* a string retornanda contera somente 0s e 1s e sera terminada por um 'b'
+*/
+string replaceOperands(string format,list<t_operand> operands,Registers registers,Labels labels,Addressings addressings,unsigned int size)
+{
+
+	typedef enum {STATE_COPY,STATE_NUM,STATE_REGISTER,STATE_I_OPERAND,STATE_MODE,STATE_ADDRESS} e_state;
+
+	Number n;
+	e_state state = STATE_COPY;
+	e_state nextState = STATE_COPY;
+	unsigned int r,w;
+	unsigned int b;
+	string number;
+	int index;
+
+	string result(size+1,'0');
+	list<string> addresses;
+	result[size] = 'b';
+
+	t_operand op;
+	unsigned char type;
+
+	unsigned int defSize = 0;	//tamanho padrao dos enderecos
+
+	for(r=w=0 ; r<format.size() && w<size ; r++)
+	{
+
+		unsigned char c = string[r];
+
+		switch (state)
+		{
+			case STATE_COPY:
+				if(c=='1' || c=='0')
+					result[w++] = c;
+				else if(c==REGISTER)
+					state = STATE_REGISTER;
+				else if(c==ADDRESSING)
+					state = STATE_MODE;
+				else if(c==ADDRESS)
+					state = STATE_ADDRESS;
+				break;
+			//escreve o codigo do registrador
+			case STATE_REGISTER:
+				else
+				{
+					//se for um [, o indice esta sendo informado
+					if(c=='[')
+					{
+						b = i;
+						state = STATE_NUM;
+						nextState = STATE_I_OPERAND;
+						type = REGISTER;
+					}
+					else
+					{
+						op = getNextOperand(operands,REGISTER);
+						number = op.value;
+						//copia o valor
+						unsigned int i;
+						for(i=0 ; i<number.size() -1 ; i++)
+							result[w++] = number[i];
+
+						switch(tolower(c))
+						{
+							case REGISTER: state = STATE_REGISTER; break;
+							case ADDRESSING: state = STATE_MODE; break;
+							case ADDRESS: state = STATE_ADDRESS; break;
+							default:
+								i--;
+								state=STATE_COPY;
+						}
+					}
+				}
+				break;
+				case STATE_MODE:
+
+				break;
+
+				//foi informado o indice do operando
+				case STATE_I_OPERAND:
+					op = getOperand(operands,type,index);
+					//foi informado o tamanho do operando
+					if(c=='(')
+				break;
+				//le um numero decimal, converte-o para binario e depois vai para nextState
+				case STATE_NUM:
+
+					//o numero terminou
+					if(c==']' || c==')')
+					{
+						index = n.toInt(format.substr(b,i-b));
+						state = nextState;
+					}
+
+				break;
+		}
 	}
 }

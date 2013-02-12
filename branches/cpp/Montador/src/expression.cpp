@@ -1,3 +1,21 @@
+/**
+* Copyright 2013 Marcelo Millani
+*	This file is part of hidrasm.
+*
+* hidrasm is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* hidrasm is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with hidrasm.  If not, see <http://www.gnu.org/licenses/>
+*/
+
 #include <stdio.h>
 
 #include <string>
@@ -103,6 +121,18 @@ list<pair<string,char> > Expression::findAll(string phrase,string exp)
 	}
 	else
 		throw (eUnmatchedExpression);
+}
+
+/**
+* todas as variaveis da expressao inicial correspondem a qualquer uma das subexpressoes
+* se a frase satisfizer a expressao, faz o match entre as variaveis da frase com as da expressao
+* se nenhuma expressao for passado, usa a do construtor
+* retorna uma lista de pares onde o primeiro elemento eh a variavel e o segundo, seu tipo
+* se a frase nao satisfizer, throws eUnmatchedExpression
+*/
+list<t_match > findAllSub(string phrase, list<string> subexpressions, string expression)
+{
+
 }
 
 string Expression::expression()
