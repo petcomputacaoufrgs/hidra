@@ -4,11 +4,12 @@ CFLAGS = -Wall -Wextra -g -I$(INCLUDE)
 SRC = ../../src
 OBJ = .
 BIN = .
+LIB = -lboost_regex
 OBJECTS = $(OBJ)/expression.o $(OBJ)/file.o $(OBJ)/stringer.o expressionTest.o
 NAME = expression
 
 all: $(OBJECTS)
-	$(CC) $(CFLAGS) $(OBJECTS) -o $(BIN)/$(NAME)
+	$(CC) $(CFLAGS) $(OBJECTS) $(LIB) -o $(BIN)/$(NAME)
 	rm -f *.o
 
 $(OBJ)/%.o: $(SRC)/%.cpp

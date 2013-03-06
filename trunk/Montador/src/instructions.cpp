@@ -21,6 +21,10 @@
 #include <string>
 
 #include "instructions.hpp"
+#include "addressings.hpp"
+#include "registers.hpp"
+#include "labels.hpp"
+#include "numbers.hpp"
 #include "stringer.hpp"
 #include "defs.hpp"
 
@@ -188,7 +192,7 @@ unsigned char* assemble(string mnemonic, string operands,int *size,Addressings a
 * substitui os operandos, escrevendo seu valor binario na string
 * em format:
 * r[n] indica o n-esimo registrador. Se n for omitido, segue a ordem em que aparecem
-* e[n] indica o n-esimo endereco. Se n for omitido, segue a ordem em que aparecem
+* e[n](m) indica o n-esimo endereco. Se n for omitido, segue a ordem em que aparecem. m indica o tamanho, em bits
 * m[n] indica o n-esimo modo de enderecamento. Se n for omitido, segue a ordem em que aparecem
 * 1 e 0 indicam os proprios algarismos
 * qualquer outro caractere sera ignorado
@@ -198,7 +202,7 @@ unsigned char* assemble(string mnemonic, string operands,int *size,Addressings a
 string replaceOperands(string format,list<t_operand> operands,Registers registers,Labels labels,Addressings addressings,unsigned int size)
 {
 
-	typedef enum {STATE_COPY,STATE_NUM,STATE_REGISTER,STATE_I_OPERAND,STATE_MODE,STATE_ADDRESS} e_state;
+	typedef enum {STATE_COPY,STATE_NUM,STATE_REGISTER,STATE_MODE,STATE_ADDRESS,STATE_I_OPERAND,STATE_W_OPERAND} e_state;
 
 	Number n;
 	e_state state = STATE_COPY;
@@ -206,7 +210,7 @@ string replaceOperands(string format,list<t_operand> operands,Registers register
 	unsigned int r,w;
 	unsigned int b;
 	string number;
-	int index;
+	int value;
 
 	string result(size+1,'0');
 	list<string> addresses;
@@ -219,9 +223,7 @@ string replaceOperands(string format,list<t_operand> operands,Registers register
 
 	for(r=w=0 ; r<format.size() && w<size ; r++)
 	{
-
 		unsigned char c = string[r];
-
 		switch (state)
 		{
 			case STATE_COPY:
@@ -236,58 +238,168 @@ string replaceOperands(string format,list<t_operand> operands,Registers register
 				break;
 			//escreve o codigo do registrador
 			case STATE_REGISTER:
+				//se for um [, o indice esta sendo informado
+				if(c=='[')
+				{
+					b = i;
+					state = STATE_NUM;
+					nextState = STATE_I_OPERAND;
+					type = REGISTER;
+				}
 				else
 				{
-					//se for um [, o indice esta sendo informado
-					if(c=='[')
-					{
-						b = i;
-						state = STATE_NUM;
-						nextState = STATE_I_OPERAND;
-						type = REGISTER;
-					}
-					else
-					{
-						op = getNextOperand(operands,REGISTER);
-						number = op.value;
-						//copia o valor
-						unsigned int i;
-						for(i=0 ; i<number.size() -1 ; i++)
-							result[w++] = number[i];
+					op = getNextOperand(operands,REGISTER);
+					number = op.value;
+					//copia o valor
+					unsigned int i;
+					for(i=0 ; i<number.size() -1 ; i++)
+						result[w++] = number[i];
 
-						switch(tolower(c))
-						{
-							case REGISTER: state = STATE_REGISTER; break;
-							case ADDRESSING: state = STATE_MODE; break;
-							case ADDRESS: state = STATE_ADDRESS; break;
-							default:
-								i--;
-								state=STATE_COPY;
-						}
+					switch(tolower(c))
+					{
+						case REGISTER: state = STATE_REGISTER; break;
+						case ADDRESSING: state = STATE_MODE; break;
+						case ADDRESS: state = STATE_ADDRESS; break;
+						default:
+							i--;
+							state=STATE_COPY;
 					}
 				}
-				break;
-				case STATE_MODE:
 
 				break;
+			case STATE_MODE:
+				//se for um [, o indice esta sendo informado
+				if(c=='[')
+				{
+					b = i;
+					state = STATE_NUM;
+					nextState = STATE_I_OPERAND;
+					type = ADDRESSING;
+				}
+				else
+				{
+					op = getNextOperand(operands,ADDRESSING);
+					number = op.value;
+					//copia o valor
+					unsigned int i;
+					for(i=0 ; i<number.size() -1 ; i++)
+						result[w++] = number[i];
 
-				//foi informado o indice do operando
-				case STATE_I_OPERAND:
-					op = getOperand(operands,type,index);
-					//foi informado o tamanho do operando
-					if(c=='(')
-				break;
-				//le um numero decimal, converte-o para binario e depois vai para nextState
-				case STATE_NUM:
-
-					//o numero terminou
-					if(c==']' || c==')')
+					switch(tolower(c))
 					{
-						index = n.toInt(format.substr(b,i-b));
-						state = nextState;
+						case REGISTER: state = STATE_REGISTER; break;
+						case ADDRESSING: state = STATE_MODE; break;
+						case ADDRESS: state = STATE_ADDRESS; break;
+						default:
+							i--;
+							state=STATE_COPY;
 					}
+				}
 
 				break;
-		}
+			//escreve o codigo do endereco
+			case STATE_ADDRESS:
+				//se for um [, o indice esta sendo informado
+				if(c=='[')
+				{
+					b = i;
+					state = STATE_NUM;
+					nextState = STATE_I_OPERAND;
+					type = ADDRESS;
+				}
+				else
+				{
+					op = getNextOperand(operands,ADDRESS);
+					number = op.value;
+					//adiciona a lista de enderecos
+					addresses.push_back(number);
+					//escreve o simbolo do endereco
+					result[w++] = ADDRESS;
+
+					switch(tolower(c))
+					{
+						case REGISTER: state = STATE_REGISTER; break;
+						case ADDRESSING: state = STATE_MODE; break;
+						case ADDRESS: state = STATE_ADDRESS; break;
+						default:
+							i--;
+							state=STATE_COPY;
+					}
+				}
+
+				break;
+
+			//foi informado o indice do operando
+			case STATE_I_OPERAND:
+				op = getOperand(operands,type,value);
+				number = op.value;
+				//foi informado o tamanho do operando
+				if(c=='(')
+				{
+					state = STATE_NUM;
+					nextState = STATE_S_OPERAND;
+					b = i;
+				}
+				else
+				{
+					//se for um endereco, apenas escreve um 'a'
+					//e adiciona o endereco a lista de enderecos
+					if(type==ADDRESS)
+					{
+						result[w++] = ADDRESS;
+						addresses.push_back(op.value);
+					}
+					//caso contrario, escreve o valor
+					else
+						for(int k=0 ; k<op.value.size()-1 ; k++)
+							result[w++] = value[k];
+					//determina o proximo estado
+					switch(tolower(c))
+					{
+						case REGISTER: state = STATE_REGISTER; break;
+						case ADDRESSING: state = STATE_MODE; break;
+						case ADDRESS: state = STATE_ADDRESS; break;
+						default:
+							i--;
+							state=STATE_COPY;
+					}
+				}
+
+				break;
+			//escreve o operando (esta em number), usando exatamente value bits
+			case STATE_S_OPERAND:
+				{
+					//propaga o sinal, se necessario
+					int k;
+					for(k=0 ; k<(value-(number.size()-1)) ; k++)
+						result[w++] = op.value[0];
+					//trunca o numero, escrevendo somente os bits menos significativos
+					for(k = value-k ; k<(number.size()-1)) ; k++)
+						result[w++] = op.value[k];
+				}
+				//determina o proximo estado
+				switch(tolower(c))
+				{
+					case REGISTER: state = STATE_REGISTER; break;
+					case ADDRESSING: state = STATE_MODE; break;
+					case ADDRESS: state = STATE_ADDRESS; break;
+					default:
+						i--;
+						state=STATE_COPY;
+				}
+
+				break;
+			//le um numero decimal, converte-o para inteiro e depois vai para nextState
+			case STATE_NUM:
+
+				//o numero terminou
+				if(c==']' || c==')')
+				{
+					value = n.toInt(format.substr(b,i-b));
+					state = nextState;
+				}
+
+				break;
+		}//end switch
 	}
 }

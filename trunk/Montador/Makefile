@@ -20,6 +20,8 @@ assembler: $(OBJECTS)
 
 $(OBJ)/assembler.o: $(SRC)/assembler.cpp $(OBJ)/instructions.o $(OBJ)/registers.o $(OBJ)/labels.o $(OBJ)/machine.o $(OBJ)/directives.o
 	$(CC) $(CFLAGS) $(SRC)/assembler.cpp -c -o $(OBJ)/assembler.o
+$(OBJ)/instructions.o :$(SRC)/instructions.cpp $(OBJ)/stringer.o $(OBJ)/numbers.o $(OBJ)/registers.o $(OBJ)/labels.o
+	$(CC) $(CFLAGS) $(SRC)/instructions.cpp -c -o $(OBJ)/instructions.o
 $(OBJ)/%.o: $(SRC)/%.cpp
 	$(CC) $(CFLAGS) $< -c -o $@
 
