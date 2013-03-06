@@ -21,118 +21,121 @@
 #include <string>
 #include <list>
 
+#include <boost/regex.hpp>
+
 #include "expression.hpp"
+#include "stringer.hpp"
 #include "defs.hpp"
 
 using namespace std;
 
 Expression::Expression()
 {
-
+	this->vars = NULL;
 }
 
+Expression::~Expression()
+{
+	//if(this->vars != NULL)
+	//	free(this->vars);
+}
+
+/**
+  * converte a expressao passada para uma expressao regular no formato Perl
+  */
 Expression::Expression(string expression)
 {
-	this->exp = expression;
+	this->init(expression);
 }
 
 
 /**
-* se a frase satisfizer a expressao, faz o match entre as variaveis da frase com as da expressao
-* se nenhuma expressao for passado, usa a do construtor
-* retorna uma lista de pares onde o primeiro elemento eh a variavel e o segundo, seu tipo
-* se a frase nao satisfizer, throws eUnmatchedExpression
-*/
+  * se a frase satisfizer a expressao, faz o match entre as variaveis da frase com as da expressao
+  * se nenhuma expressao for passado, usa a do construtor
+  * retorna uma lista de pares onde o primeiro elemento eh a variavel e o segundo, seu tipo
+  * se a frase nao satisfizer, throws eUnmatchedExpression
+  */
 list<pair<string,char> > Expression::findAll(string phrase,string exp)
 {
+	if(exp!="")
+		this->init(exp);
+	//usa a regex
+	boost::match_results<const char*> what;
+	boost::regex_match(phrase.c_str(),what,this->regexp);
+	if(what[0].matched==0)
+		throw(eUnmatchedExpression);
 
-	typedef enum {STATE_INI,STATE_VAR,STATE_READ} e_state;
-
+	unsigned int i;
 	list<pair<string,char> > vars;
-
-	if(exp=="")
-		exp=this->exp;
-
-	unsigned int p=0,e=0;
-	unsigned int b=0;
-	e_state state = STATE_INI;
-	char ec;
-	while(p<phrase.size() && e<exp.size())
+	for(i=1 ; i<what.size() ; i++)
 	{
-		char pc = phrase[p];
-		ec = exp[e];
-
-		switch(state)
-		{
-			//elimina whitespaces no inicio
-			case STATE_INI:
-
-				if(ISWHITESPACE(pc))
-					p++;
-				else if(ISWHITESPACE(ec))
-					e++;
-				else
-					state = STATE_READ;
-				break;
-			//le caracteres da expressao
-			case STATE_READ:
-
-				if(ISWHITESPACE(ec))
-					e++;
-				else if(isReserved(ec))
-				{
-					state = STATE_VAR;
-					b=p;
-				}
-				else if(ec!=pc)
-					throw(eUnmatchedExpression);
-				else
-				{
-					e++;
-					p++;
-				}
-
-				break;
-			case STATE_VAR:
-				//se o caractere nao eh o de uma variavel, a variavel acabou
-				if(!isVarChar(pc))
-				{
-					state = STATE_READ;
-					vars.push_back(pair<string,char>(phrase.substr(b,p-b),ec));
-					e++;
-				}
-				else
-					p++;
-				break;
-		}
+		vars.push_back(pair<string,char>(what[i],this->vars[i-1]));
 	}
 
-	if(p==phrase.size())
-	{
-		if(e==exp.size())
-			return vars;
-		else if(e==exp.size()-1 && state==STATE_VAR)
-		{
-			vars.push_back(pair<string,char>(phrase.substr(b,p-b),ec));
-			return vars;
-		}
-		else
-			throw (eUnmatchedExpression);
-	}
-	else
-		throw (eUnmatchedExpression);
+	return vars;
 }
 
 /**
-* todas as variaveis da expressao inicial correspondem a qualquer uma das subexpressoes
-* se a frase satisfizer a expressao, faz o match entre as variaveis da frase com as da expressao
-* se nenhuma expressao for passado, usa a do construtor
-* retorna uma lista de pares onde o primeiro elemento eh a variavel e o segundo, seu tipo
-* se a frase nao satisfizer, throws eUnmatchedExpression
-*/
-list<t_match > findAllSub(string phrase, list<string> subexpressions, string expression)
+  * construtor
+  */
+void Expression::init(string expression)
 {
+	this->exp = expression;
+	//conta o numero de variaveis na expressao
+	bool escape = false;
+	unsigned int i;
+	unsigned int amount = 0;
+	for(i=0 ; i<expression.size() ; i++)
+	{
+		char c = expression[i];
+		if(escape)
+			escape = false;
+		else if(isReserved(c))
+			amount++;
+		else if(c=='\\')
+			escape=true;
+	}
 
+	this->vars = (char *)malloc(amount);
+	/*
+	 * converte a expressao em uma regex
+	 * substitui cada variavel por qualquer sequencia de a-zA-Z0-9 e _
+	 * escapa todos os .[{}()\*+?|^$
+	 * permite qualquer quantidade de espaco entre os caracteres
+	 */
+
+	string regexp = "[[:blank:]]*";
+	escape = false;
+	amount = 0;
+	for(i=0 ; i<expression.size() ; i++)
+	{
+		char c= expression[i];
+		if(c=='\\')
+		{
+			escape = true;
+			continue;
+		}
+		else if(stringIn(c,".[{}()\\*+?|^$"))
+		{
+			regexp += '\\';
+			regexp += c;
+		}
+		//as variaveis sao qualquer sequencia de a-zA-Z0-9 ou _
+		else if(isReserved(c) && !escape)
+		{
+			regexp += "((?:[[:alnum:]]|_)+)";
+			//guarda o tipo da variavel
+			this->vars[amount++] = c;
+		}
+		else
+		{
+			regexp += c;
+		}
+		regexp += "[[:blank:]]*";
+		escape = false;
+	}
+
+	this->regexp = boost::regex(regexp);
 }
 
 string Expression::expression()
@@ -141,8 +144,8 @@ string Expression::expression()
 }
 
 /**
-* verifica se o caractere passado eh um dos reservados para variaveis
-*/
+  * verifica se o caractere passado eh um dos reservados para variaveis
+  */
 bool isVarChar(char c)
 {
 	if('A' <= c && c <= 'Z')
@@ -157,16 +160,16 @@ bool isVarChar(char c)
 }
 
 /**
-* verifica se o caractere eh reservado
-*/
+  * verifica se o caractere eh reservado
+  */
 bool isReserved(char c)
 {
 	switch(c)
 	{
 		case 'r':
-		case 'e':
+		case 'a':
 		case 'l':
-		case 'w':
+		case 'o':
 		case 'n':
 			return true;
 		default:

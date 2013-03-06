@@ -57,6 +57,12 @@ bool stringIn(char c, string s);
 string stringReplaceAll(string s,list<pair<string,string> > elements);
 
 string stringReplaceAll(string s,map<string,string> elements);
+
+/**
+* substitui a primeira ocorrencia de oldS em s por newS
+* retorna a nova string
+*/
+string stringReplaceFirst(string s, string oldS, string newS);
 /**
 *	compara duas strings ignorando maiusculas e minusculas
 *	retorna 0 se forem iguais, >0 se a >b, <0 se a<b

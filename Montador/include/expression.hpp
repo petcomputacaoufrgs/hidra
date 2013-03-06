@@ -21,6 +21,8 @@
 
 #include <list>
 
+#include <boost/regex.hpp>
+
 typedef enum {VAR_REGISTER,VAR_ADDRESS,VAR_LABEL,VAR_NUMBER,VAR_ANYTHING,VAR_TOTAL} e_expVar;
 
 using namespace std;
@@ -31,21 +33,17 @@ typedef struct s_match
 	unsigned char subtype[VAR_TOTAL]; //tipo da variavel nas subexpressoes
 	string element;	//a variavel encontrada
 	string subCode[VAR_TOTAL]; //codigo da subexpressao
-	bool relative[VAR_TOTAL];	//se o enderecamento eh relativo ao PC ou nao
 }t_match;
-
-typedef struct s_
-{
-	unsigned int t;	//indice da letra da frase
-	unsigned int e; //indice da letra da expressao
-	unsigned char *expression;
-}t_
 
 class Expression
 {
 	public:
 	Expression();
+	~Expression();
 
+	/**
+  * converte a expressao passada para uma expressao regular no formato Perl
+  */
 	Expression(string expression);
 
 	/**
@@ -57,22 +55,21 @@ class Expression
 	list<pair<string,char> > findAll(string phrase,string expression = "");
 
 	/**
-	* todas as variaveis da expressao inicial correspondem a qualquer uma das subexpressoes
-	* se a frase satisfizer a expressao, faz o match entre as variaveis da frase com as da expressao
-	* se nenhuma expressao for passado, usa a do construtor
-	* retorna uma lista de pares onde o primeiro elemento eh a variavel e o segundo, seu tipo
-	* se a frase nao satisfizer, throws eUnmatchedExpression
-	*/
-	list<t_match > findAllSub(string phrase, list<string> subexpressions, string expression);
-
-	/**
 	* retorna a string da expressao
 	*/
 	string expression();
 
 	private:
 
+	/**
+	* faz o mesmo que o construtor
+	*/
+	void init(string exp);
+
 	string exp;
+	boost::regex regexp;
+	char *vars;
+
 };
 
 
