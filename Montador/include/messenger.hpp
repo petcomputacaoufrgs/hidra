@@ -104,7 +104,7 @@ class Messenger
 	private:
 
 	/**
-	*	atualiza o valor de todas as variaveis utilizadas que esta em this->variables
+	*	atualiza o valor de todas as variaveis utilizadas que estao em this->variables
 	*/
 	void updateVariables(t_status *status);
 
