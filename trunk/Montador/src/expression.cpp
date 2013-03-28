@@ -123,6 +123,7 @@ void Expression::init(string expression)
 		//as variaveis sao qualquer sequencia de a-zA-Z0-9 ou _
 		else if(isReserved(c) && !escape)
 		{
+			//expressao regular que agrupa qualquer caractere alfanumerico ou _
 			regexp += "((?:[[:alnum:]]|_)+)";
 			//guarda o tipo da variavel
 			this->vars[amount++] = c;
@@ -131,10 +132,12 @@ void Expression::init(string expression)
 		{
 			regexp += c;
 		}
+		//qualquer sequencia (0 ou mais) de brancos
 		regexp += "[[:blank:]]*";
 		escape = false;
 	}
 
+	this->regexStr = regexp;
 	this->regexp = boost::regex(regexp);
 }
 
@@ -144,7 +147,15 @@ string Expression::expression()
 }
 
 /**
-  * verifica se o caractere passado eh um dos reservados para variaveis
+  * retorna a string da expressao regular utilizada
+  */
+string Expression::regexpression()
+{
+	return this->regexStr;
+}
+
+/**
+  * verifica se o caractere passado pode ser parte do nome de uma variavel
   */
 bool isVarChar(char c)
 {

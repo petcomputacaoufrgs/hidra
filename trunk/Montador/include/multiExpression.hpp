@@ -25,12 +25,16 @@ class MultiExpression
     */
 	list<t_match > findAllSub(string phrase);
 
+	string expression();
+	string regexpression();
+
 	protected:
 
 	boost::regex regexp; //a expressao regular utilizada
-	strin exp;           //a string da expressao regular
-	char *vars;
-	char *subvars;
+	string exp;           //a string da expressao regular
+	string regexStr;
+	char *vars;          //os tipos das variaveis que existem na expressao principal
+	char *subvars;       //os tipos das subvariaveis encontradas ao fazer o match
 
 };
 

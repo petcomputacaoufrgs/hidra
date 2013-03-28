@@ -34,6 +34,7 @@
 		</Compiler>
 		<Unit filename="include/addressings.hpp" />
 		<Unit filename="include/assembler.hpp" />
+		<Unit filename="include/debug.hpp" />
 		<Unit filename="include/defs.hpp" />
 		<Unit filename="include/directives.hpp" />
 		<Unit filename="include/expression.hpp" />
